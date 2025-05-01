@@ -25,7 +25,7 @@ const Clock: React.FC = () => {
         boxShadow: "0 4px 20px rgba(154, 31, 54, 0.5)",
         textAlign: "center",
         color: "rgb(154, 31, 54)",
-        width: isMobile ? "90vw" : "50vw",
+        width: isMobile ? "90vw" : "40vw",
         margin: "2vh auto",
         boxSizing: "border-box",
       }}
@@ -77,7 +77,7 @@ const Clock: React.FC = () => {
               display: "flex",
               justifyContent: "space-between",
               fontWeight: 500,
-              fontSize: isMobile ? "4vw" : "1vw",
+              fontSize: isMobile ? "4vw" : "1.2vw",
               color: "black",
             }}
           >
