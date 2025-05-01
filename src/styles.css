@@ -1,7 +1,30 @@
 body {
-  font-family: "Roboto", sans-serif;
-  margin: 0;
-  padding: 0;
-  background-color: #fff; /* optional */
-  color: #333; /* optional */
+    font-family: 'Roboto', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #fff; /* optional */
+    color: #333; /* optional */
+}
+
+.lunch-back-btn-container {
+    display: flex;
+    justify-content: left;
+    align-items: center;
+    width: 100%;
+}
+
+.lunch-back-btn {
+    background-color: #ffe5e5;
+    border: 1px solid #f5c2c2;
+    color: #b30000;
+    padding: 10px 16px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+@media screen and (max-width: 470px) {
+    .lunch-back-btn-container {
+        justify-content: center;
+    }
 }
