@@ -4,16 +4,30 @@ import InfoCard from "../components/InfoCard";
 
 const Home: React.FC = () => {
   return (
-    <div style={{ padding: "2rem", textAlign: "center" }}>
+    <div
+      style={{
+        display: "flex",
+        flexDirection: "row",
+        justifyContent: "center",
+        alignItems: "center",
+        height: "100vh", // full viewport height
+        width: "100vw",
+        padding: "2rem",
+        boxSizing: "border-box",
+        gap: "3rem",
+      }}
+    >
+      {/* Clock Component */}
       <Clock />
 
+      {/* Info Cards Column */}
       <div
         style={{
           display: "flex",
-          justifyContent: "space-between",
-          margin: "2rem auto 0",
-          gap: "0.5rem",
-          maxWidth: "50vw", // match Clock's width
+          flexDirection: "column",
+          justifyContent: "center",
+          gap: "1rem",
+          maxWidth: "30vw",
         }}
       >
         <InfoCard
@@ -23,7 +37,7 @@ const Home: React.FC = () => {
           path="/lunch"
         />
         <InfoCard
-          title="Latest Result: "
+          title="Latest Result:"
           subtitle="Varsity Soccer 2-1 Win"
           info="Click to see other results!"
           path="/sports"

@@ -15,9 +15,9 @@ const InfoCard: React.FC<Props> = ({ title, subtitle, info, path }) => {
     <div
       onClick={() => navigate(path)}
       style={{
-        maxWidth: "25vw",
-        minWidth: "15vw",
-        padding: "1.75rem",
+        maxWidth: "30vw",
+        minWidth: "20vw",
+        padding: "2rem",
         borderRadius: "16px",
         backgroundColor: "white", // pastel red + transparency
         color: "rgb(154, 31, 54)",
