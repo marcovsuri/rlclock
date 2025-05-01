@@ -1,9 +1,8 @@
-import { useNavigate } from "react-router-dom";
-import MenuSection from "../components/MenuSection";
+import MenuSection from "../components/lunch/MenuSection";
+import BackButton from "../components/home/BackButton";
 import useIsMobile from "../hooks/useIsMobile";
 
 export default function Lunch() {
-  const navigate = useNavigate();
   const isMobile = useIsMobile();
 
   return (
@@ -22,32 +21,7 @@ export default function Lunch() {
       }}
     >
       {/* Back Button */}
-      <div style={{ alignSelf: "flex-start", marginBottom: "2vh" }}>
-        <button
-          onClick={() => navigate("/")}
-          style={{
-            padding: "1vh 2vw",
-            borderRadius: "12px",
-            border: "none",
-            backgroundColor: "rgb(154, 31, 54)",
-            color: "white",
-            fontSize: "1rem",
-            cursor: "pointer",
-            boxShadow: "0 4px 10px rgba(154, 31, 54, 0.3)",
-            transition: "background 0.3s ease, transform 0.2s ease",
-          }}
-          onMouseEnter={(e) => {
-            e.currentTarget.style.backgroundColor = "#b02140";
-            e.currentTarget.style.transform = "scale(1.02)";
-          }}
-          onMouseLeave={(e) => {
-            e.currentTarget.style.backgroundColor = "rgb(154, 31, 54)";
-            e.currentTarget.style.transform = "scale(1)";
-          }}
-        >
-          ← Back
-        </button>
-      </div>
+      <BackButton />
 
       {/* Title */}
       <h1

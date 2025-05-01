@@ -1,6 +1,6 @@
 import React from "react";
-import Clock from "../components/Clock";
-import InfoCard from "../components/InfoCard";
+import Clock from "../components/home/Clock";
+import InfoCard from "../components/home/InfoCard";
 import useIsMobile from "../hooks/useIsMobile";
 
 const Home: React.FC = () => {
@@ -52,8 +52,13 @@ const Home: React.FC = () => {
             path="/lunch"
           />
           <InfoCard
-            title="Latest Result:"
-            subtitle="Varsity Soccer 2-1 Win"
+            title="Latest Results:"
+            subtitle="
+              Varsity Tennis 6-0 Win
+              Varsity Baseball 11-3 Win
+              Varsity Lacross 9-8 Win
+              Varsity Track 3-0 Win
+            "
             info="Click to see other results!"
             path="/sports"
           />

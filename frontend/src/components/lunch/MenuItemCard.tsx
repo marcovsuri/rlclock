@@ -1,11 +1,10 @@
 import { useState } from "react";
 
 const baseCardStyle = {
-  backgroundColor: "#fff5f5", // very pale red
+  backgroundColor: "rgba(154, 31, 54, 0.1)", // very pale red
   border: "1px solid rgba(154, 31, 54, 0.5)",
   borderRadius: "12px",
   padding: "0.1rem",
-  boxShadow: "0 2px 4px rgba(0, 0, 0, 0.05)",
   textAlign: "center" as const,
   fontWeight: 500,
   fontSize: "1rem",
@@ -20,7 +19,7 @@ const baseCardStyle = {
 };
 
 const hoverCardStyle = {
-  boxShadow: "0 6px 16px rgba(154, 31, 54, 0.2)",
+  boxShadow: "0 8px 16px rgba(154, 31, 54, 0.2)",
 };
 
 const MenuItemCard = ({ item }: { item: string }) => {

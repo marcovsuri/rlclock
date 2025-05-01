@@ -1,5 +1,6 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
+import useIsMobile from "../../hooks/useIsMobile";
 
 type Props = {
   title: string;
@@ -10,7 +11,7 @@ type Props = {
 
 const InfoCard: React.FC<Props> = ({ title, subtitle, info, path }) => {
   const navigate = useNavigate();
-  const isMobile = window.innerWidth < 768;
+  const isMobile = useIsMobile();
 
   return (
     <div
@@ -24,7 +25,7 @@ const InfoCard: React.FC<Props> = ({ title, subtitle, info, path }) => {
         cursor: "pointer",
         boxShadow: "0 4px 20px rgba(154, 31, 54, 0.5)",
         transition: "transform 0.2s ease, box-shadow 0.2s ease",
-        margin: "2vh auto",
+        margin: "auto",
         textAlign: "center",
       }}
       onMouseEnter={(e) => {
@@ -50,7 +51,7 @@ const InfoCard: React.FC<Props> = ({ title, subtitle, info, path }) => {
       </h3>
       <h3
         style={{
-          margin: "0 0 1vh",
+          margin: "0 0 2vh",
           fontSize: isMobile ? "6vw" : "2vw",
         }}
       >
