@@ -10,7 +10,7 @@ const baseCardStyle = {
   fontWeight: 500,
   fontSize: "1rem",
   color: "black",
-  margin: "0.5rem auto",
+  margin: "0.25rem auto",
   width: "100%",
   minHeight: "80px", // uniform height
   display: "flex",

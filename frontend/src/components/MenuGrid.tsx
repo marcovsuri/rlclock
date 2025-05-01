@@ -1,4 +1,5 @@
 import MenuItemCard from "./MenuItemCard";
+import useIsMobile from "../hooks/useIsMobile";
 
 const gridStyle: React.CSSProperties = {
   display: "grid",

@@ -33,7 +33,7 @@ const Clock: React.FC = () => {
       <h2
         style={{
           marginBottom: "1.5vh",
-          fontSize: isMobile ? "6vw" : "3vw",
+          fontSize: isMobile ? "5vh" : "3vw",
         }}
       >
         RL Clock

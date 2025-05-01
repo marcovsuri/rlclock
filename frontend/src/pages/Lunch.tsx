@@ -1,8 +1,10 @@
 import { useNavigate } from "react-router-dom";
 import MenuSection from "../components/MenuSection";
+import useIsMobile from "../hooks/useIsMobile";
 
 export default function Lunch() {
   const navigate = useNavigate();
+  const isMobile = useIsMobile();
 
   return (
     <div
@@ -12,7 +14,7 @@ export default function Lunch() {
         padding: "4vh 5vw",
         boxSizing: "border-box",
         backgroundColor: "#fdfdfd",
-        fontFamily: "Arial, sans-serif",
+        fontFamily: "Roboto, sans-serif",
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
@@ -50,7 +52,7 @@ export default function Lunch() {
       {/* Title */}
       <h1
         style={{
-          fontSize: "3vw",
+          fontSize: isMobile ? "5vh" : "3vw",
           color: "rgb(154, 31, 54)",
           marginBottom: "4vh",
           textAlign: "center",
@@ -64,7 +66,7 @@ export default function Lunch() {
         style={{
           display: "flex",
           flexDirection: "column",
-          gap: "3vh",
+          gap: "1vh",
           width: "100%",
           maxWidth: "900px",
         }}
