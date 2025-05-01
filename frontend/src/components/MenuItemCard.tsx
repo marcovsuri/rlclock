@@ -1,35 +1,43 @@
-import { useState } from 'react';
+import { useState } from "react";
 
 const baseCardStyle = {
-    backgroundColor: '#ffe5e5',
-    border: '1px solid #f5c2c2',
-    borderRadius: '10px',
-    padding: '16px',
-    boxShadow: '0 2px 6px rgba(0, 0, 0, 0.08)',
-    textAlign: 'center' as const,
-    transition: 'transform 0.3s ease, box-shadow 0.3s ease',
+  backgroundColor: "#fff5f5", // very pale red
+  border: "1px solid rgba(154, 31, 54, 0.5)",
+  borderRadius: "12px",
+  padding: "0.1rem",
+  boxShadow: "0 2px 4px rgba(0, 0, 0, 0.05)",
+  textAlign: "center" as const,
+  fontWeight: 500,
+  fontSize: "1rem",
+  color: "black",
+  margin: "0.5rem auto",
+  width: "100%",
+  minHeight: "80px", // uniform height
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
+  transition: "box-shadow 0.3s ease",
 };
 
 const hoverCardStyle = {
-    transform: 'scale(1.05)',
-    boxShadow: '0 4px 12px rgba(0, 0, 0, 0.15)',
+  boxShadow: "0 6px 16px rgba(154, 31, 54, 0.2)",
 };
 
 const MenuItemCard = ({ item }: { item: string }) => {
-    const [isHovered, setIsHovered] = useState(false);
+  const [isHovered, setIsHovered] = useState(false);
 
-    return (
-        <div
-            style={{
-                ...baseCardStyle,
-                ...(isHovered ? hoverCardStyle : {}),
-            }}
-            onMouseEnter={() => setIsHovered(true)}
-            onMouseLeave={() => setIsHovered(false)}
-        >
-            {item}
-        </div>
-    );
+  return (
+    <div
+      style={{
+        ...baseCardStyle,
+        ...(isHovered ? hoverCardStyle : {}),
+      }}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+    >
+      {item}
+    </div>
+  );
 };
 
 export default MenuItemCard;

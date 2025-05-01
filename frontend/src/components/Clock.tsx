@@ -14,54 +14,70 @@ const schedule = [
 ];
 
 const Clock: React.FC = () => {
+  const isMobile = window.innerWidth < 768;
+
   return (
     <div
       style={{
-        backgroundColor: "white", // pastel red + transparency
-        padding: "1.5rem",
-        borderRadius: "16px",
-        boxShadow: "0 4px 20px rgb(154, 31, 54, 0.5)",
+        backgroundColor: "white",
+        padding: isMobile ? "4vw" : "2vw",
+        borderRadius: isMobile ? "5vw" : "2vw",
+        boxShadow: "0 4px 20px rgba(154, 31, 54, 0.5)",
         textAlign: "center",
         color: "rgb(154, 31, 54)",
-        maxWidth: "50vw",
-        minWidth: "45vw",
-        margin: "0.25 rem",
+        width: isMobile ? "90vw" : "50vw",
+        margin: "2vh auto",
+        boxSizing: "border-box",
       }}
     >
-      <h2 style={{ marginBottom: "0.1rem", fontSize: "3rem" }}>RL Clock</h2>
+      <h2
+        style={{
+          marginBottom: "1.5vh",
+          fontSize: isMobile ? "6vw" : "3vw",
+        }}
+      >
+        RL Clock
+      </h2>
+
       <p
         style={{
           fontWeight: 500,
           color: "black",
-          fontSize: "1.5rem",
-          marginBottom: 0,
+          fontSize: isMobile ? "4vw" : "1.5vw",
+          margin: "0.5vh 0",
         }}
       >
         A-Block
       </p>
       <p
         style={{
-          marginTop: 0,
-          marginBottom: "1.2rem",
+          margin: "0.5vh 0 2vh 0",
           fontWeight: 500,
           color: "black",
-          fontSize: "1.5rem",
+          fontSize: isMobile ? "4vw" : "1.5vw",
         }}
       >
         14 minutes remaining
       </p>
 
-      <div style={{ display: "flex", flexDirection: "column", gap: "0.5rem" }}>
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          gap: isMobile ? "1.5vh" : "1vh",
+        }}
+      >
         {schedule.map((item, index) => (
           <div
             key={index}
             style={{
-              backgroundColor: "rgb(154, 31, 54, 0.1)", // slightly different shade for bubble rows
-              padding: "0.75rem 1rem",
-              borderRadius: "12px",
+              backgroundColor: "rgba(154, 31, 54, 0.1)",
+              padding: isMobile ? "2.5vw" : "1vw",
+              borderRadius: isMobile ? "3vw" : "1vw",
               display: "flex",
               justifyContent: "space-between",
               fontWeight: 500,
+              fontSize: isMobile ? "4vw" : "1vw",
               color: "black",
             }}
           >
