@@ -4,7 +4,18 @@ import { menuSchema } from "./schema.ts";
 
 // console.info("server started");
 
-Deno.serve(async (_req: Request) => {
+Deno.serve(async (req: Request) => {
+  if (req.method === "OPTIONS") {
+    return new Response(null, {
+      status: 204,
+      headers: {
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
+        "Access-Control-Allow-Headers": "Authorization, Content-Type",
+      },
+    });
+  }
+
   const s1 = new Date();
 
   const urlStart =
@@ -35,6 +46,7 @@ Deno.serve(async (_req: Request) => {
         headers: {
           "Content-Type": "application/json",
           "Connection": "keep-alive",
+          "Access-Control-Allow-Origin": "*",
         },
       },
     );
@@ -47,6 +59,7 @@ Deno.serve(async (_req: Request) => {
         headers: {
           "Content-Type": "application/json",
           "Connection": "keep-alive",
+          "Access-Control-Allow-Origin": "*",
         },
       },
     );
