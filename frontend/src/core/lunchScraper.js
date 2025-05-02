@@ -3,7 +3,14 @@ var sidesAndVegetables = null;
 var soups = null;
 
 async function getLunch() {
-  const url = "https://www.sagedining.com/microsites/getMenuItems?menuId=127574&date=04/30/2025&meal=Lunch&mode=";
+  const s1 = new Date();
+
+  const urlStart = "https://www.sagedining.com/microsites/getMenuItems?menuId=127574&date=";
+  const date = s1.getMonth() + "/" + s1.getDate() + "/" + s1.getFullYear();
+  const urlEnd = "&meal=Lunch&mode="
+
+  const url = urlStart + date + urlEnd;
+
   try {
     const response = await fetch(url);
     if (!response.ok) {
