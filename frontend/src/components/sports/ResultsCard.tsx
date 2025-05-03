@@ -40,6 +40,7 @@ const ResultsCard: React.FC<ResultsCardProps> = ({ results, isMobile }) => {
     background: "linear-gradient(to bottom, white, rgba(255, 255, 255, 0))",
     padding: isMobile ? "4vw" : "2vw",
     paddingTop: isMobile ? "6vw" : "4vh",
+    paddingBottom: isMobile ? "2vw" : "0.5vh",
     backdropFilter: "blur(2px)",
   };
 
@@ -51,7 +52,7 @@ const ResultsCard: React.FC<ResultsCardProps> = ({ results, isMobile }) => {
 
   const resultsWrapperStyle: React.CSSProperties = {
     position: "relative",
-    paddingTop: "2.5vh",
+    paddingTop: "2vh",
   };
 
   const resultItemStyle: React.CSSProperties = {

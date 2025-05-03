@@ -103,7 +103,7 @@ const Clock: React.FC = () => {
     return (
       <Card isMobile={isMobile}>
         <h2 style={headerStyle(isMobile)}>RL Clock</h2>
-        <p style={textStyle(isMobile)}>NO SCHOOL!</p>
+        <p style={textStyle(isMobile)}>No School!</p>
       </Card>
     );
   }
