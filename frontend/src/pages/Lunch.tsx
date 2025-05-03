@@ -1,65 +1,70 @@
-import { useEffect } from "react";
-import { motion } from "framer-motion";
-import BackButton from "../components/home/BackButton";
-import MenuSection from "../components/lunch/MenuSection";
-import useIsMobile from "../hooks/useIsMobile";
-import { useLunch } from "../hooks/useLunch";
+import { Menu } from '../types/lunch';
+import getMenu from '../core/lunchFetcher';
+import { useEffect, useState } from 'react';
+import { motion } from 'framer-motion';
+import BackButton from '../components/home/BackButton';
+import MenuSection from '../components/lunch/MenuSection';
+import useIsMobile from '../hooks/useIsMobile';
 
 export default function Lunch() {
   const isMobile = useIsMobile();
-  const { menu, update: updateMenu } = useLunch();
+  const [menu, setMenu] = useState<Menu | null>(null);
 
   useEffect(() => {
-    updateMenu();
+    getMenu().then((result) => {
+      if (result.success) {
+        setMenu(result.data);
+      }
+    });
   }, []);
 
   const containerStyle: React.CSSProperties = {
-    display: "flex",
-    flexDirection: "column",
-    minHeight: "100vh",
-    width: "100vw",
+    display: 'flex',
+    flexDirection: 'column',
+    minHeight: '100vh',
+    width: '100vw',
   };
 
   const innerStyle: React.CSSProperties = {
-    minHeight: "100vh",
-    width: "100vw",
-    padding: "4vh 5vw",
-    boxSizing: "border-box",
-    backgroundColor: "#fdfdfd",
-    fontFamily: "Roboto, sans-serif",
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
-    color: "#1a1a1a",
+    minHeight: '100vh',
+    width: '100vw',
+    padding: '4vh 5vw',
+    boxSizing: 'border-box',
+    backgroundColor: '#fdfdfd',
+    fontFamily: 'Roboto, sans-serif',
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    color: '#1a1a1a',
   };
 
   const contentStyle: React.CSSProperties = {
-    padding: isMobile ? "4vw" : "2vw",
-    width: isMobile ? "90vw" : "60vw",
-    margin: "2vh auto",
-    boxSizing: "border-box",
+    padding: isMobile ? '4vw' : '2vw',
+    width: isMobile ? '90vw' : '60vw',
+    margin: '2vh auto',
+    boxSizing: 'border-box',
   };
 
   const titleStyle: React.CSSProperties = {
-    fontSize: isMobile ? "5vh" : "3vw",
-    color: "rgb(154, 31, 54)",
-    marginBottom: "4vh",
-    textAlign: "center",
+    fontSize: isMobile ? '5vh' : '3vw',
+    color: 'rgb(154, 31, 54)',
+    marginBottom: '4vh',
+    textAlign: 'center',
   };
 
   const sectionContainerStyle: React.CSSProperties = {
-    display: "flex",
-    flexDirection: "column",
-    gap: "1vh",
-    width: "100%",
-    maxWidth: "900px",
+    display: 'flex',
+    flexDirection: 'column',
+    gap: '1vh',
+    width: '100%',
+    maxWidth: '900px',
   };
 
   const noLunchStyle: React.CSSProperties = {
-    textAlign: "center",
-    fontSize: "1.2rem",
-    color: "#555",
-    marginTop: "2vh",
+    textAlign: 'center',
+    fontSize: '1.2rem',
+    color: '#555',
+    marginTop: '2vh',
   };
 
   return (
@@ -75,26 +80,37 @@ export default function Lunch() {
           <BackButton />
           <h1 style={titleStyle}>RL Lunch Menu</h1>
 
-          {menu ? (
-            <div style={sectionContainerStyle}>
+          <div style={sectionContainerStyle}>
+            {menu?.Entrées.length != undefined && menu?.Entrées.length > 0 ? (
               <MenuSection
                 title="Entrées"
                 items={menu?.Entrées.map((item) => item.name) || []}
               />
+            ) : null}
+            {menu?.['Sides and Vegetables'].length != undefined &&
+            menu?.['Sides and Vegetables'].length > 0 ? (
               <MenuSection
                 title="Sides and Vegetables"
                 items={
-                  menu?.["Sides and Vegetables"].map((item) => item.name) || []
+                  menu?.['Sides and Vegetables'].map((item) => item.name) || []
                 }
               />
+            ) : null}
+            {menu?.Soups.length != undefined && menu?.Soups.length > 0 ? (
               <MenuSection
                 title="Soups"
                 items={menu?.Soups.map((item) => item.name) || []}
               />
-            </div>
-          ) : (
-            <p style={noLunchStyle}>No lunch served today.</p>
-          )}
+            ) : null}
+            {(menu?.Entrées.length == undefined &&
+              menu?.['Sides and Vegetables'].length == undefined &&
+              menu?.Soups.length == undefined) ||
+            (menu.Entrées.length == 0 &&
+              menu['Sides and Vegetables'].length == 0 &&
+              menu.Soups.length == 0) ? (
+              <p style={noLunchStyle}>No lunch served today.</p>
+            ) : null}
+          </div>
         </div>
       </div>
     </motion.div>

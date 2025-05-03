@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from "react";
-import useIsMobile from "../../hooks/useIsMobile";
-import { getSchedule, Schedule } from "../../core/data";
+import React, { useEffect, useState } from 'react';
+import useIsMobile from '../../hooks/useIsMobile';
+import { getSchedule, Schedule } from '../../core/clockFetcher';
 
 const Clock: React.FC = () => {
   const [schedule, setSchedule] = useState<Schedule | null>(null);
@@ -9,10 +9,10 @@ const Clock: React.FC = () => {
   useEffect(() => {
     const fetchSchedule = async () => {
       try {
-        const sched = await getSchedule();
-        setSchedule(sched);
+        const result = await getSchedule();
+        setSchedule(result.success ? result.data : null);
       } catch (err) {
-        console.error("Error fetching schedule:", err);
+        console.error('Error fetching schedule:', err);
       }
     };
 
@@ -35,7 +35,7 @@ const Clock: React.FC = () => {
   }, []);
 
   const parseTime = (timeStr: string): Date => {
-    const [h, m] = timeStr.split(":").map(Number);
+    const [h, m] = timeStr.split(':').map(Number);
     const now = new Date();
     return new Date(now.getFullYear(), now.getMonth(), now.getDate(), h, m);
   };
@@ -57,10 +57,10 @@ const Clock: React.FC = () => {
     })[];
 
     if (periods.length === 0)
-      return { label: "No Schedule", timeRemaining: null, current: null };
+      return { label: 'No Schedule', timeRemaining: null, current: null };
     if (now < periods[0].startTime)
       return {
-        label: "Before School",
+        label: 'Before School',
         timeRemaining: periods[0].startTime.getTime() - now.getTime(),
         current: null,
       };
@@ -72,7 +72,7 @@ const Clock: React.FC = () => {
       if (now >= p.startTime && now <= p.endTime) {
         return {
           label: p.block
-            ? `${p.block} Block${p.name ? ` - ${p.name}` : ""}`
+            ? `${p.block} Block${p.name ? ` - ${p.name}` : ''}`
             : p.name,
           timeRemaining: p.endTime.getTime() - now.getTime(),
           current: p,
@@ -81,14 +81,14 @@ const Clock: React.FC = () => {
 
       if (next && now > p.endTime && now < next.startTime) {
         return {
-          label: "Passing Time",
+          label: 'Passing Time',
           timeRemaining: next.startTime.getTime() - now.getTime(),
           current: null,
         };
       }
     }
 
-    return { label: "After School", timeRemaining: null, current: null };
+    return { label: 'After School', timeRemaining: null, current: null };
   };
 
   const formatTimeRemaining = (ms: number | null) => {
@@ -96,7 +96,7 @@ const Clock: React.FC = () => {
     const totalSec = Math.floor(ms / 1000);
     const min = Math.floor(totalSec / 60);
     const sec = totalSec % 60;
-    return `${min} min ${sec.toString().padStart(2, "0")} sec remaining`;
+    return `${min} min ${sec.toString().padStart(2, '0')} sec remaining`;
   };
 
   if (!schedule) {
@@ -119,9 +119,9 @@ const Clock: React.FC = () => {
 
       <div
         style={{
-          display: "flex",
-          flexDirection: "column",
-          gap: isMobile ? "1.5vh" : "1vh",
+          display: 'flex',
+          flexDirection: 'column',
+          gap: isMobile ? '1.5vh' : '1vh',
         }}
       >
         {schedule.periods.map((period, idx) => {
@@ -132,16 +132,16 @@ const Clock: React.FC = () => {
               key={idx}
               style={{
                 backgroundColor: isCurrent
-                  ? "rgba(154, 31, 54, 0.25)"
-                  : "rgba(154, 31, 54, 0.1)",
-                padding: isMobile ? "2.5vw" : "1vw",
-                borderRadius: isMobile ? "3vw" : "1vw",
-                display: "flex",
-                justifyContent: "space-between",
+                  ? 'rgba(154, 31, 54, 0.25)'
+                  : 'rgba(154, 31, 54, 0.1)',
+                padding: isMobile ? '2.5vw' : '1vw',
+                borderRadius: isMobile ? '3vw' : '1vw',
+                display: 'flex',
+                justifyContent: 'space-between',
                 fontWeight: 500,
-                fontSize: isMobile ? "4vw" : "1.2vw",
-                color: isCurrent ? "#9a1f36" : "black",
-                border: isCurrent ? "2px solid #9a1f36" : "none",
+                fontSize: isMobile ? '4vw' : '1.2vw',
+                color: isCurrent ? '#9a1f36' : 'black',
+                border: isCurrent ? '2px solid #9a1f36' : 'none',
               }}
             >
               <span>
@@ -172,15 +172,15 @@ const Card: React.FC<{ isMobile: boolean; children: React.ReactNode }> = ({
 }) => (
   <div
     style={{
-      backgroundColor: "white",
-      padding: isMobile ? "4vw" : "2vw",
-      borderRadius: isMobile ? "5vw" : "2vw",
-      boxShadow: "0 4px 20px rgba(154, 31, 54, 0.5)",
-      textAlign: "center",
-      color: "rgb(154, 31, 54)",
-      width: isMobile ? "90vw" : "40vw",
-      margin: "2vh auto",
-      boxSizing: "border-box",
+      backgroundColor: 'white',
+      padding: isMobile ? '4vw' : '2vw',
+      borderRadius: isMobile ? '5vw' : '2vw',
+      boxShadow: '0 4px 20px rgba(154, 31, 54, 0.5)',
+      textAlign: 'center',
+      color: 'rgb(154, 31, 54)',
+      width: isMobile ? '90vw' : '40vw',
+      margin: '2vh auto',
+      boxSizing: 'border-box',
     }}
   >
     {children}
@@ -188,13 +188,13 @@ const Card: React.FC<{ isMobile: boolean; children: React.ReactNode }> = ({
 );
 
 const headerStyle = (isMobile: boolean) => ({
-  marginBottom: "1.5vh",
-  fontSize: isMobile ? "5vh" : "3vw",
+  marginBottom: '1.5vh',
+  fontSize: isMobile ? '5vh' : '3vw',
 });
 
 const textStyle = (isMobile: boolean) => ({
   fontWeight: 500,
-  color: "black",
-  fontSize: isMobile ? "4vw" : "1.5vw",
-  marginBottom: "2vh",
+  color: 'black',
+  fontSize: isMobile ? '4vw' : '1.5vw',
+  marginBottom: '2vh',
 });

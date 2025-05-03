@@ -1,11 +1,11 @@
-import MenuItemCard from "./MenuItemCard";
-import useIsMobile from "../../hooks/useIsMobile";
+import MenuItemCard from './MenuItemCard';
+import useIsMobile from '../../hooks/useIsMobile';
 
 const gridStyle: React.CSSProperties = {
-  display: "grid",
-  gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))",
-  gap: "1rem",
-  width: "100%",
+  display: 'grid',
+  gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))',
+  gap: '1rem',
+  width: '100%',
 };
 
 const MenuGrid = ({ items }: { items: string[] }) => {
