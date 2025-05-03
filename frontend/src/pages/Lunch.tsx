@@ -1,15 +1,20 @@
 import MenuSection from '../components/lunch/MenuSection';
 import BackButton from '../components/home/BackButton';
 import useIsMobile from '../hooks/useIsMobile';
-import { useLunch } from '../hooks/useLunch';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
+import { Menu } from '../types/lunch';
+import getMenu from '../core/lunchFetcher';
 
 export default function Lunch() {
     const isMobile = useIsMobile();
-    const { menu, update: updateMenu } = useLunch();
+    const [menu, setMenu] = useState<Menu | null>(null);
 
     useEffect(() => {
-        updateMenu();
+        getMenu().then((result) => {
+            if (result.success) {
+                setMenu(result.data);
+            }
+        });
     }, []);
 
     return (
