@@ -41,9 +41,9 @@ const Sports = () => {
   const isMobile = useIsMobile();
   const today = new Date().toISOString().split("T")[0];
 
-  const todayGames = mockUpcomingGames
-    .filter((game) => game.time.startsWith(today))
-    .sort((a, b) => new Date(a.time).getTime() - new Date(b.time).getTime());
+  const todayGames = mockUpcomingGames;
+  //   .filter((game) => game.time.startsWith(today))
+  //   .sort((a, b) => new Date(a.time).getTime() - new Date(b.time).getTime());
 
   const stats = {
     totalGames: 10,
@@ -86,6 +86,7 @@ const Sports = () => {
             display: isMobile ? "block" : "flex",
             justifyContent: "space-between",
             gap: "2vw",
+            height: "40vh",
           }}
         >
           <ResultsCard results={mockPastResults} isMobile={isMobile} />
