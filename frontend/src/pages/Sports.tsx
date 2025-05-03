@@ -4,6 +4,7 @@ import ResultsCard from "../components/sports/ResultsCard";
 import StatsCard from "../components/sports/StatsCard"; // Make sure this exists
 import useIsMobile from "../hooks/useIsMobile";
 import TodayGamesCard from "../components/sports/TodayGamesCard";
+import { motion } from "framer-motion";
 
 const mockUpcomingGames = [
   { time: "2025-05-01T14:00", team: "Varsity Baseball vs Newton South" },
@@ -52,33 +53,46 @@ const Sports = () => {
   };
 
   return (
-    <div
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 0.5 }}
       style={{
-        padding: isMobile ? "4vw" : "2vw",
-        width: isMobile ? "90vw" : "60vw",
-        margin: "2vh auto",
-        boxSizing: "border-box",
+        display: "flex",
+        flexDirection: "column",
+        minHeight: "100vh",
+        width: "100vw",
       }}
     >
-      <BackButton />
-      {/* Today's Games */}
-      <TodayGamesCard
-        todayGames={todayGames}
-        isMobile={isMobile}
-        formatTime={formatTime}
-      />{" "}
-      {/* Bottom Row: Results + Stats */}
       <div
         style={{
-          display: isMobile ? "block" : "flex",
-          justifyContent: "space-between",
-          gap: "2vw",
+          padding: isMobile ? "4vw" : "2vw",
+          width: isMobile ? "90vw" : "60vw",
+          margin: "2vh auto",
+          boxSizing: "border-box",
         }}
       >
-        <ResultsCard results={mockPastResults} isMobile={isMobile} />
-        <StatsCard stats={stats} isMobile={isMobile} />
+        <BackButton />
+        {/* Today's Games */}
+        <TodayGamesCard
+          todayGames={todayGames}
+          isMobile={isMobile}
+          formatTime={formatTime}
+        />{" "}
+        {/* Bottom Row: Results + Stats */}
+        <div
+          style={{
+            display: isMobile ? "block" : "flex",
+            justifyContent: "space-between",
+            gap: "2vw",
+          }}
+        >
+          <ResultsCard results={mockPastResults} isMobile={isMobile} />
+          <StatsCard stats={stats} isMobile={isMobile} />
+        </div>
       </div>
-    </div>
+    </motion.div>
   );
 };
 

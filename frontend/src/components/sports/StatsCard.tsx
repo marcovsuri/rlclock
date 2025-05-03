@@ -62,13 +62,15 @@ const StatsCard: React.FC<StatsCardProps> = ({ stats, isMobile }) => {
             <span style={{ flex: 1, textAlign: "left" }}>{stat.label}</span>
             <span
               style={{
-                flex: 1,
-                textAlign: "right",
                 backgroundColor: "rgba(154, 31, 54, 0.15)",
-                padding: "0.3em 0.8em",
+                width: "5em", // Fixed width
+                display: "inline-block",
+                textAlign: "center",
+                padding: "0.3em 0", // No horizontal padding needed now
                 borderRadius: "999px",
                 fontWeight: 600,
                 color: "rgb(154, 31, 54)",
+                whiteSpace: "nowrap",
               }}
             >
               {stat.value}
