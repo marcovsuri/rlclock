@@ -1,0 +1,25 @@
+{
+    "folders": [
+        {
+            "path": "./",
+            "name": "root",
+            "exclude": ["frontend", "supabase"]
+        },
+        {
+            "path": "frontend",
+            "name": "frontend"
+        },
+        {
+            "path": "supabase",
+            "name": "supabase"
+        }
+    ],
+    "settings": {
+        "editor.formatOnSave": true,
+        "files.exclude": {
+            "node_modules": true,
+            "frontend": true,
+            "supabase": true
+        }
+    }
+}
