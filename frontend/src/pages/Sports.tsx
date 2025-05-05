@@ -5,6 +5,7 @@ import StatsCard from '../components/sports/StatsCard'; // Make sure this exists
 import useIsMobile from '../hooks/useIsMobile';
 import TodayGamesCard from '../components/sports/TodayGamesCard';
 import { motion } from 'framer-motion';
+import { useEffect } from 'react';
 
 const mockUpcomingGames = [
   { time: '2025-05-01T14:00', team: 'Varsity Baseball vs Newton South' },
@@ -39,6 +40,11 @@ const calculateStats = () => {
 
 const Sports = () => {
   const isMobile = useIsMobile();
+
+  useEffect(() => {
+    document.title = 'RL Clock | Lunch';
+  }, []);
+
   const today = new Date().toISOString().split('T')[0];
 
   const todayGames = mockUpcomingGames;

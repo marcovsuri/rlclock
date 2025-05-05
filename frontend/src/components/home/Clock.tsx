@@ -4,6 +4,7 @@ import { getSchedule, Schedule } from '../../core/clockFetcher';
 
 const Clock: React.FC = () => {
   const [schedule, setSchedule] = useState<Schedule | null>(null);
+  const [tick, setTick] = useState(0); // 👈 state to force re-render every second
   const isMobile = useIsMobile();
 
   useEffect(() => {
@@ -32,6 +33,14 @@ const Clock: React.FC = () => {
     }, delay);
 
     return () => clearTimeout(midnightTimeout);
+  }, []);
+
+  // 👇 Tick every second to update countdown
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setTick((prev) => prev + 1);
+    }, 1000);
+    return () => clearInterval(interval);
   }, []);
 
   const parseTime = (timeStr: string): Date => {
