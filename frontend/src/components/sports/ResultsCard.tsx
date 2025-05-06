@@ -1,4 +1,5 @@
 import React from 'react';
+import { TeamEvent } from '../../types/sports';
 
 interface Result {
   date: string;
@@ -6,7 +7,7 @@ interface Result {
 }
 
 interface ResultsCardProps {
-  results: Result[];
+  results: TeamEvent[];
   isMobile: boolean;
 }
 
@@ -89,7 +90,22 @@ const ResultsCard: React.FC<ResultsCardProps> = ({ results, isMobile }) => {
         <div style={resultsWrapperStyle}>
           {results.map((result, index) => (
             <div key={index} style={resultItemStyle}>
-              {result.result}
+              {result.opponents.map((r, index) => (
+                // <>
+                // <span>
+                //   {result.team} vs. {result.opponents[0]} (
+                //   {result.scores[index]})
+                // </span>
+                // <br>
+                // </>
+                <>
+                  <span>
+                    {result.team} vs. {result.opponents[index]} (
+                    {result.scores[index]})
+                  </span>
+                  <br></br>
+                </>
+              ))}
             </div>
           ))}
 

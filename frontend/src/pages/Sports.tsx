@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import BackButton from '../components/home/BackButton';
 import ResultsCard from '../components/sports/ResultsCard';
 import StatsCard from '../components/sports/StatsCard'; // Make sure this exists
@@ -6,6 +6,8 @@ import useIsMobile from '../hooks/useIsMobile';
 import TodayGamesCard from '../components/sports/TodayGamesCard';
 import { motion } from 'framer-motion';
 import { useEffect } from 'react';
+import { TeamEvent } from '../types/sports';
+import getSportsEvents from '../core/sportsFetcher';
 
 const mockUpcomingGames = [
   { time: '2025-05-01T14:00', team: 'Varsity Baseball vs Newton South' },
@@ -40,9 +42,15 @@ const calculateStats = () => {
 
 const Sports = () => {
   const isMobile = useIsMobile();
+  const [pastGames, setPastGames] = useState<TeamEvent[] | null>(null);
 
   useEffect(() => {
-    document.title = 'RL Clock | Lunch';
+    document.title = 'RL Clock | Sports';
+    getSportsEvents().then((response) => {
+      if (response.success) {
+        setPastGames(response.data.slice(0, 5));
+      }
+    });
   }, []);
 
   const today = new Date().toISOString().split('T')[0];
@@ -95,7 +103,9 @@ const Sports = () => {
             height: '40vh',
           }}
         >
-          <ResultsCard results={mockPastResults} isMobile={isMobile} />
+          {pastGames ? (
+            <ResultsCard results={pastGames} isMobile={isMobile} />
+          ) : null}
           <StatsCard stats={stats} isMobile={isMobile} />
         </div>
       </div>
