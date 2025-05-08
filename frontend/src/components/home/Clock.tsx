@@ -4,6 +4,7 @@ import { getSchedule, Schedule } from '../../core/clockFetcher';
 
 const Clock: React.FC = () => {
   const [schedule, setSchedule] = useState<Schedule | null>(null);
+  const [currentTime, setCurrentTime] = useState(new Date());
   const isMobile = useIsMobile();
 
   useEffect(() => {
@@ -31,7 +32,14 @@ const Clock: React.FC = () => {
       setInterval(fetchSchedule, 24 * 60 * 60 * 1000); // Every 24h
     }, delay);
 
-    return () => clearTimeout(midnightTimeout);
+    const interval = setInterval(() => {
+      setCurrentTime(new Date());
+    }, 1000);
+
+    return () => {
+      clearTimeout(midnightTimeout);
+      clearInterval(interval);
+    };
   }, []);
 
   const parseTime = (timeStr: string): Date => {
@@ -41,7 +49,7 @@ const Clock: React.FC = () => {
   };
 
   const getCurrentPeriodInfo = (schedule: Schedule) => {
-    const now = new Date();
+    const now = currentTime;
     const periods = schedule.periods
       .map((p) => {
         if (!p.start || !p.end) return null;
