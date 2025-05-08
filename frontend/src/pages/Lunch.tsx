@@ -11,6 +11,10 @@ export default function Lunch() {
   const [menu, setMenu] = useState<Menu | null>(null);
 
   useEffect(() => {
+    document.title = 'RL Clock | Lunch';
+  }, []);
+
+  useEffect(() => {
     getMenu().then((result) => {
       if (result.success) {
         setMenu(result.data);
@@ -81,13 +85,13 @@ export default function Lunch() {
           <h1 style={titleStyle}>RL Lunch Menu</h1>
 
           <div style={sectionContainerStyle}>
-            {menu?.Entrées.length != undefined && menu?.Entrées.length > 0 ? (
+            {menu?.Entrées.length !== undefined && menu?.Entrées.length > 0 ? (
               <MenuSection
                 title="Entrées"
                 items={menu?.Entrées.map((item) => item.name) || []}
               />
             ) : null}
-            {menu?.['Sides and Vegetables'].length != undefined &&
+            {menu?.['Sides and Vegetables'].length !== undefined &&
             menu?.['Sides and Vegetables'].length > 0 ? (
               <MenuSection
                 title="Sides and Vegetables"
@@ -96,18 +100,18 @@ export default function Lunch() {
                 }
               />
             ) : null}
-            {menu?.Soups.length != undefined && menu?.Soups.length > 0 ? (
+            {menu?.Soups.length !== undefined && menu?.Soups.length > 0 ? (
               <MenuSection
                 title="Soups"
                 items={menu?.Soups.map((item) => item.name) || []}
               />
             ) : null}
-            {(menu?.Entrées.length == undefined &&
-              menu?.['Sides and Vegetables'].length == undefined &&
-              menu?.Soups.length == undefined) ||
-            (menu.Entrées.length == 0 &&
-              menu['Sides and Vegetables'].length == 0 &&
-              menu.Soups.length == 0) ? (
+            {(menu?.Entrées.length === undefined &&
+              menu?.['Sides and Vegetables'].length === undefined &&
+              menu?.Soups.length === undefined) ||
+            (menu.Entrées.length === 0 &&
+              menu['Sides and Vegetables'].length === 0 &&
+              menu.Soups.length === 0) ? (
               <p style={noLunchStyle}>No lunch served today.</p>
             ) : null}
           </div>
