@@ -15,7 +15,11 @@ const allergensSchema = z.object({
   lifestyleNames: z.array(z.string()),
   lmLifestyleCodes: z.array(z.string()),
   lmLifestyleNames: z.array(z.string()),
-  performanceSpotlight: z.string(),
+  performanceSpotlight: z.string().or(z.object({
+    s: z.number(),
+    p: z.number(),
+    v: z.number(),
+  })),
 });
 
 const menuItemSchema = z.object({

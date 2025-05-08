@@ -51,8 +51,8 @@ Deno.serve(async (req: Request) => {
         },
       },
     );
-  } catch {
-    console.error("Error fetching or parsing data in lunch");
+  } catch (error) {
+    console.error("Error fetching or parsing data in lunch: ", error);
     return new Response(
       JSON.stringify({ error: "Error fetching or parsing data" }),
       {
