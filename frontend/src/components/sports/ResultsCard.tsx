@@ -98,13 +98,10 @@ const ResultsCard: React.FC<ResultsCardProps> = ({ results, isMobile }) => {
                 // </span>
                 // <br>
                 // </>
-                <>
-                  <span>
-                    {result.team} vs. {result.opponents[index]} (
-                    {result.scores[index]})
-                  </span>
-                  <br></br>
-                </>
+                <span key={index}>
+                  {result.team} vs. {result.opponents[index]} (
+                  {result.scores[index]})
+                </span>
               ))}
             </div>
           ))}
