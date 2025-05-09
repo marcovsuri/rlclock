@@ -58,8 +58,6 @@ const getMenu = async (): Promise<Result<Menu>> => {
     const accessToken = process.env.REACT_APP_SUPABASE_ANON_KEY;
 
     if (!url || !accessToken) {
-      console.log(url);
-      console.log(accessToken);
       throw new Error(
         'LUNCH_MENU_URL or LUNCH_MENU_ACCESS_TOKEN is not defined'
       );

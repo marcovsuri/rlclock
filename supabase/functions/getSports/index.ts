@@ -96,6 +96,8 @@ Deno.serve(async (req) => {
 
     const events = parseTeamEvents(html);
 
+    events.splice(0, 1); // Remove the first event => Generally, it is empty. Figure out why??
+
     return new Response(
       JSON.stringify(events),
       {

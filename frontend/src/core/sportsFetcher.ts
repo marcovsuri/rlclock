@@ -55,8 +55,6 @@ const getSportsEvents = async (): Promise<Result<TeamEvent[]>> => {
     const accessToken = process.env.REACT_APP_SUPABASE_ANON_KEY;
 
     if (!url || !accessToken) {
-      console.log(url);
-      console.log(accessToken);
       throw new Error('SPORTS_URL or SUPABASE_ANON_KEY is not defined');
     }
 

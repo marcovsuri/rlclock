@@ -48,7 +48,7 @@ const Sports = () => {
     document.title = 'RL Clock | Sports';
     getSportsEvents().then((response) => {
       if (response.success) {
-        setPastGames(response.data.slice(0, 5));
+        setPastGames(response.data.slice(0, 100));
       }
     });
   }, []);
