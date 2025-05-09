@@ -32,24 +32,25 @@ const getSportsEvents = async (): Promise<Result<TeamEvent[]>> => {
       const yesterday = new Date();
       yesterday.setDate(yesterday.getDate() - 1);
 
-      if (
-        !(
-          localDataResult.data.lastUpdated.getFullYear() ===
-            yesterday.getFullYear() &&
-          localDataResult.data.lastUpdated.getMonth() ===
-            yesterday.getMonth() &&
-          localDataResult.data.lastUpdated.getDate() === yesterday.getDate()
-        )
-      ) {
-        console.log('Sports events: using local data');
-        return {
-          success: true,
-          data: localDataResult.data.events,
-        };
+      if (localDataResult.success) {
+        const THIRTY_MINUTES = 30 * 60 * 1000; // 30 minutes in milliseconds
+        const now = new Date();
+        const lastUpdated = new Date(localDataResult.data.lastUpdated); // ensure it's a Date
+
+        if (now.getTime() - lastUpdated.getTime() < THIRTY_MINUTES) {
+          console.log(
+            'Sports events: using local data (updated within 30 minutes)'
+          );
+          return {
+            success: true,
+            data: localDataResult.data.events,
+          };
+        }
       }
     }
 
     console.log('Sports events: fetching new data');
+
     const url = process.env.REACT_APP_SPORTS_URL;
     const accessToken = process.env.REACT_APP_SUPABASE_ANON_KEY;
 
