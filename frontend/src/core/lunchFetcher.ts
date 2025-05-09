@@ -1,8 +1,59 @@
 import { Result } from '../types/global';
 import { Menu } from '../types/lunch';
 
+interface LocalLunchData {
+  menu: Menu;
+  lastUpdated: Date;
+}
+
+const getMenuFromLocal = (): Result<LocalLunchData> => {
+  const localData = localStorage.getItem('lunchMenu');
+
+  if (!localData) {
+    return {
+      success: false,
+      errorMessage: 'No lunch menu data found in local storage',
+    };
+  }
+
+  const parsedData: LocalLunchData = JSON.parse(localData);
+
+  return {
+    success: true,
+    data: {
+      menu: parsedData.menu,
+      lastUpdated: new Date(parsedData.lastUpdated),
+    },
+  };
+};
+
 const getMenu = async (): Promise<Result<Menu>> => {
   try {
+    const localDataResult = getMenuFromLocal();
+
+    if (localDataResult.success) {
+      const yesterday = new Date();
+      yesterday.setDate(yesterday.getDate() - 1);
+
+      if (
+        !(
+          localDataResult.data.lastUpdated.getFullYear() ===
+            yesterday.getFullYear() &&
+          localDataResult.data.lastUpdated.getMonth() ===
+            yesterday.getMonth() &&
+          localDataResult.data.lastUpdated.getDate() === yesterday.getDate()
+        )
+      ) {
+        console.log('Lunch menu: using local data');
+        return {
+          success: true,
+          data: localDataResult.data.menu,
+        };
+      }
+    }
+
+    console.log('Lunch menu: fetching new data');
+
     const url = process.env.REACT_APP_LUNCH_MENU_URL;
     const accessToken = process.env.REACT_APP_SUPABASE_ANON_KEY;
 
@@ -25,6 +76,14 @@ const getMenu = async (): Promise<Result<Menu>> => {
     }
 
     const data = await response.json();
+
+    localStorage.setItem(
+      'lunchMenu',
+      JSON.stringify({
+        menu: data,
+        lastUpdated: new Date(),
+      })
+    );
 
     return {
       success: true,
