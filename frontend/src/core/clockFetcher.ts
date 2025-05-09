@@ -57,8 +57,59 @@ const getDayType = async (): Promise<Result<DayType>> => {
   }
 };
 
+interface LocalScheduleData {
+  schedule: Schedule;
+  lastUpdated: Date;
+}
+
+const getScheduleFromLocal = (): Result<LocalScheduleData> => {
+  const localData = localStorage.getItem('schedule');
+
+  if (!localData) {
+    return {
+      success: false,
+      errorMessage: 'No schedule data found in local storage',
+    };
+  }
+
+  const parsedData: LocalScheduleData = JSON.parse(localData);
+
+  return {
+    success: true,
+    data: {
+      schedule: parsedData.schedule,
+      lastUpdated: new Date(parsedData.lastUpdated),
+    },
+  };
+};
+
 const getSchedule = async (): Promise<Result<Schedule>> => {
   try {
+    const localDataResult = getScheduleFromLocal();
+
+    if (localDataResult.success) {
+      const yesterday = new Date();
+      yesterday.setDate(yesterday.getDate() - 1);
+
+      if (
+        !(
+          localDataResult.data.lastUpdated.getFullYear() ===
+            yesterday.getFullYear() &&
+          localDataResult.data.lastUpdated.getMonth() ===
+            yesterday.getMonth() &&
+          localDataResult.data.lastUpdated.getDate() === yesterday.getDate()
+        )
+      ) {
+        console.log('Schedule: using local data');
+        return {
+          success: true,
+          data: localDataResult.data.schedule,
+        };
+      }
+    }
+
+    console.log('Schedule: fetching new data');
+
     const response = await fetch(scheduleUrl);
 
     if (!response.ok) {
@@ -66,6 +117,14 @@ const getSchedule = async (): Promise<Result<Schedule>> => {
     }
 
     const data = await response.json();
+
+    localStorage.setItem(
+      'schedule',
+      JSON.stringify({
+        schedule: data,
+        lastUpdated: new Date(),
+      })
+    );
 
     return {
       success: true,
