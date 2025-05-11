@@ -7,7 +7,7 @@ interface Result {
 }
 
 interface ResultsCardProps {
-  results: TeamEvent[];
+  results: TeamEvent[] | undefined | null;
   isMobile: boolean;
 }
 
@@ -31,6 +31,9 @@ const ResultsCard: React.FC<ResultsCardProps> = ({ results, isMobile }) => {
     overflowY: 'auto',
     position: 'relative',
     scrollbarWidth: 'none', // for Firefox
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'space-between',
   };
 
   const headerStyle: React.CSSProperties = {
@@ -78,6 +81,12 @@ const ResultsCard: React.FC<ResultsCardProps> = ({ results, isMobile }) => {
     zIndex: 3,
   };
 
+  const errorStyle: React.CSSProperties = {
+    textAlign: 'center',
+    fontSize: isMobile ? '4vh' : '2vw',
+    color: 'rgb(154, 31, 54)',
+  };
+
   return (
     <div style={cardStyle}>
       <div style={scrollAreaStyle}>
@@ -87,28 +96,34 @@ const ResultsCard: React.FC<ResultsCardProps> = ({ results, isMobile }) => {
         </div>
 
         {/* Scrollable content */}
-        <div style={resultsWrapperStyle}>
-          {results.map((result, index) => (
-            <div key={index} style={resultItemStyle}>
-              {result.opponents.map((r, index) => (
-                // <>
-                // <span>
-                //   {result.team} vs. {result.opponents[0]} (
-                //   {result.scores[index]})
-                // </span>
-                // <br>
-                // </>
-                <span key={index}>
-                  {result.team} vs. {result.opponents[index]} (
-                  {result.scores[index]})
-                </span>
-              ))}
-            </div>
-          ))}
+        {results === undefined ? (
+          <p style={errorStyle}>Loading...</p>
+        ) : results === null ? (
+          <p style={errorStyle}>No results</p>
+        ) : (
+          <div style={resultsWrapperStyle}>
+            {results.map((result, index) => (
+              <div key={index} style={resultItemStyle}>
+                {result.opponents.map((r, index) => (
+                  // <>
+                  // <span>
+                  //   {result.team} vs. {result.opponents[0]} (
+                  //   {result.scores[index]})
+                  // </span>
+                  // <br>
+                  // </>
+                  <span key={index}>
+                    {result.team} vs. {result.opponents[index]} (
+                    {result.scores[index]})
+                  </span>
+                ))}
+              </div>
+            ))}
 
-          {/* Bottom fade overlay */}
-          <div style={bottomOverlayStyle} />
-        </div>
+            {/* Bottom fade overlay */}
+            <div style={bottomOverlayStyle} />
+          </div>
+        )}
       </div>
     </div>
   );

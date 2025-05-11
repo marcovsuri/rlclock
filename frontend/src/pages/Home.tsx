@@ -10,7 +10,7 @@ import { Menu } from '../types/lunch';
 const Home: React.FC = () => {
   const isMobile = useIsMobile();
 
-  const [menu, setMenu] = useState<Menu | null>(null);
+  const [menu, setMenu] = useState<Menu | undefined>(undefined);
 
   useEffect(() => {
     getMenu().then((result) => {
@@ -82,7 +82,11 @@ const Home: React.FC = () => {
         <div style={cardsStyle}>
           <InfoCard
             title="Today's Lunch:"
-            subtitle={lunchFeature || 'No lunch today.'}
+            subtitle={
+              menu === undefined
+                ? 'Loading...'
+                : lunchFeature ?? 'No lunch today.'
+            }
             info="Click to see full menu!"
             path="/lunch"
           />

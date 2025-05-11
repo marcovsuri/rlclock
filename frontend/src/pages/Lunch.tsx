@@ -8,7 +8,7 @@ import useIsMobile from '../hooks/useIsMobile';
 
 export default function Lunch() {
   const isMobile = useIsMobile();
-  const [menu, setMenu] = useState<Menu | null>(null);
+  const [menu, setMenu] = useState<Menu | undefined>(undefined);
 
   useEffect(() => {
     document.title = 'RL Clock | Lunch';
@@ -112,7 +112,9 @@ export default function Lunch() {
             (menu.Entrées.length === 0 &&
               menu['Sides and Vegetables'].length === 0 &&
               menu.Soups.length === 0) ? (
-              <p style={noLunchStyle}>No lunch served today.</p>
+              <p style={noLunchStyle}>
+                {menu === undefined ? 'Loading...' : 'No lunch served today.'}
+              </p>
             ) : null}
           </div>
         </div>

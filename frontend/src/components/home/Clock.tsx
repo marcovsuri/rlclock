@@ -3,7 +3,9 @@ import useIsMobile from '../../hooks/useIsMobile';
 import { getSchedule, Schedule } from '../../core/clockFetcher';
 
 const Clock: React.FC = () => {
-  const [schedule, setSchedule] = useState<Schedule | null>(null);
+  const [schedule, setSchedule] = useState<Schedule | null | undefined>(
+    undefined
+  );
   const [currentTime, setCurrentTime] = useState(new Date());
   const isMobile = useIsMobile();
 
@@ -107,7 +109,16 @@ const Clock: React.FC = () => {
     return `${min} min ${sec.toString().padStart(2, '0')} sec remaining`;
   };
 
-  if (!schedule) {
+  if (schedule === undefined) {
+    return (
+      <Card isMobile={isMobile}>
+        <h2 style={headerStyle(isMobile)}>RL Clock</h2>
+        <p style={textStyle(isMobile)}>Loading...</p>
+      </Card>
+    );
+  }
+
+  if (schedule === null) {
     return (
       <Card isMobile={isMobile}>
         <h2 style={headerStyle(isMobile)}>RL Clock</h2>

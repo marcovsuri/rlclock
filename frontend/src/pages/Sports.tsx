@@ -42,13 +42,17 @@ const calculateStats = () => {
 
 const Sports = () => {
   const isMobile = useIsMobile();
-  const [pastGames, setPastGames] = useState<TeamEvent[] | null>(null);
+  const [pastGames, setPastGames] = useState<TeamEvent[] | undefined | null>(
+    undefined
+  );
 
   useEffect(() => {
     document.title = 'RL Clock | Sports';
     getSportsEvents().then((response) => {
       if (response.success) {
         setPastGames(response.data.slice(0, 100));
+      } else {
+        setPastGames(null);
       }
     });
   }, []);
@@ -103,9 +107,7 @@ const Sports = () => {
             height: '40vh',
           }}
         >
-          {pastGames ? (
-            <ResultsCard results={pastGames} isMobile={isMobile} />
-          ) : null}
+          <ResultsCard results={pastGames} isMobile={isMobile} />
           <StatsCard stats={stats} isMobile={isMobile} />
         </div>
       </div>
