@@ -32,18 +32,10 @@ const getMenu = async (): Promise<Result<Menu>> => {
     const localDataResult = getMenuFromLocal();
 
     if (localDataResult.success) {
-      const yesterday = new Date();
-      yesterday.setDate(yesterday.getDate() - 1);
+      const oneDayAgo = new Date();
+      oneDayAgo.setDate(oneDayAgo.getDate() - 1);
 
-      if (
-        !(
-          localDataResult.data.lastUpdated.getFullYear() ===
-            yesterday.getFullYear() &&
-          localDataResult.data.lastUpdated.getMonth() ===
-            yesterday.getMonth() &&
-          localDataResult.data.lastUpdated.getDate() === yesterday.getDate()
-        )
-      ) {
+      if (localDataResult.data.lastUpdated > oneDayAgo) {
         console.log('Lunch menu: using local data');
         return {
           success: true,

@@ -88,19 +88,11 @@ const getSchedule = async (): Promise<Result<Schedule>> => {
     const localDataResult = getScheduleFromLocal();
 
     if (localDataResult.success) {
-      const yesterday = new Date();
-      yesterday.setDate(yesterday.getDate() - 1);
+      const oneDayAgo = new Date();
+      oneDayAgo.setDate(oneDayAgo.getDate() - 1);
 
-      if (
-        !(
-          localDataResult.data.lastUpdated.getFullYear() ===
-            yesterday.getFullYear() &&
-          localDataResult.data.lastUpdated.getMonth() ===
-            yesterday.getMonth() &&
-          localDataResult.data.lastUpdated.getDate() === yesterday.getDate()
-        )
-      ) {
-        console.log('Schedule: using local data');
+      if (localDataResult.data.lastUpdated > oneDayAgo) {
+        console.log('Lunch menu: using local data');
         return {
           success: true,
           data: localDataResult.data.schedule,
@@ -118,17 +110,19 @@ const getSchedule = async (): Promise<Result<Schedule>> => {
 
     const data = await response.json();
 
+    const parsedData = scheduleSchema.parse(data);
+
     localStorage.setItem(
       'schedule',
       JSON.stringify({
-        schedule: data,
+        schedule: parsedData,
         lastUpdated: new Date(),
       })
     );
 
     return {
       success: true,
-      data: scheduleSchema.parse(data),
+      data: parsedData,
     };
   } catch (error) {
     console.error('Error fetching schedule:', error);
