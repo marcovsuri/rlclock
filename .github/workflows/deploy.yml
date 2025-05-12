@@ -32,7 +32,9 @@ jobs:
               working-directory: frontend
 
             - name: Check .env contents
-              run: cat .env
+              run: |
+                  cat .env
+                  echo "${{ secrets.REACT_APP_LUNCH_MENU_URL }}"
               working-directory: frontend
 
             - name: Build the app
