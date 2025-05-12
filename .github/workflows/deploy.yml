@@ -1,47 +1,38 @@
 name: Deploy React App to GitHub Pages
 
 on:
-    push:
-        branches:
-            - main
+  push:
+    branches:
+      - main
 
 jobs:
-    deploy:
-        runs-on: ubuntu-latest
-        defaults:
-            run:
-                working-directory: frontend
+  deploy:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: frontend
 
-        steps:
-            - name: Checkout repository
-              uses: actions/checkout@v3
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
 
-            - name: Setup Node.js
-              uses: actions/setup-node@v3
-              with:
-                  node-version: 18
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
 
-            - name: Install dependencies
-              run: npm install
+      - name: Install dependencies
+        run: npm install
 
-            # - name: Create .env file
-            #   run: |
-            #       echo "REACT_APP_LUNCH_MENU_URL=$REACT_AP" >> .env
-            #       echo "REACT_APP_SPORTS_URL=${{ vars.REACT_APP_LUNCH_MENU_URL }}" >> .env"
-            #       echo "REACT_APP_SUPABASE_ANON_KEY=${{ secrets.REACT_APP_SUPABASE_ANON_KEY }}" >> .env
-            #   working-directory: frontend
+      - name: Build the app
+        run: CI=false npm run build
+        env:
+          REACT_APP_LUNCH_MENU_URL: ${{ secrets.REACT_APP_LUNCH_MENU_URL }}
+          REACT_APP_SPORTS_URL: ${{ secrets.REACT_APP_SPORTS_URL }}
+          REACT_APP_SUPABASE_ANON_KEY: ${{ secrets.REACT_APP_SUPABASE_ANON_KEY }}
 
-            - name: Test Envs
-              env: 
-                  API_STUFF: ${{ secrets.MY_SECRET }}
-              run: |
-                echo "Deploying with API STUFF: $API_STUFF"
-
-            - name: Build the app
-              run: CI=false npm run build
-
-            - name: Deploy to GitHub Pages
-              uses: peaceiris/actions-gh-pages@v4
-              with:
-                  github_token: ${{ secrets.GITHUB_TOKEN }}
-                  publish_dir: ./frontend/build
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./frontend/build
