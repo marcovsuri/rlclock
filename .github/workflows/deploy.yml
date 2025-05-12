@@ -5,6 +5,11 @@ on:
         branches:
             - main
 
+env:
+    REACT_APP_LUNCH_MENU_URL: ${{ secrets.REACT_APP_LUNCH_MENU_URL }}
+    REACT_APP_SPORTS_URL: ${{ secrets.REACT_APP_SPORTS_URL }}
+    REACT_APP_SUPABASE_ANON_KEY: ${{ secrets.REACT_APP_SUPABASE_ANON_KEY }}
+
 jobs:
     deploy:
         runs-on: ubuntu-latest
@@ -24,17 +29,17 @@ jobs:
             - name: Install dependencies
               run: npm install
 
-            - name: Create .env file
-              run: |
-                  echo "REACT_APP_LUNCH_MENU_URL=${{ secrets.REACT_APP_LUNCH_MENU_URL }}" >> .env
-                  echo "REACT_APP_SPORTS_URL=${{ secrets.REACT_APP_SPORTS_URL }}" >> .env
-                  echo "REACT_APP_SUPABASE_ANON_KEY=${{ secrets.REACT_APP_SUPABASE_ANON_KEY }}" >> .env
-              working-directory: frontend
+            # - name: Create .env file
+            #   run: |
+            #       echo "REACT_APP_LUNCH_MENU_URL=$REACT_AP" >> .env
+            #       echo "REACT_APP_SPORTS_URL=${{ secrets.REACT_APP_SPORTS_URL }}" >> .env
+            #       echo "REACT_APP_SUPABASE_ANON_KEY=${{ secrets.REACT_APP_SUPABASE_ANON_KEY }}" >> .env
+            #   working-directory: frontend
+            # cat .env
 
             - name: Check .env contents
               run: |
-                  cat .env
-                  echo "${{ secrets.REACT_APP_LUNCH_MENU_URL }}"
+                  echo "$REACT_APP_LUNCH_MENU_URL"
               working-directory: frontend
 
             - name: Build the app
