@@ -1,4 +1,5 @@
 import React from 'react';
+import { UpcomingEvent } from '../../types/upcomingSports';
 
 interface Game {
   time: string;
@@ -6,15 +7,13 @@ interface Game {
 }
 
 interface TodayGamesCardProps {
-  todayGames: Game[];
+  todayGames: UpcomingEvent[] | undefined | null;
   isMobile: boolean;
-  formatTime: (iso: string) => string;
 }
 
 const TodayGamesCard: React.FC<TodayGamesCardProps> = ({
   todayGames,
   isMobile,
-  formatTime,
 }) => {
   return (
     <div
@@ -37,9 +36,9 @@ const TodayGamesCard: React.FC<TodayGamesCardProps> = ({
         Today's Games
       </h2>
 
-      {todayGames.length === 0 ? (
+      {!todayGames || todayGames.length === 0 ? (
         <p style={{ textAlign: 'center', fontWeight: 500, color: 'black' }}>
-          No games today
+          {todayGames === undefined ? 'Loading' : 'No games today'}
         </p>
       ) : (
         todayGames.map((game, index) => (
@@ -59,7 +58,7 @@ const TodayGamesCard: React.FC<TodayGamesCardProps> = ({
             }}
           >
             <span>{game.team}</span>
-            <span>{formatTime(game.time)}</span>
+            <span>{game.time}</span>
           </div>
         ))
       )}

@@ -8,6 +8,8 @@ import { motion } from 'framer-motion';
 import { useEffect } from 'react';
 import { TeamEvent } from '../types/sports';
 import getSportsEvents from '../core/sportsFetcher';
+import getUpcomingSportsEvents from '../core/upcomingSportsFetcher';
+import { UpcomingEvent } from '../types/upcomingSports';
 
 const mockUpcomingGames = [
   { time: '2025-05-01T14:00', team: 'Varsity Baseball vs Newton South' },
@@ -21,11 +23,6 @@ const mockPastResults = [
   { date: '2025-04-27', result: 'Boys Lacrosse beat Newton North 9-8' },
   { date: '2025-04-26', result: 'Softball lost to Brookline 2-6' },
 ];
-
-const formatTime = (iso: string) => {
-  const d = new Date(iso);
-  return d.toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' });
-};
 
 const calculateStats = () => {
   const totalGames = mockPastResults.length;
@@ -46,6 +43,10 @@ const Sports = () => {
     undefined
   );
 
+  const [upcomingGames, setUpcomingGames] = useState<
+    UpcomingEvent[] | undefined | null
+  >(undefined);
+
   useEffect(() => {
     document.title = 'RL Clock | Sports';
     getSportsEvents().then((response) => {
@@ -57,9 +58,22 @@ const Sports = () => {
     });
   }, []);
 
-  const today = new Date().toISOString().split('T')[0];
+  useEffect(() => {
+    getUpcomingSportsEvents().then((response) => {
+      if (response.success) {
+        const today = new Date();
+        const todayString = `${
+          today.getMonth() + 1
+        }/${today.getDate()}/${today.getFullYear()}`;
 
-  const todayGames = mockUpcomingGames;
+        setUpcomingGames(response.data.filter((e) => e.date === todayString));
+      } else {
+        setUpcomingGames(null);
+      }
+    });
+  }, []);
+
+  // const todayGames = mockUpcomingGames;
   //   .filter((game) => game.time.startsWith(today))
   //   .sort((a, b) => new Date(a.time).getTime() - new Date(b.time).getTime());
 
@@ -93,11 +107,7 @@ const Sports = () => {
       >
         <BackButton />
         {/* Today's Games */}
-        <TodayGamesCard
-          todayGames={todayGames}
-          isMobile={isMobile}
-          formatTime={formatTime}
-        />{' '}
+        <TodayGamesCard todayGames={upcomingGames} isMobile={isMobile} />
         {/* Bottom Row: Results + Stats */}
         <div
           style={{

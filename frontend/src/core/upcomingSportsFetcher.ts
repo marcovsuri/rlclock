@@ -1,32 +1,33 @@
 import { Result } from '../types/global';
-import { TeamEvent } from '../types/sports';
+import { UpcomingEvent } from '../types/upcomingSports';
 
-interface LocalSportsData {
-  events: TeamEvent[];
+interface LocalUpcomingSportsData {
+  events: UpcomingEvent[];
   lastUpdated: Date;
 }
 
-const getSportsEventsFromLocal = (): Result<LocalSportsData> => {
-  const localData = localStorage.getItem('sportsEvents');
+const getUpcomingSportsEventsFromLocal =
+  (): Result<LocalUpcomingSportsData> => {
+    const localData = localStorage.getItem('upcomingSportsEvents');
 
-  if (!localData) {
+    if (!localData) {
+      return {
+        success: false,
+        errorMessage: 'No upcoming sports events data found in local storage',
+      };
+    }
+
+    const parsedData: LocalUpcomingSportsData = JSON.parse(localData);
+
     return {
-      success: false,
-      errorMessage: 'No sports events data found in local storage',
+      success: true,
+      data: { ...parsedData, lastUpdated: new Date(parsedData.lastUpdated) },
     };
-  }
-
-  const parsedData: LocalSportsData = JSON.parse(localData);
-
-  return {
-    success: true,
-    data: { ...parsedData, lastUpdated: new Date(parsedData.lastUpdated) },
   };
-};
 
-const getSportsEvents = async (): Promise<Result<TeamEvent[]>> => {
+const getUpcomingSportsEvents = async (): Promise<Result<UpcomingEvent[]>> => {
   try {
-    const localDataResult = getSportsEventsFromLocal();
+    const localDataResult = getUpcomingSportsEventsFromLocal();
 
     if (localDataResult.success) {
       const yesterday = new Date();
@@ -39,7 +40,7 @@ const getSportsEvents = async (): Promise<Result<TeamEvent[]>> => {
 
         if (now.getTime() - lastUpdated.getTime() < THIRTY_MINUTES) {
           console.log(
-            'Sports events: using local data (updated within 30 minutes)'
+            'Upcoming sports events: using local data (updated within 30 minutes)'
           );
           return {
             success: true,
@@ -49,13 +50,15 @@ const getSportsEvents = async (): Promise<Result<TeamEvent[]>> => {
       }
     }
 
-    console.log('Sports events: fetching new data');
+    console.log('Upcoming sports events: fetching new data');
 
-    const url = process.env.REACT_APP_SPORTS_URL;
+    const url = process.env.REACT_APP_UPCOMING_SPORTS_URL;
     const accessToken = process.env.REACT_APP_SUPABASE_ANON_KEY;
 
     if (!url || !accessToken) {
-      throw new Error('SPORTS_URL or SUPABASE_ANON_KEY is not defined');
+      throw new Error(
+        'UPCOMING_SPORTS_URL or SUPABASE_ANON_KEY is not defined'
+      );
     }
 
     const response = await fetch(url, {
@@ -71,7 +74,7 @@ const getSportsEvents = async (): Promise<Result<TeamEvent[]>> => {
     const data = await response.json();
 
     localStorage.setItem(
-      'sportsEvents',
+      'upcomingSportsEvents',
       JSON.stringify({ events: data, lastUpdated: new Date() })
     );
 
@@ -80,12 +83,12 @@ const getSportsEvents = async (): Promise<Result<TeamEvent[]>> => {
       data,
     };
   } catch (error) {
-    console.error('Failed to fetch sports events:', error);
+    console.error('Failed to fetch upcoming sports events:', error);
     return {
       success: false,
-      errorMessage: 'Failed to fetch sports events',
+      errorMessage: 'Failed to fetch upcoming sports events',
     };
   }
 };
 
-export default getSportsEvents;
+export default getUpcomingSportsEvents;
