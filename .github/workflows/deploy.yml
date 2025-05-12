@@ -29,6 +29,7 @@ jobs:
         env:
           REACT_APP_LUNCH_MENU_URL: ${{ secrets.REACT_APP_LUNCH_MENU_URL }}
           REACT_APP_SPORTS_URL: ${{ secrets.REACT_APP_SPORTS_URL }}
+          REACT_APP_UPCOMING_SPORTS_URL: ${{ secrets.REACT_APP_UPCOMING_SPORTS_URL }}
           REACT_APP_SUPABASE_ANON_KEY: ${{ secrets.REACT_APP_SUPABASE_ANON_KEY }}
 
       - name: Deploy to GitHub Pages
