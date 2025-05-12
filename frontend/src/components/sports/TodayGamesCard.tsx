@@ -57,7 +57,9 @@ const TodayGamesCard: React.FC<TodayGamesCardProps> = ({
               marginBottom: '1vh',
             }}
           >
-            <span>{game.team}</span>
+            <span>
+              {game.team} ({game.where})
+            </span>
             <span>{game.time}</span>
           </div>
         ))
