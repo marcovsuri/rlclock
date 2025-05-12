@@ -5,11 +5,6 @@ on:
         branches:
             - main
 
-env:
-    REACT_APP_LUNCH_MENU_URL: ${{ secrets.REACT_APP_LUNCH_MENU_URL }}
-    REACT_APP_SPORTS_URL: ${{ secrets.REACT_APP_SPORTS_URL }}
-    REACT_APP_SUPABASE_ANON_KEY: ${{ secrets.REACT_APP_SUPABASE_ANON_KEY }}
-
 jobs:
     deploy:
         runs-on: ubuntu-latest
@@ -32,15 +27,15 @@ jobs:
             # - name: Create .env file
             #   run: |
             #       echo "REACT_APP_LUNCH_MENU_URL=$REACT_AP" >> .env
-            #       echo "REACT_APP_SPORTS_URL=${{ secrets.REACT_APP_SPORTS_URL }}" >> .env
+            #       echo "REACT_APP_SPORTS_URL=${{ vars.REACT_APP_LUNCH_MENU_URL }}" >> .env"
             #       echo "REACT_APP_SUPABASE_ANON_KEY=${{ secrets.REACT_APP_SUPABASE_ANON_KEY }}" >> .env
             #   working-directory: frontend
-            # cat .env
 
-            - name: Check .env contents
+            - name: Test Envs
+              env: 
+                  API_STUFF: ${{ secrets.MY_SECRET }}
               run: |
-                  echo "$REACT_APP_LUNCH_MENU_URL"
-              working-directory: frontend
+                echo "Deploying with API STUFF: $API_STUFF"
 
             - name: Build the app
               run: CI=false npm run build
