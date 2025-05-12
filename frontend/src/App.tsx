@@ -28,7 +28,7 @@ const AnimatedRoutes = () => {
 
 function App() {
   return (
-    <Router>
+    <Router basename="/rlclock">
       <AnimatedRoutes />
     </Router>
   );
