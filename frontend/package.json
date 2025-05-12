@@ -12,6 +12,7 @@
         "@types/react": "^19.1.2",
         "@types/react-dom": "^19.1.2",
         "framer-motion": "^12.9.4",
+        "gh-pages": "^6.3.0",
         "react": "^19.1.0",
         "react-dom": "^19.1.0",
         "react-router-dom": "^7.5.3",
@@ -24,7 +25,9 @@
         "start": "react-scripts start",
         "build": "react-scripts build",
         "test": "react-scripts test",
-        "eject": "react-scripts eject"
+        "eject": "react-scripts eject",
+        "deploy": "gh-pages -d build",
+        "predeploy": "npm run build"
     },
     "eslintConfig": {
         "extends": [
@@ -43,5 +46,6 @@
             "last 1 firefox version",
             "last 1 safari version"
         ]
-    }
+    },
+    "homepage": "https://marcovsuri.github.io/rlclock"
 }
