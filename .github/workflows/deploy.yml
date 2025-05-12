@@ -29,6 +29,11 @@ jobs:
                   echo "REACT_APP_LUNCH_MENU_URL=${{ secrets.REACT_APP_LUNCH_MENU_URL }}" >> .env
                   echo "REACT_APP_SPORTS_URL=${{ secrets.REACT_APP_SPORTS_URL }}" >> .env
                   echo "REACT_APP_SUPABASE_ANON_KEY=${{ secrets.REACT_APP_SUPABASE_ANON_KEY }}" >> .env
+              working-directory: frontend
+
+            - name: Check .env contents
+              run: cat .env
+              working-directory: frontend
 
             - name: Build the app
               run: CI=false npm run build
