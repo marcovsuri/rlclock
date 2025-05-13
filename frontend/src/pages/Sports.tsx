@@ -9,7 +9,6 @@ import { TeamEvent } from '../types/sports';
 import getSportsEvents from '../core/sportsFetcher';
 import getUpcomingSportsEvents from '../core/upcomingSportsFetcher';
 import { UpcomingEvent } from '../types/upcomingSports';
-import Footer from '../components/home/Footer';
 
 interface SportsProps {
   isDarkMode: boolean;
@@ -96,7 +95,7 @@ const Sports: React.FC<SportsProps> = ({ isDarkMode }) => {
             gap: '2vw',
             marginTop: '3vh',
             height: isMobile ? 'auto' : '40vh',
-            width: '90%',
+            width: isMobile ? '100%' : 'auto',
             margin: '2vh auto',
             marginBottom: '0vh',
           }}

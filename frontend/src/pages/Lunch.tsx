@@ -5,7 +5,6 @@ import { motion } from 'framer-motion';
 import BackButton from '../components/home/BackButton';
 import MenuSection from '../components/lunch/MenuSection';
 import useIsMobile from '../hooks/useIsMobile';
-import Footer from '../components/home/Footer';
 
 interface LunchProps {
   isDarkMode: boolean;

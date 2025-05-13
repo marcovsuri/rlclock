@@ -166,14 +166,14 @@ const Clock: React.FC<ClockProps> = ({ isDarkMode }) => {
                   textAlign: 'left',
                 }}
               >
-                <span>
+                <span style={{ textAlign: 'left' }}>
                   {period.block
                     ? period.name
                       ? `${period.block} Block - ${period.name}`
                       : `${period.block} Block`
                     : period.name}
                 </span>
-                <span>
+                <span style={{ textAlign: 'right' }}>
                   {to12HourFormat(period.start)} - {to12HourFormat(period.end)}
                 </span>
               </div>
