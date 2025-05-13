@@ -22,7 +22,7 @@ const MenuSection = ({
     color: 'rgb(154, 31, 54)',
     marginBottom: '1.5rem',
     fontWeight: 600,
-    borderBottom: '2px solid rgba(154, 31, 54, 0.2)',
+    borderBottom: '1px solid rgba(154, 31, 54, 0.4)',
     paddingBottom: '0.5rem',
     textAlign: 'center',
   };

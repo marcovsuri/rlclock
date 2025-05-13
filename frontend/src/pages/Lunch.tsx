@@ -30,6 +30,8 @@ export default function Lunch({ isDarkMode }: LunchProps) {
     flexDirection: 'column',
     minHeight: '100vh',
     width: '100vw',
+    justifyContent: 'center',
+    alignItems: 'center',
   };
 
   const innerStyle: React.CSSProperties = {
@@ -41,7 +43,9 @@ export default function Lunch({ isDarkMode }: LunchProps) {
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
+    justifyContent: 'center',
     color: isDarkMode ? 'white' : 'black',
+    margin: 'auto',
   };
 
   const contentStyle: React.CSSProperties = {
@@ -49,6 +53,7 @@ export default function Lunch({ isDarkMode }: LunchProps) {
     width: isMobile ? '90vw' : '60vw',
     margin: '2vh auto',
     boxSizing: 'border-box',
+    justifyContent: 'center',
   };
 
   const titleStyle: React.CSSProperties = {

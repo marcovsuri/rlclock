@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import useIsMobile from '../../hooks/useIsMobile';
 
 interface FooterProps {
   isDarkMode: boolean;
@@ -6,6 +7,7 @@ interface FooterProps {
 
 const Footer: React.FC<FooterProps> = ({ isDarkMode }) => {
   const [showCredits, setShowCredits] = useState(false);
+  const isMobile = useIsMobile();
 
   const currentYear = new Date().getFullYear();
 
@@ -31,7 +33,6 @@ const Footer: React.FC<FooterProps> = ({ isDarkMode }) => {
   };
 
   const hiddenCreditsStyle: React.CSSProperties = {
-    marginTop: '1vh',
     fontSize: '0.75rem',
     maxHeight: showCredits ? '200px' : '0',
     opacity: showCredits ? 1 : 0,
@@ -39,8 +40,8 @@ const Footer: React.FC<FooterProps> = ({ isDarkMode }) => {
     border: '1px solid rgba(154, 31, 54, 0.4)',
     borderRadius: '12px',
     width: 'fit-content',
-    marginLeft: 'auto',
-    marginRight: 'auto',
+    margin: isMobile ? '1vh 2vw' : '1vh auto',
+    marginBottom: 0,
     overflow: 'hidden',
     transition: 'opacity 3s ease, max-height 2s ease, padding 3s ease',
     color: 'rgba(154, 31, 54)',
