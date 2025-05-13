@@ -51,12 +51,12 @@ const Home: React.FC<HomeProps> = ({ isDarkMode }) => {
       if (winCount > 0 && lossCount > 0) {
         outcome = `(${winCount}-${lossCount})`;
       } else if (winCount > 0) {
-        outcome = '(Win)';
+        outcome = 'Win';
       } else {
-        outcome = '(Loss)';
+        outcome = 'Loss';
       }
       
-      return `${outcome} ${result.team}`;
+      return `${result.team} - ${outcome}`;
     })
     .join('\n');
 
