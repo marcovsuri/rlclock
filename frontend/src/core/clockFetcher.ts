@@ -88,11 +88,12 @@ const getSchedule = async (): Promise<Result<Schedule>> => {
     const localDataResult = getScheduleFromLocal();
 
     if (localDataResult.success) {
-      const oneDayAgo = new Date();
-      oneDayAgo.setDate(oneDayAgo.getDate() - 1);
+      const THIRTY_MINUTES = 30 * 60 * 1000; // 30 minutes in milliseconds
+      const now = new Date();
+      const lastUpdated = new Date(localDataResult.data.lastUpdated); // ensure it's a Date
 
-      if (localDataResult.data.lastUpdated > oneDayAgo) {
-        console.log('Lunch menu: using local data');
+      if (now.getTime() - lastUpdated.getTime() < THIRTY_MINUTES) {
+        console.log('Schedule: using local data');
         return {
           success: true,
           data: localDataResult.data.schedule,
