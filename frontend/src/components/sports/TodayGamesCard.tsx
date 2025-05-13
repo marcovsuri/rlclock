@@ -50,7 +50,9 @@ const TodayGamesCard: React.FC<TodayGamesCardProps> = ({
           <div
             key={index}
             style={{
-              backgroundColor: 'rgba(154, 31, 54, 0.1)',
+              backgroundColor: isDarkMode
+                ? 'rgba(154, 31, 54, 0.3)'
+                : 'rgba(154, 31, 54, 0.1)',
               padding: isMobile ? '2.5vw' : '1vw',
               borderRadius: isMobile ? '3vw' : '1vw',
               display: 'flex',
