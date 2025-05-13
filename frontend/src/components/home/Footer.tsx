@@ -5,6 +5,8 @@ interface FooterProps {
 }
 
 const Footer: React.FC<FooterProps> = ({ isDarkMode }) => {
+  const currentYear = new Date().getFullYear();
+  
   const footerStyle: React.CSSProperties = {
     textAlign: 'center',
     padding: '1vh 0',
@@ -19,11 +21,13 @@ const Footer: React.FC<FooterProps> = ({ isDarkMode }) => {
     fontSize: '0.8rem',
   };
 
+  //current year now instead of having to be hardcoded
+
   return (
     <footer style={footerStyle}>
       <div style={{ marginBottom: '0.5vh' }}>
         <span className="text-muted">
-          A friendly 🦊&nbsp; re/creation. ©&nbsp;2025
+          A friendly 🦊&nbsp; re/creation. ©&nbsp;{currentYear}
         </span>
       </div>
       <div>

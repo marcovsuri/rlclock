@@ -43,7 +43,7 @@ const Home: React.FC<HomeProps> = ({ isDarkMode }) => {
   const lunchFeature = menu?.Entrées?.[0]?.name;
   const gameResultsFeature = pastResults
     ?.flatMap((result) => {
-      // Formatting to allow for split results for example track meets where a team can win against one team but lose agianst all other team
+      // Formatting to allow for split results for example track meets where a team can win against one team but lose against all other teams
       const winCount = result.wins.filter(Boolean).length;
       const lossCount = result.wins.filter(win => !win).length;
       
