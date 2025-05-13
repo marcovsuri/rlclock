@@ -19,7 +19,7 @@ const TodayGamesCard: React.FC<TodayGamesCardProps> = ({
         borderRadius: isMobile ? '5vw' : '2vw',
         boxShadow: '0 4px 20px rgba(154, 31, 54, 0.5)',
         padding: isMobile ? '4vw' : '2vw',
-        paddingTop: isMobile ? '4vh' : '1vw',
+        paddingTop: isMobile ? '1vh' : '1vh',
         marginBottom: isMobile ? '0vh' : '2vh',
         color: 'rgb(154, 31, 54)',
         width: isMobile ? '100%' : '80%',

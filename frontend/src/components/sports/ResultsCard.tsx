@@ -20,7 +20,7 @@ const ResultsCard: React.FC<ResultsCardProps> = ({
     boxShadow: '0 4px 20px rgba(154, 31, 54, 0.5)',
     padding: 0,
     color: 'rgb(154, 31, 54)',
-    width: isMobile ? '100%' : '70%',
+    width: isMobile ? '100%' : '75%',
     marginBottom: isMobile ? '3vh' : 0,
     display: 'flex',
     flexDirection: 'column',
@@ -60,7 +60,6 @@ const ResultsCard: React.FC<ResultsCardProps> = ({
     fontSize: isMobile ? '4vw' : '1.2vw',
     color: isDarkMode ? 'white' : 'black',
     margin: '1vh 2vw',
-    textAlign: 'center',
   };
 
   const errorStyle: React.CSSProperties = {
@@ -90,9 +89,18 @@ const ResultsCard: React.FC<ResultsCardProps> = ({
                 {result.opponents.map((opponent, i) => {
                   const outcome = result.wins[i] ? 'Win' : 'Loss';
                   return (
-                    <div key={i}>
-                      ({outcome}) {result.team} vs. {opponent} (
-                      {result.scores[i]})
+                    <div
+                      key={i}
+                      style={{
+                        display: 'flex',
+                        justifyContent: 'space-between',
+                      }}
+                    >
+                      <span style={{ textAlign: 'left' }}>{result.date}</span>
+                      <span style={{ textAlign: 'right' }}>
+                        {result.team} vs. {opponent} ({result.scores[i]}{' '}
+                        {outcome})
+                      </span>
                     </div>
                   );
                 })}
