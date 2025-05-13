@@ -45,7 +45,7 @@ const getMenu = async (): Promise<Result<Menu>> => {
       }
     }
 
-    // console.log('Lunch menu: fetching new data');
+    console.log('Lunch menu: fetching new data');
 
     const url = process.env.REACT_APP_LUNCH_MENU_URL;
     const accessToken = process.env.REACT_APP_SUPABASE_ANON_KEY;
