@@ -78,10 +78,6 @@ const Sports = () => {
           <TodayGamesCard todayGames={upcomingGames} isMobile={isMobile} />
         </div>
 
-        {/* Bottom Row: Results and Stats */}
-        <BackButton />
-        {/* Today's Games */}
-        <TodayGamesCard todayGames={upcomingGames} isMobile={isMobile} />
         {/* Bottom Row: Results + Stats */}
         <div
           style={{
