@@ -1,13 +1,13 @@
 {
   "files": {
-    "main.css": "/rlclock/static/css/main.8f56d845.css",
-    "main.js": "/rlclock/static/js/main.54a026e3.js",
+    "main.css": "/rlclock/static/css/main.3b4c22e3.css",
+    "main.js": "/rlclock/static/js/main.eeeb2345.js",
     "index.html": "/rlclock/index.html",
-    "main.8f56d845.css.map": "/rlclock/static/css/main.8f56d845.css.map",
-    "main.54a026e3.js.map": "/rlclock/static/js/main.54a026e3.js.map"
+    "main.3b4c22e3.css.map": "/rlclock/static/css/main.3b4c22e3.css.map",
+    "main.eeeb2345.js.map": "/rlclock/static/js/main.eeeb2345.js.map"
   },
   "entrypoints": [
-    "static/css/main.8f56d845.css",
-    "static/js/main.54a026e3.js"
+    "static/css/main.3b4c22e3.css",
+    "static/js/main.eeeb2345.js"
   ]
 }
