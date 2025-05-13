@@ -15,12 +15,9 @@ const Footer: React.FC<FooterProps> = ({ isDarkMode }) => {
     marginTop: '3vh',
     marginBottom: '2vh',
     color: isDarkMode ? '#f8f9fa' : '#6c757d',
-    color: isDarkMode ? '#f8f9fa' : '#6c757d',
     fontSize: '0.9rem',
     backgroundColor: isDarkMode ? 'black' : 'white',
-    transition: 'all 0.3s ease',
-    userSelect: 'none',
-    transition: 'all 0.3s ease',
+    transition: 'all 3s ease',
     userSelect: 'none',
   };
 

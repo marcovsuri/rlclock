@@ -11,11 +11,17 @@ html {
   color: black;
   scrollbar-width: thin;
   overflow-x: hidden;
+  transition: background-color var(--transition-duration)
+      var(--transition-timing),
+    color var(--transition-duration) var(--transition-timing);
 }
 
 body {
   margin: 0;
   padding: 0;
+  transition: background-color var(--transition-duration)
+      var(--transition-timing),
+    color var(--transition-duration) var(--transition-timing);
 }
 
 html.dark-mode {
@@ -65,7 +71,7 @@ html.dark-mode a {
     background: none;
     background-clip: border-box;
     -webkit-background-clip: border-box;
-    -webkit-text-fill-color: rgba(154, 31, 54, 1); /* explicitly set color */
-    color: rgba(154, 31, 54, 1); /* fallback solid text color */
+    -webkit-text-fill-color: rgba(154, 31, 54, 1);
+    color: rgba(154, 31, 54, 1);
   }
 }
