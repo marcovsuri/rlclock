@@ -1,33 +1,47 @@
+/* Global base styles with transitions for all elements */
+:root {
+  --transition-duration: 3s;
+  --transition-timing: ease;
+}
+
 html,
 body {
   font-family: 'Roboto', sans-serif;
   margin: 0;
   padding: 0;
-  background-color: #fff;
-  color: #333;
+  background-color: white;
+  color: black;
   scrollbar-width: thin;
   overflow-x: hidden;
 }
 
-.lunch-back-btn-container {
-  display: flex;
-  justify-content: left;
-  align-items: center;
-  width: 100%;
+/* Apply transitions to all elements */
+* {
+  transition: background-color var(--transition-duration)
+      var(--transition-timing),
+    color var(--transition-duration) var(--transition-timing),
+    border-color var(--transition-duration) var(--transition-timing),
+    box-shadow var(--transition-duration) var(--transition-timing);
 }
 
-.lunch-back-btn {
-  background-color: #ffe5e5;
-  border: 1px solid #f5c2c2;
-  color: #b30000;
-  padding: 10px 16px;
-  border-radius: 6px;
-  cursor: pointer;
-  font-size: 14px;
+/* Dark mode styles */
+.dark-mode html,
+.dark-mode body {
+  background-color: black;
+  color: white;
 }
 
-@media screen and (max-width: 470px) {
-  .lunch-back-btn-container {
-    justify-content: center;
-  }
+.dark-mode a {
+  color: #88ccff;
+}
+
+/* Add transitions for any custom components you have */
+.card,
+.menu-item,
+.section {
+  transition: background-color var(--transition-duration)
+      var(--transition-timing),
+    color var(--transition-duration) var(--transition-timing),
+    border-color var(--transition-duration) var(--transition-timing),
+    box-shadow var(--transition-duration) var(--transition-timing);
 }

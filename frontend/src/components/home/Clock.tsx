@@ -2,7 +2,11 @@ import React, { useEffect, useState } from 'react';
 import useIsMobile from '../../hooks/useIsMobile';
 import { getSchedule, Schedule } from '../../core/clockFetcher';
 
-const Clock: React.FC = () => {
+interface ClockProps {
+  isDarkMode: boolean;
+}
+
+const Clock: React.FC<ClockProps> = ({ isDarkMode }) => {
   const [schedule, setSchedule] = useState<Schedule | null | undefined>(
     undefined
   );
@@ -31,7 +35,7 @@ const Clock: React.FC = () => {
 
     const midnightTimeout = setTimeout(() => {
       fetchSchedule();
-      setInterval(fetchSchedule, 24 * 60 * 60 * 1000); // Every 24h
+      setInterval(fetchSchedule, 24 * 60 * 60 * 1000);
     }, delay);
 
     const interval = setInterval(() => {
@@ -68,6 +72,7 @@ const Clock: React.FC = () => {
 
     if (periods.length === 0)
       return { label: 'No Schedule', timeRemaining: null, current: null };
+
     if (now < periods[0].startTime)
       return {
         label: 'Before School',
@@ -112,93 +117,93 @@ const Clock: React.FC = () => {
   const to12HourFormat = (time: string): string => {
     const [hour, minute] = time.split(':').map(Number);
     const hour12 = hour % 12 === 0 ? 12 : hour % 12;
-    return `${hour12}:${minute.toString().padStart(2, '0')}`;
+    const ampm = hour >= 12 ? 'PM' : 'AM';
+    return `${hour12}:${minute.toString().padStart(2, '0')} ${ampm}`;
   };
 
-  if (schedule === undefined) {
-    return (
-      <Card isMobile={isMobile}>
-        <h2 style={headerStyle(isMobile)}>RL Clock</h2>
-        <p style={textStyle(isMobile)}>Loading...</p>
-      </Card>
-    );
-  }
+  const { label, timeRemaining, current } = schedule
+    ? getCurrentPeriodInfo(schedule)
+    : { label: '', timeRemaining: null, current: null };
 
-  if (schedule === null) {
-    return (
-      <Card isMobile={isMobile}>
-        <h2 style={headerStyle(isMobile)}>RL Clock</h2>
-        <p style={textStyle(isMobile)}>No School!</p>
-      </Card>
-    );
-  }
-
-  const { label, timeRemaining, current } = getCurrentPeriodInfo(schedule);
   const formattedTime = formatTimeRemaining(timeRemaining);
 
-  return (
-    <Card isMobile={isMobile}>
-      <h2 style={headerStyle(isMobile)}>RL Clock</h2>
-      <p style={textStyle(isMobile)}>{label}</p>
-      {formattedTime && <p style={textStyle(isMobile)}>{formattedTime}</p>}
+  const renderContent = () => {
+    if (schedule === undefined) return 'Loading...';
+    if (schedule === null) return 'No School!';
+    return (
+      <>
+        <p style={textStyle(isMobile, isDarkMode)}>{label}</p>
+        {formattedTime && (
+          <p style={textStyle(isMobile, isDarkMode)}>{formattedTime}</p>
+        )}
+        <div
+          style={{
+            display: 'flex',
+            flexDirection: 'column',
+            gap: isMobile ? '1.5vh' : '1vh',
+          }}
+        >
+          {schedule.periods.map((period, idx) => {
+            const isCurrent =
+              current?.name === period.name && current?.start === period.start;
+            return (
+              <div
+                key={idx}
+                style={{
+                  backgroundColor: isCurrent
+                    ? 'rgba(154, 31, 54, 0.25)'
+                    : isDarkMode
+                    ? 'rgba(255, 255, 255, 0.08)'
+                    : 'rgba(154, 31, 54, 0.1)',
+                  padding: isMobile ? '3vw' : '1vw',
+                  borderRadius: isMobile ? '3vw' : '1vw',
+                  display: 'flex',
+                  justifyContent: 'space-between',
+                  fontWeight: 500,
+                  fontSize: isMobile ? '4vw' : '1vw',
+                  color: isCurrent ? '#9a1f36' : isDarkMode ? 'white' : 'black',
+                  border: isCurrent ? '2px solid #9a1f36' : 'none',
+                  textAlign: 'left',
+                }}
+              >
+                <span>
+                  {period.block
+                    ? period.name
+                      ? `${period.block} Block - ${period.name}`
+                      : `${period.block} Block`
+                    : period.name}
+                </span>
+                <span>
+                  {to12HourFormat(period.start)} - {to12HourFormat(period.end)}
+                </span>
+              </div>
+            );
+          })}
+        </div>
+      </>
+    );
+  };
 
-      <div
-        style={{
-          display: 'flex',
-          flexDirection: 'column',
-          gap: isMobile ? '1.5vh' : '1vh',
-        }}
-      >
-        {schedule.periods.map((period, idx) => {
-          const isCurrent =
-            current?.name === period.name && current?.start === period.start;
-          return (
-            <div
-              key={idx}
-              style={{
-                backgroundColor: isCurrent
-                  ? 'rgba(154, 31, 54, 0.25)'
-                  : 'rgba(154, 31, 54, 0.1)',
-                padding: isMobile ? '3vw' : '1vw',
-                borderRadius: isMobile ? '3vw' : '1vw',
-                display: 'flex',
-                justifyContent: 'space-between',
-                fontWeight: 500,
-                fontSize: isMobile ? '4vw' : '1vw',
-                color: isCurrent ? '#9a1f36' : 'black',
-                border: isCurrent ? '2px solid #9a1f36' : 'none',
-                textAlign: 'left',
-              }}
-            >
-              <span>
-                {period.block
-                  ? period.name
-                    ? `${period.block} Block - ${period.name}`
-                    : `${period.block} Block`
-                  : period.name}
-              </span>
-              <span style={{ textAlign: 'right' }}>
-                {to12HourFormat(period.start)} - {to12HourFormat(period.end)}
-              </span>
-            </div>
-          );
-        })}
-      </div>
+  return (
+    <Card isMobile={isMobile} isDarkMode={isDarkMode}>
+      <h2 style={headerStyle(isMobile)}>RL Clock</h2>
+      {renderContent()}
     </Card>
   );
 };
 
 export default Clock;
 
-// --- Reusable Styles & Components ---
+// ------------------- Subcomponents & Styles -------------------
 
-const Card: React.FC<{ isMobile: boolean; children: React.ReactNode }> = ({
-  isMobile,
-  children,
-}) => (
+const Card: React.FC<{
+  isMobile: boolean;
+  isDarkMode: boolean;
+  children: React.ReactNode;
+}> = ({ isMobile, isDarkMode, children }) => (
   <div
     style={{
-      backgroundColor: 'white',
+      backgroundColor: isDarkMode ? 'black' : 'white',
       padding: isMobile ? '4vw' : '1.5vw',
       borderRadius: isMobile ? '5vw' : '2vw',
       boxShadow: '0 4px 20px rgba(154, 31, 54, 0.5)',
@@ -218,9 +223,9 @@ const headerStyle = (isMobile: boolean) => ({
   fontSize: isMobile ? '5vh' : '3vw',
 });
 
-const textStyle = (isMobile: boolean) => ({
+const textStyle = (isMobile: boolean, isDarkMode: boolean) => ({
   fontWeight: 500,
-  color: 'black',
+  color: isDarkMode ? 'white' : 'black',
   fontSize: isMobile ? '4vw' : '1.5vw',
   marginBottom: '2vh',
 });
