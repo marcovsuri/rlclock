@@ -26,7 +26,9 @@ const AnimatedRoutes = ({ isDarkMode }: { isDarkMode: boolean }) => {
 };
 
 function App() {
-  const [isDarkMode, setIsDarkMode] = useState(false);
+  const [isDarkMode, setIsDarkMode] = useState(
+    localStorage.getItem('darkMode') === 'true' || false
+  );
 
   const toggleDarkMode = () => {
     setIsDarkMode((prev) => !prev);
@@ -35,8 +37,10 @@ function App() {
   useEffect(() => {
     if (isDarkMode) {
       document.documentElement.classList.add('dark-mode');
+      localStorage.setItem('darkMode', 'true');
     } else {
       document.documentElement.classList.remove('dark-mode');
+      localStorage.setItem('darkMode', 'false');
     }
   }, [isDarkMode]);
 

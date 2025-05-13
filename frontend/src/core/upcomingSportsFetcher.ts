@@ -39,9 +39,9 @@ const getUpcomingSportsEvents = async (): Promise<Result<UpcomingEvent[]>> => {
         const lastUpdated = new Date(localDataResult.data.lastUpdated); // ensure it's a Date
 
         if (now.getTime() - lastUpdated.getTime() < THIRTY_MINUTES) {
-          // console.log(
-          //   'Upcoming sports events: using local data (updated within 30 minutes)'
-          // );
+          console.log(
+            'Upcoming sports events: using local data (updated within 30 minutes)'
+          );
           return {
             success: true,
             data: localDataResult.data.events,

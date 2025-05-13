@@ -25,7 +25,6 @@ const Home: React.FC<HomeProps> = ({ isDarkMode }) => {
     getMenu().then((result) => {
       if (result.success) {
         setMenu(result.data);
-        console.log(result.data);
       }
     });
   }, []);
@@ -41,22 +40,18 @@ const Home: React.FC<HomeProps> = ({ isDarkMode }) => {
     });
   }, []);
 
-const lunchFeatures = menu?.Entrées
-  ?.slice(0, 4).flatMap((item) => {
-    
-    return item?.name;
-  })
-  .join('\n');  
-
-
-console.log(lunchFeatures);
+  const lunchFeatures = menu?.Entrées?.slice(0, 4)
+    .flatMap((item) => {
+      return item?.name;
+    })
+    .join('\n');
 
   const gameResultsFeature = pastResults
     ?.flatMap((result) => {
       // Formatting to allow for split results for example track meets where a team can win against one team but lose against all other teams
       const winCount = result.wins.filter(Boolean).length;
-      const lossCount = result.wins.filter(win => !win).length;
-      
+      const lossCount = result.wins.filter((win) => !win).length;
+
       let outcome;
       if (winCount > 0 && lossCount > 0) {
         outcome = `(${winCount}-${lossCount})`;
@@ -65,7 +60,7 @@ console.log(lunchFeatures);
       } else {
         outcome = 'Loss';
       }
-      
+
       return `${result.team} - ${outcome}`;
     })
     .join('\n');
