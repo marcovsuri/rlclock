@@ -1,29 +1,28 @@
 import React from 'react';
 import { UpcomingEvent } from '../../types/upcomingSports';
 
-interface Game {
-  time: string;
-  team: string;
-}
-
 interface TodayGamesCardProps {
   todayGames: UpcomingEvent[] | undefined | null;
   isMobile: boolean;
+  isDarkMode: boolean;
 }
 
 const TodayGamesCard: React.FC<TodayGamesCardProps> = ({
   todayGames,
   isMobile,
+  isDarkMode,
 }) => {
   return (
     <div
       style={{
-        backgroundColor: 'white',
+        backgroundColor: isDarkMode ? 'black' : 'white',
         borderRadius: isMobile ? '5vw' : '2vw',
         boxShadow: '0 4px 20px rgba(154, 31, 54, 0.5)',
         padding: isMobile ? '4vw' : '2vw',
-        marginBottom: '4vh',
+        paddingTop: isMobile ? '4vh' : '1vw',
+        marginBottom: isMobile ? '0vh' : '2vh',
         color: 'rgb(154, 31, 54)',
+        width: isMobile ? '100%' : '80%',
       }}
     >
       <h2
@@ -37,8 +36,14 @@ const TodayGamesCard: React.FC<TodayGamesCardProps> = ({
       </h2>
 
       {!todayGames || todayGames.length === 0 ? (
-        <p style={{ textAlign: 'center', fontWeight: 500, color: 'black' }}>
-          {todayGames === undefined ? 'Loading' : 'No games today'}
+        <p
+          style={{
+            textAlign: 'center',
+            fontWeight: 500,
+            color: isDarkMode ? 'white' : 'black',
+          }}
+        >
+          {todayGames === undefined ? 'Loading' : 'No games today.'}
         </p>
       ) : (
         todayGames.map((game, index) => (
@@ -53,12 +58,12 @@ const TodayGamesCard: React.FC<TodayGamesCardProps> = ({
               alignItems: 'center',
               fontWeight: 500,
               fontSize: isMobile ? '4vw' : '1.2vw',
-              color: 'black',
+              color: isDarkMode ? 'white' : 'black',
               marginBottom: '1vh',
             }}
           >
             <span>
-              {game.team} ({game.where})
+              ({game.where}) {game.team} vs. {game.opponents}
             </span>
             <span>{game.time}</span>
           </div>

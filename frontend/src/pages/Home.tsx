@@ -6,11 +6,20 @@ import useIsMobile from '../hooks/useIsMobile';
 import { useEffect, useState } from 'react';
 import getMenu from '../core/lunchFetcher';
 import { Menu } from '../types/lunch';
+import getSportsEvents from '../core/sportsFetcher';
+import { TeamEvent } from '../types/sports';
 
-const Home: React.FC = () => {
+interface HomeProps {
+  isDarkMode: boolean;
+}
+
+const Home: React.FC<HomeProps> = ({ isDarkMode }) => {
   const isMobile = useIsMobile();
 
   const [menu, setMenu] = useState<Menu | undefined>(undefined);
+  const [pastResults, setPastResults] = useState<
+    TeamEvent[] | undefined | null
+  >(undefined);
 
   useEffect(() => {
     getMenu().then((result) => {
@@ -20,13 +29,43 @@ const Home: React.FC = () => {
     });
   }, []);
 
+  useEffect(() => {
+    document.title = 'RL Clock | Sports';
+    getSportsEvents().then((response) => {
+      if (response.success) {
+        setPastResults(response.data.slice(0, 4));
+      } else {
+        setPastResults(null);
+      }
+    });
+  }, []);
+
   const lunchFeature = menu?.Entrées?.[0]?.name;
+  const gameResultsFeature = pastResults
+    ?.flatMap((result) => {
+      // Formatting to allow for split results for example track meets where a team can win against one team but lose against all other teams
+      const winCount = result.wins.filter(Boolean).length;
+      const lossCount = result.wins.filter(win => !win).length;
+      
+      let outcome;
+      if (winCount > 0 && lossCount > 0) {
+        outcome = `(${winCount}-${lossCount})`;
+      } else if (winCount > 0) {
+        outcome = 'Win';
+      } else {
+        outcome = 'Loss';
+      }
+      
+      return `${result.team} - ${outcome}`;
+    })
+    .join('\n');
 
   const containerStyle: React.CSSProperties = {
     display: 'flex',
     flexDirection: 'column',
     minHeight: '100vh',
     width: '100vw',
+    scrollbarWidth: 'none',
   };
 
   const contentStyle: React.CSSProperties = {
@@ -35,14 +74,15 @@ const Home: React.FC = () => {
     flexDirection: isMobile ? 'column' : 'row',
     justifyContent: 'center',
     alignItems: 'center',
-    padding: '2vw',
-    gap: isMobile ? '2vh' : '4vw',
+    padding: '1vw',
+    gap: isMobile ? '2vh' : '2vw',
     textAlign: 'center',
     boxSizing: 'border-box',
   };
 
   const clockStyle: React.CSSProperties = {
     width: isMobile ? '100%' : 'auto',
+    padding: '1vw',
   };
 
   const cardsStyle: React.CSSProperties = {
@@ -52,18 +92,8 @@ const Home: React.FC = () => {
     alignItems: 'center',
     gap: isMobile ? '2vh' : '2vw',
     width: isMobile ? '100%' : '30vw',
-  };
-
-  const footerStyle: React.CSSProperties = {
-    padding: '4vh',
-    textAlign: 'center',
-    background: 'transparent',
-    fontSize: isMobile ? '1.5vh' : '1vw',
-  };
-
-  const footerSubtextStyle: React.CSSProperties = {
-    fontSize: isMobile ? '1vh' : '0.75vw',
-    opacity: 0.7,
+    padding: '1vw',
+    boxSizing: 'border-box',
   };
 
   return (
@@ -77,7 +107,7 @@ const Home: React.FC = () => {
       {/* Main Content */}
       <div style={contentStyle}>
         <div style={clockStyle}>
-          <Clock />
+          <Clock isDarkMode={isDarkMode} />
         </div>
         <div style={cardsStyle}>
           <InfoCard
@@ -89,32 +119,24 @@ const Home: React.FC = () => {
             }
             info="Click to see full menu!"
             path="/lunch"
+            isDarkMode={isDarkMode}
           />
           <InfoCard
             title="Latest Results:"
-            subtitle={`Varsity Tennis 6-0 Win
-                Varsity Baseball 11-3 Win
-                Varsity Lacrosse 9-8 Win
-                Varsity Track 3-0 Win`}
+            subtitle={
+              pastResults === undefined
+                ? 'Loading...'
+                : gameResultsFeature
+                    ?.split('\n')
+                    .map((line, i) => <div key={i}>{line}</div>) ??
+                  'No recent results.'
+            }
             info="Click to see other results!"
             path="/sports"
+            isDarkMode={isDarkMode}
           />
         </div>
       </div>
-
-      {/* Footer */}
-      <footer style={footerStyle}>
-        <div style={{ marginBottom: '0.5vh' }}>
-          <span className="text-muted">
-            A friendly 🦊&nbsp; re/creation. ©&nbsp;2025
-          </span>
-        </div>
-        <div>
-          <span className="text-muted" style={footerSubtextStyle}>
-            Full credit to the creators of the original RL Clock. ✌️
-          </span>
-        </div>
-      </footer>
     </motion.div>
   );
 };

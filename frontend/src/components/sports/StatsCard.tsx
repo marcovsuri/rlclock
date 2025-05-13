@@ -24,6 +24,7 @@ const StatsCard: React.FC<StatsCardProps> = ({ stats, isMobile }) => {
     flexDirection: 'column',
     alignItems: 'center',
     height: '100%',
+    marginBottom: '0vh',
   };
 
   const headerStyle: React.CSSProperties = {

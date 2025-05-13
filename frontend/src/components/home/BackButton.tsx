@@ -18,6 +18,7 @@ const BackButton: React.FC = () => {
           cursor: 'pointer',
           boxShadow: '0 2px 6px rgba(154, 31, 54, 0.2)',
           transition: 'all 0.3s ease',
+          marginLeft: '0',
         }}
         onMouseEnter={(e) => {
           e.currentTarget.style.boxShadow = '0 6px 12px rgba(154, 31, 54, 0.4)';

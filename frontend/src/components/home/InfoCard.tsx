@@ -4,12 +4,19 @@ import useIsMobile from '../../hooks/useIsMobile';
 
 type Props = {
   title: string;
-  subtitle: string;
+  subtitle: React.ReactNode; // Allow React nodes, including JSX elements
   info: string;
   path: string;
+  isDarkMode: boolean;
 };
 
-const InfoCard: React.FC<Props> = ({ title, subtitle, info, path }) => {
+const InfoCard: React.FC<Props> = ({
+  title,
+  subtitle,
+  info,
+  path,
+  isDarkMode,
+}) => {
   const navigate = useNavigate();
   const isMobile = useIsMobile();
 
@@ -17,14 +24,15 @@ const InfoCard: React.FC<Props> = ({ title, subtitle, info, path }) => {
     <div
       onClick={() => navigate(path)}
       style={{
-        width: isMobile ? '85vw' : '25vw',
-        padding: isMobile ? '4vw' : '2vw',
-        borderRadius: isMobile ? '5vw' : '2vw',
-        backgroundColor: 'white',
+        width: isMobile ? 'auto' : '25vw',
+        padding: isMobile ? '4vh' : '2vw',
+        borderRadius: isMobile ? '3vh' : '2vw',
+        backgroundColor: isDarkMode ? 'black' : 'white',
         color: 'rgb(154, 31, 54)',
         cursor: 'pointer',
         boxShadow: '0 4px 20px rgba(154, 31, 54, 0.5)',
-        transition: 'transform 0.2s ease, box-shadow 0.2s ease',
+        transition:
+          'transform 0.2s ease, box-shadow 0.2s ease, background-color 3s ease, color 3s ease',
         margin: 'auto',
         textAlign: 'center',
       }}
@@ -43,7 +51,7 @@ const InfoCard: React.FC<Props> = ({ title, subtitle, info, path }) => {
         style={{
           margin: '0 0 1vh',
           fontSize: isMobile ? '4vw' : '1.2vw',
-          color: 'black',
+          color: isDarkMode ? 'white' : 'black',
           fontWeight: 500,
         }}
       >
@@ -61,7 +69,7 @@ const InfoCard: React.FC<Props> = ({ title, subtitle, info, path }) => {
         style={{
           margin: 0,
           fontSize: isMobile ? '3.5vw' : '0.9vw',
-          color: 'black',
+          color: isDarkMode ? 'white' : 'black',
         }}
       >
         {info}

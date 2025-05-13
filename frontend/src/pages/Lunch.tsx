@@ -5,8 +5,12 @@ import { motion } from 'framer-motion';
 import BackButton from '../components/home/BackButton';
 import MenuSection from '../components/lunch/MenuSection';
 import useIsMobile from '../hooks/useIsMobile';
+import Footer from '../components/home/Footer';
 
-export default function Lunch() {
+interface LunchProps {
+  isDarkMode: boolean;
+}
+export default function Lunch({ isDarkMode }: LunchProps) {
   const isMobile = useIsMobile();
   const [menu, setMenu] = useState<Menu | undefined>(undefined);
 
@@ -30,16 +34,15 @@ export default function Lunch() {
   };
 
   const innerStyle: React.CSSProperties = {
-    minHeight: '100vh',
-    width: '100vw',
+    flexGrow: 1,
     padding: '4vh 5vw',
     boxSizing: 'border-box',
-    backgroundColor: '#fdfdfd',
+    backgroundColor: isDarkMode ? 'black' : 'white',
     fontFamily: 'Roboto, sans-serif',
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
-    color: '#1a1a1a',
+    color: isDarkMode ? 'white' : 'black',
   };
 
   const contentStyle: React.CSSProperties = {
@@ -89,6 +92,7 @@ export default function Lunch() {
               <MenuSection
                 title="Entrées"
                 items={menu?.Entrées.map((item) => item.name) || []}
+                isDarkMode={isDarkMode}
               />
             ) : null}
             {menu?.['Sides and Vegetables'].length !== undefined &&
@@ -98,12 +102,14 @@ export default function Lunch() {
                 items={
                   menu?.['Sides and Vegetables'].map((item) => item.name) || []
                 }
+                isDarkMode={isDarkMode}
               />
             ) : null}
             {menu?.Soups.length !== undefined && menu?.Soups.length > 0 ? (
               <MenuSection
                 title="Soups"
                 items={menu?.Soups.map((item) => item.name) || []}
+                isDarkMode={isDarkMode}
               />
             ) : null}
             {(menu?.Entrées.length === undefined &&
