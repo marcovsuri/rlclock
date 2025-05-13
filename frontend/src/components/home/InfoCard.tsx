@@ -17,9 +17,9 @@ const InfoCard: React.FC<Props> = ({ title, subtitle, info, path }) => {
     <div
       onClick={() => navigate(path)}
       style={{
-        width: isMobile ? '85vw' : '25vw',
-        padding: isMobile ? '4vw' : '2vw',
-        borderRadius: isMobile ? '5vw' : '2vw',
+        width: isMobile ? 'auto' : '25vw',
+        padding: isMobile ? '4vh' : '2vw',
+        borderRadius: isMobile ? '3vh' : '2vw',
         backgroundColor: 'white',
         color: 'rgb(154, 31, 54)',
         cursor: 'pointer',

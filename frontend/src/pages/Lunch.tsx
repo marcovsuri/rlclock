@@ -5,6 +5,7 @@ import { motion } from 'framer-motion';
 import BackButton from '../components/home/BackButton';
 import MenuSection from '../components/lunch/MenuSection';
 import useIsMobile from '../hooks/useIsMobile';
+import Footer from '../components/home/Footer';
 
 export default function Lunch() {
   const isMobile = useIsMobile();
@@ -30,8 +31,7 @@ export default function Lunch() {
   };
 
   const innerStyle: React.CSSProperties = {
-    minHeight: '100vh',
-    width: '100vw',
+    flexGrow: 1,
     padding: '4vh 5vw',
     boxSizing: 'border-box',
     backgroundColor: '#fdfdfd',
@@ -119,6 +119,7 @@ export default function Lunch() {
           </div>
         </div>
       </div>
+      <Footer />
     </motion.div>
   );
 }

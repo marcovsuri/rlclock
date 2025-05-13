@@ -6,6 +6,7 @@ import useIsMobile from '../hooks/useIsMobile';
 import { useEffect, useState } from 'react';
 import getMenu from '../core/lunchFetcher';
 import { Menu } from '../types/lunch';
+import Footer from '../components/home/Footer';
 
 const Home: React.FC = () => {
   const isMobile = useIsMobile();
@@ -27,6 +28,7 @@ const Home: React.FC = () => {
     flexDirection: 'column',
     minHeight: '100vh',
     width: '100vw',
+    scrollbarWidth: 'none',
   };
 
   const contentStyle: React.CSSProperties = {
@@ -35,14 +37,15 @@ const Home: React.FC = () => {
     flexDirection: isMobile ? 'column' : 'row',
     justifyContent: 'center',
     alignItems: 'center',
-    padding: '2vw',
-    gap: isMobile ? '2vh' : '4vw',
+    padding: '1vw',
+    gap: isMobile ? '2vh' : '2vw',
     textAlign: 'center',
     boxSizing: 'border-box',
   };
 
   const clockStyle: React.CSSProperties = {
     width: isMobile ? '100%' : 'auto',
+    padding: '1vw',
   };
 
   const cardsStyle: React.CSSProperties = {
@@ -52,18 +55,8 @@ const Home: React.FC = () => {
     alignItems: 'center',
     gap: isMobile ? '2vh' : '2vw',
     width: isMobile ? '100%' : '30vw',
-  };
-
-  const footerStyle: React.CSSProperties = {
-    padding: '4vh',
-    textAlign: 'center',
-    background: 'transparent',
-    fontSize: isMobile ? '1.5vh' : '1vw',
-  };
-
-  const footerSubtextStyle: React.CSSProperties = {
-    fontSize: isMobile ? '1vh' : '0.75vw',
-    opacity: 0.7,
+    padding: '1vw',
+    boxSizing: 'border-box',
   };
 
   return (
@@ -101,20 +94,7 @@ const Home: React.FC = () => {
           />
         </div>
       </div>
-
-      {/* Footer */}
-      <footer style={footerStyle}>
-        <div style={{ marginBottom: '0.5vh' }}>
-          <span className="text-muted">
-            A friendly 🦊&nbsp; re/creation. ©&nbsp;2025
-          </span>
-        </div>
-        <div>
-          <span className="text-muted" style={footerSubtextStyle}>
-            Full credit to the creators of the original RL Clock. ✌️
-          </span>
-        </div>
-      </footer>
+      <Footer />
     </motion.div>
   );
 };

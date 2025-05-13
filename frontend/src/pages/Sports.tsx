@@ -1,41 +1,15 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import BackButton from '../components/home/BackButton';
 import ResultsCard from '../components/sports/ResultsCard';
-import StatsCard from '../components/sports/StatsCard'; // Make sure this exists
+import StatsCard from '../components/sports/StatsCard';
 import useIsMobile from '../hooks/useIsMobile';
 import TodayGamesCard from '../components/sports/TodayGamesCard';
 import { motion } from 'framer-motion';
-import { useEffect } from 'react';
 import { TeamEvent } from '../types/sports';
 import getSportsEvents from '../core/sportsFetcher';
 import getUpcomingSportsEvents from '../core/upcomingSportsFetcher';
 import { UpcomingEvent } from '../types/upcomingSports';
-
-const mockUpcomingGames = [
-  { time: '2025-05-01T14:00', team: 'Varsity Baseball vs Newton South' },
-  { time: '2025-05-01T17:00', team: 'Girls Lacrosse @ Wellesley' },
-];
-
-const mockPastResults = [
-  { date: '2025-04-30', result: 'Boys Tennis defeated Weston 4-1' },
-  { date: '2025-04-29', result: 'Girls Track lost to Brookline 60-70' },
-  { date: '2025-04-28', result: 'Varsity Baseball beat Needham 5-2' },
-  { date: '2025-04-27', result: 'Boys Lacrosse beat Newton North 9-8' },
-  { date: '2025-04-26', result: 'Softball lost to Brookline 2-6' },
-];
-
-const calculateStats = () => {
-  const totalGames = mockPastResults.length;
-  const wins = mockPastResults.filter(
-    (r) =>
-      r.result.toLowerCase().includes('beat') ||
-      r.result.toLowerCase().includes('defeated')
-  ).length;
-  const losses = totalGames - wins;
-  const winPercent =
-    totalGames === 0 ? 0 : ((wins / totalGames) * 100).toFixed(1);
-  return { totalGames, wins, losses, winPercent };
-};
+import Footer from '../components/home/Footer';
 
 const Sports = () => {
   const isMobile = useIsMobile();
@@ -73,17 +47,6 @@ const Sports = () => {
     });
   }, []);
 
-  // const todayGames = mockUpcomingGames;
-  //   .filter((game) => game.time.startsWith(today))
-  //   .sort((a, b) => new Date(a.time).getTime() - new Date(b.time).getTime());
-
-  const stats = {
-    totalGames: 10,
-    wins: 6,
-    losses: 4,
-    winPercent: (6 / 10) * 100,
-  };
-
   return (
     <motion.div
       initial={{ opacity: 0 }}
@@ -97,30 +60,49 @@ const Sports = () => {
         width: '100vw',
       }}
     >
+      {/* OUTER CONTAINER for center layout */}
       <div
         style={{
-          padding: isMobile ? '4vw' : '2vw',
           width: isMobile ? '90vw' : '60vw',
-          margin: '2vh auto',
+          margin: '5vh auto',
           boxSizing: 'border-box',
         }}
       >
+        {/* Back Button manually aligned left */}
+        <div style={{ margin: '5vh auto' }}>
+          <BackButton />
+        </div>
+
+        {/* Today's Games Card */}
+        <div style={{ display: 'flex', justifyContent: 'center' }}>
+          <TodayGamesCard todayGames={upcomingGames} isMobile={isMobile} />
+        </div>
+
+        {/* Bottom Row: Results and Stats */}
         <BackButton />
         {/* Today's Games */}
         <TodayGamesCard todayGames={upcomingGames} isMobile={isMobile} />
         {/* Bottom Row: Results + Stats */}
         <div
           style={{
-            display: isMobile ? 'block' : 'flex',
-            justifyContent: 'space-between',
+            display: 'flex',
+            flexDirection: isMobile ? 'column' : 'row',
+            justifyContent: 'center',
+            alignItems: 'center',
             gap: '2vw',
-            height: '40vh',
+            marginTop: '3vh',
+            height: isMobile ? 'auto' : '40vh',
+            width: '90%',
+            margin: '2vh auto',
+            marginBottom: '0vh',
           }}
         >
           <ResultsCard results={pastGames} isMobile={isMobile} />
-          <StatsCard stats={stats} isMobile={isMobile} />
+          {/* <StatsCard stats={stats} isMobile={isMobile} /> */}
         </div>
       </div>
+
+      <Footer />
     </motion.div>
   );
 };

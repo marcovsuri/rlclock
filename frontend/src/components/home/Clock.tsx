@@ -109,6 +109,12 @@ const Clock: React.FC = () => {
     return `${min} min ${sec.toString().padStart(2, '0')} sec remaining`;
   };
 
+  const to12HourFormat = (time: string): string => {
+    const [hour, minute] = time.split(':').map(Number);
+    const hour12 = hour % 12 === 0 ? 12 : hour % 12;
+    return `${hour12}:${minute.toString().padStart(2, '0')}`;
+  };
+
   if (schedule === undefined) {
     return (
       <Card isMobile={isMobile}>
@@ -153,14 +159,15 @@ const Clock: React.FC = () => {
                 backgroundColor: isCurrent
                   ? 'rgba(154, 31, 54, 0.25)'
                   : 'rgba(154, 31, 54, 0.1)',
-                padding: isMobile ? '2.5vw' : '1vw',
+                padding: isMobile ? '3vw' : '1vw',
                 borderRadius: isMobile ? '3vw' : '1vw',
                 display: 'flex',
                 justifyContent: 'space-between',
                 fontWeight: 500,
-                fontSize: isMobile ? '4vw' : '1.2vw',
+                fontSize: isMobile ? '4vw' : '1vw',
                 color: isCurrent ? '#9a1f36' : 'black',
                 border: isCurrent ? '2px solid #9a1f36' : 'none',
+                textAlign: 'left',
               }}
             >
               <span>
@@ -170,8 +177,8 @@ const Clock: React.FC = () => {
                     : `${period.block} Block`
                   : period.name}
               </span>
-              <span>
-                {period.start} - {period.end}
+              <span style={{ textAlign: 'right' }}>
+                {to12HourFormat(period.start)} - {to12HourFormat(period.end)}
               </span>
             </div>
           );
@@ -192,13 +199,13 @@ const Card: React.FC<{ isMobile: boolean; children: React.ReactNode }> = ({
   <div
     style={{
       backgroundColor: 'white',
-      padding: isMobile ? '4vw' : '2vw',
+      padding: isMobile ? '4vw' : '1.5vw',
       borderRadius: isMobile ? '5vw' : '2vw',
       boxShadow: '0 4px 20px rgba(154, 31, 54, 0.5)',
       textAlign: 'center',
       color: 'rgb(154, 31, 54)',
-      width: isMobile ? '90vw' : '40vw',
-      margin: '2vh auto',
+      width: isMobile ? '93vw' : '40vw',
+      margin: '0vh auto',
       boxSizing: 'border-box',
     }}
   >
@@ -207,7 +214,7 @@ const Card: React.FC<{ isMobile: boolean; children: React.ReactNode }> = ({
 );
 
 const headerStyle = (isMobile: boolean) => ({
-  marginBottom: '1.5vh',
+  marginBottom: '1vh',
   fontSize: isMobile ? '5vh' : '3vw',
 });
 

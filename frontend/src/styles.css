@@ -1,9 +1,12 @@
+html,
 body {
   font-family: 'Roboto', sans-serif;
   margin: 0;
   padding: 0;
-  background-color: #fff; /* optional */
-  color: #333; /* optional */
+  background-color: #fff;
+  color: #333;
+  scrollbar-width: thin;
+  overflow-x: hidden;
 }
 
 .lunch-back-btn-container {

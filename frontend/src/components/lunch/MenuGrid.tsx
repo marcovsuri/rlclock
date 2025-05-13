@@ -6,6 +6,8 @@ const gridStyle: React.CSSProperties = {
   gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))',
   gap: '1rem',
   width: '100%',
+  justifyContent: 'center',
+  alignItems: 'center',
 };
 
 const MenuGrid = ({ items }: { items: string[] }) => {
