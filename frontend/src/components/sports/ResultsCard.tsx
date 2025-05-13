@@ -104,11 +104,15 @@ const ResultsCard: React.FC<ResultsCardProps> = ({ results, isMobile }) => {
           <div style={resultsWrapperStyle}>
             {results.map((result, index) => (
               <div key={index} style={resultItemStyle}>
-                {result.opponents.map((opponent, i) => (
-                  <div key={i}>
-                    {result.team} vs. {opponent} ({result.scores[i]})
-                  </div>
-                ))}
+                {result.opponents.map((opponent, i) => {
+                  const outcome = result.wins[i] ? 'Win' : 'Loss';
+                  return (
+                    <div key={i}>
+                      ({outcome}) {result.team} vs. {opponent} (
+                      {result.scores[i]})
+                    </div>
+                  );
+                })}
               </div>
             ))}
             <div style={bottomOverlayStyle} />

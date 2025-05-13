@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import BackButton from '../components/home/BackButton';
 import ResultsCard from '../components/sports/ResultsCard';
-import StatsCard from '../components/sports/StatsCard';
+// import StatsCard from '../components/sports/StatsCard';
 import useIsMobile from '../hooks/useIsMobile';
 import TodayGamesCard from '../components/sports/TodayGamesCard';
 import { motion } from 'framer-motion';

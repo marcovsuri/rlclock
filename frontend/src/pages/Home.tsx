@@ -7,11 +7,16 @@ import { useEffect, useState } from 'react';
 import getMenu from '../core/lunchFetcher';
 import { Menu } from '../types/lunch';
 import Footer from '../components/home/Footer';
+import getSportsEvents from '../core/sportsFetcher';
+import { TeamEvent } from '../types/sports';
 
 const Home: React.FC = () => {
   const isMobile = useIsMobile();
 
   const [menu, setMenu] = useState<Menu | undefined>(undefined);
+  const [pastResults, setPastResults] = useState<
+    TeamEvent[] | undefined | null
+  >(undefined);
 
   useEffect(() => {
     getMenu().then((result) => {
@@ -21,7 +26,24 @@ const Home: React.FC = () => {
     });
   }, []);
 
+  useEffect(() => {
+    document.title = 'RL Clock | Sports';
+    getSportsEvents().then((response) => {
+      if (response.success) {
+        setPastResults(response.data.slice(0, 4));
+      } else {
+        setPastResults(null);
+      }
+    });
+  }, []);
+
   const lunchFeature = menu?.Entrées?.[0]?.name;
+  const gameResultsFeature = pastResults
+    ?.flatMap((result) => {
+      const outcome = result.wins[0] ? 'Win' : 'Loss';
+      return `(${outcome}) ${result.team}`;
+    })
+    .join('\n');
 
   const containerStyle: React.CSSProperties = {
     display: 'flex',
@@ -85,10 +107,14 @@ const Home: React.FC = () => {
           />
           <InfoCard
             title="Latest Results:"
-            subtitle={`Varsity Tennis 6-0 Win
-                Varsity Baseball 11-3 Win
-                Varsity Lacrosse 9-8 Win
-                Varsity Track 3-0 Win`}
+            subtitle={
+              pastResults === undefined
+                ? 'Loading...'
+                : gameResultsFeature
+                    ?.split('\n')
+                    .map((line, i) => <div key={i}>{line}</div>) ??
+                  'No recent results.'
+            }
             info="Click to see other results!"
             path="/sports"
           />

@@ -1,11 +1,6 @@
 import React from 'react';
 import { UpcomingEvent } from '../../types/upcomingSports';
 
-interface Game {
-  time: string;
-  team: string;
-}
-
 interface TodayGamesCardProps {
   todayGames: UpcomingEvent[] | undefined | null;
   isMobile: boolean;
@@ -40,7 +35,7 @@ const TodayGamesCard: React.FC<TodayGamesCardProps> = ({
 
       {!todayGames || todayGames.length === 0 ? (
         <p style={{ textAlign: 'center', fontWeight: 500, color: 'black' }}>
-          {todayGames === undefined ? 'Loading' : 'No games today'}
+          {todayGames === undefined ? 'Loading' : 'No games today.'}
         </p>
       ) : (
         todayGames.map((game, index) => (
@@ -60,7 +55,7 @@ const TodayGamesCard: React.FC<TodayGamesCardProps> = ({
             }}
           >
             <span>
-              {game.team} ({game.where})
+              ({game.where}) {game.team} vs. {game.opponents}
             </span>
             <span>{game.time}</span>
           </div>

@@ -4,7 +4,7 @@ import useIsMobile from '../../hooks/useIsMobile';
 
 type Props = {
   title: string;
-  subtitle: string;
+  subtitle: React.ReactNode; // Allow React nodes, including JSX elements
   info: string;
   path: string;
 };
