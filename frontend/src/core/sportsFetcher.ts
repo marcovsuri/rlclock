@@ -29,23 +29,18 @@ const getSportsEvents = async (): Promise<Result<TeamEvent[]>> => {
     const localDataResult = getSportsEventsFromLocal();
 
     if (localDataResult.success) {
-      const yesterday = new Date();
-      yesterday.setDate(yesterday.getDate() - 1);
+      const THIRTY_MINUTES = 30 * 60 * 1000; // 30 minutes in milliseconds
+      const now = new Date();
+      const lastUpdated = new Date(localDataResult.data.lastUpdated); // ensure it's a Date
 
-      if (localDataResult.success) {
-        const THIRTY_MINUTES = 30 * 60 * 1000; // 30 minutes in milliseconds
-        const now = new Date();
-        const lastUpdated = new Date(localDataResult.data.lastUpdated); // ensure it's a Date
-
-        if (now.getTime() - lastUpdated.getTime() < THIRTY_MINUTES) {
-          console.log(
-            'Sports events: using local data (updated within 30 minutes)'
-          );
-          return {
-            success: true,
-            data: localDataResult.data.events,
-          };
-        }
+      if (now.getTime() - lastUpdated.getTime() < THIRTY_MINUTES) {
+        console.log(
+          'Sports events: using local data (updated within 30 minutes)'
+        );
+        return {
+          success: true,
+          data: localDataResult.data.events,
+        };
       }
     }
 
