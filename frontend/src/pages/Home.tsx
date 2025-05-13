@@ -25,6 +25,7 @@ const Home: React.FC<HomeProps> = ({ isDarkMode }) => {
     getMenu().then((result) => {
       if (result.success) {
         setMenu(result.data);
+        console.log(result.data);
       }
     });
   }, []);
@@ -40,7 +41,16 @@ const Home: React.FC<HomeProps> = ({ isDarkMode }) => {
     });
   }, []);
 
-  const lunchFeature = menu?.Entrées?.[0]?.name;
+const lunchFeatures = menu?.Entrées
+  ?.slice(0, 4).flatMap((item) => {
+    
+    return item?.name;
+  })
+  .join('\n');  
+
+
+console.log(lunchFeatures);
+
   const gameResultsFeature = pastResults
     ?.flatMap((result) => {
       // Formatting to allow for split results for example track meets where a team can win against one team but lose against all other teams
@@ -115,7 +125,7 @@ const Home: React.FC<HomeProps> = ({ isDarkMode }) => {
             subtitle={
               menu === undefined
                 ? 'Loading...'
-                : lunchFeature ?? 'No lunch today.'
+                : lunchFeatures ?? 'No lunch today.'
             }
             info="Click to see full menu!"
             path="/lunch"
