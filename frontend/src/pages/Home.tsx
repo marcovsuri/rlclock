@@ -48,7 +48,6 @@ const Home: React.FC<HomeProps> = ({ isDarkMode }) => {
 
   const gameResultsFeature = pastResults
     ?.flatMap((result) => {
-      // Formatting to allow for split results for example track meets where a team can win against one team but lose against all other teams
       const winCount = result.wins.filter(Boolean).length;
       const lossCount = result.wins.filter((win) => !win).length;
 
@@ -61,7 +60,7 @@ const Home: React.FC<HomeProps> = ({ isDarkMode }) => {
         outcome = 'Loss';
       }
 
-      return `${result.team} - ${outcome}`;
+      return `${result.team} → ${result.scores[0]} ${outcome}`;
     })
     .join('\n');
 
@@ -96,7 +95,7 @@ const Home: React.FC<HomeProps> = ({ isDarkMode }) => {
     justifyContent: 'center',
     alignItems: 'center',
     gap: isMobile ? '2vh' : '2vw',
-    width: isMobile ? '100%' : '30vw',
+    width: isMobile ? '100%' : 'auto',
     padding: '1vw',
     boxSizing: 'border-box',
   };

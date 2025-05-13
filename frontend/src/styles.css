@@ -1,11 +1,9 @@
-/* Global base styles with transitions for all elements */
 :root {
   --transition-duration: 3s;
   --transition-timing: ease;
 }
 
-html,
-body {
+html {
   font-family: 'Roboto', sans-serif;
   margin: 0;
   padding: 0;
@@ -13,6 +11,26 @@ body {
   color: black;
   scrollbar-width: thin;
   overflow-x: hidden;
+  transition: background-color var(--transition-duration)
+      var(--transition-timing),
+    color var(--transition-duration) var(--transition-timing);
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  transition: background-color var(--transition-duration)
+      var(--transition-timing),
+    color var(--transition-duration) var(--transition-timing);
+}
+
+html.dark-mode {
+  background-color: black;
+  color: white;
+}
+
+html.dark-mode a {
+  color: #88ccff;
 }
 
 /* Apply transitions to all elements */
@@ -24,18 +42,6 @@ body {
     box-shadow var(--transition-duration) var(--transition-timing);
 }
 
-/* Dark mode styles */
-.dark-mode html,
-.dark-mode body {
-  background-color: black;
-  color: white;
-}
-
-.dark-mode a {
-  color: #88ccff;
-}
-
-/* Add transitions for any custom components you have */
 .card,
 .menu-item,
 .section {
@@ -44,4 +50,28 @@ body {
     color var(--transition-duration) var(--transition-timing),
     border-color var(--transition-duration) var(--transition-timing),
     box-shadow var(--transition-duration) var(--transition-timing);
+}
+
+@keyframes shimmer-reveal {
+  0% {
+    background-position: -200% center;
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+  }
+  99% {
+    background-position: 200% center;
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+  }
+  100% {
+    background: none;
+    background-clip: border-box;
+    -webkit-background-clip: border-box;
+    -webkit-text-fill-color: rgba(154, 31, 54, 1);
+    color: rgba(154, 31, 54, 1);
+  }
 }

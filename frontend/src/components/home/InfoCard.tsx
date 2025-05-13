@@ -24,7 +24,7 @@ const InfoCard: React.FC<Props> = ({
     <div
       onClick={() => navigate(path)}
       style={{
-        width: isMobile ? 'auto' : '25vw',
+        width: isMobile ? 'auto' : 'auto',
         padding: isMobile ? '4vh' : '2vw',
         borderRadius: isMobile ? '3vh' : '2vw',
         backgroundColor: isDarkMode ? 'black' : 'white',
@@ -60,7 +60,7 @@ const InfoCard: React.FC<Props> = ({
       <h3
         style={{
           margin: '0 0 2vh',
-          fontSize: isMobile ? '6vw' : '2vw',
+          fontSize: isMobile ? '6vw' : '1.75vw',
         }}
       >
         {subtitle}
