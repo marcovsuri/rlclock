@@ -5,8 +5,13 @@ interface FooterProps {
 }
 
 const Footer: React.FC<FooterProps> = ({ isDarkMode }) => {
+<<<<<<< HEAD
   const [showCredits, setShowCredits] = useState(false);
 
+=======
+  const currentYear = new Date().getFullYear();
+  
+>>>>>>> 2a0a6da (Footer Updates Every Year & Reformatting Of Latest Results)
   const footerStyle: React.CSSProperties = {
     textAlign: 'center',
     padding: '1vh 0',
@@ -23,6 +28,7 @@ const Footer: React.FC<FooterProps> = ({ isDarkMode }) => {
     fontSize: '0.8rem',
   };
 
+<<<<<<< HEAD
   const foxStyle: React.CSSProperties = {
     cursor: 'pointer',
     display: 'inline-block',
@@ -43,11 +49,15 @@ const Footer: React.FC<FooterProps> = ({ isDarkMode }) => {
     transition: 'opacity 3s ease, max-height 2s ease, padding 3s ease',
     color: 'rgba(154, 31, 54)',
   };
+=======
+  //current year now instead of having to be hardcoded
+>>>>>>> 2a0a6da (Footer Updates Every Year & Reformatting Of Latest Results)
 
   return (
     <footer style={footerStyle}>
       <div style={{ marginBottom: '0.5vh' }}>
         <span className="text-muted">
+<<<<<<< HEAD
           A friendly&nbsp;
           <span
             style={foxStyle}
@@ -58,6 +68,9 @@ const Footer: React.FC<FooterProps> = ({ isDarkMode }) => {
             🦊
           </span>
           &nbsp;re/creation. ©&nbsp;2025
+=======
+          A friendly 🦊&nbsp; re/creation. ©&nbsp;{currentYear}
+>>>>>>> 2a0a6da (Footer Updates Every Year & Reformatting Of Latest Results)
         </span>
       </div>
       <div>
