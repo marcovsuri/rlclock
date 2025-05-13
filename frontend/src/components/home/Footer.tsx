@@ -1,19 +1,24 @@
 import React from 'react';
 
-const footerStyle: React.CSSProperties = {
-  textAlign: 'center',
-  padding: '1vh 0',
-  marginTop: '3vh',
-  marginBottom: '2vh',
-  color: '#6c757d', // muted gray
-  fontSize: '0.9rem',
-};
+interface FooterProps {
+  isDarkMode: boolean;
+}
 
-const footerSubtextStyle: React.CSSProperties = {
-  fontSize: '0.8rem',
-};
+const Footer: React.FC<FooterProps> = ({ isDarkMode }) => {
+  const footerStyle: React.CSSProperties = {
+    textAlign: 'center',
+    padding: '1vh 0',
+    marginTop: '3vh',
+    marginBottom: '2vh',
+    color: isDarkMode ? '#f8f9fa' : '#6c757d', // Adjusted for dark mode text color
+    fontSize: '0.9rem',
+    backgroundColor: isDarkMode ? 'black' : 'white',
+  };
 
-const Footer: React.FC = () => {
+  const footerSubtextStyle: React.CSSProperties = {
+    fontSize: '0.8rem',
+  };
+
   return (
     <footer style={footerStyle}>
       <div style={{ marginBottom: '0.5vh' }}>

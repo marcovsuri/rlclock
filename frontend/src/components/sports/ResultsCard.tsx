@@ -1,19 +1,24 @@
 import React from 'react';
 import { TeamEvent } from '../../types/sports';
+import BottomOverlay from './BottomOverlay';
+import HeaderOverlay from './HeaderOverlay';
 
 interface ResultsCardProps {
   results: TeamEvent[] | undefined | null;
   isMobile: boolean;
+  isDarkMode: boolean;
 }
 
-const ResultsCard: React.FC<ResultsCardProps> = ({ results, isMobile }) => {
+const ResultsCard: React.FC<ResultsCardProps> = ({
+  results,
+  isMobile,
+  isDarkMode,
+}) => {
   const cardStyle: React.CSSProperties = {
-    backgroundColor: 'white',
+    backgroundColor: isDarkMode ? 'black' : 'white',
     borderRadius: isMobile ? '5vw' : '2vw',
     boxShadow: '0 4px 20px rgba(154, 31, 54, 0.5)',
-    padding: isMobile ? '4vw' : '2vw',
-    paddingTop: 0,
-    paddingBottom: 0,
+    padding: 0,
     color: 'rgb(154, 31, 54)',
     width: isMobile ? '100%' : '70%',
     marginBottom: isMobile ? '3vh' : 0,
@@ -33,18 +38,6 @@ const ResultsCard: React.FC<ResultsCardProps> = ({ results, isMobile }) => {
     padding: 0,
   };
 
-  const headerStyle: React.CSSProperties = {
-    position: 'sticky',
-    top: 0,
-    textAlign: 'center',
-    zIndex: 2,
-    background: 'linear-gradient(to bottom, white, rgba(255, 255, 255, 0))',
-    padding: isMobile ? '4vw' : '2vw',
-    paddingBottom: isMobile ? '0' : '1vh',
-    backdropFilter: 'blur(2px)',
-    margin: 0,
-  };
-
   const titleStyle: React.CSSProperties = {
     fontSize: isMobile ? '5vh' : '2.5vw',
     margin: 0,
@@ -54,31 +47,20 @@ const ResultsCard: React.FC<ResultsCardProps> = ({ results, isMobile }) => {
 
   const resultsWrapperStyle: React.CSSProperties = {
     position: 'relative',
-    paddingTop: '1vh', // space between header and items
-    // paddingBottom: '2vh', // space for bottom blur
+    paddingTop: '1vh',
   };
 
   const resultItemStyle: React.CSSProperties = {
-    backgroundColor: 'rgba(154, 31, 54, 0.05)',
+    backgroundColor: isDarkMode
+      ? 'rgba(154, 31, 54, 0.2)'
+      : 'rgba(154, 31, 54, 0.05)',
     padding: isMobile ? '2.5vw' : '1vw',
     borderRadius: isMobile ? '3vw' : '1vw',
     fontWeight: 500,
     fontSize: isMobile ? '4vw' : '1.2vw',
-    color: 'black',
-    marginBottom: '1vh',
+    color: isDarkMode ? 'white' : 'black',
+    margin: '1vh 2vw',
     textAlign: 'center',
-  };
-
-  const bottomOverlayStyle: React.CSSProperties = {
-    position: 'sticky',
-    bottom: 0,
-    left: 0,
-    right: 0,
-    height: '3vh',
-    background: 'linear-gradient(to top, white, rgba(255, 255, 255, 0))',
-    pointerEvents: 'none',
-    backdropFilter: 'blur(2px)',
-    zIndex: 3,
   };
 
   const errorStyle: React.CSSProperties = {
@@ -92,9 +74,10 @@ const ResultsCard: React.FC<ResultsCardProps> = ({ results, isMobile }) => {
   return (
     <div style={cardStyle}>
       <div style={scrollAreaStyle}>
-        <div style={headerStyle}>
+        <HeaderOverlay isDarkMode={isDarkMode} isMobile={isMobile}>
           <h2 style={titleStyle}>Past Results</h2>
-        </div>
+        </HeaderOverlay>
+        {/* Header overlay for the gradient effect */}
 
         {results === undefined ? (
           <p style={errorStyle}>Loading...</p>
@@ -115,7 +98,7 @@ const ResultsCard: React.FC<ResultsCardProps> = ({ results, isMobile }) => {
                 })}
               </div>
             ))}
-            <div style={bottomOverlayStyle} />
+            <BottomOverlay isDarkMode={isDarkMode} isMobile={isMobile} />
           </div>
         )}
       </div>

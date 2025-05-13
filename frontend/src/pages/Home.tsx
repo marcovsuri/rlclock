@@ -6,11 +6,14 @@ import useIsMobile from '../hooks/useIsMobile';
 import { useEffect, useState } from 'react';
 import getMenu from '../core/lunchFetcher';
 import { Menu } from '../types/lunch';
-import Footer from '../components/home/Footer';
 import getSportsEvents from '../core/sportsFetcher';
 import { TeamEvent } from '../types/sports';
 
-const Home: React.FC = () => {
+interface HomeProps {
+  isDarkMode: boolean;
+}
+
+const Home: React.FC<HomeProps> = ({ isDarkMode }) => {
   const isMobile = useIsMobile();
 
   const [menu, setMenu] = useState<Menu | undefined>(undefined);
@@ -104,7 +107,7 @@ const Home: React.FC = () => {
       {/* Main Content */}
       <div style={contentStyle}>
         <div style={clockStyle}>
-          <Clock />
+          <Clock isDarkMode={isDarkMode} />
         </div>
         <div style={cardsStyle}>
           <InfoCard
@@ -116,6 +119,7 @@ const Home: React.FC = () => {
             }
             info="Click to see full menu!"
             path="/lunch"
+            isDarkMode={isDarkMode}
           />
           <InfoCard
             title="Latest Results:"
@@ -129,10 +133,10 @@ const Home: React.FC = () => {
             }
             info="Click to see other results!"
             path="/sports"
+            isDarkMode={isDarkMode}
           />
         </div>
       </div>
-      <Footer />
     </motion.div>
   );
 };

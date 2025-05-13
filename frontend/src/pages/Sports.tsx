@@ -11,7 +11,11 @@ import getUpcomingSportsEvents from '../core/upcomingSportsFetcher';
 import { UpcomingEvent } from '../types/upcomingSports';
 import Footer from '../components/home/Footer';
 
-const Sports = () => {
+interface SportsProps {
+  isDarkMode: boolean;
+}
+
+const Sports: React.FC<SportsProps> = ({ isDarkMode }) => {
   const isMobile = useIsMobile();
   const [pastGames, setPastGames] = useState<TeamEvent[] | undefined | null>(
     undefined
@@ -75,7 +79,11 @@ const Sports = () => {
 
         {/* Today's Games Card */}
         <div style={{ display: 'flex', justifyContent: 'center' }}>
-          <TodayGamesCard todayGames={upcomingGames} isMobile={isMobile} />
+          <TodayGamesCard
+            todayGames={upcomingGames}
+            isMobile={isMobile}
+            isDarkMode={isDarkMode}
+          />
         </div>
 
         {/* Bottom Row: Results + Stats */}
@@ -93,12 +101,14 @@ const Sports = () => {
             marginBottom: '0vh',
           }}
         >
-          <ResultsCard results={pastGames} isMobile={isMobile} />
-          {/* <StatsCard stats={stats} isMobile={isMobile} /> */}
+          <ResultsCard
+            results={pastGames}
+            isMobile={isMobile}
+            isDarkMode={isDarkMode}
+          />
+          {/* <StatsCard stats={stats} isMobile={isMobile} isDarkMode={isDarkMode}/> */}
         </div>
       </div>
-
-      <Footer />
     </motion.div>
   );
 };
