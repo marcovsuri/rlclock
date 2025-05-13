@@ -30,7 +30,7 @@ const Home: React.FC = () => {
     document.title = 'RL Clock | Sports';
     getSportsEvents().then((response) => {
       if (response.success) {
-        setPastResults(response.data.slice(0, 4));
+        setPastResults(response.data.slice(0, 25));
       } else {
         setPastResults(null);
       }
@@ -40,8 +40,20 @@ const Home: React.FC = () => {
   const lunchFeature = menu?.Entrées?.[0]?.name;
   const gameResultsFeature = pastResults
     ?.flatMap((result) => {
-      const outcome = result.wins[0] ? 'Win' : 'Loss';
-      return `(${outcome}) ${result.team}`;
+      // Formatting to allow for split results for example track meets where a team can win against one team but lose agianst all other team
+      const winCount = result.wins.filter(Boolean).length;
+      const lossCount = result.wins.filter(win => !win).length;
+      
+      let outcome;
+      if (winCount > 0 && lossCount > 0) {
+        outcome = `(${winCount}-${lossCount})`;
+      } else if (winCount > 0) {
+        outcome = '(Win)';
+      } else {
+        outcome = '(Loss)';
+      }
+      
+      return `${outcome} ${result.team}`;
     })
     .join('\n');
 
