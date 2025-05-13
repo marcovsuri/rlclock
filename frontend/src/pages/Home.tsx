@@ -30,7 +30,7 @@ const Home: React.FC = () => {
     document.title = 'RL Clock | Sports';
     getSportsEvents().then((response) => {
       if (response.success) {
-        setPastResults(response.data.slice(0, 25));
+        setPastResults(response.data.slice(0, 4));
       } else {
         setPastResults(null);
       }
