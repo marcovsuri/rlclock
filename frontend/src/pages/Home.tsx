@@ -125,7 +125,10 @@ console.log(lunchFeatures);
             subtitle={
               menu === undefined
                 ? 'Loading...'
-                : lunchFeatures ?? 'No lunch today.'
+                : lunchFeatures
+                    ?.split('\n')
+                    .map((line, i) => <div key={i}>{line}</div>) ??
+                  'No Lunch Available.'
             }
             info="Click to see full menu!"
             path="/lunch"
