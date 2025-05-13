@@ -1,10 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import {
-  BrowserRouter as Router,
-  Routes,
-  Route,
-  useLocation,
-} from 'react-router-dom';
+import { Routes, Route, useLocation } from 'react-router-dom';
 import { AnimatePresence } from 'framer-motion';
 import Home from './pages/Home';
 import Lunch from './pages/Lunch';
@@ -33,12 +28,10 @@ const AnimatedRoutes = ({ isDarkMode }: { isDarkMode: boolean }) => {
 function App() {
   const [isDarkMode, setIsDarkMode] = useState(false);
 
-  // Toggle dark mode
   const toggleDarkMode = () => {
     setIsDarkMode((prev) => !prev);
   };
 
-  // Update the body class when dark mode is toggled
   useEffect(() => {
     if (isDarkMode) {
       document.documentElement.classList.add('dark-mode');
@@ -48,11 +41,11 @@ function App() {
   }, [isDarkMode]);
 
   return (
-    <Router basename="/rlclock">
+    <>
       <DarkModeToggle isDarkMode={isDarkMode} toggleDarkMode={toggleDarkMode} />
       <AnimatedRoutes isDarkMode={isDarkMode} />
       <Footer isDarkMode={isDarkMode} />
-    </Router>
+    </>
   );
 }
 
