@@ -63,7 +63,8 @@ const TodayGamesCard: React.FC<TodayGamesCardProps> = ({
             }}
           >
             <span>
-              ({game.where}) {game.team} vs. {game.opponents}
+              ({game.where}) {game.team} vs.{' '}
+              {game.opponents.flatMap((opponent) => opponent).join(', ')}
             </span>
             <span>{game.time}</span>
           </div>
