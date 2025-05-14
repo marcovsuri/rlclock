@@ -12,6 +12,7 @@ const TodayGamesCard: React.FC<TodayGamesCardProps> = ({
   isMobile,
   isDarkMode,
 }) => {
+  console.log(todayGames);
   return (
     <div
       style={{
@@ -63,8 +64,10 @@ const TodayGamesCard: React.FC<TodayGamesCardProps> = ({
             }}
           >
             <span>
-              ({game.where}) {game.team} vs.{' '}
-              {game.opponents.flatMap((opponent) => opponent).join(', ')}
+              ({game.where}) {game.team}{' '}
+              {game.opponents[0] !== ''
+                ? 'vs. ' + game.opponents.join(', ')
+                : ''}
             </span>
             <span>{game.time}</span>
           </div>
