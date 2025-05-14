@@ -13,14 +13,19 @@ const Footer: React.FC<FooterProps> = ({ isDarkMode }) => {
 
   const footerStyle: React.CSSProperties = {
     textAlign: 'center',
-    padding: '1vh 0',
-    marginTop: '3vh',
-    marginBottom: '2vh',
+    padding: '2vh 0.5vw',
+    margin: '3vh auto 2vh auto',
     color: isDarkMode ? '#f8f9fa' : '#6c757d',
     fontSize: '0.9rem',
     backgroundColor: isDarkMode ? 'black' : 'white',
     transition: 'all 3s ease',
     userSelect: 'none',
+    width: 'fit-content',
+    borderRadius: '12px',
+    justifyContent: 'center',
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
   };
 
   const footerSubtextStyle: React.CSSProperties = {
