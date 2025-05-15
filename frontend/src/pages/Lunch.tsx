@@ -64,6 +64,8 @@ export default function Lunch({ isDarkMode }: LunchProps) {
   };
 
   const sectionContainerStyle: React.CSSProperties = {
+    justifySelf: 'center',
+    alignSelf: 'center',
     display: 'flex',
     flexDirection: 'column',
     gap: '1vh',
