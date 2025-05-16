@@ -108,11 +108,11 @@ html.dark-mode a {
 
 /* Modal content */
 .modal-content {
-  background-color: var(--modal-bg, #fff);
+  background-color: var(--modal-bg, white);
   color: var(--modal-text, #000);
-  padding: 2rem;
+  padding: 1rem;
   border-radius: 16px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 4px 20px rgba(154, 31, 54, 0.5);
   overflow-y: auto;
   max-height: 80vh;
   max-width: 90vw;
@@ -123,6 +123,7 @@ html.dark-mode a {
   visibility: hidden;
   border: 1px solid rgba(154, 31, 54, 0.2);
   transition: transform 0.3s ease, opacity 1s ease, visibility 1s ease;
+  margin: auto 2vw;
 }
 
 .modal-show {
@@ -145,7 +146,7 @@ html.dark-mode a {
 .modal-announcement {
   margin-bottom: 1.5rem;
   padding: 2rem;
-  border-radius: 2vw;
+  border-radius: 16px;
   background-color: var(--announcement-bg, white);
   color: rgb(154, 31, 54);
   box-shadow: 0 4px 20px rgba(154, 31, 54, 0.5);
@@ -176,13 +177,13 @@ html.dark-mode a {
   padding: 0.8vh 1.5vw;
   border-radius: 12px;
   border: 1px solid rgba(154, 31, 54, 0.2);
-  background-color: rgba(154, 31, 54, 0.1);
+  background-color: rgba(154, 31, 54, 0.2);
   color: rgba(154, 31, 54, 1);
   font-size: 1rem;
   font-weight: 600;
   cursor: pointer;
   box-shadow: 0 2px 6px rgba(154, 31, 54, 0.2);
-  transition: transform 0.3s ease, opacity 1s ease, visibility 1s ease;
+  transition: all 0.5s ease;
 }
 
 .modal-close-btn:hover {

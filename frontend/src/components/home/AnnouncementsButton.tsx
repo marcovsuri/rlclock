@@ -20,7 +20,7 @@ const AnnouncementsButton: React.FC<Props> = ({
           padding: isMobile ? '0.8vh 4vw' : '0.8vh 1.5vw',
           borderRadius: '12px',
           border: '1px solid rgba(0, 112, 243, 0.2)',
-          backgroundColor: 'rgba(0, 112, 243, 0.1)', // soft blue
+          backgroundColor: 'rgba(0, 112, 243, 0.2)', // soft blue
           color: '#0070f3', // blue text
           fontSize: '1rem',
           fontWeight: 600,

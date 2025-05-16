@@ -117,7 +117,10 @@ const App: React.FC = () => {
       >
         <div
           className={`modal-content ${showModal ? 'modal-show' : ''}`}
-          style={modalStyles}
+          style={{
+            background: isDarkMode ? 'black' : 'white',
+            color: isDarkMode ? 'white' : 'black',
+          }}
           onClick={(e) => e.stopPropagation()}
         >
           <button
@@ -138,7 +141,13 @@ const App: React.FC = () => {
                   color: isDarkMode ? 'white' : 'black',
                 }}
               >
-                <h3>{title}</h3>
+                <h3
+                  style={{
+                    color: 'rgb(154, 31, 54)',
+                  }}
+                >
+                  {title}
+                </h3>
                 <p>{content}</p>
                 <small style={{ color: isDarkMode ? '#aaa' : '#444' }}>
                   By {author} — {new Date(created_at).toLocaleString()}
