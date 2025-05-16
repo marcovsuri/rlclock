@@ -33,14 +33,12 @@ const getAnnouncements = async (): Promise<Result<Announcement[]>> => {
       yesterday.setDate(yesterday.getDate() - 1);
 
       if (localDataResult.success) {
-        const THIRTY_MINUTES = 30 * 60 * 1000; // 30 minutes in milliseconds
+        const ONE_MINUTE = 1 * 60 * 1000; // 1 minute in milliseconds
         const now = new Date();
         const lastUpdated = new Date(localDataResult.data.lastUpdated); // ensure it's a Date
 
-        if (now.getTime() - lastUpdated.getTime() < THIRTY_MINUTES) {
-          console.log(
-            'Announcements: using local data (updated within 30 minutes)'
-          );
+        if (now.getTime() - lastUpdated.getTime() < ONE_MINUTE) {
+          console.log('Announcements: using local data (updated every minute)');
           return {
             success: true,
             data: localDataResult.data.announcements,
