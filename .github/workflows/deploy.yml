@@ -31,6 +31,7 @@ jobs:
           REACT_APP_SPORTS_URL: ${{ secrets.REACT_APP_SPORTS_URL }}
           REACT_APP_UPCOMING_SPORTS_URL: ${{ secrets.REACT_APP_UPCOMING_SPORTS_URL }}
           REACT_APP_SUPABASE_ANON_KEY: ${{ secrets.REACT_APP_SUPABASE_ANON_KEY }}
+          REACT_APP_ANNOUNCEMENTS_URL: ${{ secrets.REACT_APP_ANNOUNCEMENTS_URL }}
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v4
