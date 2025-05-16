@@ -10,9 +10,9 @@ const DarkModeToggle: React.FC<Props> = ({ isDarkMode, toggleDarkMode }) => {
     <button
       onClick={toggleDarkMode}
       style={{
-        position: 'fixed',
-        top: '2vh',
-        right: '2vw',
+        // position: 'fixed',
+        // top: '2vh',
+        // right: '2vw',
         zIndex: 1000,
         backgroundColor: isDarkMode
           ? 'rgba(51, 51, 51, 0.6)'

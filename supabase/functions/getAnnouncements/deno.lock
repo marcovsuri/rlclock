@@ -1,0 +1,26 @@
+{
+  "version": "4",
+  "specifiers": {
+    "npm:zod@^3.24.3": "3.24.4"
+  },
+  "npm": {
+    "zod@3.24.4": {
+      "integrity": "sha512-OdqJE9UDRPwWsrHjLN2F8bPxvwJBK22EHLWtanu0LSYr5YqzsaaW3RMgmjwr8Rypg5k+meEJdSPXJZXE/yqOMg=="
+    }
+  },
+  "remote": {
+    "https://cdn.jsdelivr.net/npm/@supabase/auth-js@2.69.1/+esm": "63fe5d86330570319a122fcf96916cc5d6e7562e07af81864139abf2ff3c5c9b",
+    "https://cdn.jsdelivr.net/npm/@supabase/functions-js@2.4.4/+esm": "7d8d445b2394bf91f7072d7f5c2699eabece714cee1a12b645701577200eb4d7",
+    "https://cdn.jsdelivr.net/npm/@supabase/node-fetch@2.6.15/+esm": "dfe3a07618d4f94f8dac3d46f6fcb967db237eec37f8079629e211a83fee72ab",
+    "https://cdn.jsdelivr.net/npm/@supabase/postgrest-js@1.19.4/+esm": "703bcd057fb0d4f1cb0cc6011a0078a0aa38496e297e8b609934c975b4134523",
+    "https://cdn.jsdelivr.net/npm/@supabase/realtime-js@2.11.2/+esm": "5d68237c142e9caddfffdc8a07accdaf4f6e073911127ad11aac565bd18bfd92",
+    "https://cdn.jsdelivr.net/npm/@supabase/storage-js@2.7.1/+esm": "2383dc322e428d7ddf3f2eb6b1cf6406cb46084fb511d67ebda72c2520698447",
+    "https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm": "9cc99d47585e3a64f4c9a4fe6ea7ed03435b48537d4e2e8d0c79569ad7eb37d3",
+    "https://cdn.jsdelivr.net/npm/ws@8.18.0/+esm": "1a760fe6ffad847fe0b482c3cf7de9f0da787bb7b71065de72831dbac155c89f"
+  },
+  "workspace": {
+    "dependencies": [
+      "npm:zod@^3.24.3"
+    ]
+  }
+}

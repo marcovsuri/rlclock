@@ -6,7 +6,9 @@ import Lunch from './pages/Lunch';
 import Sports from './pages/Sports';
 import DarkModeToggle from './components/home/DarkModeToggle';
 import Footer from './components/home/Footer';
-
+import AnnouncementsButton from './components/home/AnnouncementsButton';
+import getAnnouncements from './core/announcementsFetcher';
+import { Announcement } from './types/announcements';
 import './styles.css';
 
 const AnimatedRoutes = ({ isDarkMode }: { isDarkMode: boolean }) => {
@@ -25,32 +27,140 @@ const AnimatedRoutes = ({ isDarkMode }: { isDarkMode: boolean }) => {
   );
 };
 
-function App() {
+const App: React.FC = () => {
   const [isDarkMode, setIsDarkMode] = useState(
-    localStorage.getItem('darkMode') === 'true' || false
+    localStorage.getItem('darkMode') === 'true'
   );
+  const [showModal, setShowModal] = useState(false);
+  const [announcements, setAnnouncements] = useState<Announcement[]>([]);
 
   const toggleDarkMode = () => {
     setIsDarkMode((prev) => !prev);
   };
 
   useEffect(() => {
+    const root = document.documentElement;
     if (isDarkMode) {
-      document.documentElement.classList.add('dark-mode');
-      localStorage.setItem('darkMode', 'true');
+      root.classList.add('dark-mode');
     } else {
-      document.documentElement.classList.remove('dark-mode');
-      localStorage.setItem('darkMode', 'false');
+      root.classList.remove('dark-mode');
     }
+    localStorage.setItem('darkMode', String(isDarkMode));
   }, [isDarkMode]);
+
+  useEffect(() => {
+    const html = document.documentElement;
+    const body = document.body;
+
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') setShowModal(false);
+    };
+
+    if (showModal) {
+      html.style.overflow = 'hidden';
+      body.style.overflow = 'hidden';
+      document.addEventListener('keydown', handleKeyDown);
+    } else {
+      html.style.overflow = '';
+      body.style.overflow = '';
+      document.removeEventListener('keydown', handleKeyDown);
+    }
+
+    return () => {
+      html.style.overflow = '';
+      body.style.overflow = '';
+      document.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [showModal]);
+
+  useEffect(() => {
+    getAnnouncements().then((result) => {
+      if (result.success) {
+        setAnnouncements(result.data);
+      }
+    });
+  }, []);
+
+  const modalStyles: React.CSSProperties = {
+    '--modal-bg': isDarkMode ? '#222' : '#fff',
+    '--modal-text': isDarkMode ? '#fff' : '#000',
+  } as React.CSSProperties;
+
+  const buttonContainerStyle: React.CSSProperties = {
+    position: 'fixed',
+    top: '2vh',
+    right: '2vw',
+    display: 'flex',
+    gap: '1vw',
+    zIndex: 1000,
+  };
 
   return (
     <>
-      <DarkModeToggle isDarkMode={isDarkMode} toggleDarkMode={toggleDarkMode} />
+      <div style={buttonContainerStyle}>
+        <AnnouncementsButton
+          onClick={() => setShowModal(true)}
+          hasUnread={false}
+        />
+        <DarkModeToggle
+          isDarkMode={isDarkMode}
+          toggleDarkMode={toggleDarkMode}
+        />
+      </div>
+
       <AnimatedRoutes isDarkMode={isDarkMode} />
       <Footer isDarkMode={isDarkMode} />
+
+      <div
+        className={`modal-backdrop ${showModal ? 'show' : 'hide'}`}
+        onClick={() => setShowModal(false)}
+      >
+        <div
+          className={`modal-content ${showModal ? 'modal-show' : ''}`}
+          style={{
+            background: isDarkMode ? 'black' : 'white',
+            color: isDarkMode ? 'white' : 'black',
+          }}
+          onClick={(e) => e.stopPropagation()}
+        >
+          <button
+            className="modal-close-btn"
+            onClick={() => setShowModal(false)}
+          >
+            ✖ Close
+          </button>
+          <h2 style={{ marginBottom: '4rem' }}>📣 Announcements</h2>
+
+          {announcements.length > 0 ? (
+            announcements.map(({ id, title, content, author, created_at }) => (
+              <div
+                key={id}
+                className="modal-announcement"
+                style={{
+                  background: isDarkMode ? 'black' : 'white',
+                  color: isDarkMode ? 'white' : 'black',
+                }}
+              >
+                <h3
+                  style={{
+                    color: 'rgb(154, 31, 54)',
+                  }}
+                >
+                  {title}
+                </h3>
+                <p>{content}</p>
+                <small style={{ color: isDarkMode ? '#aaa' : '#444' }}>
+                  By {author} — {new Date(created_at).toLocaleString()}
+                </small>
+              </div>
+            ))
+          ) : (
+            <p style={{ textAlign: 'center' }}>No current announcements.</p>
+          )}
+        </div>
+      </div>
     </>
   );
-}
+};
 
 export default App;
