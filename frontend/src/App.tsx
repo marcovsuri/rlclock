@@ -81,11 +81,6 @@ const App: React.FC = () => {
     });
   }, []);
 
-  const modalStyles: React.CSSProperties = {
-    '--modal-bg': isDarkMode ? '#222' : '#fff',
-    '--modal-text': isDarkMode ? '#fff' : '#000',
-  } as React.CSSProperties;
-
   const buttonContainerStyle: React.CSSProperties = {
     position: 'fixed',
     top: '2vh',
@@ -150,7 +145,18 @@ const App: React.FC = () => {
                 </h3>
                 <p>{content}</p>
                 <small style={{ color: isDarkMode ? '#aaa' : '#444' }}>
-                  By {author} — {new Date(created_at).toLocaleString()}
+                  By {author} —{' '}
+                  {new Date(created_at).toLocaleDateString(undefined, {
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric',
+                  })}{' '}
+                  @{' '}
+                  {new Date(created_at).toLocaleTimeString(undefined, {
+                    hour: 'numeric',
+                    minute: '2-digit',
+                    hour12: true,
+                  })}
                 </small>
               </div>
             ))

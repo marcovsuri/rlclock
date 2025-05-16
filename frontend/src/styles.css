@@ -149,7 +149,7 @@ html.dark-mode a {
   border-radius: 16px;
   background-color: var(--announcement-bg, white);
   color: rgb(154, 31, 54);
-  box-shadow: 0 4px 20px rgba(154, 31, 54, 0.5);
+  box-shadow: 0 4px 20px 4px rgba(154, 31, 54, 0.5);
   text-align: left;
   border: 1px solid rgba(154, 31, 54, 0.2);
   opacity: 0;
