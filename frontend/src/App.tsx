@@ -64,6 +64,33 @@ const App: React.FC = () => {
     }
   }, [isDarkMode]);
 
+  useEffect(() => {
+    const html = document.documentElement;
+    const body = document.body;
+
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        setShowModal(false);
+      }
+    };
+
+    if (showModal) {
+      html.style.overflow = 'hidden';
+      body.style.overflow = 'hidden';
+      document.addEventListener('keydown', handleKeyDown);
+    } else {
+      html.style.overflow = '';
+      body.style.overflow = '';
+      document.removeEventListener('keydown', handleKeyDown);
+    }
+
+    return () => {
+      html.style.overflow = '';
+      body.style.overflow = '';
+      document.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [showModal]);
+
   const buttonContainerStyle: React.CSSProperties = {
     position: 'fixed',
     top: '2vh',
