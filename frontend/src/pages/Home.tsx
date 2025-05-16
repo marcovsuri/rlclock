@@ -60,7 +60,10 @@ const Home: React.FC<HomeProps> = ({ isDarkMode }) => {
         outcome = 'Loss';
       }
 
-      return `${result.team} → ${result.scores[0]} ${outcome}`;
+      return `${result.team} → ${result.scores[0].replace(
+        /-+/g,
+        ' - '
+      )} ${outcome}`;
     })
     .join('\n');
 

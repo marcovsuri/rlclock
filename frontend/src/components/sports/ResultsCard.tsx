@@ -98,8 +98,8 @@ const ResultsCard: React.FC<ResultsCardProps> = ({
                     >
                       <span style={{ textAlign: 'left' }}>{result.date}</span>
                       <span style={{ textAlign: 'right' }}>
-                        {result.team} vs. {opponent} ({result.scores[i]}{' '}
-                        {outcome})
+                        {result.team} vs. {opponent} (
+                        {result.scores[i].replace(/-+/g, ' - ')} {outcome})
                       </span>
                     </div>
                   );
