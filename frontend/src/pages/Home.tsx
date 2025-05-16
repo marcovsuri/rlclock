@@ -30,7 +30,7 @@ const Home: React.FC<HomeProps> = ({ isDarkMode }) => {
   }, []);
 
   useEffect(() => {
-    document.title = 'RL Clock | Sports';
+    document.title = 'RL Clock | Sports | Lunch';
     getSportsEvents().then((response) => {
       if (response.success) {
         setPastResults(response.data.slice(0, 4));
