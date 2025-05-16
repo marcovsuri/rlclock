@@ -30,6 +30,7 @@ const AnnouncementsButton: React.FC<Props> = ({
           display: 'flex',
           alignItems: 'center',
           gap: '0.5rem',
+          backdropFilter: 'blur(2px)',
         }}
         onMouseEnter={(e) => {
           e.currentTarget.style.boxShadow = '0 6px 12px rgba(0, 112, 243, 0.4)';
@@ -38,7 +39,7 @@ const AnnouncementsButton: React.FC<Props> = ({
           e.currentTarget.style.boxShadow = '0 2px 6px rgba(0, 112, 243, 0.2)';
         }}
       >
-        📣 Announcements
+        {isMobile ? '📣' : '📣 Announcements'}
         {hasUnread && (
           <span
             style={{
