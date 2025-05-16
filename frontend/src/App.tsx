@@ -27,9 +27,9 @@ const AnimatedRoutes = ({ isDarkMode }: { isDarkMode: boolean }) => {
   );
 };
 
-function App() {
+const App: React.FC = () => {
   const [isDarkMode, setIsDarkMode] = useState(
-    localStorage.getItem('darkMode') === 'true' || false
+    localStorage.getItem('darkMode') === 'true'
   );
   const [showModal, setShowModal] = useState(false);
   const [announcements, setAnnouncements] = useState<Announcement[]>([]);
@@ -54,14 +54,6 @@ function App() {
     setShowModal(true);
   };
 
-  const buttonContainerStyle: React.CSSProperties = {
-    position: 'fixed',
-    top: '2vh',
-    right: '2vw',
-    display: 'flex',
-    gap: '1vw',
-  };
-
   useEffect(() => {
     if (isDarkMode) {
       document.documentElement.classList.add('dark-mode');
@@ -71,6 +63,15 @@ function App() {
       localStorage.setItem('darkMode', 'false');
     }
   }, [isDarkMode]);
+
+  const buttonContainerStyle: React.CSSProperties = {
+    position: 'fixed',
+    top: '2vh',
+    right: '2vw',
+    display: 'flex',
+    gap: '1vw',
+    zIndex: 1000,
+  };
 
   return (
     <>
@@ -88,7 +89,6 @@ function App() {
       <AnimatedRoutes isDarkMode={isDarkMode} />
       <Footer isDarkMode={isDarkMode} />
 
-      {/* Modal */}
       {showModal && (
         <div
           style={{
@@ -97,43 +97,79 @@ function App() {
             left: 0,
             right: 0,
             bottom: 0,
-            backgroundColor: 'rgba(0,0,0,0.5)',
+            backgroundColor: 'rgba(0, 0, 0, 0.5)',
             display: 'flex',
             justifyContent: 'center',
             alignItems: 'center',
             zIndex: 2000,
           }}
-          onClick={() => setShowModal(false)} // close on background click
+          onClick={() => setShowModal(false)}
         >
           <div
-            onClick={(e) => e.stopPropagation()} // prevent modal from closing when clicking inside
+            onClick={(e) => e.stopPropagation()}
             style={{
               backgroundColor: isDarkMode ? '#222' : '#fff',
               color: isDarkMode ? '#fff' : '#000',
               padding: '2rem',
-              borderRadius: '12px',
+              borderRadius: '16px',
               maxWidth: '90vw',
               maxHeight: '80vh',
               overflowY: 'auto',
-              boxShadow: '0 0 20px rgba(0,0,0,0.3)',
+              boxShadow: '0 4px 20px rgba(0,0,0,0.3)',
+              fontSize: '1rem',
+              width: '600px',
             }}
           >
-            <h2>📣 Announcements</h2>
+            <h2
+              style={{
+                fontSize: '2rem',
+                color: 'rgb(154, 31, 54)',
+                marginBottom: '1.5rem',
+                fontWeight: 600,
+                borderBottom: '1px solid rgba(154, 31, 54, 0.4)',
+                paddingBottom: '0.5rem',
+                textAlign: 'center',
+              }}
+            >
+              📣 Announcements
+            </h2>
             {announcements.length > 0 ? (
               announcements.map((announcement) => (
                 <div
                   key={announcement.id}
                   style={{
                     marginBottom: '1.5rem',
-                    padding: '1rem',
-                    border: '1px solid #ccc',
-                    borderRadius: '8px',
-                    background: isDarkMode ? '#333' : '#f9f9f9',
+                    padding: '2rem',
+                    borderRadius: '2vw',
+                    backgroundColor: isDarkMode ? 'black' : 'white',
+                    color: 'rgb(154, 31, 54)',
+                    boxShadow: '0 4px 20px rgba(154, 31, 54, 0.5)',
+                    transition: 'background-color 3s ease, color 3s ease',
+                    textAlign: 'left',
                   }}
                 >
-                  <h3 style={{ margin: '0 0 0.5rem' }}>{announcement.title}</h3>
-                  <p>{announcement.content}</p>
-                  <small>
+                  <h3
+                    style={{
+                      margin: 0,
+                      marginBottom: '0.5rem',
+                      fontSize: '1.5rem',
+                      color: isDarkMode ? 'white' : 'black',
+                      fontWeight: 600,
+                      lineHeight: 1.2,
+                    }}
+                  >
+                    {announcement.title}
+                  </h3>
+                  <p
+                    style={{
+                      marginBottom: '1rem',
+                      fontSize: '1rem',
+                      color: isDarkMode ? 'white' : 'black',
+                    }}
+                  >
+                    {announcement.content}
+                  </p>
+                  <small style={{ color: isDarkMode ? '#aaa' : '#444' }}>
                     By {announcement.author} —{' '}
                     {new Date(announcement.created_at).toLocaleString()}
                   </small>
@@ -142,25 +178,38 @@ function App() {
             ) : (
               <p>No announcements available.</p>
             )}
+
             <button
               onClick={() => setShowModal(false)}
               style={{
-                marginTop: '1rem',
-                background: '#0070f3',
-                color: 'white',
-                border: 'none',
-                borderRadius: '6px',
-                padding: '0.5rem 1rem',
+                marginTop: '1.5rem',
+                padding: '0.8vh 1.5vw',
+                borderRadius: '12px',
+                border: '1px solid rgba(154, 31, 54, 0.2)',
+                backgroundColor: 'rgba(154, 31, 54, 0.1)',
+                color: 'rgba(154, 31, 54, 1)',
+                fontSize: '1rem',
+                fontWeight: 600,
                 cursor: 'pointer',
+                boxShadow: '0 2px 6px rgba(154, 31, 54, 0.2)',
+                transition: 'all 0.3s ease',
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.boxShadow =
+                  '0 6px 12px rgba(154, 31, 54, 0.4)';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.boxShadow =
+                  '0 2px 6px rgba(154, 31, 54, 0.2)';
               }}
             >
-              Close
+              ✖ Close
             </button>
           </div>
         </div>
       )}
     </>
   );
-}
+};
 
 export default App;
