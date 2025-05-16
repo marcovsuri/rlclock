@@ -14,7 +14,10 @@ const DarkModeToggle: React.FC<Props> = ({ isDarkMode, toggleDarkMode }) => {
         top: '2vh',
         right: '2vw',
         zIndex: 1000,
-        backgroundColor: isDarkMode ? '#333' : '#eee',
+        backgroundColor: isDarkMode
+          ? 'rgba(51, 51, 51, 0.6)'
+          : 'rgba(238, 238, 238, 0.6)',
+        backdropFilter: 'blur(2px)',
         color: isDarkMode ? 'white' : 'black',
         border: 'none',
         borderRadius: '8px',

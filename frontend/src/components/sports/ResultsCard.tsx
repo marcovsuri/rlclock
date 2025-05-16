@@ -17,7 +17,7 @@ const ResultsCard: React.FC<ResultsCardProps> = ({
   const cardStyle: React.CSSProperties = {
     backgroundColor: isDarkMode ? 'black' : 'white',
     borderRadius: isMobile ? '5vw' : '2vw',
-    boxShadow: '0 4px 20px rgba(154, 31, 54, 0.5)',
+    boxShadow: '0 4px 20px 4px rgba(154, 31, 54, 0.5)',
     padding: 0,
     color: 'rgb(154, 31, 54)',
     width: isMobile ? '100%' : '75%',

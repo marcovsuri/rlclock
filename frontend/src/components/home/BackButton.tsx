@@ -19,7 +19,7 @@ const BackButton: React.FC = () => {
           fontWeight: 600,
           cursor: 'pointer',
           boxShadow: '0 2px 6px rgba(154, 31, 54, 0.2)',
-          transition: 'all 3s ease',
+          transition: 'all 3s ease, box-shadow 0.5s ease',
           marginLeft: '0',
         }}
         onMouseEnter={(e) => {

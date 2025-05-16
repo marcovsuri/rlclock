@@ -14,7 +14,7 @@ const MenuSection = ({
     backgroundColor: isDarkMode ? 'black' : 'white',
     padding: '2rem',
     borderRadius: '16px',
-    boxShadow: '0 4px 20px rgba(154, 31, 54, 0.5)',
+    boxShadow: '0 4px 20px 4px rgba(154, 31, 54, 0.5)',
   };
 
   const sectionTitleStyle: React.CSSProperties = {

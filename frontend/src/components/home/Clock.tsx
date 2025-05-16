@@ -206,7 +206,7 @@ const Card: React.FC<{
       backgroundColor: isDarkMode ? 'black' : 'white',
       padding: isMobile ? '4vw' : '1.5vw',
       borderRadius: isMobile ? '5vw' : '2vw',
-      boxShadow: '0 4px 20px rgba(154, 31, 54, 0.5)',
+      boxShadow: '0 4px 20px 12px rgba(154, 31, 54, 0.5)',
       textAlign: 'center',
       color: 'rgb(154, 31, 54)',
       width: isMobile ? '93vw' : '40vw',
