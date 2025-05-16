@@ -126,7 +126,7 @@ const App: React.FC = () => {
           >
             ✖ Close
           </button>
-          <h2>📣 Announcements</h2>
+          <h2 style={{ marginBottom: '4rem' }}>📣 Announcements</h2>
 
           {announcements.length > 0 ? (
             announcements.map(({ id, title, content, author, created_at }) => (
