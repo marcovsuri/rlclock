@@ -26,7 +26,7 @@ const AnnouncementsButton: React.FC<Props> = ({
           fontWeight: 600,
           cursor: 'pointer',
           boxShadow: '0 2px 6px rgba(0, 112, 243, 0.2)',
-          transition: 'all 0.3s ease',
+          transition: 'all 3s ease',
           display: 'flex',
           alignItems: 'center',
           gap: '0.5rem',

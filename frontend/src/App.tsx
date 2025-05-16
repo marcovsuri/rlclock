@@ -6,10 +6,10 @@ import Lunch from './pages/Lunch';
 import Sports from './pages/Sports';
 import DarkModeToggle from './components/home/DarkModeToggle';
 import Footer from './components/home/Footer';
-import './styles.css';
-import getAnnouncements from './core/announcementsFetcher';
 import AnnouncementsButton from './components/home/AnnouncementsButton';
+import getAnnouncements from './core/announcementsFetcher';
 import { Announcement } from './types/announcements';
+import './styles.css';
 
 const AnimatedRoutes = ({ isDarkMode }: { isDarkMode: boolean }) => {
   const location = useLocation();
@@ -39,13 +39,13 @@ const App: React.FC = () => {
   };
 
   useEffect(() => {
+    const root = document.documentElement;
     if (isDarkMode) {
-      document.documentElement.classList.add('dark-mode');
-      localStorage.setItem('darkMode', 'true');
+      root.classList.add('dark-mode');
     } else {
-      document.documentElement.classList.remove('dark-mode');
-      localStorage.setItem('darkMode', 'false');
+      root.classList.remove('dark-mode');
     }
+    localStorage.setItem('darkMode', String(isDarkMode));
   }, [isDarkMode]);
 
   useEffect(() => {
@@ -53,9 +53,7 @@ const App: React.FC = () => {
     const body = document.body;
 
     const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') {
-        setShowModal(false);
-      }
+      if (e.key === 'Escape') setShowModal(false);
     };
 
     if (showModal) {
@@ -83,6 +81,11 @@ const App: React.FC = () => {
     });
   }, []);
 
+  const modalStyles: React.CSSProperties = {
+    '--modal-bg': isDarkMode ? '#222' : '#fff',
+    '--modal-text': isDarkMode ? '#fff' : '#000',
+  } as React.CSSProperties;
+
   const buttonContainerStyle: React.CSSProperties = {
     position: 'fixed',
     top: '2vh',
@@ -108,66 +111,45 @@ const App: React.FC = () => {
       <AnimatedRoutes isDarkMode={isDarkMode} />
       <Footer isDarkMode={isDarkMode} />
 
-      {showModal && (
+      <div
+        className={`modal-backdrop ${showModal ? 'show' : 'hide'}`}
+        onClick={() => setShowModal(false)}
+      >
         <div
-          style={{
-            position: 'fixed',
-            top: 0,
-            left: 0,
-            right: 0,
-            bottom: 0,
-            backgroundColor: 'rgba(0, 0, 0, 0.5)',
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-            zIndex: 2000,
-          }}
-          onClick={() => setShowModal(false)}
+          className={`modal-content ${showModal ? 'modal-show' : ''}`}
+          style={modalStyles}
+          onClick={(e) => e.stopPropagation()}
         >
-          <div
-            onClick={(e) => e.stopPropagation()}
-            className="modal-content"
-            style={{
-              // Optional CSS variable override based on dark mode
-              ['--modal-bg' as any]: isDarkMode ? '#222' : '#fff',
-              ['--modal-text' as any]: isDarkMode ? '#fff' : '#000',
-            }}
+          <button
+            className="modal-close-btn"
+            onClick={() => setShowModal(false)}
           >
-            <h2>📣 Announcements</h2>
+            ✖ Close
+          </button>
+          <h2>📣 Announcements</h2>
 
-            {announcements.length > 0 ? (
-              announcements.map((announcement) => (
-                <div
-                  key={announcement.id}
-                  className="modal-announcement"
-                  style={{
-                    ['--announcement-bg' as any]: isDarkMode
-                      ? 'black'
-                      : 'white',
-                    color: isDarkMode ? 'white' : 'black',
-                  }}
-                >
-                  <h3>{announcement.title}</h3>
-                  <p>{announcement.content}</p>
-                  <small style={{ color: isDarkMode ? '#aaa' : '#444' }}>
-                    By {announcement.author} —{' '}
-                    {new Date(announcement.created_at).toLocaleString()}
-                  </small>
-                </div>
-              ))
-            ) : (
-              <p>No announcements available.</p>
-            )}
-
-            <button
-              className="modal-close-btn"
-              onClick={() => setShowModal(false)}
-            >
-              ✖ Close
-            </button>
-          </div>
+          {announcements.length > 0 ? (
+            announcements.map(({ id, title, content, author, created_at }) => (
+              <div
+                key={id}
+                className="modal-announcement"
+                style={{
+                  background: isDarkMode ? 'black' : 'white',
+                  color: isDarkMode ? 'white' : 'black',
+                }}
+              >
+                <h3>{title}</h3>
+                <p>{content}</p>
+                <small style={{ color: isDarkMode ? '#aaa' : '#444' }}>
+                  By {author} — {new Date(created_at).toLocaleString()}
+                </small>
+              </div>
+            ))
+          ) : (
+            <p style={{ textAlign: 'center' }}>No current announcements.</p>
+          )}
         </div>
-      )}
+      </div>
     </>
   );
 };

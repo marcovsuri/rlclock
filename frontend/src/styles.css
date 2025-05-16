@@ -33,7 +33,7 @@ html.dark-mode a {
   color: #88ccff;
 }
 
-/* Apply transitions to all elements */
+/* General element transition */
 * {
   transition: background-color var(--transition-duration)
       var(--transition-timing),
@@ -42,26 +42,18 @@ html.dark-mode a {
     box-shadow var(--transition-duration) var(--transition-timing);
 }
 
+/* Shared transitions */
 .card,
 .menu-item,
 .section {
-  transition: background-color var(--transition-duration)
-      var(--transition-timing),
-    color var(--transition-duration) var(--transition-timing),
-    border-color var(--transition-duration) var(--transition-timing),
-    box-shadow var(--transition-duration) var(--transition-timing);
+  transition: inherit;
 }
 
+/* Text shimmer animation */
 @keyframes shimmer-reveal {
-  0% {
-    background-position: -200% center;
-    background-clip: text;
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    color: transparent;
-  }
+  0%,
   99% {
-    background-position: 200% center;
+    background-position: -200% center;
     background-clip: text;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
@@ -69,13 +61,52 @@ html.dark-mode a {
   }
   100% {
     background: none;
-    background-clip: border-box;
-    -webkit-background-clip: border-box;
     -webkit-text-fill-color: rgba(154, 31, 54, 1);
     color: rgba(154, 31, 54, 1);
   }
 }
 
+/* Modal backdrop */
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1;
+  opacity: 0;
+  pointer-events: none;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(2px);
+}
+
+.modal-backdrop.show {
+  opacity: 1;
+  pointer-events: all;
+}
+
+.modal-backdrop.hide {
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* Modal visibility container */
+.modal-container {
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-20px);
+  transition: transform 0.3s ease, opacity 1s ease, visibility 1s ease;
+  z-index: 2000;
+}
+
+.modal-show .modal-container {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(-20px);
+}
+
+/* Modal content */
 .modal-content {
   background-color: var(--modal-bg, #fff);
   color: var(--modal-text, #000);
@@ -87,6 +118,17 @@ html.dark-mode a {
   max-width: 90vw;
   width: 95%;
   font-size: 1rem;
+  transform: translateY(-20px);
+  opacity: 0;
+  visibility: hidden;
+  border: 1px solid rgba(154, 31, 54, 0.2);
+  transition: transform 0.3s ease, opacity 1s ease, visibility 1s ease;
+}
+
+.modal-show {
+  transform: translateY(0);
+  opacity: 1;
+  visibility: visible;
 }
 
 .modal-content h2 {
@@ -99,6 +141,7 @@ html.dark-mode a {
   color: rgb(154, 31, 54);
 }
 
+/* Modal announcement */
 .modal-announcement {
   margin-bottom: 1.5rem;
   padding: 2rem;
@@ -107,6 +150,15 @@ html.dark-mode a {
   color: rgb(154, 31, 54);
   box-shadow: 0 4px 20px rgba(154, 31, 54, 0.5);
   text-align: left;
+  border: 1px solid rgba(154, 31, 54, 0.2);
+  opacity: 0;
+  transform: translateY(10px);
+  transition: transform 1s ease, opacity 1s ease, visibility 1s ease;
+}
+
+.modal-show .modal-announcement {
+  opacity: 1;
+  transform: translateY(-20px);
 }
 
 .modal-announcement h3 {
@@ -119,8 +171,8 @@ html.dark-mode a {
   font-size: 1rem;
 }
 
+/* Modal close button */
 .modal-close-btn {
-  margin-top: 1.5rem;
   padding: 0.8vh 1.5vw;
   border-radius: 12px;
   border: 1px solid rgba(154, 31, 54, 0.2);
@@ -130,13 +182,14 @@ html.dark-mode a {
   font-weight: 600;
   cursor: pointer;
   box-shadow: 0 2px 6px rgba(154, 31, 54, 0.2);
-  transition: all 0.3s ease;
+  transition: transform 0.3s ease, opacity 1s ease, visibility 1s ease;
 }
+
 .modal-close-btn:hover {
   box-shadow: 0 6px 12px rgba(154, 31, 54, 0.4);
 }
 
-/* Larger screens */
+/* Responsive scaling */
 @media (min-width: 768px) {
   .modal-content {
     width: 600px;
