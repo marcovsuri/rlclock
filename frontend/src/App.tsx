@@ -38,22 +38,6 @@ const App: React.FC = () => {
     setIsDarkMode((prev) => !prev);
   };
 
-  const fetchAnnouncements = async () => {
-    try {
-      const result = await getAnnouncements();
-      if (result.success) {
-        setAnnouncements(result.data);
-      }
-    } catch (error) {
-      console.error('Failed to fetch announcements:', error);
-    }
-  };
-
-  const handleAnnouncementsClick = async () => {
-    await fetchAnnouncements();
-    setShowModal(true);
-  };
-
   useEffect(() => {
     if (isDarkMode) {
       document.documentElement.classList.add('dark-mode');
@@ -91,6 +75,14 @@ const App: React.FC = () => {
     };
   }, [showModal]);
 
+  useEffect(() => {
+    getAnnouncements().then((result) => {
+      if (result.success) {
+        setAnnouncements(result.data);
+      }
+    });
+  }, []);
+
   const buttonContainerStyle: React.CSSProperties = {
     position: 'fixed',
     top: '2vh',
@@ -104,8 +96,8 @@ const App: React.FC = () => {
     <>
       <div style={buttonContainerStyle}>
         <AnnouncementsButton
-          onClick={handleAnnouncementsClick}
-          hasUnread={true}
+          onClick={() => setShowModal(true)}
+          hasUnread={false}
         />
         <DarkModeToggle
           isDarkMode={isDarkMode}
@@ -134,68 +126,29 @@ const App: React.FC = () => {
         >
           <div
             onClick={(e) => e.stopPropagation()}
+            className="modal-content"
             style={{
-              backgroundColor: isDarkMode ? '#222' : '#fff',
-              color: isDarkMode ? '#fff' : '#000',
-              padding: '2rem',
-              borderRadius: '16px',
-              maxWidth: '90vw',
-              maxHeight: '80vh',
-              overflowY: 'auto',
-              boxShadow: '0 4px 20px rgba(0,0,0,0.3)',
-              fontSize: '1rem',
-              width: '600px',
+              // Optional CSS variable override based on dark mode
+              ['--modal-bg' as any]: isDarkMode ? '#222' : '#fff',
+              ['--modal-text' as any]: isDarkMode ? '#fff' : '#000',
             }}
           >
-            <h2
-              style={{
-                fontSize: '2rem',
-                color: 'rgb(154, 31, 54)',
-                marginBottom: '1.5rem',
-                fontWeight: 600,
-                borderBottom: '1px solid rgba(154, 31, 54, 0.4)',
-                paddingBottom: '0.5rem',
-                textAlign: 'center',
-              }}
-            >
-              📣 Announcements
-            </h2>
+            <h2>📣 Announcements</h2>
+
             {announcements.length > 0 ? (
               announcements.map((announcement) => (
                 <div
                   key={announcement.id}
+                  className="modal-announcement"
                   style={{
-                    marginBottom: '1.5rem',
-                    padding: '2rem',
-                    borderRadius: '2vw',
-                    backgroundColor: isDarkMode ? 'black' : 'white',
-                    color: 'rgb(154, 31, 54)',
-                    boxShadow: '0 4px 20px rgba(154, 31, 54, 0.5)',
-                    transition: 'background-color 3s ease, color 3s ease',
-                    textAlign: 'left',
+                    ['--announcement-bg' as any]: isDarkMode
+                      ? 'black'
+                      : 'white',
+                    color: isDarkMode ? 'white' : 'black',
                   }}
                 >
-                  <h3
-                    style={{
-                      margin: 0,
-                      marginBottom: '0.5rem',
-                      fontSize: '1.5rem',
-                      color: isDarkMode ? 'white' : 'black',
-                      fontWeight: 600,
-                      lineHeight: 1.2,
-                    }}
-                  >
-                    {announcement.title}
-                  </h3>
-                  <p
-                    style={{
-                      marginBottom: '1rem',
-                      fontSize: '1rem',
-                      color: isDarkMode ? 'white' : 'black',
-                    }}
-                  >
-                    {announcement.content}
-                  </p>
+                  <h3>{announcement.title}</h3>
+                  <p>{announcement.content}</p>
                   <small style={{ color: isDarkMode ? '#aaa' : '#444' }}>
                     By {announcement.author} —{' '}
                     {new Date(announcement.created_at).toLocaleString()}
@@ -207,28 +160,8 @@ const App: React.FC = () => {
             )}
 
             <button
+              className="modal-close-btn"
               onClick={() => setShowModal(false)}
-              style={{
-                marginTop: '1.5rem',
-                padding: '0.8vh 1.5vw',
-                borderRadius: '12px',
-                border: '1px solid rgba(154, 31, 54, 0.2)',
-                backgroundColor: 'rgba(154, 31, 54, 0.1)',
-                color: 'rgba(154, 31, 54, 1)',
-                fontSize: '1rem',
-                fontWeight: 600,
-                cursor: 'pointer',
-                boxShadow: '0 2px 6px rgba(154, 31, 54, 0.2)',
-                transition: 'all 0.3s ease',
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.boxShadow =
-                  '0 6px 12px rgba(154, 31, 54, 0.4)';
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.boxShadow =
-                  '0 2px 6px rgba(154, 31, 54, 0.2)';
-              }}
             >
               ✖ Close
             </button>

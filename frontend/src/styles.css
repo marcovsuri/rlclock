@@ -75,3 +75,90 @@ html.dark-mode a {
     color: rgba(154, 31, 54, 1);
   }
 }
+
+.modal-content {
+  background-color: var(--modal-bg, #fff);
+  color: var(--modal-text, #000);
+  padding: 2rem;
+  border-radius: 16px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+  overflow-y: auto;
+  max-height: 80vh;
+  max-width: 90vw;
+  width: 95%;
+  font-size: 1rem;
+}
+
+.modal-content h2 {
+  font-size: 2rem;
+  margin-bottom: 1.5rem;
+  font-weight: 600;
+  border-bottom: 1px solid rgba(154, 31, 54, 0.4);
+  padding-bottom: 0.5rem;
+  text-align: center;
+  color: rgb(154, 31, 54);
+}
+
+.modal-announcement {
+  margin-bottom: 1.5rem;
+  padding: 2rem;
+  border-radius: 2vw;
+  background-color: var(--announcement-bg, white);
+  color: rgb(154, 31, 54);
+  box-shadow: 0 4px 20px rgba(154, 31, 54, 0.5);
+  text-align: left;
+}
+
+.modal-announcement h3 {
+  margin: 0 0 0.5rem;
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+
+.modal-announcement p {
+  font-size: 1rem;
+}
+
+.modal-close-btn {
+  margin-top: 1.5rem;
+  padding: 0.8vh 1.5vw;
+  border-radius: 12px;
+  border: 1px solid rgba(154, 31, 54, 0.2);
+  background-color: rgba(154, 31, 54, 0.1);
+  color: rgba(154, 31, 54, 1);
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 2px 6px rgba(154, 31, 54, 0.2);
+  transition: all 0.3s ease;
+}
+.modal-close-btn:hover {
+  box-shadow: 0 6px 12px rgba(154, 31, 54, 0.4);
+}
+
+/* Larger screens */
+@media (min-width: 768px) {
+  .modal-content {
+    width: 600px;
+    font-size: 1.1rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .modal-content {
+    width: 800px;
+    font-size: 1.25rem;
+  }
+
+  .modal-content h2 {
+    font-size: 2.5rem;
+  }
+
+  .modal-announcement h3 {
+    font-size: 2rem;
+  }
+
+  .modal-announcement p {
+    font-size: 1.1rem;
+  }
+}
