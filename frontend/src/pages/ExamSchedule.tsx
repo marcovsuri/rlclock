@@ -10,7 +10,6 @@ interface ExamScheduleProps {
 }
 
 const timeSlotsByClass: Record<string, string[]> = {
-  I: ['8:30 – 11:00', '12:00 – 2:30'],
   II: ['8:30 – 11:00', '12:00 – 2:30'],
   III: ['8:30 – 10:45', '12:00 – 2:15'],
   IV: ['8:30 – 10:45', '12:00 – 2:15'],
@@ -18,7 +17,7 @@ const timeSlotsByClass: Record<string, string[]> = {
   VI: ['8:30 – 10:30', '12:00 – 2:00'],
 };
 
-const classLevels = ['I', 'II', 'III', 'IV', 'V', 'VI'];
+const classLevels = ['II', 'III', 'IV', 'V', 'VI'];
 
 function hasNoExams(
   groupedExams: Record<string, Record<string, Exam[]>>
@@ -35,7 +34,7 @@ function hasNoExams(
 
 const ExamSchedule: React.FC<ExamScheduleProps> = ({ isDarkMode }) => {
   const [disabledClasses, setDisabledClasses] = useState<string[]>([]);
-  const [selectedClass, setSelectedClass] = useState<string>('I');
+  const [selectedClass, setSelectedClass] = useState<string>('II');
   const isMobile = useIsMobile();
   const [exams, setExams] = useState<Exam[]>([]);
   const [days, setDays] = useState<string[]>([]);
@@ -58,11 +57,13 @@ const ExamSchedule: React.FC<ExamScheduleProps> = ({ isDarkMode }) => {
 
   useEffect(() => {
     setSelectedClass(
-      classLevels.filter((level) => !disabledClasses.includes(level))[0] ?? 'I'
+      classLevels.filter((level) => !disabledClasses.includes(level))[0] ?? 'II'
     );
   }, [disabledClasses]);
 
   useEffect(() => {
+    if (!timeSlots || timeSlots.length === 0 || days.length === 0) return;
+
     const newGroupedExams: Record<string, Record<string, Exam[]>> = {};
     timeSlots.forEach((time) => {
       newGroupedExams[time] = {};
@@ -73,17 +74,21 @@ const ExamSchedule: React.FC<ExamScheduleProps> = ({ isDarkMode }) => {
       });
     });
     setGroupedExams(newGroupedExams);
-  }, [days]);
+  }, [days, timeSlots, exams]);
 
   const cellStyle: React.CSSProperties = {
     border: '1px solid rgba(154, 31, 54, 0.2)',
-    padding: '0.75rem',
-    verticalAlign: 'top',
+    borderRadius: '16px',
+    padding: '1rem',
+    verticalAlign: 'center',
     backgroundColor: isDarkMode
       ? 'rgba(154, 31, 54, 0.15)'
       : 'rgba(154, 31, 54, 0.05)',
-    // color: 'rgba(154, 31, 54, 1)',
     color: isDarkMode ? 'white' : 'black',
+    textAlign: 'center',
+    justifyContent: 'center',
+    alignItems: 'center',
+    justifySelf: 'center',
   };
 
   const headerStyle: React.CSSProperties = {
@@ -100,7 +105,10 @@ const ExamSchedule: React.FC<ExamScheduleProps> = ({ isDarkMode }) => {
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
       transition={{ duration: 0.5 }}
-      style={{ padding: isMobile ? '4rem 1.5rem' : '4rem', overflowX: 'auto' }}
+      style={{
+        padding: isMobile ? '4rem 1.5rem' : '4rem',
+        overflowX: 'hidden',
+      }}
     >
       {/* <BackButton /> */}
       <h2 style={{ textAlign: 'center', color: 'rgba(154, 31, 54, 1)' }}>
@@ -179,8 +187,9 @@ const ExamSchedule: React.FC<ExamScheduleProps> = ({ isDarkMode }) => {
         <table
           style={{
             width: '100%',
-            borderCollapse: 'collapse',
-            tableLayout: 'fixed',
+            borderCollapse: 'separate',
+            tableLayout: 'auto',
+            borderSpacing: '1rem',
           }}
         >
           <thead>
@@ -244,7 +253,7 @@ const ExamSchedule: React.FC<ExamScheduleProps> = ({ isDarkMode }) => {
                       <div key={i} style={{ marginBottom: '0.5rem' }}>
                         <strong>{exam.subject}</strong>
                         {exam.locations.map((loc, idx) => (
-                          <div key={idx} style={{ fontSize: '0.85em' }}>
+                          <div key={idx} style={{ fontSize: '1rem' }}>
                             {exam.teachers[idx]} — {loc}
                           </div>
                         ))}

@@ -96,7 +96,8 @@ html.dark-mode a {
   opacity: 0;
   visibility: hidden;
   transform: translateY(-20px);
-  transition: transform 0.3s ease, opacity 1s ease, visibility 1s ease;
+  transition: transform 0.3s ease, opacity 1s ease, visibility 1s ease,
+    background-color 3s ease;
   z-index: 2000;
 }
 
@@ -122,7 +123,8 @@ html.dark-mode a {
   opacity: 0;
   visibility: hidden;
   border: 1px solid rgba(154, 31, 54, 0.2);
-  transition: transform 0.3s ease, opacity 1s ease, visibility 1s ease;
+  transition: transform 0.3s ease, opacity 1s ease, visibility 1s ease,
+    background-color 3s ease;
   margin: auto 2vw;
 }
 
@@ -154,7 +156,8 @@ html.dark-mode a {
   border: 1px solid rgba(154, 31, 54, 0.2);
   opacity: 0;
   transform: translateY(10px);
-  transition: transform 1s ease, opacity 1s ease, visibility 1s ease;
+  transition: transform 1s ease, opacity 1s ease, visibility 1s ease,
+    background-color 3s ease;
 }
 
 .modal-show .modal-announcement {
@@ -183,7 +186,7 @@ html.dark-mode a {
   font-weight: 600;
   cursor: pointer;
   box-shadow: 0 2px 6px rgba(154, 31, 54, 0.2);
-  transition: all 0.5s ease;
+  transition: all 3s ease;
 }
 
 .modal-close-btn:hover {

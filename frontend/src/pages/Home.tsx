@@ -103,6 +103,12 @@ const Home: React.FC<HomeProps> = ({ isDarkMode }) => {
     boxSizing: 'border-box',
   };
 
+  const hasLunch =
+    menu !== undefined &&
+    (menu?.Entrées?.length > 0 ||
+      menu?.['Sides and Vegetables']?.length > 0 ||
+      menu?.Soups?.length > 0);
+
   return (
     <motion.div
       initial={{ opacity: 0 }}
@@ -122,12 +128,13 @@ const Home: React.FC<HomeProps> = ({ isDarkMode }) => {
             subtitle={
               menu === undefined
                 ? 'Loading...'
+                : !hasLunch || !lunchFeatures
+                ? 'No lunch served today.'
                 : lunchFeatures
-                    ?.split('\n')
-                    .map((line, i) => <div key={i}>{line}</div>) ??
-                  'No Lunch Available.'
+                    .split('\n')
+                    .map((line, i) => <div key={i}>{line}</div>)
             }
-            info="Click to see full menu!"
+            info={hasLunch ? 'Click to see full menu!' : ''}
             path="/lunch"
             isDarkMode={isDarkMode}
           />

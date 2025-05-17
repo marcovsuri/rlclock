@@ -170,6 +170,7 @@ const App: React.FC = () => {
           style={{
             background: isDarkMode ? 'black' : 'white',
             color: isDarkMode ? 'white' : 'black',
+            padding: '2rem',
           }}
           onClick={(e) => e.stopPropagation()}
         >
@@ -187,11 +188,11 @@ const App: React.FC = () => {
                 key={id}
                 className="modal-announcement"
                 style={{
-                  background: isDarkMode ? 'black' : 'white',
+                  background: 'rgba(154, 31, 54, 0.1)',
                   color: isDarkMode ? 'white' : 'black',
                   marginBottom: '2rem',
-                  padding: '1rem',
-                  borderRadius: '10px',
+                  padding: '2rem',
+                  borderRadius: '16px',
                   border: '1px solid rgba(154, 31, 54, 0.2)',
                 }}
               >
