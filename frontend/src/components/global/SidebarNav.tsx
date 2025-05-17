@@ -1,8 +1,8 @@
 import React from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import DarkModeToggle from '../home/DarkModeToggle';
+import DarkModeToggle from './DarkModeToggle';
 import useIsMobile from '../../hooks/useIsMobile';
-import AnnouncementsButton from '../home/AnnouncementsButton';
+import AnnouncementsButton from './AnnouncementsButton';
 
 interface SidebarNavProps {
   isDarkMode: boolean;
@@ -54,7 +54,7 @@ const SidebarNav: React.FC<SidebarNavProps> = ({
         top: 0,
         left: 0,
         height: '100vh',
-        width: isMobile ? '50vw' : 'fit-content',
+        width: isMobile ? '50vw' : '12vw',
         backgroundColor: isDarkMode
           ? 'rgba(17, 17, 17, 0.5)'
           : 'rgba(253, 253, 253, 0.5)',

@@ -110,7 +110,6 @@ const ExamSchedule: React.FC<ExamScheduleProps> = ({ isDarkMode }) => {
         overflowX: 'hidden',
       }}
     >
-      {/* <BackButton /> */}
       <h2 style={{ textAlign: 'center', color: 'rgba(154, 31, 54, 1)' }}>
         Class {selectedClass} Exam Schedule
       </h2>

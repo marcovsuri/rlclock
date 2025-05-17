@@ -5,7 +5,7 @@ import Home from './pages/Home';
 import Lunch from './pages/Lunch';
 import Sports from './pages/Sports';
 import ExamSchedule from './pages/ExamSchedule';
-import Footer from './components/home/Footer';
+import Footer from './components/global/Footer';
 import getAnnouncements from './core/announcementsFetcher';
 import { Announcement } from './types/announcements';
 import './styles.css';
@@ -132,7 +132,7 @@ const App: React.FC = () => {
           transition: 'left 0.5s ease, box-shadow 0.3s ease',
           position: 'fixed',
           top: '1rem',
-          left: sidebarOpen ? (isMobile ? '1rem' : '270px') : '1rem',
+          left: sidebarOpen ? (isMobile ? '1rem' : '17vw') : '1rem',
           zIndex: 1002,
           marginLeft: '0',
         }}
