@@ -7,7 +7,7 @@ const EXAMS: ExamData = {
   timeSlots: {
     II: ["8:30 – 11:00", "12:00 – 2:30"],
   },
-  disabledClasses: ["I", "III", "IV", "V", "VI"],
+  disabledClasses: ["III", "IV", "V", "VI"],
   exams: [
     {
       time: "8:30 – 11:00",
