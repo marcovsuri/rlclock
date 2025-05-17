@@ -90,7 +90,7 @@ export default function Lunch({ isDarkMode }: LunchProps) {
     >
       <div style={innerStyle}>
         <div style={contentStyle}>
-          <BackButton />
+          {/* <BackButton /> */}
           <h1 style={titleStyle}>RL Lunch Menu</h1>
 
           <div style={sectionContainerStyle}>

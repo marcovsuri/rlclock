@@ -72,9 +72,9 @@ const Sports: React.FC<SportsProps> = ({ isDarkMode }) => {
         }}
       >
         {/* Back Button manually aligned left */}
-        <div style={{ margin: '5vh auto' }}>
+        {/* <div style={{ margin: '5vh auto' }}>
           <BackButton />
-        </div>
+        </div> */}
 
         {/* Today's Games Card */}
         <div style={{ display: 'flex', justifyContent: 'center' }}>
