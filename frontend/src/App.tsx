@@ -119,19 +119,30 @@ const App: React.FC = () => {
       <button
         onClick={() => setSidebarOpen((prev) => !prev)}
         style={{
-          position: 'fixed',
-          top: '1rem',
-          left: sidebarOpen ? (isMobile ? '1rem' : '250px') : '1rem',
-          zIndex: 1002,
-          backgroundColor: 'rgba(154, 31, 54, 0.9)',
-          color: 'white',
-          border: 'none',
-          borderRadius: '8px',
-          padding: '0.5rem 1rem',
+          padding: isMobile ? '0.8vh 4vw' : '0.8vh 1.5vw',
+          borderRadius: '12px',
+          border: '1px solid rgba(154, 31, 54, 0.5)',
+          backgroundColor: 'rgba(154, 31, 54, 0.2)',
+          backdropFilter: 'blur(2px)',
+          color: 'rgba(154, 31, 54, 1)',
+          fontSize: '1rem',
           fontWeight: 600,
           cursor: 'pointer',
-          boxShadow: '0 4px 10px rgba(0, 0, 0, 0.2)',
-          transition: 'left 0.3s ease',
+          boxShadow: '0 2px 6px 4px rgba(154, 31, 54, 0.5)',
+          transition: 'left 0.5s ease, box-shadow 0.3s ease',
+          position: 'fixed',
+          top: '1rem',
+          left: sidebarOpen ? (isMobile ? '1rem' : '270px') : '1rem',
+          zIndex: 1002,
+          marginLeft: '0',
+        }}
+        onMouseEnter={(e) => {
+          e.currentTarget.style.boxShadow =
+            '0 4px 12px 6px rgba(154, 31, 54, 0.5)';
+        }}
+        onMouseLeave={(e) => {
+          e.currentTarget.style.boxShadow =
+            '0 2px 6px 4px rgba(154, 31, 54, 0.5)';
         }}
       >
         {sidebarOpen ? '✖' : '☰'}

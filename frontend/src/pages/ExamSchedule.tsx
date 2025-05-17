@@ -3,7 +3,7 @@ import { motion } from 'framer-motion';
 import useIsMobile from '../hooks/useIsMobile';
 import { Exam, ExamData } from '../types/exams';
 import getExamData from '../core/examsFetcher';
-import BackButton from '../components/home/BackButton';
+import BackButton from '../components/global/BackButton';
 
 interface ExamScheduleProps {
   isDarkMode: boolean;

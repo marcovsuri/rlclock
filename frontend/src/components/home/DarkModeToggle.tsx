@@ -20,7 +20,7 @@ const DarkModeToggle: React.FC<Props> = ({ isDarkMode, toggleDarkMode }) => {
         backdropFilter: 'blur(2px)',
         color: isDarkMode ? 'white' : 'black',
         border: 'none',
-        borderRadius: '8px',
+        borderRadius: '12px',
         padding: '0.6rem 1rem',
         cursor: 'pointer',
         fontWeight: 'bold',

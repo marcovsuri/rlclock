@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import BackButton from '../components/home/BackButton';
+import BackButton from '../components/global/BackButton';
 import ResultsCard from '../components/sports/ResultsCard';
 // import StatsCard from '../components/sports/StatsCard';
 import useIsMobile from '../hooks/useIsMobile';
