@@ -11,6 +11,8 @@ import AnnouncementsButton from './components/home/AnnouncementsButton';
 import getAnnouncements from './core/announcementsFetcher';
 import { Announcement } from './types/announcements';
 import './styles.css';
+import SidebarNav from './components/global/SidebarNav';
+import useIsMobile from './hooks/useIsMobile';
 
 const AnimatedRoutes = ({ isDarkMode }: { isDarkMode: boolean }) => {
   const location = useLocation();
@@ -36,6 +38,8 @@ const App: React.FC = () => {
   );
   const [showModal, setShowModal] = useState(false);
   const [announcements, setAnnouncements] = useState<Announcement[]>([]);
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+  const isMobile = useIsMobile();
 
   const toggleDarkMode = () => {
     setIsDarkMode((prev) => !prev);
@@ -102,24 +106,47 @@ const App: React.FC = () => {
         position: 'relative',
       }}
     >
-      {/* Floating Controls */}
-      <div style={buttonContainerStyle}>
-        <AnnouncementsButton
-          onClick={() => setShowModal(true)}
-          hasUnread={false}
-        />
-        <DarkModeToggle
-          isDarkMode={isDarkMode}
-          toggleDarkMode={toggleDarkMode}
-        />
-      </div>
+      {/* Sidebar */}
+      <SidebarNav
+        isDarkMode={isDarkMode}
+        toggleDarkMode={toggleDarkMode}
+        onOpenAnnouncements={() => setShowModal(true)}
+        isOpen={sidebarOpen}
+        // onClose={() => setSidebarOpen(false)}
+      />
 
-      {/* Main Content */}
-      <div style={{ flex: 1 }}>
-        <AnimatedRoutes isDarkMode={isDarkMode} />
-      </div>
+      {/* Sidebar toggle button */}
+      <button
+        onClick={() => setSidebarOpen((prev) => !prev)}
+        style={{
+          position: 'fixed',
+          top: '1rem',
+          left: sidebarOpen ? (isMobile ? '1rem' : '250px') : '1rem',
+          zIndex: 1002,
+          backgroundColor: 'rgba(154, 31, 54, 0.9)',
+          color: 'white',
+          border: 'none',
+          borderRadius: '8px',
+          padding: '0.5rem 1rem',
+          fontWeight: 600,
+          cursor: 'pointer',
+          boxShadow: '0 4px 10px rgba(0, 0, 0, 0.2)',
+          transition: 'left 0.3s ease',
+        }}
+      >
+        {sidebarOpen ? '✖' : '☰'}
+      </button>
 
-      {/* Footer (Friendly Fox) */}
+      {/* Main Content + Footer */}
+      {/* <div style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
+        <div style={{ flex: 1 }}>
+          <AnimatedRoutes isDarkMode={isDarkMode} />
+        </div>
+        <Footer isDarkMode={isDarkMode} />
+      </div> */}
+
+      <AnimatedRoutes isDarkMode={isDarkMode} />
+
       <Footer isDarkMode={isDarkMode} />
 
       {/* Modal Overlay */}
