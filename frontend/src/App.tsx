@@ -5,14 +5,13 @@ import Home from './pages/Home';
 import Lunch from './pages/Lunch';
 import Sports from './pages/Sports';
 import ExamSchedule from './pages/ExamSchedule';
-import DarkModeToggle from './components/home/DarkModeToggle';
 import Footer from './components/home/Footer';
-import AnnouncementsButton from './components/home/AnnouncementsButton';
 import getAnnouncements from './core/announcementsFetcher';
 import { Announcement } from './types/announcements';
 import './styles.css';
 import SidebarNav from './components/global/SidebarNav';
 import useIsMobile from './hooks/useIsMobile';
+// import { Navigate } from 'react-router-dom';
 
 const AnimatedRoutes = ({ isDarkMode }: { isDarkMode: boolean }) => {
   const location = useLocation();
@@ -27,6 +26,7 @@ const AnimatedRoutes = ({ isDarkMode }: { isDarkMode: boolean }) => {
           path="/exams"
           element={<ExamSchedule isDarkMode={isDarkMode} />}
         />
+        {/* <Route path="/exams" element={<Navigate to="/" replace />} /> Comment out to remove exams */}
       </Routes>
     </AnimatePresence>
   );
@@ -149,13 +149,6 @@ const App: React.FC = () => {
       </button>
 
       {/* Main Content + Footer */}
-      {/* <div style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
-        <div style={{ flex: 1 }}>
-          <AnimatedRoutes isDarkMode={isDarkMode} />
-        </div>
-        <Footer isDarkMode={isDarkMode} />
-      </div> */}
-
       <AnimatedRoutes isDarkMode={isDarkMode} />
 
       <Footer isDarkMode={isDarkMode} />
