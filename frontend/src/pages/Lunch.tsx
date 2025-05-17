@@ -2,7 +2,6 @@ import { Menu } from '../types/lunch';
 import getMenu from '../core/lunchFetcher';
 import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
-import BackButton from '../components/global/BackButton';
 import MenuSection from '../components/lunch/MenuSection';
 import useIsMobile from '../hooks/useIsMobile';
 
