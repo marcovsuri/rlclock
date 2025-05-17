@@ -4,6 +4,7 @@ import { AnimatePresence } from 'framer-motion';
 import Home from './pages/Home';
 import Lunch from './pages/Lunch';
 import Sports from './pages/Sports';
+import ExamSchedule from './pages/ExamSchedule';
 import DarkModeToggle from './components/home/DarkModeToggle';
 import Footer from './components/home/Footer';
 import AnnouncementsButton from './components/home/AnnouncementsButton';
@@ -15,15 +16,17 @@ const AnimatedRoutes = ({ isDarkMode }: { isDarkMode: boolean }) => {
   const location = useLocation();
 
   return (
-    <div style={{ minHeight: '100vh' }}>
-      <AnimatePresence mode="wait">
-        <Routes location={location} key={location.pathname}>
-          <Route path="/" element={<Home isDarkMode={isDarkMode} />} />
-          <Route path="/lunch" element={<Lunch isDarkMode={isDarkMode} />} />
-          <Route path="/sports" element={<Sports isDarkMode={isDarkMode} />} />
-        </Routes>
-      </AnimatePresence>
-    </div>
+    <AnimatePresence mode="wait">
+      <Routes location={location} key={location.pathname}>
+        <Route path="/" element={<Home isDarkMode={isDarkMode} />} />
+        <Route path="/lunch" element={<Lunch isDarkMode={isDarkMode} />} />
+        <Route path="/sports" element={<Sports isDarkMode={isDarkMode} />} />
+        <Route
+          path="/exams"
+          element={<ExamSchedule isDarkMode={isDarkMode} />}
+        />
+      </Routes>
+    </AnimatePresence>
   );
 };
 
@@ -91,7 +94,15 @@ const App: React.FC = () => {
   };
 
   return (
-    <>
+    <div
+      style={{
+        display: 'flex',
+        flexDirection: 'column',
+        minHeight: '100vh',
+        position: 'relative',
+      }}
+    >
+      {/* Floating Controls */}
       <div style={buttonContainerStyle}>
         <AnnouncementsButton
           onClick={() => setShowModal(true)}
@@ -103,9 +114,15 @@ const App: React.FC = () => {
         />
       </div>
 
-      <AnimatedRoutes isDarkMode={isDarkMode} />
+      {/* Main Content */}
+      <div style={{ flex: 1 }}>
+        <AnimatedRoutes isDarkMode={isDarkMode} />
+      </div>
+
+      {/* Footer (Friendly Fox) */}
       <Footer isDarkMode={isDarkMode} />
 
+      {/* Modal Overlay */}
       <div
         className={`modal-backdrop ${showModal ? 'show' : 'hide'}`}
         onClick={() => setShowModal(false)}
@@ -134,15 +151,13 @@ const App: React.FC = () => {
                 style={{
                   background: isDarkMode ? 'black' : 'white',
                   color: isDarkMode ? 'white' : 'black',
+                  marginBottom: '2rem',
+                  padding: '1rem',
+                  borderRadius: '10px',
+                  border: '1px solid rgba(154, 31, 54, 0.2)',
                 }}
               >
-                <h3
-                  style={{
-                    color: 'rgb(154, 31, 54)',
-                  }}
-                >
-                  {title}
-                </h3>
+                <h3 style={{ color: 'rgb(154, 31, 54)' }}>{title}</h3>
                 <p>{content}</p>
                 <small style={{ color: isDarkMode ? '#aaa' : '#444' }}>
                   By {author} —{' '}
@@ -165,7 +180,7 @@ const App: React.FC = () => {
           )}
         </div>
       </div>
-    </>
+    </div>
   );
 };
 
