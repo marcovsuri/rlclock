@@ -44,7 +44,7 @@ const TodayGamesCard: React.FC<TodayGamesCardProps> = ({
             color: isDarkMode ? 'white' : 'black',
           }}
         >
-          {todayGames === undefined ? 'Loading' : 'No games today.'}
+          {todayGames === undefined ? 'Loading...' : 'No games today.'}
         </p>
       ) : (
         todayGames.map((game, index) => (
