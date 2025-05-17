@@ -1,22 +1,13 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import useIsMobile from '../hooks/useIsMobile';
-import { Exam } from '../types/exams';
-import getExamData from './EXAMDATA';
+import { Exam, ExamData } from '../types/exams';
+import getExamData from '../core/examsFetcher';
 import BackButton from '../components/home/BackButton';
 
 interface ExamScheduleProps {
   isDarkMode: boolean;
 }
-
-const classLevels = ['I', 'II', 'III', 'IV', 'V', 'VI'];
-
-const days = [
-  'Monday, Dec 16',
-  'Tuesday, Dec 17',
-  'Wednesday, Dec 18',
-  'Thursday, Dec 19',
-];
 
 const timeSlotsByClass: Record<string, string[]> = {
   I: ['8:30 – 11:00', '12:00 – 2:30'],
@@ -26,6 +17,8 @@ const timeSlotsByClass: Record<string, string[]> = {
   V: ['8:30 – 10:30', '12:00 – 2:00'],
   VI: ['8:30 – 10:30', '12:00 – 2:00'],
 };
+
+const classLevels = ['I', 'II', 'III', 'IV', 'V', 'VI'];
 
 function hasNoExams(
   groupedExams: Record<string, Record<string, Exam[]>>
@@ -41,29 +34,46 @@ function hasNoExams(
 }
 
 const ExamSchedule: React.FC<ExamScheduleProps> = ({ isDarkMode }) => {
-  const disabledClasses = ['I', 'III', 'IV', 'V', 'VI'];
-  const [selectedClass, setSelectedClass] = useState<string>(
-    classLevels.filter((level) => !disabledClasses.includes(level)).length > 0
-      ? classLevels.filter((level) => !disabledClasses.includes(level))[0]
-      : 'I'
-  );
-  const examDataByClass = getExamData();
+  const [disabledClasses, setDisabledClasses] = useState<string[]>([]);
+  const [selectedClass, setSelectedClass] = useState<string>('I');
   const isMobile = useIsMobile();
-  const exams = examDataByClass[selectedClass] || [];
+  const [exams, setExams] = useState<Exam[]>([]);
+  const [days, setDays] = useState<string[]>([]);
+
   const timeSlots = timeSlotsByClass[selectedClass];
 
-  const groupedExams: Record<string, Record<string, Exam[]>> = {};
+  const [groupedExams, setGroupedExams] = useState<
+    Record<string, Record<string, Exam[]>>
+  >({});
 
-  timeSlots.forEach((time) => {
-    groupedExams[time] = {};
-    days.forEach((day) => {
-      groupedExams[time][day] = exams.filter(
-        (exam) => exam.time === time && exam.day === day
-      );
+  useEffect(() => {
+    getExamData().then((result) => {
+      if (result.success) {
+        setDisabledClasses(result.data.disabledClasses);
+        setExams(result.data.exams || []);
+        setDays(result.data.days || []);
+      }
     });
-  });
+  }, []);
 
-  console.log('Grouped Exams:', groupedExams[timeSlots[0]].forE);
+  useEffect(() => {
+    setSelectedClass(
+      classLevels.filter((level) => !disabledClasses.includes(level))[0] ?? 'I'
+    );
+  }, [disabledClasses]);
+
+  useEffect(() => {
+    const newGroupedExams: Record<string, Record<string, Exam[]>> = {};
+    timeSlots.forEach((time) => {
+      newGroupedExams[time] = {};
+      days.forEach((day) => {
+        newGroupedExams[time][day] = exams.filter(
+          (exam) => exam.time === time && exam.day === day
+        );
+      });
+    });
+    setGroupedExams(newGroupedExams);
+  }, [days]);
 
   const cellStyle: React.CSSProperties = {
     border: '1px solid rgba(154, 31, 54, 0.2)',
