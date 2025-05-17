@@ -1,13 +1,13 @@
 {
   "files": {
     "main.css": "/static/css/main.903b56f7.css",
-    "main.js": "/static/js/main.86dcb799.js",
+    "main.js": "/static/js/main.7dd196e1.js",
     "index.html": "/index.html",
     "main.903b56f7.css.map": "/static/css/main.903b56f7.css.map",
-    "main.86dcb799.js.map": "/static/js/main.86dcb799.js.map"
+    "main.7dd196e1.js.map": "/static/js/main.7dd196e1.js.map"
   },
   "entrypoints": [
     "static/css/main.903b56f7.css",
-    "static/js/main.86dcb799.js"
+    "static/js/main.7dd196e1.js"
   ]
 }
