@@ -164,6 +164,7 @@ const App: React.FC = () => {
       <div
         className={`modal-backdrop ${showModal ? 'show' : 'hide'}`}
         onClick={() => setShowModal(false)}
+        style={{ zIndex: 10000 }}
       >
         <div
           className={`modal-content ${showModal ? 'modal-show' : ''}`}

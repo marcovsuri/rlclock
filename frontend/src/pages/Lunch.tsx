@@ -43,7 +43,7 @@ export default function Lunch({ isDarkMode }: LunchProps) {
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
-    justifyContent: 'center',
+    // justifyContent: 'center',
     color: isDarkMode ? 'white' : 'black',
     margin: 'auto',
   };

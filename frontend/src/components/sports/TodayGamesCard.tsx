@@ -12,7 +12,6 @@ const TodayGamesCard: React.FC<TodayGamesCardProps> = ({
   isMobile,
   isDarkMode,
 }) => {
-  console.log(todayGames);
   return (
     <div
       style={{
