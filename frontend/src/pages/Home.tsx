@@ -53,7 +53,9 @@ const Home: React.FC<HomeProps> = ({ isDarkMode }) => {
 
       let outcome;
       if (winCount + lossCount > 1) {
-        return `${result.team} → ${winCount} - ${lossCount}`;
+        return `${result.team} → ${winCount} - ${lossCount} ${
+          winCount > lossCount ? 'Win' : 'Loss'
+        }`;
       } else if (winCount > 0) {
         outcome = 'Win';
       } else {
