@@ -30,31 +30,50 @@ function parseTeamEvents(html: string): TeamEvent[] {
     const date = $row.find("td").eq(2).text().trim();
     const resultRaw = $row.find("td").eq(5).html() || "";
     const scoresRaw = $row.find("td").eq(6).html() || "";
-    // const season = $row.attr("data-season") || "";
-    // const rawTeam = $row.attr("data-team") || "";
 
-    const opponents = opponentsRaw.split(/<br\s*\/?>/).map((s) => s.trim())
-      .filter(Boolean);
-    const wins = resultRaw.split(/<br\s*\/?>/).map((r) =>
-      r.trim().toLowerCase() === "win"
+    const opponents = opponentsRaw.split(/<br\s*\/?>/).map((s) => s.trim());
+    const results = resultRaw.split(/<br\s*\/?>/).map((r) => r.trim()).filter(
+      Boolean,
     );
-    const scores = scoresRaw
-      .split(/<br\s*\/?>/)
-      .map((s) => s.trim().replace(/\s+/g, "-"))
-      .filter(Boolean);
+    const scores = scoresRaw.split(/<br\s*\/?>/).map((s) => s.trim()).filter(
+      Boolean,
+    );
 
-    // Normalize team name capitalization and formatting
     const formattedTeam = team
-      .replace(/[-–]/g, "-") // normalize dashes
+      .replace(/[-–]/g, "-")
       .split("-")
       .map((s) => s.trim())
       .reverse()
-      .join(" "); // e.g., "Track & Field - Varsity" => "Varsity Track & Field"
+      .join(" ");
+
+    let cleanedOpponents = opponents.filter((s) => s.length > 0);
+    let wins: boolean[] = [];
+
+    // Case 1: Explicit results listed
+    if (results.length > 0) {
+      wins = results.map((r) => r.toLowerCase() === "win");
+    } // Case 2: Track-style scores with 1 home team score (first OR second)
+    else if (scores.length === cleanedOpponents.length + 1) {
+      let homeScoreIndex = 0;
+      // Check if second opponent is empty string: implies home score is second
+      if (opponents[1]?.trim() === "") {
+        homeScoreIndex = 1;
+      }
+
+      const homeScore = parseInt(scores[homeScoreIndex], 10);
+      wins = scores.map((scoreStr, i) => {
+        if (i === homeScoreIndex) return false; // Skip own score
+        const oppScore = parseInt(scoreStr, 10);
+        return homeScore > oppScore;
+      }).filter((_, i) => i !== homeScoreIndex); // Remove home result from win list
+    } else {
+      console.warn(`Unexpected format for team ${formattedTeam} on ${date}`);
+      return;
+    }
 
     const event: TeamEvent = {
       team: formattedTeam,
-      opponents,
-      // season,
+      opponents: cleanedOpponents,
       date,
       wins,
       scores,
