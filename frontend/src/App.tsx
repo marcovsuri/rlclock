@@ -132,7 +132,7 @@ const App: React.FC = () => {
           transition: 'left 0.5s ease, box-shadow 0.3s ease',
           position: 'fixed',
           top: '1rem',
-          left: sidebarOpen ? (isMobile ? '1rem' : '17vw') : '1rem',
+          left: sidebarOpen ? (isMobile ? '1rem' : '11vw') : '1rem',
           zIndex: 1002,
           marginLeft: '0',
         }}
