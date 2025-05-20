@@ -75,8 +75,7 @@ const Footer: React.FC<FooterProps> = ({ isDarkMode }) => {
       </div>
       <div style={hiddenCreditsStyle}>
         <em className={showCredits ? 'shimmer-text' : ''}>
-          Recreated by Marco Suri, Dylan Pan, Austin Reid, Michael DiLallo,
-          Avish Kumar, and Mr. Piper
+          Recreated by Marco Suri, Dylan Pan, Austin Reid, Avish Kumar, Michael DiLallo, and Mr. Piper
         </em>
       </div>
     </footer>
