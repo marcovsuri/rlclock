@@ -11,7 +11,6 @@ import { Announcement } from './types/announcements';
 import './styles.css';
 import SidebarNav from './components/global/SidebarNav';
 import useIsMobile from './hooks/useIsMobile';
-// import { Navigate } from 'react-router-dom';
 
 const AnimatedRoutes = ({ isDarkMode }: { isDarkMode: boolean }) => {
   const location = useLocation();
@@ -26,7 +25,6 @@ const AnimatedRoutes = ({ isDarkMode }: { isDarkMode: boolean }) => {
           path="/exams"
           element={<ExamSchedule isDarkMode={isDarkMode} />}
         />
-        {/* <Route path="/exams" element={<Navigate to="/" replace />} /> Comment out to remove exams */}
       </Routes>
     </AnimatePresence>
   );
@@ -112,7 +110,6 @@ const App: React.FC = () => {
         toggleDarkMode={toggleDarkMode}
         onOpenAnnouncements={() => setShowModal(true)}
         isOpen={sidebarOpen}
-        // onClose={() => setSidebarOpen(false)}
       />
 
       {/* Sidebar toggle button */}
@@ -149,7 +146,9 @@ const App: React.FC = () => {
       </button>
 
       {/* Main Content + Footer */}
-      <AnimatedRoutes isDarkMode={isDarkMode} />
+      <div style={{ flex: 1 }}>
+        <AnimatedRoutes isDarkMode={isDarkMode} />
+      </div>
 
       <Footer isDarkMode={isDarkMode} />
 
