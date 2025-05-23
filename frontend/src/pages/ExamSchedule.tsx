@@ -104,13 +104,14 @@ const ExamSchedule: React.FC<ExamScheduleProps> = ({ isDarkMode }) => {
   const cellStyle: React.CSSProperties = {
     border: '1px solid rgba(154, 31, 54, 0.2)',
     borderRadius: '12px',
-    padding: '0.75rem',
+    padding: '1rem',
     backgroundColor: isDarkMode
       ? 'rgba(154, 31, 54, 0.15)'
       : 'rgba(154, 31, 54, 0.05)',
     color: isDarkMode ? 'white' : 'black',
     textAlign: 'center',
-    verticalAlign: 'top',
+    verticalAlign: 'center',
+    minWidth: '20vw',
   };
 
   const headerStyle: React.CSSProperties = {
@@ -178,45 +179,120 @@ const ExamSchedule: React.FC<ExamScheduleProps> = ({ isDarkMode }) => {
         >
           No Exams!
         </h3>
-      ) : (
-        <table
-          style={{
-            width: '100%',
-            borderCollapse: 'separate',
-            borderSpacing: '0.75rem',
-            tableLayout: 'auto',
-          }}
-        >
-          <thead>
-            <tr>
-              <th style={headerStyle}>Time</th>
-              {filteredDays.map((day) => (
-                <th key={day} style={headerStyle}>
-                  {formatDay(day)}
-                </th>
-              ))}
-            </tr>
-          </thead>
-          <tbody>
-            {timeSlots.map((slot) => (
-              <tr key={slot}>
-                <td style={headerStyle}>{slot}</td>
-                {filteredDays.map((day) => (
-                  <td key={`${day}-${slot}`} style={cellStyle}>
-                    {groupedExams[slot]?.[day]?.map((exam, idx) => (
-                      <div key={idx} style={{ marginBottom: '0.5rem' }}>
-                        <strong>{exam.name}</strong>
-                        <div style={{ fontSize: '0.85rem' }}>
-                          {exam.teacher} — {exam.room}
-                        </div>
+      ) : isMobile ? (
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+          {filteredDays.map((day) =>
+            timeSlots.map((slot) => {
+              const exams = groupedExams[slot]?.[day] ?? [];
+              if (!exams.length) return null;
+              // Group exams by name
+              const groupedByName: Record<string, Exam[]> = {};
+              exams.forEach((exam) => {
+                if (!groupedByName[exam.name]) {
+                  groupedByName[exam.name] = [];
+                }
+                groupedByName[exam.name].push(exam);
+              });
+              return (
+                <React.Fragment key={`${slot}-${day}`}>
+                  <div
+                    style={{
+                      ...cellStyle,
+                      fontWeight: 600,
+                      backgroundColor: isDarkMode
+                        ? 'rgba(154, 31, 54, 0.3)'
+                        : 'rgba(154, 31, 54, 0.1)',
+                    }}
+                  >
+                    {formatDay(day)}: {slot}
+                  </div>
+                  <div
+                    style={{
+                      ...cellStyle,
+                      display: 'flex',
+                      flexDirection: 'column',
+                      alignItems: 'center',
+                      textAlign: 'center',
+                    }}
+                  >
+                    {Object.entries(groupedByName).map(([name, group], idx) => (
+                      <div key={idx} style={{ marginBottom: '1rem' }}>
+                        <strong>{name}</strong>
+                        <ul
+                          style={{
+                            margin: '0.25rem 0 0 0',
+                            padding: 0,
+                            listStyle: 'none',
+                            fontSize: '0.85rem',
+                          }}
+                        >
+                          {group.map((exam, i) => (
+                            <li key={i}>
+                              {exam.teacher} — {exam.room}
+                            </li>
+                          ))}
+                        </ul>
                       </div>
                     ))}
-                  </td>
+                  </div>
+                </React.Fragment>
+              );
+            })
+          )}
+        </div>
+      ) : (
+        <div
+          style={{
+            overflowX: 'auto',
+            width: '85vw',
+            boxSizing: 'border-box',
+            position: 'relative',
+            maskImage:
+              'linear-gradient(to right, transparent 0%, black 3%, black 97%, transparent 100%)',
+            WebkitMaskImage:
+              'linear-gradient(to right, transparent 0%, black 3%, black 97%, transparent 100%)',
+          }}
+        >
+          <table
+            style={{
+              width: '100%',
+              borderCollapse: 'separate',
+              borderSpacing: '0.75rem',
+              tableLayout: 'auto',
+              minWidth: '768px',
+            }}
+          >
+            <thead>
+              <tr>
+                <th style={headerStyle}>Time</th>
+                {filteredDays.map((day) => (
+                  <th key={day} style={headerStyle}>
+                    {formatDay(day)}
+                  </th>
                 ))}
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {timeSlots.map((slot) => (
+                <tr key={slot}>
+                  <td style={headerStyle}>{slot}</td>
+                  {filteredDays.map((day) => (
+                    <td key={`${day}-${slot}`} style={cellStyle}>
+                      {groupedExams[slot]?.[day]?.map((exam, idx) => (
+                        <div key={idx} style={{ marginBottom: '0.5rem' }}>
+                          <strong>{exam.name}</strong>
+                          <div style={{ fontSize: '0.85rem' }}>
+                            {exam.teacher} — {exam.room}
+                          </div>
+                        </div>
+                      ))}
+                    </td>
+                  ))}
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       )}
     </motion.div>
   );
