@@ -11,6 +11,7 @@ import { Announcement } from './types/announcements';
 import './styles.css';
 import SidebarNav from './components/global/SidebarNav';
 import useIsMobile from './hooks/useIsMobile';
+import { Navigate } from 'react-router-dom';
 
 const AnimatedRoutes = ({ isDarkMode }: { isDarkMode: boolean }) => {
   const location = useLocation();
@@ -18,7 +19,8 @@ const AnimatedRoutes = ({ isDarkMode }: { isDarkMode: boolean }) => {
   return (
     <AnimatePresence mode="wait">
       <Routes location={location} key={location.pathname}>
-        <Route path="/" element={<Home isDarkMode={isDarkMode} />} />
+        {/* <Route path="/" element={<Home isDarkMode={isDarkMode} />} /> */}
+        <Route path="/" element={<Navigate to="/exams" replace />} />
         <Route path="/lunch" element={<Lunch isDarkMode={isDarkMode} />} />
         <Route path="/sports" element={<Sports isDarkMode={isDarkMode} />} />
         <Route
@@ -26,6 +28,7 @@ const AnimatedRoutes = ({ isDarkMode }: { isDarkMode: boolean }) => {
           element={<ExamSchedule isDarkMode={isDarkMode} />}
         />
       </Routes>
+      {/* <Route path="/exams" element={<Navigate to="/" replace />} /> Comment out to remove exams */}
     </AnimatePresence>
   );
 };
