@@ -86,15 +86,6 @@ const App: React.FC = () => {
     });
   }, []);
 
-  const buttonContainerStyle: React.CSSProperties = {
-    position: 'fixed',
-    top: '2vh',
-    right: '2vw',
-    display: 'flex',
-    gap: '1vw',
-    zIndex: 1000,
-  };
-
   return (
     <div
       style={{
