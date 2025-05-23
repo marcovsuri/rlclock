@@ -3,11 +3,27 @@
 // This enables autocomplete, go to definition, etc.
 
 // Setup type definitions for built-in Supabase Runtime APIs
-import "jsr:@supabase/functions-js/edge-runtime.d.ts";
-import EXAMS, { IN_USE } from "./EXAMS.ts";
-import { ExamData } from "./schema.ts";
+// import "jsr:@supabase/functions-js/edge-runtime.d.ts";
+import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm";
+import { z } from "zod";
 
-Deno.serve((req) => {
+const classEnum = z.enum(["I", "II", "III", "IV", "V", "VI"]);
+
+// Single exam row (matches one row in public.exams)
+const examSchema = z.object({
+  class: classEnum, // class (enum)
+  day: z.string().regex(/^\d{4}-\d{2}-\d{2}$/), // day (date string "YYYY-MM-DD")
+  time_start: z.string().regex(/^\d{2}:\d{2}:\d{2}$/), // time (e.g., "08:30:00")
+  time_end: z.string().regex(/^\d{2}:\d{2}:\d{2}$/),
+  name: z.string(), // name (text)
+  teacher: z.string(), // teacher (text)
+  room: z.string(), // room (text)
+  is_active: z.boolean(), // is_active (bool)
+});
+
+type Exam = z.infer<typeof examSchema>;
+
+Deno.serve(async (req) => {
   if (req.method === "OPTIONS") {
     return new Response(null, {
       status: 204,
@@ -18,23 +34,32 @@ Deno.serve((req) => {
       },
     });
   }
+
   try {
-    if (!IN_USE) {
-      return new Response(
-        JSON.stringify({ error: "This function is not in use" }),
-        {
-          status: 503,
-          headers: {
-            "Content-Type": "application/json",
-            "Connection": "keep-alive",
-            "Access-Control-Allow-Origin": "*",
-          },
-        },
+    const supabaseUrl = Deno.env.get("SUPABASE_URL");
+    const supabaseAnonKey = Deno.env.get("SUPABASE_ANON_KEY");
+
+    if (!supabaseUrl || !supabaseAnonKey) {
+      throw new Error(
+        "Missing SUPABASE_URL or SUPABASE_ANON_KEY environment variables",
       );
     }
 
+    const supabase = createClient(supabaseUrl, supabaseAnonKey, {});
+
+    const { data, error } = await supabase
+      .from("exams")
+      .select("*")
+      .eq("is_active", true);
+
+    if (error) {
+      throw new Error(`Supabase error: ${error.message}`);
+    }
+
+    const parsedData = z.array(examSchema).parse(data);
+
     return new Response(
-      JSON.stringify(EXAMS as ExamData),
+      JSON.stringify(parsedData),
       {
         status: 200,
         headers: {
