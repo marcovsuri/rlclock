@@ -1,8 +1,8 @@
+import { Exam } from '../types/exams';
 import { Result } from '../types/global';
-import { ExamData } from '../types/exams';
 
 interface LocalExamData {
-  examData: ExamData;
+  examData: Exam[];
   lastUpdated: Date;
 }
 
@@ -24,7 +24,7 @@ const getExamDataFromLocal = (): Result<LocalExamData> => {
   };
 };
 
-const getExamData = async (): Promise<Result<ExamData>> => {
+const getExamData = async (): Promise<Result<Exam[]>> => {
   try {
     const localDataResult = getExamDataFromLocal();
 

@@ -56,7 +56,7 @@ Deno.serve(async (req) => {
       throw new Error(`Supabase error: ${error.message}`);
     }
 
-    const parsedData = z.array(examSchema).parse(data);
+    const parsedData: Exam[] = z.array(examSchema).parse(data);
 
     return new Response(
       JSON.stringify(parsedData),
