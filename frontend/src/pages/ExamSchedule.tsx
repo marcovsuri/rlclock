@@ -176,7 +176,7 @@ const ExamSchedule: React.FC<ExamScheduleProps> = ({ isDarkMode }) => {
             color: 'rgba(154, 31, 54, 1)',
           }}
         >
-          No exams scheduled.
+          No Exams!
         </h3>
       ) : (
         <table
