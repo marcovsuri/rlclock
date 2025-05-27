@@ -5,6 +5,7 @@ import Home from './pages/Home';
 import Lunch from './pages/Lunch';
 import Sports from './pages/Sports';
 import ExamSchedule from './pages/ExamSchedule';
+import Summer from './pages/Summer';
 import Footer from './components/global/Footer';
 import getAnnouncements from './core/announcementsFetcher';
 import { Announcement } from './types/announcements';
@@ -23,6 +24,7 @@ const AnimatedRoutes = ({ isDarkMode }: { isDarkMode: boolean }) => {
         <Route path="/" element={<Navigate to="/exams" replace />} />
         <Route path="/lunch" element={<Lunch isDarkMode={isDarkMode} />} />
         <Route path="/sports" element={<Sports isDarkMode={isDarkMode} />} />
+        <Route path="/summer" element={<Summer isDarkMode={isDarkMode} />} />
         <Route
           path="/exams"
           element={<ExamSchedule isDarkMode={isDarkMode} />}
