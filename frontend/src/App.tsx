@@ -20,8 +20,8 @@ const AnimatedRoutes = ({ isDarkMode }: { isDarkMode: boolean }) => {
   return (
     <AnimatePresence mode="wait">
       <Routes location={location} key={location.pathname}>
+        <Route path="/" element={<Summer isDarkMode={isDarkMode} />} />
         {/* <Route path="/" element={<Home isDarkMode={isDarkMode} />} /> */}
-        <Route path="/" element={<Navigate to="/exams" replace />} />
         <Route path="/lunch" element={<Lunch isDarkMode={isDarkMode} />} />
         <Route path="/sports" element={<Sports isDarkMode={isDarkMode} />} />
         <Route path="/summer" element={<Summer isDarkMode={isDarkMode} />} />
@@ -29,8 +29,8 @@ const AnimatedRoutes = ({ isDarkMode }: { isDarkMode: boolean }) => {
           path="/exams"
           element={<ExamSchedule isDarkMode={isDarkMode} />}
         />
+        <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
-      {/* <Route path="/exams" element={<Navigate to="/" replace />} /> Comment out to remove exams */}
     </AnimatePresence>
   );
 };
