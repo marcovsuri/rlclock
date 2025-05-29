@@ -46,7 +46,7 @@ const Summer: React.FC<SummerProps> = ({ isDarkMode }) => {
       }}
     >
       <SummerCountdown
-        title="🌞 Happy Summer Break!"
+        title="🌞 Happy Summer Break! 🎉"
         subtitle={
           <span
             style={{
@@ -55,7 +55,7 @@ const Summer: React.FC<SummerProps> = ({ isDarkMode }) => {
               boxShadow: '0 4px 20px 8px rgba(154, 31, 54, 0.8)',
               border: '1px solid rgba(154, 31, 54, 1)',
               padding: isMobile ? '2vh' : '2vh 2vw',
-              fontSize: '3vw',
+              fontSize: isMobile ? '4vw' : '3vw',
               borderRadius: '16px',
             }}
           >
