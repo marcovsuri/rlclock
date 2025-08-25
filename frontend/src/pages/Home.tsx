@@ -33,7 +33,12 @@ const Home: React.FC<HomeProps> = ({ isDarkMode }) => {
     document.title = 'RL Clock';
     getSportsEvents().then((response) => {
       if (response.success) {
-        setPastResults(response.data.slice(0, 4));
+        const firstDayOfSchool = '8/25/2025';
+        const results = response.data
+          .slice(0, 4)
+          .filter((e) => e.date > firstDayOfSchool);
+
+        setPastResults(results.length > 0 ? results : null);
       } else {
         setPastResults(null);
       }
@@ -140,20 +145,22 @@ const Home: React.FC<HomeProps> = ({ isDarkMode }) => {
             path="/lunch"
             isDarkMode={isDarkMode}
           />
-          <InfoCard
-            title="Latest Results:"
-            subtitle={
-              pastResults === undefined
-                ? 'Loading...'
-                : gameResultsFeature
-                    ?.split('\n')
-                    .map((line, i) => <div key={i}>{line}</div>) ??
-                  'No recent results.'
-            }
-            info="Click to see other results!"
-            path="/sports"
-            isDarkMode={isDarkMode}
-          />
+          {pastResults ? (
+            <InfoCard
+              title="Latest Results:"
+              subtitle={
+                pastResults === undefined
+                  ? 'Loading...'
+                  : gameResultsFeature
+                      ?.split('\n')
+                      .map((line, i) => <div key={i}>{line}</div>) ??
+                    'No recent results.'
+              }
+              info="Click to see other results!"
+              path="/sports"
+              isDarkMode={isDarkMode}
+            />
+          ) : null}
         </div>
       </div>
     </motion.div>
