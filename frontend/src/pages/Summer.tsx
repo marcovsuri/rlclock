@@ -7,7 +7,7 @@ interface SummerProps {
 }
 
 const getCountdownString = (): string => {
-  const targetDate = new Date('2025-08-25T00:00:00');
+  const targetDate = new Date('2025-08-25T08:20:00-04:00');
   const now = new Date();
   const diff = targetDate.getTime() - now.getTime();
 
