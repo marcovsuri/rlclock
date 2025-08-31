@@ -28,9 +28,11 @@ const Sports: React.FC<SportsProps> = ({ isDarkMode }) => {
     getSportsEvents().then((response) => {
       if (response.success) {
         const firstDayOfSchool = '8/25/2025';
-        setPastGames(
-          response.data.slice(0, 100).filter((e) => e.date > firstDayOfSchool)
-        );
+        const games = response.data
+          .slice(0, 4)
+          .filter((e) => e.date > firstDayOfSchool);
+
+        setPastGames(games.length > 0 ? games : null);
       } else {
         setPastGames(null);
       }
