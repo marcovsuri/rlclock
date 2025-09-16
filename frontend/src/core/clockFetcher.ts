@@ -63,7 +63,8 @@ interface LocalScheduleData {
 }
 
 const getScheduleFromLocal = (): Result<LocalScheduleData> => {
-  const localData = localStorage.getItem('schedule');
+  // const localData = localStorage.getItem('schedule');
+  const localData = null;
 
   if (!localData) {
     return {
@@ -103,15 +104,47 @@ const getSchedule = async (): Promise<Result<Schedule>> => {
 
     console.log('Schedule: fetching new data');
 
-    const response = await fetch(scheduleUrl);
+    // const response = await fetch(scheduleUrl);
 
-    if (!response.ok) {
-      throw new Error('Failed to fetch data from API');
-    }
+    // if (!response.ok) {
+    //   throw new Error('Failed to fetch data from API');
+    // }
 
-    const data = await response.json();
+    // const data = await response.json();
 
-    const parsedData = scheduleSchema.parse(data);
+    // const parsedData = scheduleSchema.parse(data);
+
+    const parsedData: Schedule = {
+      name: 'No Hall',
+      periods: [
+        { period: 0, name: 'Homeroom', start: '8:20', end: '8:25' },
+        { period: 1, name: 'Hall Block', start: '8:30', end: '9:15' },
+        { period: 2, name: 'H Block', start: '9:20', end: '10:05' },
+        { period: 3, name: 'A Block', start: '10:10', end: '10:55' },
+        {
+          period: 4,
+          name: 'B Block - First Lunch',
+          start: '11:00',
+          end: '11:25',
+        },
+        {
+          period: 5,
+          name: 'B Block - Between Lunches',
+          start: '11:30',
+          end: '11:45',
+        },
+        {
+          period: 6,
+          name: 'B Block - Second Lunch',
+          start: '11:50',
+          end: '12:15',
+        },
+        { period: 7, name: 'C Block', start: '12:20', end: '1:05' },
+        { period: 8, name: 'D Block', start: '1:10', end: '1:55' },
+        { period: 9, name: 'E Block', start: '2:00', end: '2:45' },
+        { period: 10, name: 'Activities Period', start: '2:50', end: '3:20' },
+      ],
+    };
 
     localStorage.setItem(
       'schedule',
