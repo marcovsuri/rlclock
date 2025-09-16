@@ -139,10 +139,10 @@ const getSchedule = async (): Promise<Result<Schedule>> => {
           start: '11:50',
           end: '12:15',
         },
-        { period: 7, name: 'C Block', start: '12:20', end: '1:05' },
-        { period: 8, name: 'D Block', start: '1:10', end: '1:55' },
-        { period: 9, name: 'E Block', start: '2:00', end: '2:45' },
-        { period: 10, name: 'Activities Period', start: '2:50', end: '3:20' },
+        { period: 7, name: 'C Block', start: '12:20', end: '13:05' },
+        { period: 8, name: 'D Block', start: '13:10', end: '13:55' },
+        { period: 9, name: 'E Block', start: '14:00', end: '14:45' },
+        { period: 10, name: 'Activities Period', start: '14:50', end: '15:20' },
       ],
     };
 
