@@ -67,9 +67,7 @@ const Service: React.FC<ServiceProps> = ({ isDarkMode }) => {
           lineHeight: 1.6,
           color: isDarkMode ? '#f0f0f0' : '#222',
           textAlign: 'left',
-          backgroundColor: isDarkMode
-            ? 'rgba(10, 0, 0, 0.5)'
-            : 'rgba(255, 245, 245, 0.5)',
+          backgroundColor: isDarkMode ? 'rgb(15, 0, 0)' : 'rgb(255, 240, 240)',
           border: `2px solid ${
             isDarkMode ? 'rgba(154,31,54,0.8)' : 'rgba(154,31,54,0.5)'
           }`,
