@@ -14,6 +14,7 @@ interface SidebarNavProps {
 const navItems = [
   { label: 'Home', path: '/' },
   { label: 'Lunch', path: '/lunch' },
+  { label: 'Service', path: '/service' },
   { label: 'Sports', path: '/sports' },
   // { label: 'Exams', path: '/exams' }, // Comment out to remove exams
 ];
@@ -73,7 +74,14 @@ const SidebarNav: React.FC<SidebarNavProps> = ({
         boxShadow: isOpen ? '4px 0 30px 4px  rgba(154, 31, 54, 0.5)' : 'none',
       }}
     >
-      <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+      <div
+        style={{
+          display: 'flex',
+          flexDirection: 'column',
+          gap: '1rem',
+          marginTop: isMobile ? '0' : '2rem',
+        }}
+      >
         {navItems.map(({ label, path }) => (
           <button
             key={label}

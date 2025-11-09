@@ -8,6 +8,9 @@ import getMenu from '../core/lunchFetcher';
 import { Menu } from '../types/lunch';
 import getSportsEvents from '../core/sportsFetcher';
 import { TeamEvent } from '../types/sports';
+import ServiceDriveCard from '../components/home/ServiceDriveCard';
+import getServiceData from '../core/serviceDataFetcher';
+import { ServiceData } from '../types/serviceData';
 
 interface HomeProps {
   isDarkMode: boolean;
@@ -20,6 +23,18 @@ const Home: React.FC<HomeProps> = ({ isDarkMode }) => {
   const [pastResults, setPastResults] = useState<
     TeamEvent[] | undefined | null
   >(undefined);
+
+  const [serviceData, setServiceData] = useState<ServiceData | undefined>(
+    undefined
+  );
+
+  useEffect(() => {
+    getServiceData().then((result) => {
+      if (result.success) {
+        setServiceData(result.data);
+      }
+    });
+  }, []);
 
   useEffect(() => {
     getMenu().then((result) => {
@@ -143,6 +158,13 @@ const Home: React.FC<HomeProps> = ({ isDarkMode }) => {
             }
             info={hasLunch ? 'Click to see full menu!' : ''}
             path="/lunch"
+            isDarkMode={isDarkMode}
+          />
+          <ServiceDriveCard
+            title="Thanksgiving Food Drive!"
+            numDonations={serviceData?.numDonations || 0}
+            donationGoal={serviceData?.donationGoal || 1000}
+            path="/service"
             isDarkMode={isDarkMode}
           />
           {pastResults ? (
