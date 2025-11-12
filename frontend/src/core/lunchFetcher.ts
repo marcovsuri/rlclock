@@ -67,6 +67,7 @@ const getMenu = async (): Promise<Result<Menu>> => {
     }
 
     const data = await response.json();
+    console.log(data);
 
     localStorage.setItem(
       'lunchMenu',
