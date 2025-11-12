@@ -100,7 +100,7 @@ const Service: React.FC<ServiceProps> = ({ isDarkMode }) => {
               color: 'rgb(154, 31, 54)',
             }}
           >
-            🎁 Our Iniative:
+            🎁 Our Initiative:
           </h3>
           <ul style={{ paddingLeft: '1.5em', margin: 0 }}>
             <li>
