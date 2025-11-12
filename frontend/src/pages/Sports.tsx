@@ -27,10 +27,7 @@ const Sports: React.FC<SportsProps> = ({ isDarkMode }) => {
     document.title = 'RL Clock | Sports';
     getSportsEvents().then((response) => {
       if (response.success) {
-        const firstDayOfSchool = '8/25/2025';
-        const games = response.data
-          .slice(0, 4)
-          .filter((e) => e.date > firstDayOfSchool);
+        const games = response.data.slice(0, 50);
 
         setPastGames(games.length > 0 ? games : null);
       } else {
@@ -43,11 +40,11 @@ const Sports: React.FC<SportsProps> = ({ isDarkMode }) => {
     getUpcomingSportsEvents().then((response) => {
       if (response.success) {
         const today = new Date();
-        const todayString = `${
-          today.getMonth() + 1
-        }/${today.getDate()}/${today.getFullYear()}`;
+        const todayMD = `${today.getMonth() + 1}/${today.getDate()}`;
 
-        setUpcomingGames(response.data.filter((e) => e.date === todayString));
+        setUpcomingGames(
+          response.data.filter((e) => e.date.startsWith(todayMD))
+        );
       } else {
         setUpcomingGames(null);
       }
