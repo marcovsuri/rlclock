@@ -12,7 +12,7 @@ const getServiceDataFromLocal = (): Result<LocalServiceData> => {
   if (!localData) {
     return {
       success: false,
-      errorMessage: 'No announcements data found in local storage',
+      errorMessage: 'No serviceData data found in local storage',
     };
   }
 
