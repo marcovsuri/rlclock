@@ -1,7 +1,7 @@
 import { z } from 'zod';
 
 const classEnum = z.enum(['I', 'II', 'III', 'IV', 'V', 'VI']);
-
+//
 const examSchema = z.object({
   class: classEnum, // class (enum)
   day: z.string().regex(/^\d{4}-\d{2}-\d{2}$/), // day (date string "YYYY-MM-DD")
