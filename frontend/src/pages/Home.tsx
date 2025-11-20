@@ -11,6 +11,7 @@ import { TeamEvent } from '../types/sports';
 import ServiceDriveCard from '../components/home/ServiceDriveCard';
 import getServiceData from '../core/serviceDataFetcher';
 import { ServiceData } from '../types/serviceData';
+import { getSchedule, Schedule } from '../core/clockFetcher';
 
 interface HomeProps {
   isDarkMode: boolean;
@@ -45,7 +46,6 @@ const Home: React.FC<HomeProps> = ({ isDarkMode }) => {
   }, []);
 
   useEffect(() => {
-    document.title = 'RL Clock';
     getSportsEvents().then((response) => {
       if (response.success) {
         const firstDayOfSchool = '8/25/2025';
@@ -59,6 +59,126 @@ const Home: React.FC<HomeProps> = ({ isDarkMode }) => {
       }
     });
   }, []);
+
+  const [schedule, setSchedule] = useState<Schedule | null | undefined>(
+    undefined
+  );
+  const [currentTime, setCurrentTime] = useState(new Date());
+
+  useEffect(() => {
+    const fetchSchedule = async () => {
+      try {
+        const result = await getSchedule();
+        setSchedule(result.success ? result.data : null);
+      } catch (err) {
+        console.error('Error fetching schedule:', err);
+      }
+    };
+
+    fetchSchedule();
+
+    const now = new Date();
+    const nextMidnight = new Date(
+      now.getFullYear(),
+      now.getMonth(),
+      now.getDate() + 1
+    );
+    const delay = nextMidnight.getTime() - now.getTime();
+
+    const midnightTimeout = setTimeout(() => {
+      fetchSchedule();
+      setInterval(fetchSchedule, 24 * 60 * 60 * 1000);
+    }, delay);
+
+    const interval = setInterval(() => {
+      setCurrentTime(new Date());
+    }, 1000);
+
+    return () => {
+      clearTimeout(midnightTimeout);
+      clearInterval(interval);
+    };
+  }, []);
+
+  const parseTime = (timeStr: string): Date => {
+    const [h, m] = timeStr.split(':').map(Number);
+    const now = new Date();
+    return new Date(now.getFullYear(), now.getMonth(), now.getDate(), h, m);
+  };
+
+  const getCurrentPeriodInfo = (schedule: Schedule) => {
+    const now = currentTime;
+    const periods = schedule.periods
+      .map((p) => {
+        if (!p.start || !p.end) return null;
+        return {
+          ...p,
+          startTime: parseTime(p.start),
+          endTime: parseTime(p.end),
+        };
+      })
+      .filter(Boolean) as ((typeof schedule.periods)[0] & {
+      startTime: Date;
+      endTime: Date;
+    })[];
+
+    if (periods.length === 0)
+      return { label: 'No Schedule', timeRemaining: null, current: null };
+
+    if (now < periods[0].startTime)
+      return {
+        label: 'Before School',
+        timeRemaining: periods[0].startTime.getTime() - now.getTime(),
+        current: null,
+      };
+
+    for (let i = 0; i < periods.length; i++) {
+      const p = periods[i];
+      const next = periods[i + 1];
+
+      if (now >= p.startTime && now <= p.endTime) {
+        return {
+          label: p.block ? `${p.block} Block` : p.name,
+          timeRemaining: p.endTime.getTime() - now.getTime(),
+          current: p,
+        };
+      }
+
+      if (next && now > p.endTime && now < next.startTime) {
+        return {
+          label: 'Passing Time',
+          timeRemaining: next.startTime.getTime() - now.getTime(),
+          current: null,
+        };
+      }
+    }
+
+    return { label: 'After School', timeRemaining: null, current: null };
+  };
+
+  const formatTimeRemaining = (ms: number | null) => {
+    if (!ms) return null;
+    const totalSec = Math.floor(ms / 1000);
+    const min = Math.floor(totalSec / 60);
+    const sec = totalSec % 60;
+    return `${min}:${sec.toString().padStart(2, '0')}`;
+  };
+
+  const { label, timeRemaining, current } = schedule
+    ? getCurrentPeriodInfo(schedule)
+    : { label: '', timeRemaining: null, current: null };
+
+  const formattedTime = formatTimeRemaining(timeRemaining);
+
+  useEffect(() => {
+    if (!label) {
+      document.title = 'RL Clock';
+      return;
+    }
+
+    const timeText = formattedTime ? ` (${formattedTime})` : '';
+    document.title = `RL Clock | ${label}${timeText}`;
+  }, [label, formattedTime]);
 
   const lunchFeatures = menu?.Entrées?.slice(0, 4)
     .flatMap((item) => {
