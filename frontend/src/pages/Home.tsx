@@ -146,7 +146,7 @@ const Home: React.FC<HomeProps> = ({ isDarkMode }) => {
 
       if (next && now > p.endTime && now < next.startTime) {
         return {
-          label: 'Passing Time',
+          label: 'PT',
           timeRemaining: next.startTime.getTime() - now.getTime(),
           current: null,
         };

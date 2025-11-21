@@ -16,6 +16,7 @@ const Service: React.FC<ServiceProps> = ({ isDarkMode }) => {
   );
 
   useEffect(() => {
+    document.title = 'RL Clock | Service';
     getServiceData().then((result) => {
       if (result.success) {
         setServiceData(result.data);
