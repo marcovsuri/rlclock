@@ -138,7 +138,7 @@ const Home: React.FC<HomeProps> = ({ isDarkMode }) => {
 
       if (now >= p.startTime && now <= p.endTime) {
         return {
-          label: p.block ? `${p.block} Block` : p.name,
+          label: p.block ? `${p.block}` : p.name,
           timeRemaining: p.endTime.getTime() - now.getTime(),
           current: p,
         };
@@ -177,7 +177,7 @@ const Home: React.FC<HomeProps> = ({ isDarkMode }) => {
     }
 
     const timeText = formattedTime ? ` (${formattedTime})` : '';
-    document.title = `RL Clock | ${label}${timeText}`;
+    document.title = `${label}${timeText}`;
   }, [label, formattedTime]);
 
   const lunchFeatures = menu?.Entrées?.slice(0, 4)
