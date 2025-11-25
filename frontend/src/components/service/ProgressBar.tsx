@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { motion, useAnimation } from 'framer-motion';
 import useIsMobile from '../../hooks/useIsMobile';
+import confetti from 'canvas-confetti';
 
 type Props = {
   numDonations: number;
@@ -24,20 +25,52 @@ const DonationProgressBar: React.FC<Props> = ({
   useEffect(() => {
     const duration = 2000; // ms
     const startTime = performance.now();
+    let hasFiredConfetti = false;
 
     const animateCount = (currentTime: number) => {
       const progress = Math.min((currentTime - startTime) / duration, 1);
-      setAnimatedDonations(Math.floor(progress * numDonations));
+      const newDonations = progress * numDonations;
 
-      if (progress < 1) requestAnimationFrame(animateCount);
+      setAnimatedDonations(Math.floor(newDonations));
+
+      // Trigger confetti if goal reached and hasn't fired yet
+      if (!hasFiredConfetti && newDonations >= donationGoal) {
+        hasFiredConfetti = true;
+
+        confetti({
+          particleCount: 120,
+          spread: 70,
+          origin: { y: 0.6 },
+        });
+
+        // extra burst
+        confetti({
+          particleCount: 80,
+          angle: 60,
+          spread: 50,
+          origin: { x: 0 },
+        });
+
+        confetti({
+          particleCount: 80,
+          angle: 120,
+          spread: 50,
+          origin: { x: 1 },
+        });
+      }
+
+      if (progress < 1) {
+        requestAnimationFrame(animateCount);
+      }
     };
 
     requestAnimationFrame(animateCount);
+
     controls.start(
       { width: `${targetPercent}%` },
       { duration: duration / 1000, ease: 'linear' }
     );
-  }, [targetPercent, numDonations, controls]);
+  }, [targetPercent, numDonations, donationGoal, controls]);
 
   return (
     <div
@@ -65,7 +98,8 @@ const DonationProgressBar: React.FC<Props> = ({
           animate={controls}
           style={{
             height: '100%',
-            background: 'linear-gradient(90deg, rgb(154,31,54), #ff6f61)',
+            background:
+              'linear-gradient(90deg, rgb(31, 154, 101),rgb(0, 255, 94))',
           }}
         />
       </div>
