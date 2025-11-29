@@ -26,23 +26,23 @@ const getSportsEventsFromLocal = (): Result<LocalSportsData> => {
 
 const getSportsEvents = async (): Promise<Result<TeamEvent[]>> => {
   try {
-    // const localDataResult = getSportsEventsFromLocal();
+    const localDataResult = getSportsEventsFromLocal();
 
-    // if (localDataResult.success) {
-    //   const THIRTY_MINUTES = 30 * 60 * 1000; // 30 minutes in milliseconds
-    //   const now = new Date();
-    //   const lastUpdated = new Date(localDataResult.data.lastUpdated); // ensure it's a Date
+    if (localDataResult.success) {
+      const THIRTY_MINUTES = 30 * 60 * 1000; // 30 minutes in milliseconds
+      const now = new Date();
+      const lastUpdated = new Date(localDataResult.data.lastUpdated); // ensure it's a Date
 
-    //   if (now.getTime() - lastUpdated.getTime() < THIRTY_MINUTES) {
-    //     console.log(
-    //       'Sports events: using local data (updated within 30 minutes)'
-    //     );
-    //     return {
-    //       success: true,
-    //       data: localDataResult.data.events,
-    //     };
-    //   }
-    // }
+      if (now.getTime() - lastUpdated.getTime() < THIRTY_MINUTES) {
+        console.log(
+          'Sports events: using local data (updated within 30 minutes)'
+        );
+        return {
+          success: true,
+          data: localDataResult.data.events,
+        };
+      }
+    }
 
     const url = process.env.REACT_APP_SPORTS_URL;
     const accessToken = process.env.REACT_APP_SUPABASE_ANON_KEY;

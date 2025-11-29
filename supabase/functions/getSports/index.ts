@@ -21,13 +21,13 @@ function parseTeamEvents(html: string): TeamEvent[] {
 
   rows.forEach((row) => {
     const cells = row.querySelectorAll("td");
-    if (cells.length < 7) return; // Skip rows that don't have enough columns
+    if (cells.length < 6) return; // Skip header/invalid rows
 
     const team = cells[0]?.textContent.trim() || "";
     const opponentsRaw = cells[1]?.innerHTML || "";
     const date = cells[2]?.textContent.trim() || "";
-    const resultRaw = cells[5]?.innerHTML || "";
-    const scoresRaw = cells[6]?.innerHTML || "";
+    const resultRaw = cells[cells.length - 2]?.innerHTML || "";
+    const scoresRaw = cells[cells.length - 1]?.innerHTML || "";
 
     const opponents = opponentsRaw.split(/<br\s*\/?>/).map((s) => s.trim()).filter(Boolean);
     const results = resultRaw.split(/<br\s*\/?>/).map((r) => r.trim()).filter(Boolean);
@@ -93,7 +93,6 @@ Deno.serve(async (req) => {
     const html = await response.text();
 
     const events = parseTeamEvents(html);
-    events.splice(0, 1); // Remove first row if empty
 
     return new Response(JSON.stringify(events), {
       status: 200,

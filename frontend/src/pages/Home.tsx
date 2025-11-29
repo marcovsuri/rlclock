@@ -46,14 +46,21 @@ const Home: React.FC<HomeProps> = ({ isDarkMode }) => {
   }, []);
 
   useEffect(() => {
+    const normalizeDate = (md: string): Date => {
+      const [month, day] = md.split('/').map(Number);
+      const now = new Date();
+      const year =
+        now.getMonth() + 1 >= 8 ? now.getFullYear() : now.getFullYear() - 1;
+      return new Date(year, month - 1, day);
+    };
     getSportsEvents().then((response) => {
       if (response.success) {
-        const firstDayOfSchool = '8/25/2025';
+        const firstDayOfSchool = new Date('8/25/2025');
         const results = response.data
           .slice(0, 4)
-          .filter((e) => e.date > firstDayOfSchool);
+          .filter((e) => normalizeDate(e.date) > firstDayOfSchool);
 
-        setPastResults(results.length > 0 ? results : null);
+        setPastResults(results);
       } else {
         setPastResults(null);
       }
@@ -280,14 +287,14 @@ const Home: React.FC<HomeProps> = ({ isDarkMode }) => {
             path="/lunch"
             isDarkMode={isDarkMode}
           />
-          <ServiceDriveCard
+          {/* <ServiceDriveCard
             title="Thanksgiving Food Drive!"
             numDonations={serviceData?.numDonations || 0}
             donationGoal={serviceData?.donationGoal || 1000}
             path="/service"
             isDarkMode={isDarkMode}
-          />
-          {pastResults ? (
+          /> */}
+          {pastResults !== undefined ? (
             <InfoCard
               title="Latest Results:"
               subtitle={
