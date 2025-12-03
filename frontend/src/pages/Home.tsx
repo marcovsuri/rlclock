@@ -197,22 +197,27 @@ const Home: React.FC<HomeProps> = ({ isDarkMode }) => {
     ?.flatMap((result) => {
       const winCount = result.wins.filter(Boolean).length;
       const lossCount = result.wins.filter((win) => !win).length;
+      const total = winCount + lossCount;
 
-      let outcome;
-      if (winCount + lossCount > 1) {
-        return `${result.team} → ${winCount} - ${lossCount} ${
-          winCount > lossCount ? 'Win' : 'Loss'
-        }`;
-      } else if (winCount > 0) {
-        outcome = 'Win';
-      } else {
-        outcome = 'Loss';
+      // --- Multi-game result (more than 1 match tracked) ---
+      if (total > 1) {
+        let outcome;
+        if (winCount > lossCount) outcome = 'Win';
+        else if (lossCount > winCount) outcome = 'Loss';
+        else outcome = 'Tie'; // <-- implements ties
+
+        return `${result.team} → ${winCount} - ${lossCount} ${outcome}`;
       }
 
-      return `${result.team} → ${result.scores[0].replace(
-        /-+/g,
-        ' - '
-      )} ${outcome}`;
+      // --- Single-game result ---
+      const rawScore = result.scores[0];
+      const formattedScore = rawScore.replace(/-+/g, ' - ');
+
+      // detect tie by score
+      const [a, b] = rawScore.split(/-+/).map(Number);
+      const outcome = a === b ? 'Tie' : a > b ? 'Win' : 'Loss';
+
+      return `${result.team} → ${formattedScore} ${outcome}`;
     })
     .join('\n');
 
