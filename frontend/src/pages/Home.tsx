@@ -12,6 +12,7 @@ import ServiceDriveCard from '../components/home/ServiceDriveCard';
 import getServiceData from '../core/serviceDataFetcher';
 import { ServiceData } from '../types/serviceData';
 import { getSchedule, Schedule } from '../core/clockFetcher';
+import { Link } from 'react-router-dom';
 
 interface HomeProps {
   isDarkMode: boolean;
@@ -264,60 +265,104 @@ const Home: React.FC<HomeProps> = ({ isDarkMode }) => {
       menu?.Soups?.length > 0);
 
   return (
-    <motion.div
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      exit={{ opacity: 0 }}
-      transition={{ duration: 0.5 }}
-      style={containerStyle}
-    >
-      {/* Main Content */}
-      <div style={contentStyle}>
-        <div style={clockStyle}>
-          <Clock isDarkMode={isDarkMode} />
+    <>
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+        transition={{ duration: 0.5 }}
+        style={{
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          width: '100%',
+          padding: '12px 20px',
+          textAlign: 'center',
+          fontWeight: 600,
+          fontSize: isMobile ? '0.5rem' : '1.1rem',
+          zIndex: 1000,
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+        }}
+      >
+        <div
+          style={{
+            width: '50%',
+            borderRadius: isMobile ? '3vh' : '2vw',
+            backgroundColor: isDarkMode ? 'black' : 'white',
+            color: 'rgb(154, 31, 54)',
+            cursor: 'pointer',
+            boxShadow: '0 4px 20px 4px rgba(154, 31, 54, 0.5)',
+            padding: isMobile ? '0.5rem' : '1rem',
+            transition:
+              'transform 0.2s ease, box-shadow 0.2s ease, background-color 3s ease, color 3s ease',
+          }}
+        >
+          <Link
+            to="/exams"
+            style={{ color: 'rgb(154,31,54)', textDecoration: 'none' }}
+          >
+            Midyear Exam Schedule for 2025 is Out &gt;&gt;
+          </Link>
         </div>
-        <div style={cardsStyle}>
-          <InfoCard
-            title="Today's Lunch:"
-            subtitle={
-              menu === undefined
-                ? 'Loading...'
-                : !hasLunch || !lunchFeatures
-                ? 'No lunch served today.'
-                : lunchFeatures
-                    .split('\n')
-                    .map((line, i) => <div key={i}>{line}</div>)
-            }
-            info={hasLunch ? 'Click to see full menu!' : ''}
-            path="/lunch"
-            isDarkMode={isDarkMode}
-          />
-          {/* <ServiceDriveCard
+      </motion.div>
+
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+        transition={{ duration: 0.5 }}
+        style={containerStyle}
+      >
+        {/* Main Content */}
+        <div style={contentStyle}>
+          <div style={clockStyle}>
+            <Clock isDarkMode={isDarkMode} />
+          </div>
+          <div style={cardsStyle}>
+            <InfoCard
+              title="Today's Lunch:"
+              subtitle={
+                menu === undefined
+                  ? 'Loading...'
+                  : !hasLunch || !lunchFeatures
+                  ? 'No lunch served today.'
+                  : lunchFeatures
+                      .split('\n')
+                      .map((line, i) => <div key={i}>{line}</div>)
+              }
+              info={hasLunch ? 'Click to see full menu!' : ''}
+              path="/lunch"
+              isDarkMode={isDarkMode}
+            />
+            {/* <ServiceDriveCard
             title="Thanksgiving Food Drive!"
             numDonations={serviceData?.numDonations || 0}
             donationGoal={serviceData?.donationGoal || 1000}
             path="/service"
             isDarkMode={isDarkMode}
           /> */}
-          {pastResults !== undefined ? (
-            <InfoCard
-              title="Latest Results:"
-              subtitle={
-                pastResults === undefined
-                  ? 'Loading...'
-                  : gameResultsFeature
-                      ?.split('\n')
-                      .map((line, i) => <div key={i}>{line}</div>) ??
-                    'No recent results.'
-              }
-              info="Click to see other results!"
-              path="/sports"
-              isDarkMode={isDarkMode}
-            />
-          ) : null}
+            {pastResults !== undefined ? (
+              <InfoCard
+                title="Latest Results:"
+                subtitle={
+                  pastResults === undefined
+                    ? 'Loading...'
+                    : gameResultsFeature
+                        ?.split('\n')
+                        .map((line, i) => <div key={i}>{line}</div>) ??
+                      'No recent results.'
+                }
+                info="Click to see other results!"
+                path="/sports"
+                isDarkMode={isDarkMode}
+              />
+            ) : null}
+          </div>
         </div>
-      </div>
-    </motion.div>
+      </motion.div>
+    </>
   );
 };
 
