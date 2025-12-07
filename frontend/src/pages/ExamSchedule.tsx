@@ -273,23 +273,50 @@ const ExamSchedule: React.FC<ExamScheduleProps> = ({ isDarkMode }) => {
               </tr>
             </thead>
             <tbody>
-              {timeSlots.map((slot) => (
-                <tr key={slot}>
-                  <td style={headerStyle}>{slot}</td>
-                  {filteredDays.map((day) => (
-                    <td key={`${day}-${slot}`} style={cellStyle}>
-                      {groupedExams[slot]?.[day]?.map((exam, idx) => (
-                        <div key={idx} style={{ marginBottom: '0.5rem' }}>
-                          <strong>{exam.name}</strong>
-                          <div style={{ fontSize: '0.85rem' }}>
-                            {exam.teacher} — {exam.room}
-                          </div>
-                        </div>
-                      ))}
-                    </td>
-                  ))}
-                </tr>
-              ))}
+              {timeSlots.map((slot) => {
+                return (
+                  <tr key={slot}>
+                    <td style={headerStyle}>{slot}</td>
+                    {filteredDays.map((day) => {
+                      const exams = groupedExams[slot]?.[day] ?? [];
+                      if (!exams.length) return null;
+                      // Group exams by name
+                      const groupedByName: Record<string, Exam[]> = {};
+                      exams.forEach((exam) => {
+                        if (!groupedByName[exam.name]) {
+                          groupedByName[exam.name] = [];
+                        }
+                        groupedByName[exam.name].push(exam);
+                      });
+                      return (
+                        <td key={`${day}-${slot}`} style={cellStyle}>
+                          {Object.entries(groupedByName).map(
+                            ([name, group], idx) => (
+                              <div key={idx} style={{ marginBottom: '1rem' }}>
+                                <strong>{name}</strong>
+                                <ul
+                                  style={{
+                                    margin: '0.25rem 0 0 0',
+                                    padding: 0,
+                                    listStyle: 'none',
+                                    fontSize: '0.85rem',
+                                  }}
+                                >
+                                  {group.map((exam, i) => (
+                                    <li key={i}>
+                                      {exam.teacher} — {exam.room}
+                                    </li>
+                                  ))}
+                                </ul>
+                              </div>
+                            )
+                          )}
+                        </td>
+                      );
+                    })}
+                  </tr>
+                );
+              })}
             </tbody>
           </table>
         </div>
