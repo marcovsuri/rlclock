@@ -27,10 +27,10 @@ const AnimatedRoutes = ({ isDarkMode }: { isDarkMode: boolean }) => {
         <Route path="/sports" element={<Sports isDarkMode={isDarkMode} />} />
         <Route path="/service" element={<Service isDarkMode={isDarkMode} />} />
         {/* <Route path="/summer" element={<Summer isDarkMode={isDarkMode} />} /> */}
-        {/* <Route
+        <Route
           path="/exams"
           element={<ExamSchedule isDarkMode={isDarkMode} />}
-        /> */}
+        />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </AnimatePresence>

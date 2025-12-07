@@ -37,7 +37,7 @@ const formatDay = (day: string) => {
 
 const ExamSchedule: React.FC<ExamScheduleProps> = ({ isDarkMode }) => {
   const isMobile = useIsMobile();
-  const [selectedClass, setSelectedClass] = useState<string>('II');
+  const [selectedClass, setSelectedClass] = useState<string>('I');
   const [exams, setExams] = useState<Exam[]>([]);
   const [days, setDays] = useState<string[]>([]);
   const [timeSlots, setTimeSlots] = useState<string[]>([]);
