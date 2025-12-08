@@ -47,6 +47,10 @@ const ExamSchedule: React.FC<ExamScheduleProps> = ({ isDarkMode }) => {
   const [filteredDays, setFilteredDays] = useState<string[]>([]);
 
   useEffect(() => {
+    document.title = 'Midyears 2025';
+  });
+
+  useEffect(() => {
     getExamData().then((result) => {
       if (result.success) {
         const fetchedExams: Exam[] = result.data;
