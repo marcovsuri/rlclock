@@ -298,12 +298,25 @@ const Home: React.FC<HomeProps> = ({ isDarkMode }) => {
             transition:
               'transform 0.2s ease, box-shadow 0.2s ease, background-color 3s ease, color 3s ease',
           }}
+          onMouseEnter={(e) => {
+            (e.currentTarget as HTMLElement).style.transform = 'scale(1.03)';
+            (e.currentTarget as HTMLElement).style.boxShadow =
+              '0 4px 30px 4px rgba(154, 31, 54, 0.5)';
+          }}
+          onMouseLeave={(e) => {
+            (e.currentTarget as HTMLElement).style.transform = 'scale(1)';
+            (e.currentTarget as HTMLElement).style.boxShadow =
+              '0 4px 20px 4px rgba(154, 31, 54, 0.5)';
+          }}
         >
           <Link
             to="/exams"
-            style={{ color: 'rgb(154,31,54)', textDecoration: 'none' }}
+            style={{
+              color: 'rgb(154,31,54)',
+              textDecoration: 'none',
+            }}
           >
-            Midyear Exam Schedule for 2025 is Out &gt;&gt;
+            2025 Midyear Exam Schedule Available &gt;&gt; Click Here!
           </Link>
         </div>
       </motion.div>

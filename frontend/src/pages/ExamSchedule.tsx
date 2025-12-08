@@ -51,7 +51,9 @@ const ExamSchedule: React.FC<ExamScheduleProps> = ({ isDarkMode }) => {
       if (result.success) {
         const fetchedExams: Exam[] = result.data;
         setExams(fetchedExams);
-        const uniqueDays = Array.from(new Set(fetchedExams.map((e) => e.day)));
+        const uniqueDays = Array.from(
+          new Set(fetchedExams.map((e) => e.day))
+        ).sort((a, b) => new Date(a).getTime() - new Date(b).getTime());
         setDays(uniqueDays);
       }
     });
@@ -95,9 +97,9 @@ const ExamSchedule: React.FC<ExamScheduleProps> = ({ isDarkMode }) => {
     setGroupedExams(grouped);
 
     // Filter days that have at least one exam in any slot
-    const daysWithExams = days.filter((day) =>
-      slots.some((slot) => grouped[slot][day]?.length > 0)
-    );
+    const daysWithExams = days
+      .filter((day) => slots.some((slot) => grouped[slot][day]?.length > 0))
+      .sort((a, b) => new Date(a).getTime() - new Date(b).getTime());
     setFilteredDays(daysWithExams);
   }, [exams, selectedClass, days]);
 
