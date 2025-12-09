@@ -285,7 +285,9 @@ const ExamSchedule: React.FC<ExamScheduleProps> = ({ isDarkMode }) => {
                     <td style={headerStyle}>{slot}</td>
                     {filteredDays.map((day) => {
                       const exams = groupedExams[slot]?.[day] ?? [];
-                      if (!exams.length) return null;
+                      if (!exams.length) {
+                        return <td key={`${day}-${slot}`}></td>;
+                      }
                       // Group exams by name
                       const groupedByName: Record<string, Exam[]> = {};
                       exams.forEach((exam) => {
