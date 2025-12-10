@@ -183,7 +183,7 @@ const ExamSchedule: React.FC<ExamScheduleProps> = ({ isDarkMode }) => {
             color: 'rgba(154, 31, 54, 1)',
           }}
         >
-          No Exams!
+          An error occurred. Check back later.
         </h3>
       ) : isMobile ? (
         <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
