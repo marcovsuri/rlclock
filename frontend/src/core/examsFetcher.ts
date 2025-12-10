@@ -62,6 +62,7 @@ const getExamData = async (): Promise<Result<Exam[]>> => {
     }
 
     const data = await response.json();
+    console.log('Exams: fetched new data successfully');
 
     localStorage.setItem(
       'exams',
