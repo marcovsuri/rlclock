@@ -2,6 +2,7 @@
 // import "jsr:@supabase/functions-js/edge-runtime.d.ts"
 
 import { z } from "zod";
+import { parseHTML } from "npm:linkedom"; // ← Replaces HTMLRewriter
 
 // Schema for a single event
 const UpcomingEventSchema = z.object({
@@ -35,102 +36,46 @@ function normalizeTeamName(name: string): string {
 }
 
 /**
- * Parses HTML using HTMLRewriter (Edge-compatible)
- * Safely handles malformed rows and logs skipped rows
+ * Parses the RL athletics events table using linkedom (DOM parser)
  */
 async function parseUpcomingEvents(html: string): Promise<UpcomingEvent[]> {
   const events: UpcomingEvent[] = [];
-  let currentRow: Record<string, any> = {};
-  let cellIndex = 0;
+
+  const { document } = parseHTML(html);
+
+  const rows = document.querySelectorAll("table.events-table tbody tr");
   let rowNumber = 0;
 
-  const rewriter = new HTMLRewriter()
-    .on("table.events-table tbody tr", {
-      element() {
-        // Reset state for each new row
-        currentRow = {};
-        cellIndex = 0;
-        rowNumber++;
-      },
-    })
-    .on("table.events-table tbody tr td", {
-      text(text) {
-        try {
-          const value = text.text.trim();
-          if (!value) {
-            cellIndex++;
-            return;
-          }
+  for (const row of rows) {
+    rowNumber++;
 
-          switch (cellIndex) {
-            case 0:
-              currentRow.team = normalizeTeamName(value);
-              break;
-            case 1:
-              currentRow.opponents = value.split(",").map((v) => v.trim());
-              break;
-            case 2:
-              const normalized = normalizeDate(value);
-              if (normalized === null) {
-                // Mark as invalid date
-                currentRow.date = null;
-              } else {
-                currentRow.date = normalized;
-              }
-              break;
-            case 3:
-              currentRow.time = value;
-              break;
-            case 4:
-              currentRow.where = value;
-              break;
-            default:
-              // Ignore extra cells
-              break;
-          }
-        } catch (err) {
-          console.warn(`Error processing cell at row ${rowNumber}, cell ${cellIndex}:`, err);
-        } finally {
-          cellIndex++;
-        }
-      },
-    })
-    .on("table.events-table tbody tr", {
-      end() {
-        try {
-          // Check all required fields are present and valid
-          if (
-            typeof currentRow.team === "string" &&
-            Array.isArray(currentRow.opponents) &&
-            currentRow.opponents.length > 0 &&
-            typeof currentRow.date === "string" &&
-            currentRow.date !== null &&
-            typeof currentRow.time === "string" &&
-            typeof currentRow.where === "string"
-          ) {
-            const parsed = UpcomingEventSchema.safeParse(currentRow);
-            if (parsed.success) {
-              events.push(parsed.data);
-            } else {
-              console.warn(`Row ${rowNumber} failed schema validation:`, parsed.error.errors);
-            }
-          } else {
-            console.warn(`Row ${rowNumber} skipped due to missing or invalid fields:`, currentRow);
-          }
-        } catch (err) {
-          console.warn(`Error finalizing row ${rowNumber}:`, err);
-        }
-      },
-    });
+    const cells = row.querySelectorAll("td");
+    if (cells.length < 5) {
+      console.warn(`Row ${rowNumber} skipped: not enough cells`);
+      continue;
+    }
 
-  try {
-    await rewriter.transform(
-      new Response(html, {
-        headers: { "Content-Type": "text/html" },
-      }),
-    ).text();
-  } catch (err) {
-    console.warn("Error during HTMLRewriter transform:", err);
+    const team = normalizeTeamName(cells[0].textContent.trim());
+    const opponents = cells[1].textContent.split(",").map((v) => v.trim());
+    const rawDate = cells[2].textContent.trim();
+
+    const date = normalizeDate(rawDate);
+    const time = cells[3].textContent.trim();
+    const where = cells[4].textContent.trim();
+
+    if (!date) {
+      console.warn(`Row ${rowNumber} invalid date`);
+      continue;
+    }
+
+    const rowObj = { team, opponents, date, time, where };
+
+    const parsed = UpcomingEventSchema.safeParse(rowObj);
+    if (parsed.success) {
+      events.push(parsed.data);
+    } else {
+      console.warn(`Row ${rowNumber} schema failure:`, parsed.error.errors);
+    }
   }
 
   return events;
@@ -177,3 +122,14 @@ Deno.serve(async (req) => {
     });
   }
 });
+
+/* To invoke locally:
+
+  1. Run `supabase functions serve`
+  2. Make an HTTP request:
+
+  curl -i --location --request POST 'http://127.0.0.1:54321/functions/v1/getUpcomingSports' \
+    --header 'Authorization: Bearer <anon-key>' \
+    --header 'Content-Type: application/json'
+
+*/

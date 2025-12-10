@@ -84,8 +84,6 @@ const getUpcomingSportsEvents = async (): Promise<Result<UpcomingEvent[]>> => {
       })
     );
 
-    console.log(data);
-
     return { success: true, data };
   } catch (error) {
     console.error('Failed to fetch upcoming sports events:', error);

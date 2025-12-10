@@ -46,31 +46,48 @@ const TodayGamesCard: React.FC<TodayGamesCardProps> = ({
           {todayGames === undefined ? 'Loading...' : 'No games today.'}
         </p>
       ) : (
-        todayGames.map((game, index) => (
-          <div
-            key={index}
-            style={{
-              backgroundColor: 'rgba(154, 31, 54, 0.3)',
-              padding: isMobile ? '2.5vw' : '1vw',
-              borderRadius: isMobile ? '3vw' : '1vw',
-              display: 'flex',
-              justifyContent: 'space-between',
-              alignItems: 'center',
-              fontWeight: 500,
-              fontSize: isMobile ? '4vw' : '1.2vw',
-              color: isDarkMode ? 'white' : 'black',
-              marginBottom: '1vh',
-            }}
-          >
-            <span>
-              ({game.where}) {game.team}{' '}
-              {game.opponents[0] !== ''
-                ? 'vs. ' + game.opponents.join(', ')
-                : ''}
-            </span>
-            <span>{game.time}</span>
-          </div>
-        ))
+        todayGames.map((game, index) => {
+          const isHome = game.where.toLowerCase().includes('home');
+          const isVarsity = game.team.toLowerCase().includes('varsity');
+          const isAway = !isHome;
+
+          const baseStyle = {
+            padding: isMobile ? '2.5vw' : '1vw',
+            borderRadius: isMobile ? '3vw' : '1vw',
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            fontWeight: 500,
+            fontSize: isMobile ? '4vw' : '1.2vw',
+            color: isDarkMode ? 'white' : 'black',
+            marginBottom: '1vh',
+            backgroundColor: 'rgba(154, 31, 54, 0.3)',
+            opacity: 1,
+            border: 'none',
+            boxShadow: 'none',
+          };
+
+          if (isVarsity) {
+            baseStyle.border = `2px solid rgba(154, 31, 54, 0.7)`;
+            baseStyle.boxShadow = '0 0 15px 2px rgba(154, 31, 54, 0.7)';
+          }
+
+          if (isAway) {
+            baseStyle.opacity = 0.6;
+          }
+
+          return (
+            <div key={index} style={baseStyle}>
+              <span>
+                ({game.where}) {game.team}{' '}
+                {game.opponents[0] !== ''
+                  ? 'vs. ' + game.opponents.join(', ')
+                  : ''}
+              </span>
+              <span>{game.time}</span>
+            </div>
+          );
+        })
       )}
     </div>
   );
