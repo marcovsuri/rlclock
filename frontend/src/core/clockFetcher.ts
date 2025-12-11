@@ -112,7 +112,7 @@ const getSchedule = async (): Promise<Result<Schedule>> => {
 
     const data = await response.json();
 
-    const parsedData = scheduleSchema.parse(data);
+    // const parsedData = scheduleSchema.parse(data);
 
     // const parsedData: Schedule = {
     //   name: 'No Hall',
@@ -145,6 +145,40 @@ const getSchedule = async (): Promise<Result<Schedule>> => {
     //     // { period: 10, name: 'Activities Period', start: '14:50', end: '15:20' },
     //   ],
     // };
+
+    const parsedData: Schedule = {
+      name: 'No Hall',
+      periods: [
+        { period: 0, name: 'Homeroom', start: '8:20', end: '8:25' },
+        { period: 1, name: 'D Block', start: '8:30', end: '9:10' },
+        { period: 2, name: 'E Block', start: '9:15', end: '9:55' },
+        { period: 3, name: 'F Block', start: '10:00', end: '10:40' },
+        { period: 4, name: 'G Block', start: '10:45', end: '11:25' },
+        {
+          period: 5,
+          name: 'H Block - First Lunch',
+          start: '11:30',
+          end: '11:55',
+        },
+        {
+          period: 6,
+          name: 'H Block - Between Lunches',
+          start: '12:00',
+          end: '12:15',
+        },
+        {
+          period: 7,
+          name: 'H Block - Second Lunch',
+          start: '12:20',
+          end: '12:45',
+        },
+        { period: 8, name: 'A Block', start: '12:50', end: '13:30' },
+        { period: 9, name: 'B Block', start: '13:35', end: '14:15' },
+        { period: 10, name: 'C Block', start: '14:20', end: '15:00' },
+        // { period: 9, name: 'E Block', start: '14:00', end: '14:45' },
+        // { period: 10, name: 'Activities Period', start: '14:50', end: '15:20' },
+      ],
+    };
 
     localStorage.setItem(
       'schedule',
