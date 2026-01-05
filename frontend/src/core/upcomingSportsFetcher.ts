@@ -39,21 +39,21 @@ const getUpcomingSportsEventsFromLocal = (): Result<{
 
 const getUpcomingSportsEvents = async (): Promise<Result<UpcomingEvent[]>> => {
   try {
-    // const localDataResult = getUpcomingSportsEventsFromLocal();
+    const localDataResult = getUpcomingSportsEventsFromLocal();
 
-    // if (localDataResult.success) {
-    //   const THIRTY_MINUTES = 30 * 60 * 1000;
-    //   const now = Date.now();
-    //   const lastUpdatedTime = localDataResult.data.lastUpdated.getTime();
+    if (localDataResult.success) {
+      const THIRTY_MINUTES = 30 * 60 * 1000;
+      const now = Date.now();
+      const lastUpdatedTime = localDataResult.data.lastUpdated.getTime();
 
-    //   if (now - lastUpdatedTime < THIRTY_MINUTES) {
-    //     console.log('Using local upcoming sports data (fresh)');
-    //     return {
-    //       success: true,
-    //       data: localDataResult.data.events,
-    //     };
-    //   }
-    // }
+      if (now - lastUpdatedTime < THIRTY_MINUTES) {
+        console.log('Using local upcoming sports data (fresh)');
+        return {
+          success: true,
+          data: localDataResult.data.events,
+        };
+      }
+    }
 
     console.log('Fetching new upcoming sports events');
 

@@ -50,13 +50,24 @@ const Home: React.FC<HomeProps> = ({ isDarkMode }) => {
     const normalizeDate = (md: string): Date => {
       const [month, day] = md.split('/').map(Number);
       const now = new Date();
-      const year =
-        now.getMonth() + 1 >= 8 ? now.getFullYear() : now.getFullYear() - 1;
+
+      // Assume sports dates within the current or upcoming school year
+      let year = now.getFullYear();
+
+      // If the month is ahead of the current month by a large margin, it likely belongs to the previous year
+      if (month > now.getMonth() + 1 + 2) {
+        year -= 1;
+      }
+
       return new Date(year, month - 1, day);
     };
     getSportsEvents().then((response) => {
       if (response.success) {
-        const firstDayOfSchool = new Date('8/25/2025');
+        const now = new Date();
+        const firstDayOfSchool =
+          now.getMonth() + 1 >= 8
+            ? new Date(now.getFullYear(), 7, 25)
+            : new Date(now.getFullYear() - 1, 7, 25);
         const results = response.data
           .slice(0, 4)
           .filter((e) => normalizeDate(e.date) > firstDayOfSchool);
