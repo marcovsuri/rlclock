@@ -19,7 +19,7 @@ Deno.serve(async (req: Request) => {
   const s1 = new Date();
 
   const urlStart =
-    "https://www.sagedining.com/microsites/getMenuItems?menuId=132834&date=";
+    "https://www.sagedining.com/microsites/getMenuItems?menuId=134281&date=";
   const date = (s1.getMonth() + 1) + "/" + s1.getDate() + "/" + s1.getFullYear();
   const urlEnd = "&meal=Lunch&mode=";
 
@@ -37,6 +37,7 @@ Deno.serve(async (req: Request) => {
     const json = await response.json();
 
     const parsedData = menuSchema.parse(json);
+    console.log("Parsed lunch data:", parsedData);
 
     return new Response(
       JSON.stringify(parsedData),
