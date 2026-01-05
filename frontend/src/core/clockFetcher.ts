@@ -112,7 +112,7 @@ const getSchedule = async (): Promise<Result<Schedule>> => {
 
     const data = await response.json();
 
-    // const parsedData = scheduleSchema.parse(data);
+    const parsedData = scheduleSchema.parse(data);
 
     // const parsedData: Schedule = {
     //   name: 'No Hall',
@@ -146,40 +146,40 @@ const getSchedule = async (): Promise<Result<Schedule>> => {
     //   ],
     // };
 
-    const parsedData: Schedule = {
-      name: 'No Hall',
-      periods: [
-        { period: 0, name: 'Homeroom', start: '8:20', end: '8:25' },
-        { period: 1, name: 'Hall', start: '8:30', end: '8:50' },
-        { period: 2, name: 'C Block', start: '8:55', end: '9:30' },
-        { period: 3, name: 'D Block', start: '9:35', end: '10:10' },
-        { period: 4, name: 'E Block', start: '10:15', end: '10:50' },
-        { period: 5, name: 'F Block', start: '10:55', end: '11:30' },
-        {
-          period: 6,
-          name: 'G Block - First Lunch',
-          start: '11:35',
-          end: '12:00',
-        },
-        {
-          period: 7,
-          name: 'G Block - Between Lunches',
-          start: '12:05',
-          end: '12:15',
-        },
-        {
-          period: 8,
-          name: 'G Block - Second Lunch',
-          start: '12:20',
-          end: '12:45',
-        },
-        { period: 9, name: 'H Block', start: '12:50', end: '13:25' },
-        { period: 10, name: 'A Block', start: '13:30', end: '14:05' },
-        { period: 11, name: 'B Block', start: '14:10', end: '14:45' },
-        // { period: 9, name: 'E Block', start: '14:00', end: '14:45' },
-        // { period: 10, name: 'Activities Period', start: '14:50', end: '15:20' },
-      ],
-    };
+    // const parsedData: Schedule = {
+    //   name: 'No Hall',
+    //   periods: [
+    //     { period: 0, name: 'Homeroom', start: '8:20', end: '8:25' },
+    //     { period: 1, name: 'Hall', start: '8:30', end: '8:50' },
+    //     { period: 2, name: 'C Block', start: '8:55', end: '9:30' },
+    //     { period: 3, name: 'D Block', start: '9:35', end: '10:10' },
+    //     { period: 4, name: 'E Block', start: '10:15', end: '10:50' },
+    //     { period: 5, name: 'F Block', start: '10:55', end: '11:30' },
+    //     {
+    //       period: 6,
+    //       name: 'G Block - First Lunch',
+    //       start: '11:35',
+    //       end: '12:00',
+    //     },
+    //     {
+    //       period: 7,
+    //       name: 'G Block - Between Lunches',
+    //       start: '12:05',
+    //       end: '12:15',
+    //     },
+    //     {
+    //       period: 8,
+    //       name: 'G Block - Second Lunch',
+    //       start: '12:20',
+    //       end: '12:45',
+    //     },
+    //     { period: 9, name: 'H Block', start: '12:50', end: '13:25' },
+    //     { period: 10, name: 'A Block', start: '13:30', end: '14:05' },
+    //     { period: 11, name: 'B Block', start: '14:10', end: '14:45' },
+    //     // { period: 9, name: 'E Block', start: '14:00', end: '14:45' },
+    //     // { period: 10, name: 'Activities Period', start: '14:50', end: '15:20' },
+    //   ],
+    // };
 
     localStorage.setItem(
       'schedule',

@@ -12,11 +12,11 @@ interface SidebarNavProps {
 }
 
 const navItems = [
-  // { label: 'Home', path: '/' },
+  { label: 'Home', path: '/' },
   { label: 'Lunch', path: '/lunch' },
   { label: 'Sports', path: '/sports' },
   // { label: 'Service', path: '/service' },
-  { label: 'Exams', path: '/exams' }, // Comment out to remove exams
+  // { label: 'Exams', path: '/exams' }, // Comment out to remove exams
 ];
 
 const SidebarNav: React.FC<SidebarNavProps> = ({

@@ -266,7 +266,7 @@ const Home: React.FC<HomeProps> = ({ isDarkMode }) => {
 
   return (
     <>
-      <motion.div
+      {/* <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
@@ -319,7 +319,7 @@ const Home: React.FC<HomeProps> = ({ isDarkMode }) => {
             2025 Midyear Exam Schedule Available &gt;&gt; Click Here!
           </Link>
         </div>
-      </motion.div>
+      </motion.div> */}
 
       <motion.div
         initial={{ opacity: 0 }}

@@ -22,16 +22,16 @@ const AnimatedRoutes = ({ isDarkMode }: { isDarkMode: boolean }) => {
     <AnimatePresence mode="wait">
       <Routes location={location} key={location.pathname}>
         {/* <Route path="/" element={<Summer isDarkMode={isDarkMode} />} /> */}
-        {/* <Route path="/" element={<Home isDarkMode={isDarkMode} />} /> */}
+        <Route path="/" element={<Home isDarkMode={isDarkMode} />} />
         <Route path="/lunch" element={<Lunch isDarkMode={isDarkMode} />} />
         <Route path="/sports" element={<Sports isDarkMode={isDarkMode} />} />
         <Route path="/service" element={<Service isDarkMode={isDarkMode} />} />
         {/* <Route path="/summer" element={<Summer isDarkMode={isDarkMode} />} /> */}
-        <Route
+        {/* <Route
           path="/exams"
           element={<ExamSchedule isDarkMode={isDarkMode} />}
-        />
-        <Route path="*" element={<Navigate to="/exams" replace />} />
+        /> */}
+        {/* <Route path="*" element={<Navigate to="/exams" replace />} /> */}
       </Routes>
     </AnimatePresence>
   );
