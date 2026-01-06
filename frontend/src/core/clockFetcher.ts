@@ -112,39 +112,43 @@ const getSchedule = async (): Promise<Result<Schedule>> => {
 
     const data = await response.json();
 
-    const parsedData = scheduleSchema.parse(data);
+    // const parsedData = scheduleSchema.parse(data);
 
-    // const parsedData: Schedule = {
-    //   name: 'No Hall',
-    //   periods: [
-    //     { period: 0, name: 'Homeroom', start: '8:20', end: '8:25' },
-    //     { period: 1, name: 'F Block', start: '8:30', end: '9:15' },
-    //     { period: 2, name: 'G Block', start: '9:20', end: '10:05' },
-    //     { period: 3, name: 'H Block', start: '10:10', end: '10:55' },
-    //     {
-    //       period: 4,
-    //       name: 'A Block - First Lunch',
-    //       start: '11:00',
-    //       end: '11:25',
-    //     },
-    //     {
-    //       period: 5,
-    //       name: 'A Block - Between Lunches',
-    //       start: '11:30',
-    //       end: '11:45',
-    //     },
-    //     {
-    //       period: 6,
-    //       name: 'A Block - Second Lunch',
-    //       start: '11:50',
-    //       end: '12:15',
-    //     },
-    //     { period: 7, name: 'B Block', start: '12:20', end: '13:05' },
-    //     { period: 8, name: 'C Block', start: '13:10', end: '13:55' },
-    //     // { period: 9, name: 'E Block', start: '14:00', end: '14:45' },
-    //     // { period: 10, name: 'Activities Period', start: '14:50', end: '15:20' },
-    //   ],
-    // };
+    const parsedData: Schedule = {
+      name: 'Extended Homeroom',
+      periods: [
+        {
+          period: 0,
+          name: 'Extended Homeroom',
+          start: '8:20',
+          end: '8:50',
+        },
+        { period: 1, name: 'Hall Block', start: '8:55', end: '9:15' },
+        { period: 2, name: 'H Block', start: '9:20', end: '10:05' },
+        { period: 3, name: 'A Block', start: '10:10', end: '10:55' },
+        {
+          period: 4,
+          name: 'B Block - First Lunch',
+          start: '11:00',
+          end: '11:25',
+        },
+        {
+          period: 5,
+          name: 'B Block - Between Lunches',
+          start: '11:30',
+          end: '11:45',
+        },
+        {
+          period: 6,
+          name: 'B Block - Second Lunch',
+          start: '11:50',
+          end: '12:15',
+        },
+        { period: 7, name: 'C Block', start: '12:20', end: '13:05' },
+        { period: 8, name: 'D Block', start: '13:10', end: '13:55' },
+        { period: 9, name: 'E Block', start: '14:00', end: '14:45' },
+      ],
+    };
 
     // const parsedData: Schedule = {
     //   name: 'No Hall',
