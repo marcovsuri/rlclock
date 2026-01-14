@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { use } from 'react';
 import { motion } from 'framer-motion';
 import Clock from '../components/home/Clock';
 import InfoCard from '../components/home/InfoCard';
@@ -9,11 +9,16 @@ import { Menu } from '../types/lunch';
 import getSportsEvents from '../core/sportsFetcher';
 import { TeamEvent } from '../types/sports';
 import ServiceDriveCard from '../components/home/ServiceDriveCard';
+import ServiceMonthCard from '../components/home/ServiceMonthCard';
 import getServiceData from '../core/serviceDataFetcher';
 import { ServiceData } from '../types/serviceData';
 import { getSchedule, Schedule } from '../core/clockFetcher';
 import { Link } from 'react-router-dom';
-
+import {
+  getServiceMonthCounter,
+  getServiceMonthLeaderboardData,
+  SheetData,
+} from '../core/serviceMonthDataFetcher';
 interface HomeProps {
   isDarkMode: boolean;
 }
@@ -29,11 +34,47 @@ const Home: React.FC<HomeProps> = ({ isDarkMode }) => {
   const [serviceData, setServiceData] = useState<ServiceData | undefined>(
     undefined
   );
+  const [serviceMonthCounter, setServiceMonthCounter] = useState<number>(0);
+  const [serviceMonthParticipationLeader, setServiceMonthParticipationLeader] =
+    useState<string>('');
+  const [serviceMonthPointsLeader, setServiceMonthPointsLeader] =
+    useState<string>('');
+  const DONATION_GOAL = 1000;
 
   useEffect(() => {
     getServiceData().then((result) => {
       if (result.success) {
         setServiceData(result.data);
+      }
+    });
+  }, []);
+
+  useEffect(() => {
+    getServiceMonthCounter().then((result) => {
+      if (result.success) {
+        setServiceMonthCounter(result.data);
+      }
+    });
+  }, []);
+
+  useEffect(() => {
+    getServiceMonthLeaderboardData().then((result) => {
+      if (result.success) {
+        const data = result.data;
+
+        if (data.length === 0) return;
+
+        const topParticipation = data.reduce((prev, current) =>
+          current.participationPercentage > prev.participationPercentage
+            ? current
+            : prev
+        );
+        const topPoints = data.reduce((prev, current) =>
+          current.points > prev.points ? current : prev
+        );
+
+        setServiceMonthParticipationLeader(topParticipation.class);
+        setServiceMonthPointsLeader(topPoints.class);
       }
     });
   }, []);
@@ -361,12 +402,21 @@ const Home: React.FC<HomeProps> = ({ isDarkMode }) => {
               isDarkMode={isDarkMode}
             />
             {/* <ServiceDriveCard
-            title="Thanksgiving Food Drive!"
-            numDonations={serviceData?.numDonations || 0}
-            donationGoal={serviceData?.donationGoal || 1000}
-            path="/service"
-            isDarkMode={isDarkMode}
-          /> */}
+              title="Thanksgiving Food Drive!"
+              numDonations={serviceData?.numDonations || 0}
+              donationGoal={serviceData?.donationGoal || 1000}
+              path="/service"
+              isDarkMode={isDarkMode}
+            /> */}
+            <ServiceMonthCard
+              title="Service Month!"
+              numDonations={serviceMonthCounter || 0}
+              donationGoal={DONATION_GOAL}
+              topParticipationClass={serviceMonthParticipationLeader}
+              topPointsClass={serviceMonthPointsLeader}
+              path="/service"
+              isDarkMode={isDarkMode}
+            />
             {pastResults !== undefined ? (
               <InfoCard
                 title="Latest Results:"

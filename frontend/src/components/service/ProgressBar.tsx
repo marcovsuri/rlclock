@@ -99,7 +99,9 @@ const DonationProgressBar: React.FC<Props> = ({
           style={{
             height: '100%',
             background:
-              'linear-gradient(90deg, rgb(31, 154, 101),rgb(0, 255, 94))',
+              numDonations >= donationGoal
+                ? 'linear-gradient(90deg, rgb(31, 154, 101),rgb(0, 255, 94))'
+                : 'linear-gradient(90deg, rgb(154,31,54), rgb(255,0,50))',
           }}
         />
       </div>
