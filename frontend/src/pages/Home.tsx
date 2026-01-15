@@ -263,12 +263,25 @@ const Home: React.FC<HomeProps> = ({ isDarkMode }) => {
       }
 
       // --- Single-game result ---
-      const rawScore = result.scores[0];
-      const formattedScore = rawScore.replace(/-+/g, ' - ');
+      const rawScore = result.scores?.[0];
+
+      if (!rawScore) {
+        return `${result.team} → No score available`;
+      }
+
+      const raw = String(rawScore);
+      const formattedScore = raw.replace(/-+/g, ' - ');
 
       // detect tie by score
-      const [a, b] = rawScore.split(/-+/).map(Number);
-      const outcome = a === b ? 'Tie' : a > b ? 'Win' : 'Loss';
+      const [a, b] = raw.split(/-+/).map(Number);
+      const outcome =
+        Number.isFinite(a) && Number.isFinite(b)
+          ? a === b
+            ? 'Tie'
+            : a > b
+            ? 'Win'
+            : 'Loss'
+          : '';
 
       return `${result.team} → ${formattedScore} ${outcome}`;
     })
@@ -408,7 +421,7 @@ const Home: React.FC<HomeProps> = ({ isDarkMode }) => {
               path="/service"
               isDarkMode={isDarkMode}
             /> */}
-            <ServiceMonthCard
+            {/* <ServiceMonthCard
               title="Service Month!"
               numDonations={serviceMonthCounter || 0}
               donationGoal={DONATION_GOAL}
@@ -416,7 +429,7 @@ const Home: React.FC<HomeProps> = ({ isDarkMode }) => {
               topPointsClass={serviceMonthPointsLeader}
               path="/service"
               isDarkMode={isDarkMode}
-            />
+            /> */}
             {pastResults !== undefined ? (
               <InfoCard
                 title="Latest Results:"
