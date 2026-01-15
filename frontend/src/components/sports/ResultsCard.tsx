@@ -87,15 +87,40 @@ const ResultsCard: React.FC<ResultsCardProps> = ({
             {results.map((result, index) => (
               <div key={index} style={resultItemStyle}>
                 {result.opponents.map((opponent, i) => {
-                  const rawScore = result.scores[i];
-                  const formattedScore = rawScore.replace(/-+/g, ' - ');
+                  const rawScore = result.scores?.[i];
+
+                  if (!rawScore) {
+                    return (
+                      <div
+                        key={i}
+                        style={{
+                          display: 'flex',
+                          justifyContent: 'space-between',
+                        }}
+                      >
+                        <span style={{ textAlign: 'left' }}>{result.date}</span>
+                        <span style={{ textAlign: 'right' }}>
+                          {result.team} vs. {opponent} (No score)
+                        </span>
+                      </div>
+                    );
+                  }
+
+                  const raw = String(rawScore);
+                  const formattedScore = raw.replace(/-+/g, ' - ');
 
                   // Extract numeric scores
-                  const [a, b] = rawScore.split(/-+/).map(Number);
+                  const [a, b] = raw.split(/-+/).map(Number);
 
                   // Determine outcome (tie overrides win/loss array)
                   const outcome =
-                    a === b ? 'Tie' : result.wins[i] ? 'Win' : 'Loss';
+                    Number.isFinite(a) && Number.isFinite(b)
+                      ? a === b
+                        ? 'Tie'
+                        : result.wins[i]
+                        ? 'Win'
+                        : 'Loss'
+                      : '';
 
                   return (
                     <div

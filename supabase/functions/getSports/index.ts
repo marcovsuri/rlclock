@@ -31,7 +31,15 @@ function parseTeamEvents(html: string): TeamEvent[] {
 
     const opponents = opponentsRaw.split(/<br\s*\/?>/).map((s) => s.trim()).filter(Boolean);
     const results = resultRaw.split(/<br\s*\/?>/).map((r) => r.trim()).filter(Boolean);
-    const scores = scoresRaw.split(/<br\s*\/?>/).map((s) => s.trim()).filter(Boolean);
+    let scores = scoresRaw
+      .split(/<br\s*\/?>/)
+      .map((s) => s.trim())
+      .filter(Boolean);
+
+    // Ensure scores[0] is never undefined for consumers
+    if (scores.length === 0) {
+      scores = [];
+    }
 
     const formattedTeam = team
       .replace(/[-–]/g, "-")
@@ -58,6 +66,8 @@ function parseTeamEvents(html: string): TeamEvent[] {
       console.warn(`Unexpected format for team ${formattedTeam} on ${date}`);
       return;
     }
+
+    scores = scores.map((s) => String(s));
 
     const event: TeamEvent = {
       team: formattedTeam,
