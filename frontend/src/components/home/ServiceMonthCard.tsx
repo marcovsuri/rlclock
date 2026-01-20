@@ -104,12 +104,12 @@ const ServiceMonthCard: React.FC<Props> = ({
       onMouseEnter={(e) => {
         (e.currentTarget as HTMLElement).style.transform = 'scale(1.03)';
         (e.currentTarget as HTMLElement).style.boxShadow =
-          '0 4px 30px 4px rgba(154, 31, 54, 0.5)';
+          '0 4px 20px 4px gold';
       }}
       onMouseLeave={(e) => {
         (e.currentTarget as HTMLElement).style.transform = 'scale(1)';
         (e.currentTarget as HTMLElement).style.boxShadow =
-          '0 4px 20px 4px rgba(154, 31, 54, 0.5)';
+          '0 4px 20px 4px gold';
       }}
     >
       <h2

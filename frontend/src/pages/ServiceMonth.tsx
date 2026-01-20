@@ -256,6 +256,58 @@ const ServiceMonth: React.FC<ServiceProps> = ({ isDarkMode }) => {
           style={{ width: '100%', borderRadius: '12px' }}
         />
       </div>
+
+      {/* Video of the Week */}
+      <div
+        style={{
+          marginTop: '4vh',
+          maxWidth: isMobile ? '90vw' : '60vw',
+          width: '100%',
+          backgroundColor: isDarkMode ? 'rgb(15, 0, 0)' : 'rgb(255, 240, 240)',
+          border: `2px solid ${
+            isDarkMode ? 'rgba(154,31,54,0.8)' : 'rgba(154,31,54,0.5)'
+          }`,
+          borderRadius: '16px',
+          padding: isMobile ? '4vw' : '2vw',
+        }}
+      >
+        <h2
+          style={{
+            fontSize: isMobile ? '5vw' : '1.8vw',
+            marginBottom: '2vh',
+            textAlign: 'center',
+            color: 'rgb(154, 31, 54)',
+          }}
+        >
+          🎥 Video of the Week
+        </h2>
+
+        <div
+          style={{
+            position: 'relative',
+            width: '100%',
+            paddingBottom: '56.25%', // 16:9 aspect ratio
+            height: 0,
+            borderRadius: '12px',
+            overflow: 'hidden',
+          }}
+        >
+          <iframe
+            src="https://www.youtube.com/embed/7UnKdfSW4Rw"
+            title="Video of the Week"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowFullScreen
+            style={{
+              position: 'absolute',
+              top: 0,
+              left: 0,
+              width: '100%',
+              height: '100%',
+              border: 'none',
+            }}
+          />
+        </div>
+      </div>
     </div>
   );
 };
