@@ -25,10 +25,10 @@ const AnimatedRoutes = ({ isDarkMode }: { isDarkMode: boolean }) => {
         <Route path="/" element={<Home isDarkMode={isDarkMode} />} />
         <Route path="/lunch" element={<Lunch isDarkMode={isDarkMode} />} />
         <Route path="/sports" element={<Sports isDarkMode={isDarkMode} />} />
-        {/* <Route
+        <Route
           path="/service"
           element={<ServiceMonth isDarkMode={isDarkMode} />}
-        /> */}
+        />
         {/* <Route path="/summer" element={<Summer isDarkMode={isDarkMode} />} /> */}
         {/* <Route
           path="/exams"

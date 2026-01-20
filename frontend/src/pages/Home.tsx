@@ -39,7 +39,7 @@ const Home: React.FC<HomeProps> = ({ isDarkMode }) => {
     useState<string>('');
   const [serviceMonthPointsLeader, setServiceMonthPointsLeader] =
     useState<string>('');
-  const DONATION_GOAL = 1000;
+  const DONATION_GOAL = 7500;
 
   useEffect(() => {
     getServiceData().then((result) => {
@@ -421,7 +421,7 @@ const Home: React.FC<HomeProps> = ({ isDarkMode }) => {
               path="/service"
               isDarkMode={isDarkMode}
             /> */}
-            {/* <ServiceMonthCard
+            <ServiceMonthCard
               title="Service Month!"
               numDonations={serviceMonthCounter || 0}
               donationGoal={DONATION_GOAL}
@@ -429,7 +429,7 @@ const Home: React.FC<HomeProps> = ({ isDarkMode }) => {
               topPointsClass={serviceMonthPointsLeader}
               path="/service"
               isDarkMode={isDarkMode}
-            /> */}
+            />
             {pastResults !== undefined ? (
               <InfoCard
                 title="Latest Results:"

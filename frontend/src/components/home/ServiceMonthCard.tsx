@@ -129,10 +129,11 @@ const ServiceMonthCard: React.FC<Props> = ({
         }}
       >
         <div>
-          🏆 Participation Leader: <strong>{topParticipationClass}</strong>
+          🍦 Participation Leader:{' '}
+          <strong>Class {topParticipationClass}</strong>
         </div>
         <div>
-          ⭐ Points Leader: <strong>{topPointsClass}</strong>
+          🍕 Points Leader: <strong>Class {topPointsClass}</strong>
         </div>
       </div>
 

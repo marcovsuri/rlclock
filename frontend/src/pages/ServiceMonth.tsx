@@ -16,7 +16,7 @@ const ServiceMonth: React.FC<ServiceProps> = ({ isDarkMode }) => {
   const isMobile = useIsMobile();
 
   const [leaderboardData, setLeaderboardData] = useState<SheetData[]>([]);
-  const DONATION_GOAL = 1000;
+  const DONATION_GOAL = 7500;
   const [donationCounter, setDonationCounter] = useState<number>(0);
 
   useEffect(() => {
@@ -128,7 +128,7 @@ const ServiceMonth: React.FC<ServiceProps> = ({ isDarkMode }) => {
               color: 'rgb(154, 31, 54)',
             }}
           >
-            🏆 Participation
+            🍦 Participation
           </h2>
           {leaderboardData
             .slice()
@@ -193,7 +193,7 @@ const ServiceMonth: React.FC<ServiceProps> = ({ isDarkMode }) => {
               color: 'rgb(154, 31, 54)',
             }}
           >
-            🥇 Total Points
+            🍕 Total Points
           </h2>
           {leaderboardData
             .slice()
@@ -250,129 +250,11 @@ const ServiceMonth: React.FC<ServiceProps> = ({ isDarkMode }) => {
           // boxShadow: '0 8px 24px rgba(154,31,54,0.3)',
         }}
       >
-        <h2
-          style={{
-            textAlign: 'center',
-            fontSize: isMobile ? '6vw' : '2vw',
-            marginBottom: '2vh',
-            color: 'rgb(154, 31, 54)',
-          }}
-        >
-          #RLGIVES: SERVICE MONTH
-        </h2>
-
-        <p style={{ marginBottom: '1.5vh', textAlign: 'center' }}>
-          Our goal this month is to unite as a community to support families in
-          need by collecting essential food items. Each donated item earns
-          points for your class, helping us reach a collective target of 1000
-          items!
-        </p>
-
-        <div>
-          <h3
-            style={{
-              fontSize: isMobile ? '5vw' : '1.2vw',
-              marginBottom: '0.5vh',
-              color: 'rgb(154, 31, 54)',
-            }}
-          >
-            🎁 Items & Point Values:
-          </h3>
-          <ul
-            style={{ paddingLeft: '1.5em', margin: 0, listStyleType: 'none' }}
-          >
-            <li
-              style={{
-                marginBottom: isMobile ? '3vw' : '1vh',
-                display: 'flex',
-                justifyContent: 'space-between',
-              }}
-            >
-              <span>Money</span>
-              <span>1 point each</span>
-            </li>
-            <li
-              style={{
-                marginBottom: isMobile ? '3vw' : '1vh',
-                display: 'flex',
-                justifyContent: 'space-between',
-              }}
-            >
-              <span>Coats</span>
-              <span>15 points each</span>
-            </li>
-            <li
-              style={{
-                marginBottom: isMobile ? '3vw' : '1vh',
-                display: 'flex',
-                justifyContent: 'space-between',
-              }}
-            >
-              <span>Toys</span>
-              <span>5 points each</span>
-            </li>
-            <li
-              style={{
-                marginBottom: isMobile ? '3vw' : '1vh',
-                display: 'flex',
-                justifyContent: 'space-between',
-              }}
-            >
-              <span>Shoes</span>
-              <span>10 points each</span>
-            </li>
-            <li
-              style={{
-                marginBottom: isMobile ? '3vw' : '1vh',
-                display: 'flex',
-                justifyContent: 'space-between',
-              }}
-            >
-              <span>Clothes</span>
-              <span>5 points each</span>
-            </li>
-            <li
-              style={{
-                marginBottom: isMobile ? '3vw' : '1vh',
-                display: 'flex',
-                justifyContent: 'space-between',
-              }}
-            >
-              <span>Food</span>
-              <span>2 points each</span>
-            </li>
-            <li
-              style={{
-                marginBottom: isMobile ? '3vw' : '1vh',
-                display: 'flex',
-                justifyContent: 'space-between',
-              }}
-            >
-              <span>Misc. Items</span>
-              <span>3 points each</span>
-            </li>
-          </ul>
-        </div>
-
-        <div>
-          <h3
-            style={{
-              fontSize: isMobile ? '5vw' : '1.2vw',
-              marginBottom: '0.5vh',
-              color: 'rgb(154, 31, 54)',
-            }}
-          >
-            📦 Donation Details:
-          </h3>
-          <ul style={{ paddingLeft: '1.5em', margin: 0 }}>
-            <li>Bins are located in each homeroom for easy drop-off.</li>
-            <li>Help us reach our goal of 1000 donated items!</li>
-            <li>
-              Every contribution counts – let's make a difference together.
-            </li>
-            <li>The drive runs from January 20th to February 20th.</li>
-          </ul>
-        </div>
+        <img
+          src="/2026-service-month.jpg"
+          alt="Service Month"
+          style={{ width: '100%', borderRadius: '12px' }}
+        />
       </div>
     </div>
   );
