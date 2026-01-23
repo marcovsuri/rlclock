@@ -133,7 +133,7 @@ export const getServiceMonthLeaderboardData = async (): Promise<
 
     const parsedData: SheetData[] = json.values.map(
       ([label, pointsStr]: [string, string]) => {
-        const match = label.match(/^([A-Z]+)\s+\((\d+)%\)$/);
+        const match = label.match(/^([A-Z]+)\s+\(([\d.]+)%\)$/);
         if (!match) {
           throw new Error(`Invalid label format: ${label}`);
         }
@@ -142,7 +142,9 @@ export const getServiceMonthLeaderboardData = async (): Promise<
 
         return SheetDataSchema.parse({
           class: className,
-          participationPercentage: parseInt(participationPercentageStr, 10),
+          participationPercentage: Math.round(
+            parseFloat(participationPercentageStr)
+          ),
           points: parseInt(pointsStr, 10),
         });
       }
