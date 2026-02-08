@@ -3,30 +3,35 @@
   --transition-timing: ease;
 }
 
+html.no-transition,
+html.no-transition * {
+  transition: none !important;
+}
+
 html {
   font-family: 'Roboto', sans-serif;
   margin: 0;
   padding: 0;
-  background-color: white;
-  color: black;
+  background-color: #ffffff;
+  color: #202124;
   scrollbar-width: thin;
   overflow-x: hidden;
-  transition: background-color var(--transition-duration)
-      var(--transition-timing),
+  transition:
+    background-color var(--transition-duration) var(--transition-timing),
     color var(--transition-duration) var(--transition-timing);
 }
 
 body {
   margin: 0;
   padding: 0;
-  transition: background-color var(--transition-duration)
-      var(--transition-timing),
+  transition:
+    background-color var(--transition-duration) var(--transition-timing),
     color var(--transition-duration) var(--transition-timing);
 }
 
 html.dark-mode {
-  background-color: black;
-  color: white;
+  background-color: #1f1f1f;
+  color: #e8eaed;
 }
 
 html.dark-mode a {
@@ -35,11 +40,10 @@ html.dark-mode a {
 
 /* General element transition */
 * {
-  transition: background-color var(--transition-duration)
-      var(--transition-timing),
+  transition:
+    background-color var(--transition-duration) var(--transition-timing),
     color var(--transition-duration) var(--transition-timing),
-    border-color var(--transition-duration) var(--transition-timing),
-    box-shadow var(--transition-duration) var(--transition-timing);
+    border-color var(--transition-duration) var(--transition-timing);
 }
 
 /* Shared transitions */
@@ -96,7 +100,10 @@ html.dark-mode a {
   opacity: 0;
   visibility: hidden;
   transform: translateY(-20px);
-  transition: transform 0.3s ease, opacity 1s ease, visibility 1s ease,
+  transition:
+    transform 0.3s ease,
+    opacity 1s ease,
+    visibility 1s ease,
     background-color 3s ease;
   z-index: 2000;
 }
@@ -113,7 +120,7 @@ html.dark-mode a {
   color: var(--modal-text, #000);
   padding: 1rem;
   border-radius: 16px;
-  box-shadow: 0 4px 20px rgba(154, 31, 54, 0.5);
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
   overflow-y: auto;
   max-height: 80vh;
   max-width: 90vw;
@@ -123,7 +130,10 @@ html.dark-mode a {
   opacity: 0;
   visibility: hidden;
   border: 1px solid rgba(154, 31, 54, 0.2);
-  transition: transform 0.3s ease, opacity 1s ease, visibility 1s ease,
+  transition:
+    transform 0.3s ease,
+    opacity 1s ease,
+    visibility 1s ease,
     background-color 3s ease;
   margin: auto 2vw;
 }
@@ -151,12 +161,15 @@ html.dark-mode a {
   border-radius: 16px;
   background-color: var(--announcement-bg, white);
   color: rgb(154, 31, 54);
-  box-shadow: 0 4px 20px 4px rgba(154, 31, 54, 0.5);
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
   text-align: left;
   border: 1px solid rgba(154, 31, 54, 0.2);
   opacity: 0;
   transform: translateY(10px);
-  transition: transform 1s ease, opacity 1s ease, visibility 1s ease,
+  transition:
+    transform 1s ease,
+    opacity 1s ease,
+    visibility 1s ease,
     background-color 3s ease;
 }
 
@@ -185,12 +198,52 @@ html.dark-mode a {
   font-size: 1rem;
   font-weight: 600;
   cursor: pointer;
-  box-shadow: 0 2px 6px rgba(154, 31, 54, 0.2);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
   transition: all 3s ease;
 }
 
 .modal-close-btn:hover {
-  box-shadow: 0 6px 12px rgba(154, 31, 54, 0.4);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+}
+
+html.dark-mode .modal-content {
+  border-color: rgba(176, 38, 62, 0.3);
+}
+
+html.dark-mode .modal-content h2 {
+  color: #b0263e;
+  border-bottom-color: rgba(176, 38, 62, 0.4);
+}
+
+html.dark-mode .modal-announcement {
+  color: #b0263e;
+  border-color: rgba(176, 38, 62, 0.3);
+}
+
+html.dark-mode .modal-close-btn {
+  border-color: rgba(176, 38, 62, 0.3);
+  background-color: rgba(138, 31, 46, 0.25);
+  color: #c43c5a;
+}
+
+html.dark-mode .shimmer-text {
+  animation-name: shimmer-reveal-dark;
+}
+
+@keyframes shimmer-reveal-dark {
+  0%,
+  99% {
+    background-position: -200% center;
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+  }
+  100% {
+    background: none;
+    -webkit-text-fill-color: #b0263e;
+    color: #b0263e;
+  }
 }
 
 /* Responsive scaling */

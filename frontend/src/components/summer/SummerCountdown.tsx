@@ -17,9 +17,11 @@ const InfoCard: React.FC<Props> = ({ title, subtitle, isDarkMode }) => {
         minWidth: isMobile ? 'fit-content' : '25vw',
         padding: isMobile ? '4vh' : '4vw',
         borderRadius: isMobile ? '3vh' : '2vw',
-        backgroundColor: isDarkMode ? 'black' : 'white',
-        color: 'rgb(154, 31, 54)',
-        boxShadow: '0 4px 20px 4px rgba(154, 31, 54, 0.5)',
+        backgroundColor: isDarkMode ? '#2D2E30' : '#FFFFFF',
+        color: isDarkMode ? '#B0263E' : 'rgb(154, 31, 54)',
+        boxShadow: isDarkMode
+          ? '0 2px 12px rgba(0,0,0,0.5)'
+          : '0 2px 12px rgba(0,0,0,0.1)',
         transition: 'all 3s ease',
         margin: 'auto',
         textAlign: 'center',
@@ -29,7 +31,7 @@ const InfoCard: React.FC<Props> = ({ title, subtitle, isDarkMode }) => {
         style={{
           margin: isMobile ? '0 0 3vh 0' : '0 0 4vh 0',
           fontSize: isMobile ? '6vw' : '4vw',
-          color: isDarkMode ? 'white' : 'black',
+          color: isDarkMode ? '#E8EAED' : '#202124',
           fontWeight: 1000,
         }}
       >

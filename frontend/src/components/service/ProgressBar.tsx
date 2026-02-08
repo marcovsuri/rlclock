@@ -18,12 +18,12 @@ const DonationProgressBar: React.FC<Props> = ({
 
   const targetPercent = Math.min((numDonations / donationGoal) * 100, 100);
   const [animatedDonations, setAnimatedDonations] = useState(0);
+  const [animatedPercent, setAnimatedPercent] = useState(0);
 
   const controls = useAnimation();
 
-  // Animate number counters
   useEffect(() => {
-    const duration = 2000; // ms
+    const duration = 2000;
     const startTime = performance.now();
     let hasFiredConfetti = false;
 
@@ -32,31 +32,13 @@ const DonationProgressBar: React.FC<Props> = ({
       const newDonations = progress * numDonations;
 
       setAnimatedDonations(Math.floor(newDonations));
+      setAnimatedPercent(Math.round(progress * targetPercent));
 
-      // Trigger confetti if goal reached and hasn't fired yet
       if (!hasFiredConfetti && newDonations >= donationGoal) {
         hasFiredConfetti = true;
-
-        confetti({
-          particleCount: 120,
-          spread: 70,
-          origin: { y: 0.6 },
-        });
-
-        // extra burst
-        confetti({
-          particleCount: 80,
-          angle: 60,
-          spread: 50,
-          origin: { x: 0 },
-        });
-
-        confetti({
-          particleCount: 80,
-          angle: 120,
-          spread: 50,
-          origin: { x: 1 },
-        });
+        confetti({ particleCount: 120, spread: 70, origin: { y: 0.6 } });
+        confetti({ particleCount: 80, angle: 60, spread: 50, origin: { x: 0 } });
+        confetti({ particleCount: 80, angle: 120, spread: 50, origin: { x: 1 } });
       }
 
       if (progress < 1) {
@@ -72,25 +54,40 @@ const DonationProgressBar: React.FC<Props> = ({
     );
   }, [targetPercent, numDonations, donationGoal, controls]);
 
+  const goalReached = numDonations >= donationGoal;
+
   return (
     <div
       style={{
         width: '100%',
-        maxWidth: isMobile ? '90vw' : '50vw',
+        maxWidth: isMobile ? '92vw' : '40vw',
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
+        gap: isMobile ? '1vh' : '0.4vw',
       }}
     >
+      {/* Percentage */}
+      <span
+        style={{
+          fontSize: isMobile ? '5vw' : '1.4vw',
+          fontWeight: 700,
+          color: goalReached
+            ? isDarkMode ? '#4ade80' : '#16a34a'
+            : isDarkMode ? '#B0263E' : 'rgb(154, 31, 54)',
+        }}
+      >
+        {animatedPercent}%
+      </span>
+
       {/* Progress Bar */}
       <div
         style={{
           width: '100%',
-          height: isMobile ? '3vh' : '1.2vw',
-          backgroundColor: isDarkMode ? '#333' : '#eee',
+          height: isMobile ? '2.5vh' : '0.8vw',
+          backgroundColor: isDarkMode ? '#2D2E30' : '#F2F2F2',
           borderRadius: isMobile ? '5vh' : '1vw',
           overflow: 'hidden',
-          marginBottom: isMobile ? '2vh' : '1vw',
         }}
       >
         <motion.div
@@ -98,10 +95,10 @@ const DonationProgressBar: React.FC<Props> = ({
           animate={controls}
           style={{
             height: '100%',
-            background:
-              numDonations >= donationGoal
-                ? 'linear-gradient(90deg, rgb(31, 154, 101),rgb(0, 255, 94))'
-                : 'linear-gradient(90deg, rgb(154,31,54), rgb(255,0,50))',
+            borderRadius: 'inherit',
+            backgroundColor: goalReached
+              ? isDarkMode ? '#4ade80' : '#16a34a'
+              : isDarkMode ? '#B0263E' : 'rgb(154, 31, 54)',
           }}
         />
       </div>
@@ -109,12 +106,12 @@ const DonationProgressBar: React.FC<Props> = ({
       {/* Label */}
       <span
         style={{
-          fontSize: isMobile ? '4vw' : '1.5vw',
+          fontSize: isMobile ? '3vw' : '0.8vw',
           fontWeight: 500,
-          color: isDarkMode ? '#fff' : '#222',
+          color: isDarkMode ? '#9AA0A6' : '#5F6368',
         }}
       >
-        {animatedDonations} of {donationGoal} Items Donated
+        {animatedDonations.toLocaleString()} of {donationGoal.toLocaleString()} items donated
       </span>
     </div>
   );

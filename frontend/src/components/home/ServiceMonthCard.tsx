@@ -31,9 +31,8 @@ const ServiceMonthCard: React.FC<Props> = ({
 
   const controls = useAnimation();
 
-  // Animate number counters manually
   useEffect(() => {
-    const duration = 2000; // ms
+    const duration = 2000;
     const startTime = performance.now();
     let hasFiredConfetti = false;
 
@@ -43,7 +42,6 @@ const ServiceMonthCard: React.FC<Props> = ({
 
       setAnimatedDonations(Math.floor(newDonations));
 
-      // Trigger confetti if goal reached and hasn't fired yet
       if (!hasFiredConfetti && newDonations >= donationGoal) {
         hasFiredConfetti = true;
 
@@ -53,7 +51,6 @@ const ServiceMonthCard: React.FC<Props> = ({
           origin: { y: 0.6 },
         });
 
-        // extra burst
         confetti({
           particleCount: 80,
           angle: 60,
@@ -82,78 +79,122 @@ const ServiceMonthCard: React.FC<Props> = ({
     );
   }, [targetPercent, numDonations, donationGoal, controls]);
 
+  const maroon = isDarkMode ? '#B0263E' : 'rgb(154, 31, 54)';
+
   return (
     <div
       onClick={() => navigate(path)}
       style={{
         width: isMobile ? 'auto' : 'auto',
         minWidth: isMobile ? '80vw' : '25vw',
-        padding: isMobile ? '4vh' : '2vw',
-        borderRadius: isMobile ? '3vh' : '2vw',
-        backgroundColor: isDarkMode ? 'black' : 'white',
-        color: isDarkMode ? '#f0f0f0' : 'rgb(154, 31, 54)',
+        padding: isMobile ? '3vh 3vw' : '1.2vw 1.5vw',
+        borderRadius: isMobile ? '3vw' : '0.8vw',
+        backgroundColor: isDarkMode ? '#2D2E30' : '#FFFFFF',
+        color: isDarkMode ? '#E8EAED' : '#202124',
         cursor: 'pointer',
-        // boxShadow: '0 4px 20px 4px rgba(154, 31, 54, 0.5)',
-        boxShadow: '0 4px 20px 4px gold',
+        boxShadow: isDarkMode
+          ? '0 2px 8px rgba(0,0,0,0.4)'
+          : '0 2px 8px rgba(0,0,0,0.08)',
         transition:
           'transform 0.2s ease, box-shadow 0.2s ease, background-color 3s ease, color 3s ease',
         margin: 'auto',
-        textAlign: 'center',
-        border: '2px solid gold',
+        textAlign: 'left',
       }}
       onMouseEnter={(e) => {
-        (e.currentTarget as HTMLElement).style.transform = 'scale(1.03)';
-        (e.currentTarget as HTMLElement).style.boxShadow =
-          '0 4px 20px 4px gold';
+        (e.currentTarget as HTMLElement).style.transform = 'scale(1.02)';
+        (e.currentTarget as HTMLElement).style.boxShadow = isDarkMode
+          ? '0 4px 16px rgba(0,0,0,0.6)'
+          : '0 4px 16px rgba(0,0,0,0.12)';
       }}
       onMouseLeave={(e) => {
         (e.currentTarget as HTMLElement).style.transform = 'scale(1)';
-        (e.currentTarget as HTMLElement).style.boxShadow =
-          '0 4px 20px 4px gold';
+        (e.currentTarget as HTMLElement).style.boxShadow = isDarkMode
+          ? '0 2px 8px rgba(0,0,0,0.4)'
+          : '0 2px 8px rgba(0,0,0,0.08)';
       }}
     >
-      <h2
-        style={{
-          fontSize: isMobile ? '6vw' : '1.8vw',
-          marginBottom: '1vh',
-          color: 'rgb(154, 31, 54)',
-        }}
-      >
-        {title}
-      </h2>
-
+      {/* Header row with title and chevron */}
       <div
         style={{
-          margin: '0 0 2vh',
-          fontSize: isMobile ? '6vw' : '1.5vw',
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+          marginBottom: '0.5em',
+        }}
+      >
+        <h3
+          style={{
+            margin: 0,
+            fontSize: isMobile ? '4vw' : '1vw',
+            color: maroon,
+            fontWeight: 600,
+          }}
+        >
+          {title}
+        </h3>
+        <span
+          style={{
+            fontSize: isMobile ? '5vw' : '1.2vw',
+            color: isDarkMode ? '#9AA0A6' : '#5F6368',
+            flexShrink: 0,
+          }}
+        >
+          ›
+        </span>
+      </div>
+
+      {/* Leaders */}
+      <div
+        style={{
+          fontSize: isMobile ? '3.5vw' : '0.9vw',
+          marginBottom: '0.6em',
+          lineHeight: 1.5,
+          color: isDarkMode ? '#9AA0A6' : '#5F6368',
         }}
       >
         <div>
-          🍦 Participation Leader:{' '}
-          <strong>Class {topParticipationClass}</strong>
+          Participation Leader:{' '}
+          <strong
+            style={{
+              color: isDarkMode ? '#E8EAED' : '#202124',
+            }}
+          >
+            Class {topParticipationClass}
+          </strong>
         </div>
         <div>
-          🍕 Points Leader: <strong>Class {topPointsClass}</strong>
+          Points Leader:{' '}
+          <strong
+            style={{
+              color: isDarkMode ? '#E8EAED' : '#202124',
+            }}
+          >
+            Class {topPointsClass}
+          </strong>
         </div>
       </div>
 
-      <h3
+      {/* Progress */}
+      <div
         style={{
-          fontSize: isMobile ? '6vw' : '1.25vw',
+          fontSize: isMobile ? '3.2vw' : '0.8vw',
+          color: isDarkMode ? '#9AA0A6' : '#5F6368',
+          marginBottom: '0.4em',
+          fontWeight: 500,
         }}
       >
         {animatedDonations} of {donationGoal} Items Donated
-      </h3>
+      </div>
 
       <div
         style={{
           width: '100%',
-          height: isMobile ? '3vh' : '1.2vw',
-          backgroundColor: isDarkMode ? '#333' : '#eee',
-          borderRadius: isMobile ? '5vh' : '1vw',
+          height: isMobile ? '1.5vh' : '0.5vw',
+          backgroundColor: isDarkMode
+            ? '#2D2E30'
+            : '#F2F2F2',
+          borderRadius: '999px',
           overflow: 'hidden',
-          marginTop: '1vh',
-          marginBottom: '2vh',
         }}
       >
         <motion.div
@@ -161,23 +202,14 @@ const ServiceMonthCard: React.FC<Props> = ({
           animate={controls}
           style={{
             height: '100%',
+            borderRadius: '999px',
             background:
               numDonations >= donationGoal
-                ? 'linear-gradient(90deg, rgb(31, 154, 101), rgb(0, 255, 94))'
-                : 'linear-gradient(90deg, rgb(180, 40, 40), rgb(255, 80, 80))',
+                ? 'linear-gradient(90deg, rgb(31, 154, 101), rgb(0, 200, 80))'
+                : `linear-gradient(90deg, ${maroon}, rgb(200, 60, 80))`,
           }}
         />
       </div>
-
-      <p
-        style={{
-          margin: 0,
-          fontSize: isMobile ? '3.5vw' : '0.9vw',
-          color: isDarkMode ? 'white' : 'black',
-        }}
-      >
-        Click to learn more!
-      </p>
     </div>
   );
 };

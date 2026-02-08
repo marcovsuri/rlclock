@@ -86,10 +86,10 @@ const ServiceDriveCard: React.FC<Props> = ({
         minWidth: isMobile ? '80vw' : '25vw',
         padding: isMobile ? '4vh' : '2vw',
         borderRadius: isMobile ? '3vh' : '2vw',
-        backgroundColor: isDarkMode ? 'black' : 'white',
-        color: isDarkMode ? '#f0f0f0' : 'rgb(154, 31, 54)',
+        backgroundColor: isDarkMode ? '#1F1F1F' : '#FFFFFF',
+        color: isDarkMode ? '#E8EAED' : 'rgb(154, 31, 54)',
         cursor: 'pointer',
-        boxShadow: '0 4px 20px 4px rgba(154, 31, 54, 0.5)',
+        boxShadow: '0 2px 8px rgba(0,0,0,0.08)',
         transition:
           'transform 0.2s ease, box-shadow 0.2s ease, background-color 3s ease, color 3s ease',
         margin: 'auto',
@@ -98,19 +98,23 @@ const ServiceDriveCard: React.FC<Props> = ({
       onMouseEnter={(e) => {
         (e.currentTarget as HTMLElement).style.transform = 'scale(1.03)';
         (e.currentTarget as HTMLElement).style.boxShadow =
-          '0 4px 30px 4px rgba(154, 31, 54, 0.5)';
+          isDarkMode
+            ? '0 4px 30px 4px rgba(176, 38, 62, 0.5)'
+            : '0 4px 30px 4px rgba(154, 31, 54, 0.5)';
       }}
       onMouseLeave={(e) => {
         (e.currentTarget as HTMLElement).style.transform = 'scale(1)';
         (e.currentTarget as HTMLElement).style.boxShadow =
-          '0 4px 20px 4px rgba(154, 31, 54, 0.5)';
+          isDarkMode
+            ? '0 4px 20px 4px rgba(176, 38, 62, 0.5)'
+            : '0 4px 20px 4px rgba(154, 31, 54, 0.5)';
       }}
     >
       <h2
         style={{
           fontSize: isMobile ? '6vw' : '1.8vw',
           marginBottom: '1vh',
-          color: 'rgb(154, 31, 54)',
+          color: isDarkMode ? '#B0263E' : 'rgb(154, 31, 54)',
         }}
       >
         {title}
@@ -129,7 +133,7 @@ const ServiceDriveCard: React.FC<Props> = ({
         style={{
           width: '100%',
           height: isMobile ? '3vh' : '1.2vw',
-          backgroundColor: isDarkMode ? '#333' : '#eee',
+          backgroundColor: isDarkMode ? '#2D2E30' : '#F2F2F2',
           borderRadius: isMobile ? '5vh' : '1vw',
           overflow: 'hidden',
           marginTop: '1vh',
@@ -151,7 +155,7 @@ const ServiceDriveCard: React.FC<Props> = ({
         style={{
           margin: 0,
           fontSize: isMobile ? '3.5vw' : '0.9vw',
-          color: isDarkMode ? 'white' : 'black',
+          color: isDarkMode ? '#E8EAED' : '#202124',
         }}
       >
         Click to learn more!

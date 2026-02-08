@@ -9,14 +9,14 @@ const MenuItemCard: React.FC<MenuItemCardProps> = ({ item, isDarkMode }) => {
   const [isHovered, setIsHovered] = useState(false);
 
   const baseCardStyle = {
-    backgroundColor: 'rgba(154, 31, 54, 0.1)', // very pale red
-    border: '1px solid rgba(154, 31, 54, 0.5)',
+    backgroundColor: isDarkMode ? '#2D2E30' : '#F2F2F2',
+    border: isDarkMode ? '1px solid rgba(255,255,255,0.1)' : '1px solid rgba(0,0,0,0.08)',
     borderRadius: '12px',
     padding: '0.1rem',
     textAlign: 'center' as const,
     fontWeight: 500,
     fontSize: '1rem',
-    color: isDarkMode ? 'white' : 'black',
+    color: isDarkMode ? '#E8EAED' : '#202124',
     margin: '0.25rem auto',
     width: '100%',
     minHeight: '80px', // uniform height
@@ -28,7 +28,7 @@ const MenuItemCard: React.FC<MenuItemCardProps> = ({ item, isDarkMode }) => {
   };
 
   const hoverCardStyle = {
-    boxShadow: '0 8px 16px rgba(154, 31, 54, 0.2)',
+    boxShadow: '0 4px 12px rgba(0,0,0,0.1)',
   };
   return (
     <div
