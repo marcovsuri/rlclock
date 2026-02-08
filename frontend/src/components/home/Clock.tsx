@@ -178,7 +178,7 @@ const Clock: React.FC<ClockProps> = ({ isDarkMode }) => {
 
     const maroonText = isDarkMode ? '#B0263E' : 'rgb(154, 31, 54)';
     const maroonBg = isDarkMode ? '#8A1F2E' : 'rgb(154, 31, 54)';
-    const neutralBg = isDarkMode ? '#2D2E30' : '#F2F2F2';
+    const neutralBg = isDarkMode ? '#4A4B4D' : '#F2F2F2';
     const neutralText = isDarkMode ? '#9AA0A6' : '#5F6368';
     const normalText = isDarkMode ? '#E8EAED' : '#202124';
 
@@ -228,7 +228,7 @@ const Clock: React.FC<ClockProps> = ({ isDarkMode }) => {
               style={{
                 width: '100%',
                 height: isMobile ? '1vh' : '0.35vw',
-                backgroundColor: 'rgba(255,255,255,0.25)',
+                backgroundColor: isDarkMode ? 'rgba(255,255,255,0.4)' : 'rgba(255,255,255,0.25)',
                 borderRadius: '999px',
                 overflow: 'hidden',
               }}
