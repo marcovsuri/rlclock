@@ -191,7 +191,7 @@ const ServiceMonthCard: React.FC<Props> = ({
           width: '100%',
           height: isMobile ? '1.5vh' : '0.5vw',
           backgroundColor: isDarkMode
-            ? '#2D2E30'
+            ? '#4A4B4D'
             : '#F2F2F2',
           borderRadius: '999px',
           overflow: 'hidden',

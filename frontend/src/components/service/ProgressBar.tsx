@@ -37,8 +37,18 @@ const DonationProgressBar: React.FC<Props> = ({
       if (!hasFiredConfetti && newDonations >= donationGoal) {
         hasFiredConfetti = true;
         confetti({ particleCount: 120, spread: 70, origin: { y: 0.6 } });
-        confetti({ particleCount: 80, angle: 60, spread: 50, origin: { x: 0 } });
-        confetti({ particleCount: 80, angle: 120, spread: 50, origin: { x: 1 } });
+        confetti({
+          particleCount: 80,
+          angle: 60,
+          spread: 50,
+          origin: { x: 0 },
+        });
+        confetti({
+          particleCount: 80,
+          angle: 120,
+          spread: 50,
+          origin: { x: 1 },
+        });
       }
 
       if (progress < 1) {
@@ -50,7 +60,7 @@ const DonationProgressBar: React.FC<Props> = ({
 
     controls.start(
       { width: `${targetPercent}%` },
-      { duration: duration / 1000, ease: 'linear' }
+      { duration: duration / 1000, ease: 'linear' },
     );
   }, [targetPercent, numDonations, donationGoal, controls]);
 
@@ -73,8 +83,12 @@ const DonationProgressBar: React.FC<Props> = ({
           fontSize: isMobile ? '5vw' : '1.4vw',
           fontWeight: 700,
           color: goalReached
-            ? isDarkMode ? '#4ade80' : '#16a34a'
-            : isDarkMode ? '#B0263E' : 'rgb(154, 31, 54)',
+            ? isDarkMode
+              ? '#4ade80'
+              : '#16a34a'
+            : isDarkMode
+              ? '#B0263E'
+              : 'rgb(154, 31, 54)',
         }}
       >
         {animatedPercent}%
@@ -85,7 +99,8 @@ const DonationProgressBar: React.FC<Props> = ({
         style={{
           width: '100%',
           height: isMobile ? '2.5vh' : '0.8vw',
-          backgroundColor: isDarkMode ? '#2D2E30' : '#F2F2F2',
+          backgroundColor: isDarkMode ? '#3C3D3F' : '#F2F2F2',
+          border: isDarkMode ? '1px solid #4A4B4D' : 'none',
           borderRadius: isMobile ? '5vh' : '1vw',
           overflow: 'hidden',
         }}
@@ -97,8 +112,12 @@ const DonationProgressBar: React.FC<Props> = ({
             height: '100%',
             borderRadius: 'inherit',
             backgroundColor: goalReached
-              ? isDarkMode ? '#4ade80' : '#16a34a'
-              : isDarkMode ? '#B0263E' : 'rgb(154, 31, 54)',
+              ? isDarkMode
+                ? '#4ade80'
+                : '#16a34a'
+              : isDarkMode
+                ? '#B0263E'
+                : 'rgb(154, 31, 54)',
           }}
         />
       </div>
@@ -111,7 +130,8 @@ const DonationProgressBar: React.FC<Props> = ({
           color: isDarkMode ? '#9AA0A6' : '#5F6368',
         }}
       >
-        {animatedDonations.toLocaleString()} of {donationGoal.toLocaleString()} items donated
+        {animatedDonations.toLocaleString()} of {donationGoal.toLocaleString()}{' '}
+        items donated
       </span>
     </div>
   );
