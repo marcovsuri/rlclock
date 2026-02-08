@@ -11,7 +11,6 @@ const Clock: React.FC<ClockProps> = ({ isDarkMode }) => {
     undefined
   );
   const [currentTime, setCurrentTime] = useState(new Date());
-  const [showFullSchedule, setShowFullSchedule] = useState(false);
   const isMobile = useIsMobile();
 
   useEffect(() => {
@@ -72,21 +71,13 @@ const Clock: React.FC<ClockProps> = ({ isDarkMode }) => {
     })[];
 
     if (periods.length === 0)
-      return {
-        label: 'No Schedule',
-        timeRemaining: null,
-        totalDuration: null,
-        current: null,
-        currentIndex: -1,
-      };
+      return { label: 'No Schedule', timeRemaining: null, current: null };
 
     if (now < periods[0].startTime)
       return {
         label: 'Before School',
         timeRemaining: periods[0].startTime.getTime() - now.getTime(),
-        totalDuration: null,
         current: null,
-        currentIndex: -1,
       };
 
     for (let i = 0; i < periods.length; i++) {
@@ -99,9 +90,7 @@ const Clock: React.FC<ClockProps> = ({ isDarkMode }) => {
             ? `${p.block} Block${p.name ? ` - ${p.name}` : ''}`
             : p.name,
           timeRemaining: p.endTime.getTime() - now.getTime(),
-          totalDuration: p.endTime.getTime() - p.startTime.getTime(),
           current: p,
-          currentIndex: i,
         };
       }
 
@@ -109,37 +98,20 @@ const Clock: React.FC<ClockProps> = ({ isDarkMode }) => {
         return {
           label: 'Passing Time',
           timeRemaining: next.startTime.getTime() - now.getTime(),
-          totalDuration:
-            next.startTime.getTime() - p.endTime.getTime(),
           current: null,
-          currentIndex: i,
         };
       }
     }
 
-    return {
-      label: 'After School',
-      timeRemaining: null,
-      totalDuration: null,
-      current: null,
-      currentIndex: periods.length,
-    };
+    return { label: 'After School', timeRemaining: null, current: null };
   };
 
-  const formatCountdown = (ms: number | null) => {
+  const formatTimeRemaining = (ms: number | null) => {
     if (!ms) return null;
     const totalSec = Math.floor(ms / 1000);
     const min = Math.floor(totalSec / 60);
     const sec = totalSec % 60;
-    return `${min}:${sec.toString().padStart(2, '0')}`;
-  };
-
-  const formatCurrentTime = (date: Date) => {
-    const h = date.getHours();
-    const m = date.getMinutes();
-    const hour12 = h % 12 === 0 ? 12 : h % 12;
-    const ampm = h >= 12 ? 'PM' : 'AM';
-    return `${hour12}:${m.toString().padStart(2, '0')} ${ampm}`;
+    return `${min} min ${sec.toString().padStart(2, '0')} sec remaining`;
   };
 
   const to12HourFormat = (time: string): string => {
@@ -149,271 +121,111 @@ const Clock: React.FC<ClockProps> = ({ isDarkMode }) => {
     return `${hour12}:${minute.toString().padStart(2, '0')} ${ampm}`;
   };
 
-  const { label, timeRemaining, totalDuration, current, currentIndex } =
-    schedule
-      ? getCurrentPeriodInfo(schedule)
-      : {
-          label: '',
-          timeRemaining: null,
-          totalDuration: null,
-          current: null,
-          currentIndex: -1,
-        };
+  const { label, timeRemaining, current } = schedule
+    ? getCurrentPeriodInfo(schedule)
+    : { label: '', timeRemaining: null, current: null };
 
-  const countdown = formatCountdown(timeRemaining);
-  const progressPercent =
-    timeRemaining && totalDuration
-      ? ((totalDuration - timeRemaining) / totalDuration) * 100
-      : 0;
-
-  // Find the next period for preview
-  const nextPeriod =
-    schedule && currentIndex >= 0 && currentIndex < schedule.periods.length - 1
-      ? schedule.periods[currentIndex + 1]
-      : null;
+  const formattedTime = formatTimeRemaining(timeRemaining);
 
   const renderContent = () => {
-    if (schedule === undefined) return <p style={subtextStyle}>Loading...</p>;
-    if (schedule === null) return <p style={subtextStyle}>No School!</p>;
-
-    const maroonText = isDarkMode ? '#B0263E' : 'rgb(154, 31, 54)';
-    const maroonBg = isDarkMode ? '#8A1F2E' : 'rgb(154, 31, 54)';
-    const neutralBg = isDarkMode ? '#2D2E30' : '#F2F2F2';
-    const neutralText = isDarkMode ? '#9AA0A6' : '#5F6368';
-    const normalText = isDarkMode ? '#E8EAED' : '#202124';
-
+    if (schedule === undefined) return 'Loading...';
+    if (schedule === null) return 'No School!';
     return (
       <>
-        {/* Active block - dominant */}
+        <p style={textStyle(isMobile, isDarkMode)}>{label}</p>
+        {formattedTime && (
+          <p style={textStyle(isMobile, isDarkMode)}>{formattedTime}</p>
+        )}
         <div
           style={{
-            backgroundColor: maroonBg,
-            color: 'white',
-            padding: isMobile ? '5vw' : '1.4vw',
-            borderRadius: isMobile ? '3vw' : '0.8vw',
-            marginBottom: isMobile ? '2vh' : '1.2vw',
+            display: 'flex',
+            flexDirection: 'column',
+            gap: isMobile ? '1.5vh' : '1vh',
           }}
         >
-          <div
-            style={{
-              display: 'flex',
-              justifyContent: 'space-between',
-              alignItems: 'center',
-              marginBottom: countdown ? (isMobile ? '1.5vh' : '0.6vw') : 0,
-            }}
-          >
-            <span
-              style={{
-                fontSize: isMobile ? '5.5vw' : '1.5vw',
-                fontWeight: 600,
-              }}
-            >
-              {label}
-            </span>
-            {countdown && (
-              <span
+          {schedule.periods.map((period, idx) => {
+            const isCurrent =
+              current?.name === period.name && current?.start === period.start;
+            return (
+              <div
+                key={idx}
                 style={{
-                  fontSize: isMobile ? '5.5vw' : '1.5vw',
-                  fontWeight: 600,
-                  fontVariantNumeric: 'tabular-nums',
+                  backgroundColor: isCurrent
+                    ? 'rgba(154, 31, 54, 0.25)'
+                    : isDarkMode
+                    ? 'rgba(255, 255, 255, 0.08)'
+                    : 'rgba(154, 31, 54, 0.1)',
+                  padding: isMobile ? '3vw' : '1vw',
+                  borderRadius: isMobile ? '3vw' : '1vw',
+                  display: 'flex',
+                  justifyContent: 'space-between',
+                  fontWeight: 500,
+                  fontSize: isMobile ? '4vw' : '1vw',
+                  color: isCurrent ? '#9a1f36' : isDarkMode ? 'white' : 'black',
+                  border: isCurrent ? '2px solid #9a1f36' : 'none',
+                  textAlign: 'left',
                 }}
               >
-                {countdown}
-              </span>
-            )}
-          </div>
-          {/* Progress bar */}
-          {timeRemaining && totalDuration && (
-            <div
-              style={{
-                width: '100%',
-                height: isMobile ? '1vh' : '0.35vw',
-                backgroundColor: 'rgba(255,255,255,0.25)',
-                borderRadius: '999px',
-                overflow: 'hidden',
-              }}
-            >
-              <div
-                style={{
-                  width: `${progressPercent}%`,
-                  height: '100%',
-                  backgroundColor: 'white',
-                  borderRadius: '999px',
-                  transition: 'width 1s linear',
-                }}
-              />
-            </div>
-          )}
+                <span style={{ textAlign: 'left' }}>
+                  {period.block
+                    ? period.name
+                      ? `${period.block} Block - ${period.name}`
+                      : `${period.block} Block`
+                    : period.name}
+                </span>
+                <span style={{ textAlign: 'right' }}>
+                  {to12HourFormat(period.start)} - {to12HourFormat(period.end)}
+                </span>
+              </div>
+            );
+          })}
         </div>
-
-        {/* Next block preview */}
-        {nextPeriod && (
-          <div
-            style={{
-              backgroundColor: neutralBg,
-              padding: isMobile ? '3vw' : '0.8vw',
-              borderRadius: isMobile ? '2vw' : '0.6vw',
-              marginBottom: isMobile ? '2vh' : '1.2vw',
-              display: 'flex',
-              justifyContent: 'space-between',
-              alignItems: 'center',
-              fontSize: isMobile ? '3.5vw' : '0.95vw',
-              color: normalText,
-            }}
-          >
-            <span style={{ fontWeight: 500 }}>
-              Next:{' '}
-              {nextPeriod.block
-                ? nextPeriod.name
-                  ? `${nextPeriod.block} Block - ${nextPeriod.name}`
-                  : `${nextPeriod.block} Block`
-                : nextPeriod.name}
-            </span>
-            <span>
-              {to12HourFormat(nextPeriod.start)} -{' '}
-              {to12HourFormat(nextPeriod.end)}
-            </span>
-          </div>
-        )}
-
-        {/* Collapsed/expanded schedule */}
-        {showFullSchedule && (
-          <div
-            style={{
-              display: 'flex',
-              flexDirection: 'column',
-              gap: isMobile ? '0.8vh' : '0.4vw',
-              marginBottom: isMobile ? '1.5vh' : '0.8vw',
-            }}
-          >
-            {schedule.periods.map((period, idx) => {
-              const isCurrent =
-                current?.name === period.name &&
-                current?.start === period.start;
-              const isPast = idx < currentIndex;
-              const isFuture = !isCurrent && !isPast;
-
-              return (
-                <div
-                  key={idx}
-                  style={{
-                    padding: isMobile ? '2vw' : '0.5vw 0.8vw',
-                    borderRadius: isMobile ? '2vw' : '0.5vw',
-                    display: 'flex',
-                    justifyContent: 'space-between',
-                    fontWeight: isCurrent ? 600 : 400,
-                    fontSize: isMobile ? '3.2vw' : '0.85vw',
-                    backgroundColor: isCurrent
-                      ? maroonBg
-                      : isFuture
-                      ? neutralBg
-                      : 'transparent',
-                    color: isCurrent
-                      ? 'white'
-                      : isPast
-                      ? neutralText
-                      : normalText,
-                    textAlign: 'left',
-                  }}
-                >
-                  <span>
-                    {period.block
-                      ? period.name
-                        ? `${period.block} Block - ${period.name}`
-                        : `${period.block} Block`
-                      : period.name}
-                  </span>
-                  <span>
-                    {to12HourFormat(period.start)} -{' '}
-                    {to12HourFormat(period.end)}
-                  </span>
-                </div>
-              );
-            })}
-          </div>
-        )}
-
-        <button
-          onClick={(e) => {
-            e.stopPropagation();
-            setShowFullSchedule(!showFullSchedule);
-          }}
-          style={{
-            background: 'none',
-            border: 'none',
-            color: maroonText,
-            cursor: 'pointer',
-            fontSize: isMobile ? '3.2vw' : '0.85vw',
-            fontWeight: 500,
-            padding: isMobile ? '1vw' : '0.3vw',
-            display: 'flex',
-            alignItems: 'center',
-            gap: '0.3em',
-            margin: '0 auto',
-          }}
-        >
-          {showFullSchedule ? 'Hide schedule' : 'View full schedule'}
-          <span
-            style={{
-              display: 'inline-block',
-              transform: showFullSchedule ? 'rotate(90deg)' : 'rotate(0deg)',
-              transition: 'transform 0.2s ease',
-            }}
-          >
-            ›
-          </span>
-        </button>
       </>
     );
   };
 
-  const subtextStyle: React.CSSProperties = {
-    fontWeight: 500,
-    color: isDarkMode ? '#E8EAED' : '#202124',
-    fontSize: isMobile ? '5vw' : '1.5vw',
-  };
-
   return (
-    <div
-      style={{
-        backgroundColor: isDarkMode ? '#2D2E30' : '#FFFFFF',
-        padding: isMobile ? '4vw' : '1.5vw',
-        borderRadius: isMobile ? '4vw' : '1.2vw',
-        boxShadow: isDarkMode
-          ? '0 2px 12px rgba(0,0,0,0.5)'
-          : '0 2px 12px rgba(0,0,0,0.1)',
-        textAlign: 'center',
-        width: isMobile ? '93vw' : '40vw',
-        margin: '0 auto',
-        boxSizing: 'border-box',
-      }}
-    >
-      {/* Current time */}
-      <div
-        style={{
-          fontSize: isMobile ? '3.5vw' : '0.9vw',
-          color: isDarkMode ? '#9AA0A6' : '#5F6368',
-          marginBottom: isMobile ? '0.5vh' : '0.3vw',
-          fontWeight: 500,
-          fontVariantNumeric: 'tabular-nums',
-        }}
-      >
-        {formatCurrentTime(currentTime)}
-      </div>
-      <h2
-        style={{
-          marginBottom: isMobile ? '1.5vh' : '0.8vw',
-          marginTop: 0,
-          fontSize: isMobile ? '4.5vh' : '2.5vw',
-          color: isDarkMode ? '#B0263E' : 'rgb(154, 31, 54)',
-          fontWeight: 700,
-        }}
-      >
-        RL Clock
-      </h2>
+    <Card isMobile={isMobile} isDarkMode={isDarkMode}>
+      <h2 style={headerStyle(isMobile)}>RL Clock</h2>
       {renderContent()}
-    </div>
+    </Card>
   );
 };
 
 export default Clock;
+
+// ------------------- Subcomponents & Styles -------------------
+
+const Card: React.FC<{
+  isMobile: boolean;
+  isDarkMode: boolean;
+  children: React.ReactNode;
+}> = ({ isMobile, isDarkMode, children }) => (
+  <div
+    style={{
+      backgroundColor: isDarkMode ? 'black' : 'white',
+      padding: isMobile ? '4vw' : '1.5vw',
+      borderRadius: isMobile ? '5vw' : '2vw',
+      boxShadow: '0 4px 20px 12px rgba(154, 31, 54, 0.5)',
+      textAlign: 'center',
+      color: 'rgb(154, 31, 54)',
+      width: isMobile ? '93vw' : '40vw',
+      margin: '0vh auto',
+      boxSizing: 'border-box',
+    }}
+  >
+    {children}
+  </div>
+);
+
+const headerStyle = (isMobile: boolean) => ({
+  marginBottom: '1vh',
+  fontSize: isMobile ? '5vh' : '3vw',
+});
+
+const textStyle = (isMobile: boolean, isDarkMode: boolean) => ({
+  fontWeight: 500,
+  color: isDarkMode ? 'white' : 'black',
+  fontSize: isMobile ? '4vw' : '1.5vw',
+  marginBottom: '2vh',
+});

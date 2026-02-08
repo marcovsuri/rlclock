@@ -15,9 +15,9 @@ const Footer: React.FC<FooterProps> = ({ isDarkMode }) => {
     textAlign: 'center',
     padding: '2vh 0.5vw',
     margin: '3vh auto 2vh auto',
-    color: isDarkMode ? '#E8EAED' : '#5F6368',
+    color: isDarkMode ? '#f8f9fa' : '#6c757d',
     fontSize: '0.9rem',
-    backgroundColor: isDarkMode ? '#1F1F1F' : '#FFFFFF',
+    backgroundColor: isDarkMode ? 'black' : 'white',
     transition: 'all 3s ease',
     userSelect: 'none',
     width: 'fit-content',
@@ -42,14 +42,14 @@ const Footer: React.FC<FooterProps> = ({ isDarkMode }) => {
     maxHeight: showCredits ? '200px' : '0',
     opacity: showCredits ? 1 : 0,
     padding: showCredits ? '0.5rem' : '0',
-    border: isDarkMode ? '1px solid rgba(176, 38, 62, 0.4)' : '1px solid rgba(154, 31, 54, 0.4)',
+    border: '1px solid rgba(154, 31, 54, 0.4)',
     borderRadius: '12px',
     width: 'fit-content',
     margin: isMobile ? '1vh 2vw' : '1vh auto',
     marginBottom: 0,
     overflow: 'hidden',
     transition: 'opacity 3s ease, max-height 2s ease, padding 3s ease',
-    color: isDarkMode ? '#B0263E' : 'rgba(154, 31, 54)',
+    color: 'rgba(154, 31, 54)',
   };
 
   return (

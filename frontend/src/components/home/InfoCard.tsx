@@ -4,11 +4,10 @@ import useIsMobile from '../../hooks/useIsMobile';
 
 type Props = {
   title: string;
-  subtitle: React.ReactNode;
-  info?: string;
+  subtitle: React.ReactNode; // Allow React nodes, including JSX elements
+  info: string;
   path: string;
   isDarkMode: boolean;
-  compact?: boolean;
 };
 
 const InfoCard: React.FC<Props> = ({
@@ -17,7 +16,6 @@ const InfoCard: React.FC<Props> = ({
   info,
   path,
   isDarkMode,
-  compact = false,
 }) => {
   const navigate = useNavigate();
   const isMobile = useIsMobile();
@@ -28,81 +26,55 @@ const InfoCard: React.FC<Props> = ({
       style={{
         width: isMobile ? 'auto' : 'auto',
         minWidth: isMobile ? '80vw' : '25vw',
-        padding: compact
-          ? isMobile
-            ? '2.5vh 3vw'
-            : '0.8vw 1.2vw'
-          : isMobile
-          ? '3vh 3vw'
-          : '1.2vw 1.5vw',
-        borderRadius: isMobile ? '3vw' : '0.8vw',
-        backgroundColor: isDarkMode ? '#2D2E30' : '#FFFFFF',
-        color: isDarkMode ? '#E8EAED' : '#202124',
+        padding: isMobile ? '4vh' : '2vw',
+        borderRadius: isMobile ? '3vh' : '2vw',
+        backgroundColor: isDarkMode ? 'black' : 'white',
+        color: 'rgb(154, 31, 54)',
         cursor: 'pointer',
-        boxShadow: isDarkMode
-          ? '0 2px 8px rgba(0,0,0,0.4)'
-          : '0 2px 8px rgba(0,0,0,0.08)',
+        boxShadow: '0 4px 20px 4px rgba(154, 31, 54, 0.5)',
         transition:
           'transform 0.2s ease, box-shadow 0.2s ease, background-color 3s ease, color 3s ease',
         margin: 'auto',
-        textAlign: 'left',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'space-between',
-        gap: isMobile ? '2vw' : '1vw',
+        textAlign: 'center',
       }}
       onMouseEnter={(e) => {
-        (e.currentTarget as HTMLElement).style.transform = 'scale(1.02)';
-        (e.currentTarget as HTMLElement).style.boxShadow = isDarkMode
-          ? '0 4px 16px rgba(0,0,0,0.6)'
-          : '0 4px 16px rgba(0,0,0,0.12)';
+        (e.currentTarget as HTMLElement).style.transform = 'scale(1.03)';
+        (e.currentTarget as HTMLElement).style.boxShadow =
+          '0 4px 30px 4px rgba(154, 31, 54, 0.5)';
       }}
       onMouseLeave={(e) => {
         (e.currentTarget as HTMLElement).style.transform = 'scale(1)';
-        (e.currentTarget as HTMLElement).style.boxShadow = isDarkMode
-          ? '0 2px 8px rgba(0,0,0,0.4)'
-          : '0 2px 8px rgba(0,0,0,0.08)';
+        (e.currentTarget as HTMLElement).style.boxShadow =
+          '0 4px 20px 4px rgba(154, 31, 54, 0.5)';
       }}
     >
-      <div style={{ flex: 1, minWidth: 0 }}>
-        <h3
-          style={{
-            margin: 0,
-            fontSize: isMobile ? '3.5vw' : '0.85vw',
-            color: isDarkMode ? '#9AA0A6' : '#5F6368',
-            fontWeight: 500,
-            marginBottom: compact ? '0.2em' : '0.4em',
-          }}
-        >
-          {title}
-        </h3>
-        <div
-          style={{
-            fontSize: compact
-              ? isMobile
-                ? '3.5vw'
-                : '0.95vw'
-              : isMobile
-              ? '4vw'
-              : '1.1vw',
-            fontWeight: 500,
-            color: isDarkMode ? '#E8EAED' : '#202124',
-            lineHeight: 1.4,
-          }}
-        >
-          {subtitle}
-        </div>
-      </div>
-      {/* Chevron */}
-      <span
+      <h3
         style={{
-          fontSize: isMobile ? '5vw' : '1.2vw',
-          color: isDarkMode ? '#9AA0A6' : '#5F6368',
-          flexShrink: 0,
+          margin: '0 0 1vh',
+          fontSize: isMobile ? '4vw' : '1.2vw',
+          color: isDarkMode ? 'white' : 'black',
+          fontWeight: 500,
         }}
       >
-        ›
-      </span>
+        {title}
+      </h3>
+      <h3
+        style={{
+          margin: '0 0 2vh',
+          fontSize: isMobile ? '6vw' : '1.75vw',
+        }}
+      >
+        {subtitle}
+      </h3>
+      <p
+        style={{
+          margin: 0,
+          fontSize: isMobile ? '3.5vw' : '0.9vw',
+          color: isDarkMode ? 'white' : 'black',
+        }}
+      >
+        {info}
+      </p>
     </div>
   );
 };
