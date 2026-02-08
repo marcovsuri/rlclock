@@ -93,34 +93,27 @@ const ResultsCard: React.FC<ResultsCardProps> = ({
   }
 
   // Mobile collapse logic
-  const visibleGroups =
-    isMobile && !expanded
-      ? (() => {
-          let count = 0;
-          const result: typeof grouped = [];
-          for (const group of grouped) {
-            if (count >= MOBILE_COLLAPSED_COUNT) break;
-            const remaining = MOBILE_COLLAPSED_COUNT - count;
-            if (group.rows.length <= remaining) {
-              result.push(group);
-              count += group.rows.length;
-            } else {
-              result.push({
-                date: group.date,
-                rows: group.rows.slice(0, remaining),
-              });
-              count += remaining;
-            }
+  const visibleGroups = isMobile && !expanded
+    ? (() => {
+        let count = 0;
+        const result: typeof grouped = [];
+        for (const group of grouped) {
+          if (count >= MOBILE_COLLAPSED_COUNT) break;
+          const remaining = MOBILE_COLLAPSED_COUNT - count;
+          if (group.rows.length <= remaining) {
+            result.push(group);
+            count += group.rows.length;
+          } else {
+            result.push({ date: group.date, rows: group.rows.slice(0, remaining) });
+            count += remaining;
           }
-          return result;
-        })()
-      : grouped;
+        }
+        return result;
+      })()
+    : grouped;
 
   const totalRows = rows.length;
-  const visibleRowCount = visibleGroups.reduce(
-    (sum, g) => sum + g.rows.length,
-    0,
-  );
+  const visibleRowCount = visibleGroups.reduce((sum, g) => sum + g.rows.length, 0);
   const hasMore = isMobile && totalRows > MOBILE_COLLAPSED_COUNT;
 
   const outcomeColor = (outcome: FlatRow['outcome']): string => {
@@ -129,38 +122,12 @@ const ResultsCard: React.FC<ResultsCardProps> = ({
     return isDarkMode ? '#9AA0A6' : '#5F6368';
   };
 
-  const dateYearMap = new Map<string, number>();
-  {
-    const now = new Date();
-    let effectiveYear = now.getFullYear();
-    let prevMonth = now.getMonth() + 1;
-    for (const group of grouped) {
-      const [m] = group.date.split('/').map(Number);
-      if (m && m > prevMonth) effectiveYear--;
-      if (m) prevMonth = m;
-      dateYearMap.set(group.date, effectiveYear);
-    }
-  }
-
+  // Format date: "2/6" → "Feb 6"
   const formatDate = (md: string): string => {
-    const months = [
-      'Jan',
-      'Feb',
-      'Mar',
-      'Apr',
-      'May',
-      'Jun',
-      'Jul',
-      'Aug',
-      'Sep',
-      'Oct',
-      'Nov',
-      'Dec',
-    ];
+    const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
     const [month, day] = md.split('/').map(Number);
     if (!month || !day) return md;
-    const year = dateYearMap.get(md) ?? new Date().getFullYear();
-    return `${months[month - 1]} ${day}, ${year}`;
+    return `${months[month - 1]} ${day}`;
   };
 
   return (
@@ -191,13 +158,7 @@ const ResultsCard: React.FC<ResultsCardProps> = ({
       </h3>
 
       {/* Grouped results */}
-      <div
-        style={{
-          display: 'flex',
-          flexDirection: 'column',
-          gap: isMobile ? '3vw' : '0.8vw',
-        }}
-      >
+      <div style={{ display: 'flex', flexDirection: 'column', gap: isMobile ? '3vw' : '0.8vw' }}>
         {visibleGroups.map((group) => (
           <div key={group.date}>
             {/* Date header */}
@@ -215,21 +176,9 @@ const ResultsCard: React.FC<ResultsCardProps> = ({
             </div>
 
             {/* Rows for this date */}
-            <div
-              style={{
-                display: 'flex',
-                flexDirection: 'column',
-                gap: isMobile ? '1vw' : '0.25vw',
-              }}
-            >
+            <div style={{ display: 'flex', flexDirection: 'column', gap: isMobile ? '1vw' : '0.25vw' }}>
               {group.rows.map((row, i) => (
-                <ResultRow
-                  key={i}
-                  row={row}
-                  isMobile={isMobile}
-                  isDarkMode={isDarkMode}
-                  outcomeColor={outcomeColor}
-                />
+                <ResultRow key={i} row={row} isMobile={isMobile} isDarkMode={isDarkMode} outcomeColor={outcomeColor} />
               ))}
             </div>
           </div>

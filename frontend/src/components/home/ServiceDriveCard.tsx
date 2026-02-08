@@ -133,7 +133,7 @@ const ServiceDriveCard: React.FC<Props> = ({
         style={{
           width: '100%',
           height: isMobile ? '3vh' : '1.2vw',
-          backgroundColor: isDarkMode ? '#4A4B4D' : '#F2F2F2',
+          backgroundColor: isDarkMode ? '#2D2E30' : '#F2F2F2',
           borderRadius: isMobile ? '5vh' : '1vw',
           overflow: 'hidden',
           marginTop: '1vh',

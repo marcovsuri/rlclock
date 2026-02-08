@@ -17,7 +17,7 @@ type TeamRecord = { wins: number; losses: number; ties: number };
 const Sports: React.FC<SportsProps> = ({ isDarkMode }) => {
   const isMobile = useIsMobile();
   const [pastGames, setPastGames] = useState<TeamEvent[] | undefined | null>(
-    undefined,
+    undefined
   );
 
   const [upcomingGames, setUpcomingGames] = useState<
@@ -48,20 +48,7 @@ const Sports: React.FC<SportsProps> = ({ isDarkMode }) => {
     document.title = 'RL Clock | Sports';
     getSportsEvents().then((response) => {
       if (response.success) {
-        const now = new Date();
-        let effectiveYear = now.getFullYear();
-        let prevMonth = now.getMonth() + 1;
-        const seasonStart = new Date(2025, 10, 16); //CHANGE THIS WHEN SEASON CHANGES - start date for the current season, helps get the games only from this season
-        const games = response.data
-          .map((e) => {
-            const [m, d] = e.date.split('/').map(Number);
-            if (!m || !d) return null;
-            if (m > prevMonth) effectiveYear--;
-            prevMonth = m;
-            const gameDate = new Date(effectiveYear, m - 1, d);
-            return gameDate >= seasonStart ? e : null;
-          })
-          .filter((e): e is NonNullable<typeof e> => e !== null);
+        const games = response.data.slice(0, 50);
         setPastGames(games.length > 0 ? games : null);
       } else {
         setPastGames(null);
@@ -75,7 +62,7 @@ const Sports: React.FC<SportsProps> = ({ isDarkMode }) => {
         const today = new Date();
         const todayMD = `${today.getMonth() + 1}/${today.getDate()}`;
         setUpcomingGames(
-          response.data.filter((e) => e.date.startsWith(todayMD)),
+          response.data.filter((e) => e.date.startsWith(todayMD))
         );
       } else {
         setUpcomingGames(null);
@@ -151,30 +138,9 @@ const Sports: React.FC<SportsProps> = ({ isDarkMode }) => {
               }}
             >
               <span />
-              <span
-                style={{
-                  textAlign: 'center',
-                  minWidth: isMobile ? '8vw' : '2.5vw',
-                }}
-              >
-                W
-              </span>
-              <span
-                style={{
-                  textAlign: 'center',
-                  minWidth: isMobile ? '8vw' : '2.5vw',
-                }}
-              >
-                L
-              </span>
-              <span
-                style={{
-                  textAlign: 'center',
-                  minWidth: isMobile ? '8vw' : '2.5vw',
-                }}
-              >
-                T
-              </span>
+              <span style={{ textAlign: 'center', minWidth: isMobile ? '8vw' : '2.5vw' }}>W</span>
+              <span style={{ textAlign: 'center', minWidth: isMobile ? '8vw' : '2.5vw' }}>L</span>
+              <span style={{ textAlign: 'center', minWidth: isMobile ? '8vw' : '2.5vw' }}>T</span>
             </div>
             <div
               style={{
@@ -198,33 +164,9 @@ const Sports: React.FC<SportsProps> = ({ isDarkMode }) => {
                   }}
                 >
                   <span>{team}</span>
-                  <span
-                    style={{
-                      textAlign: 'center',
-                      minWidth: isMobile ? '8vw' : '2.5vw',
-                      color: isDarkMode ? '#4ade80' : '#16a34a',
-                    }}
-                  >
-                    {rec.wins}
-                  </span>
-                  <span
-                    style={{
-                      textAlign: 'center',
-                      minWidth: isMobile ? '8vw' : '2.5vw',
-                      color: isDarkMode ? '#9AA0A6' : '#5F6368',
-                    }}
-                  >
-                    {rec.losses}
-                  </span>
-                  <span
-                    style={{
-                      textAlign: 'center',
-                      minWidth: isMobile ? '8vw' : '2.5vw',
-                      color: isDarkMode ? '#9AA0A6' : '#5F6368',
-                    }}
-                  >
-                    {rec.ties}
-                  </span>
+                  <span style={{ textAlign: 'center', minWidth: isMobile ? '8vw' : '2.5vw', color: isDarkMode ? '#4ade80' : '#16a34a' }}>{rec.wins}</span>
+                  <span style={{ textAlign: 'center', minWidth: isMobile ? '8vw' : '2.5vw', color: isDarkMode ? '#9AA0A6' : '#5F6368' }}>{rec.losses}</span>
+                  <span style={{ textAlign: 'center', minWidth: isMobile ? '8vw' : '2.5vw', color: isDarkMode ? '#9AA0A6' : '#5F6368' }}>{rec.ties}</span>
                 </div>
               ))}
             </div>
