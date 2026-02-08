@@ -229,7 +229,7 @@ const ExamSchedule: React.FC<ExamScheduleProps> = ({ isDarkMode }) => {
                             margin: '0.25rem 0 0 0',
                             padding: 0,
                             listStyle: 'none',
-                            fontSize: '0.85rem',
+                            fontSize: 14,
                           }}
                         >
                           {group.map((exam, i) => (
@@ -307,7 +307,7 @@ const ExamSchedule: React.FC<ExamScheduleProps> = ({ isDarkMode }) => {
                                     margin: '0.25rem 0 0 0',
                                     padding: 0,
                                     listStyle: 'none',
-                                    fontSize: '0.85rem',
+                                    fontSize: 14,
                                   }}
                                 >
                                   {group.map((exam, i) => (

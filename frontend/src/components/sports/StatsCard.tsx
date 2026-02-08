@@ -28,7 +28,7 @@ const StatsCard: React.FC<StatsCardProps> = ({ stats, isMobile }) => {
   };
 
   const headerStyle: React.CSSProperties = {
-    fontSize: isMobile ? '5vh' : '2.5vw',
+    fontSize: isMobile ? 26 : 32,
     marginBottom: '2vh',
     textAlign: 'center',
   };
@@ -41,7 +41,7 @@ const StatsCard: React.FC<StatsCardProps> = ({ stats, isMobile }) => {
     marginBottom: '1vh',
     backgroundColor: 'rgba(154, 31, 54, 0.05)',
     borderRadius: isMobile ? '4vw' : '1vw',
-    fontSize: isMobile ? '4vw' : '1.2vw',
+    fontSize: 16,
     color: '#202124',
     fontWeight: 500,
   };

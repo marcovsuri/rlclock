@@ -27,7 +27,7 @@ const AnnouncementsButton: React.FC<Props> = ({
         border: 'none',
         backgroundColor: 'transparent',
         color: isDarkMode ? '#9AA0A6' : '#5F6368',
-        fontSize: isMobile ? '0.88rem' : '0.82rem',
+        fontSize: 16,
         fontWeight: 450,
         letterSpacing: '0.01em',
         cursor: 'pointer',

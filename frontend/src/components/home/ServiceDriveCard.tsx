@@ -112,7 +112,7 @@ const ServiceDriveCard: React.FC<Props> = ({
     >
       <h2
         style={{
-          fontSize: isMobile ? '6vw' : '1.8vw',
+          fontSize: isMobile ? 26 : 32,
           marginBottom: '1vh',
           color: isDarkMode ? '#B0263E' : 'rgb(154, 31, 54)',
         }}
@@ -123,7 +123,7 @@ const ServiceDriveCard: React.FC<Props> = ({
       <h3
         style={{
           margin: '0 0 2vh',
-          fontSize: isMobile ? '6vw' : '1.25vw',
+          fontSize: isMobile ? 20 : 24,
         }}
       >
         {animatedDonations} of {donationGoal} Items Donated
@@ -154,7 +154,7 @@ const ServiceDriveCard: React.FC<Props> = ({
       <p
         style={{
           margin: 0,
-          fontSize: isMobile ? '3.5vw' : '0.9vw',
+          fontSize: isMobile ? 13 : 14,
           color: isDarkMode ? '#E8EAED' : '#202124',
         }}
       >

@@ -41,7 +41,7 @@ const Service: React.FC<ServiceProps> = ({ isDarkMode }) => {
       {/* Title Banner */}
       <h1
         style={{
-          fontSize: isMobile ? '8vw' : '3vw',
+          fontSize: isMobile ? 32 : 48,
           fontWeight: 'bold',
           color: isDarkMode ? '#B0263E' : 'rgb(154, 31, 54)',
           marginBottom: '3vh',
@@ -64,7 +64,7 @@ const Service: React.FC<ServiceProps> = ({ isDarkMode }) => {
         style={{
           marginTop: '4vh',
           maxWidth: isMobile ? '90vw' : '60vw',
-          fontSize: isMobile ? '4vw' : '1.2vw',
+          fontSize: 16,
           lineHeight: 1.6,
           color: isDarkMode ? '#E8EAED' : '#202124',
           textAlign: 'left',
@@ -80,7 +80,7 @@ const Service: React.FC<ServiceProps> = ({ isDarkMode }) => {
         <h2
           style={{
             textAlign: 'center',
-            fontSize: isMobile ? '6vw' : '2vw',
+            fontSize: isMobile ? 26 : 32,
             marginBottom: '2vh',
             color: isDarkMode ? '#B0263E' : 'rgb(154, 31, 54)',
           }}
@@ -96,7 +96,7 @@ const Service: React.FC<ServiceProps> = ({ isDarkMode }) => {
         <div>
           <h3
             style={{
-              fontSize: isMobile ? '5vw' : '1.2vw',
+              fontSize: isMobile ? 20 : 24,
               marginBottom: '0.5vh',
               color: isDarkMode ? '#B0263E' : 'rgb(154, 31, 54)',
             }}
@@ -119,7 +119,7 @@ const Service: React.FC<ServiceProps> = ({ isDarkMode }) => {
         <div style={{ marginBottom: '1.5vh' }}>
           <h3
             style={{
-              fontSize: isMobile ? '5vw' : '1.2vw',
+              fontSize: isMobile ? 20 : 24,
               marginBottom: '0.5vh',
               color: isDarkMode ? '#B0263E' : 'rgb(154, 31, 54)',
             }}
@@ -144,7 +144,7 @@ const Service: React.FC<ServiceProps> = ({ isDarkMode }) => {
         <div>
           <h3
             style={{
-              fontSize: isMobile ? '5vw' : '1.2vw',
+              fontSize: isMobile ? 20 : 24,
               marginBottom: '0.5vh',
               color: isDarkMode ? '#B0263E' : 'rgb(154, 31, 54)',
             }}

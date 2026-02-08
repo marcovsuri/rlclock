@@ -68,7 +68,7 @@ const InfoCard: React.FC<Props> = ({
         <h3
           style={{
             margin: 0,
-            fontSize: isMobile ? '3.5vw' : '0.85vw',
+            fontSize: isMobile ? 13 : 14,
             color: isDarkMode ? '#9AA0A6' : '#5F6368',
             fontWeight: 500,
             marginBottom: compact ? '0.2em' : '0.4em',
@@ -78,13 +78,7 @@ const InfoCard: React.FC<Props> = ({
         </h3>
         <div
           style={{
-            fontSize: compact
-              ? isMobile
-                ? '3.5vw'
-                : '0.95vw'
-              : isMobile
-              ? '4vw'
-              : '1.1vw',
+            fontSize: 16,
             fontWeight: 500,
             color: isDarkMode ? '#E8EAED' : '#202124',
             lineHeight: 1.4,
@@ -96,7 +90,7 @@ const InfoCard: React.FC<Props> = ({
       {/* Chevron */}
       <span
         style={{
-          fontSize: isMobile ? '5vw' : '1.2vw',
+          fontSize: isMobile ? 20 : 24,
           color: isDarkMode ? '#9AA0A6' : '#5F6368',
           flexShrink: 0,
         }}

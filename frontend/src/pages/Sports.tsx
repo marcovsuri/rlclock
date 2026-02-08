@@ -125,7 +125,7 @@ const Sports: React.FC<SportsProps> = ({ isDarkMode }) => {
           >
             <h3
               style={{
-                fontSize: isMobile ? '3.5vw' : '0.85vw',
+                fontSize: isMobile ? 13 : 14,
                 margin: 0,
                 marginBottom: isMobile ? '2vw' : '0.8vw',
                 color: isDarkMode ? '#9AA0A6' : '#5F6368',
@@ -143,7 +143,7 @@ const Sports: React.FC<SportsProps> = ({ isDarkMode }) => {
                 gridTemplateColumns: '1fr auto auto auto',
                 gap: isMobile ? '2vw' : '0.6vw',
                 padding: isMobile ? '0 2vw 1vw' : '0 0.6vw 0.3vw',
-                fontSize: isMobile ? '2.8vw' : '0.7vw',
+                fontSize: isMobile ? 13 : 14,
                 fontWeight: 600,
                 color: isDarkMode ? '#9AA0A6' : '#5F6368',
                 textTransform: 'uppercase',
@@ -192,7 +192,7 @@ const Sports: React.FC<SportsProps> = ({ isDarkMode }) => {
                     gap: isMobile ? '2vw' : '0.6vw',
                     alignItems: 'center',
                     padding: isMobile ? '1.5vw 2vw' : '0.35vw 0.6vw',
-                    fontSize: isMobile ? '3.5vw' : '0.95vw',
+                    fontSize: 16,
                     fontWeight: 500,
                     color: isDarkMode ? '#E8EAED' : '#202124',
                   }}
@@ -227,6 +227,53 @@ const Sports: React.FC<SportsProps> = ({ isDarkMode }) => {
                   </span>
                 </div>
               ))}
+              {/* Total row */}
+              <div
+                style={{
+                  display: 'grid',
+                  gridTemplateColumns: '1fr auto auto auto',
+                  gap: isMobile ? '2vw' : '0.6vw',
+                  alignItems: 'center',
+                  padding: isMobile ? '1.5vw 2vw' : '0.35vw 0.6vw',
+                  marginTop: isMobile ? '1vw' : '0.25vw',
+                  borderTop: isDarkMode
+                    ? '1px solid rgba(255,255,255,0.08)'
+                    : '1px solid rgba(0,0,0,0.06)',
+                  paddingTop: isMobile ? '2vw' : '0.5vw',
+                  fontSize: 16,
+                  fontWeight: 700,
+                  color: isDarkMode ? '#E8EAED' : '#202124',
+                }}
+              >
+                <span>Total</span>
+                <span
+                  style={{
+                    textAlign: 'center',
+                    minWidth: isMobile ? '8vw' : '2.5vw',
+                    color: isDarkMode ? '#4ade80' : '#16a34a',
+                  }}
+                >
+                  {records.reduce((s, [, r]) => s + r.wins, 0)}
+                </span>
+                <span
+                  style={{
+                    textAlign: 'center',
+                    minWidth: isMobile ? '8vw' : '2.5vw',
+                    color: isDarkMode ? '#9AA0A6' : '#5F6368',
+                  }}
+                >
+                  {records.reduce((s, [, r]) => s + r.losses, 0)}
+                </span>
+                <span
+                  style={{
+                    textAlign: 'center',
+                    minWidth: isMobile ? '8vw' : '2.5vw',
+                    color: isDarkMode ? '#9AA0A6' : '#5F6368',
+                  }}
+                >
+                  {records.reduce((s, [, r]) => s + r.ties, 0)}
+                </span>
+              </div>
             </div>
           </div>
         )}

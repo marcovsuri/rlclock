@@ -15,7 +15,7 @@ const MenuItemCard: React.FC<MenuItemCardProps> = ({ item, isDarkMode }) => {
     padding: '0.1rem',
     textAlign: 'center' as const,
     fontWeight: 500,
-    fontSize: '1rem',
+    fontSize: 16,
     color: isDarkMode ? '#E8EAED' : '#202124',
     margin: '0.25rem auto',
     width: '100%',

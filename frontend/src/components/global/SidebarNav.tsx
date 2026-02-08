@@ -6,6 +6,7 @@ import AnnouncementsButton from './AnnouncementsButton';
 interface SidebarNavProps {
   isDarkMode: boolean;
   onOpenAnnouncements: () => void;
+  onOpenFeedback: () => void;
   isOpen: boolean;
   onClose: () => void;
 }
@@ -20,6 +21,7 @@ const navItems = [
 const SidebarNav: React.FC<SidebarNavProps> = ({
   isDarkMode,
   onOpenAnnouncements,
+  onOpenFeedback,
   isOpen,
   onClose,
 }) => {
@@ -28,7 +30,7 @@ const SidebarNav: React.FC<SidebarNavProps> = ({
   const isMobile = useIsMobile();
 
   const dividerColor = isDarkMode ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.06)';
-  const drawerWidth = isMobile ? '36vw' : '8.5vw';
+  const drawerWidth = isMobile ? '36vw' : '12vw';
 
   return (
     <>
@@ -102,7 +104,7 @@ const SidebarNav: React.FC<SidebarNavProps> = ({
                     color: active
                       ? isDarkMode ? '#C43C5A' : 'rgb(154, 31, 54)'
                       : isDarkMode ? '#9AA0A6' : '#5F6368',
-                    fontSize: isMobile ? '0.88rem' : '0.82rem',
+                    fontSize: 16,
                     fontWeight: 450,
                     letterSpacing: '0.01em',
                     cursor: 'pointer',
@@ -135,7 +137,32 @@ const SidebarNav: React.FC<SidebarNavProps> = ({
           <AnnouncementsButton onClick={() => { onOpenAnnouncements(); onClose(); }} isDarkMode={isDarkMode} />
         </div>
 
-        <div />
+        {/* Send Feedback */}
+        <button
+          onClick={() => { onOpenFeedback(); onClose(); }}
+          style={{
+            padding: isMobile ? '0.75rem 1rem' : '0.4vw 0.8vw',
+            border: 'none',
+            borderLeft: '3px solid transparent',
+            backgroundColor: 'transparent',
+            color: isDarkMode ? '#9AA0A6' : '#5F6368',
+            fontSize: isMobile ? 13 : 14,
+            fontWeight: 450,
+            cursor: 'pointer',
+            transition: 'color 3s ease',
+            width: '100%',
+            textAlign: 'left',
+            lineHeight: 1.4,
+          }}
+          onMouseEnter={(e) => {
+            e.currentTarget.style.color = isDarkMode ? '#E8EAED' : '#202124';
+          }}
+          onMouseLeave={(e) => {
+            e.currentTarget.style.color = isDarkMode ? '#9AA0A6' : '#5F6368';
+          }}
+        >
+          Send Feedback
+        </button>
       </div>
     </>
   );

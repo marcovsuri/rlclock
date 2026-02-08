@@ -1,4 +1,5 @@
 import MenuGrid from './MenuGrid';
+import useIsMobile from '../../hooks/useIsMobile';
 
 const MenuSection = ({
   title,
@@ -9,6 +10,8 @@ const MenuSection = ({
   items: string[];
   isDarkMode: boolean;
 }) => {
+  const isMobile = useIsMobile();
+
   const sectionStyle: React.CSSProperties = {
     marginBottom: '3rem',
     backgroundColor: isDarkMode ? '#2D2E30' : '#FFFFFF',
@@ -20,7 +23,7 @@ const MenuSection = ({
   };
 
   const sectionTitleStyle: React.CSSProperties = {
-    fontSize: '2rem',
+    fontSize: isMobile ? 26 : 32,
     color: isDarkMode ? '#B0263E' : 'rgb(154, 31, 54)',
     marginBottom: '1.5rem',
     fontWeight: 600,

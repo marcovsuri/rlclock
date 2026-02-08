@@ -80,7 +80,7 @@ const DonationProgressBar: React.FC<Props> = ({
       {/* Percentage */}
       <span
         style={{
-          fontSize: isMobile ? '5vw' : '1.4vw',
+          fontSize: isMobile ? 26 : 32,
           fontWeight: 700,
           color: goalReached
             ? isDarkMode
@@ -125,7 +125,7 @@ const DonationProgressBar: React.FC<Props> = ({
       {/* Label */}
       <span
         style={{
-          fontSize: isMobile ? '3vw' : '0.8vw',
+          fontSize: isMobile ? 13 : 14,
           fontWeight: 500,
           color: isDarkMode ? '#9AA0A6' : '#5F6368',
         }}

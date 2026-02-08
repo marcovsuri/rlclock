@@ -87,7 +87,7 @@ const ServiceMonthCard: React.FC<Props> = ({
       style={{
         width: isMobile ? 'auto' : 'auto',
         minWidth: isMobile ? '80vw' : '25vw',
-        padding: isMobile ? '3vh 3vw' : '1.2vw 1.5vw',
+        padding: isMobile ? '2.5vh 3vw 3vh' : '1vw 1.5vw 1.2vw',
         borderRadius: isMobile ? '3vw' : '0.8vw',
         backgroundColor: isDarkMode ? '#2D2E30' : '#FFFFFF',
         color: isDarkMode ? '#E8EAED' : '#202124',
@@ -125,7 +125,7 @@ const ServiceMonthCard: React.FC<Props> = ({
         <h3
           style={{
             margin: 0,
-            fontSize: isMobile ? '4vw' : '1vw',
+            fontSize: isMobile ? 20 : 24,
             color: maroon,
             fontWeight: 600,
           }}
@@ -134,7 +134,7 @@ const ServiceMonthCard: React.FC<Props> = ({
         </h3>
         <span
           style={{
-            fontSize: isMobile ? '5vw' : '1.2vw',
+            fontSize: isMobile ? 20 : 24,
             color: isDarkMode ? '#9AA0A6' : '#5F6368',
             flexShrink: 0,
           }}
@@ -146,7 +146,7 @@ const ServiceMonthCard: React.FC<Props> = ({
       {/* Leaders */}
       <div
         style={{
-          fontSize: isMobile ? '3.5vw' : '0.9vw',
+          fontSize: 16,
           marginBottom: '0.6em',
           lineHeight: 1.5,
           color: isDarkMode ? '#9AA0A6' : '#5F6368',
@@ -177,7 +177,7 @@ const ServiceMonthCard: React.FC<Props> = ({
       {/* Progress */}
       <div
         style={{
-          fontSize: isMobile ? '3.2vw' : '0.8vw',
+          fontSize: isMobile ? 13 : 14,
           color: isDarkMode ? '#9AA0A6' : '#5F6368',
           marginBottom: '0.4em',
           fontWeight: 500,

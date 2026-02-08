@@ -55,7 +55,7 @@ const Summer: React.FC<SummerProps> = ({ isDarkMode }) => {
               boxShadow: '0 2px 12px rgba(0,0,0,0.1)',
               border: '1px solid rgba(0,0,0,0.08)',
               padding: isMobile ? '2vh' : '2vh 2vw',
-              fontSize: isMobile ? '4vw' : '3vw',
+              fontSize: isMobile ? 32 : 48,
               borderRadius: '16px',
             }}
           >

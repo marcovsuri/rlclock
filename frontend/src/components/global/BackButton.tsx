@@ -15,7 +15,7 @@ const BackButton: React.FC = () => {
           border: '1px solid rgba(154, 31, 54, 0.2)',
           backgroundColor: 'rgba(154, 31, 54, 0.1)', // very pale red
           color: 'rgba(154, 31, 54, 1)', // deep red for text
-          fontSize: '1rem',
+          fontSize: 16,
           fontWeight: 600,
           cursor: 'pointer',
           boxShadow: '0 2px 6px rgba(0,0,0,0.08)',

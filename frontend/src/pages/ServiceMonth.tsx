@@ -93,7 +93,7 @@ const ServiceMonth: React.FC<ServiceProps> = ({ isDarkMode }) => {
       {/* Title */}
       <h1
         style={{
-          fontSize: isMobile ? '6vw' : '2vw',
+          fontSize: isMobile ? 32 : 48,
           fontWeight: 700,
           color: isDarkMode ? '#B0263E' : 'rgb(154, 31, 54)',
           marginBottom: isMobile ? '1vh' : '0.5vw',
@@ -108,7 +108,7 @@ const ServiceMonth: React.FC<ServiceProps> = ({ isDarkMode }) => {
       {daysLeft !== null && (
         <p
           style={{
-            fontSize: isMobile ? '3.2vw' : '0.85vw',
+            fontSize: 16,
             color: isDarkMode ? '#9AA0A6' : '#5F6368',
             marginBottom: isMobile ? '2vh' : '1vw',
             textAlign: 'center',
@@ -150,7 +150,7 @@ const ServiceMonth: React.FC<ServiceProps> = ({ isDarkMode }) => {
               gridTemplateColumns: '0.3fr 1fr 1fr 1fr',
               gap: isMobile ? '1vw' : '0.5vw',
               padding: isMobile ? '1.5vw 2vw' : '0.3vw 0.6vw',
-              fontSize: isMobile ? '2.8vw' : '0.7vw',
+              fontSize: isMobile ? 13 : 14,
               fontWeight: 600,
               color: isDarkMode ? '#9AA0A6' : '#5F6368',
               textTransform: 'uppercase',
@@ -198,7 +198,7 @@ const ServiceMonth: React.FC<ServiceProps> = ({ isDarkMode }) => {
                   alignItems: 'center',
                   padding: isMobile ? '2vw' : '0.4vw 0.6vw',
                   borderRadius: isMobile ? '2vw' : '0.4vw',
-                  fontSize: isMobile ? '3.5vw' : '0.95vw',
+                  fontSize: 16,
                   fontWeight: isPointsLeader ? 600 : 500,
                   color: isDarkMode ? '#E8EAED' : '#202124',
                   backgroundColor: isPointsLeader
@@ -216,7 +216,7 @@ const ServiceMonth: React.FC<ServiceProps> = ({ isDarkMode }) => {
                 <span
                   style={{
                     color: isDarkMode ? '#9AA0A6' : '#5F6368',
-                    fontSize: isMobile ? '3vw' : '0.8vw',
+                    fontSize: isMobile ? 13 : 14,
                   }}
                 >
                   {i + 1}
@@ -257,7 +257,7 @@ const ServiceMonth: React.FC<ServiceProps> = ({ isDarkMode }) => {
           <div
             style={{
               marginTop: isMobile ? '2vw' : '0.5vw',
-              fontSize: isMobile ? '2.5vw' : '0.65vw',
+              fontSize: isMobile ? 13 : 14,
               color: isDarkMode ? '#9AA0A6' : '#5F6368',
               textAlign: 'right',
               paddingRight: isMobile ? '2vw' : '0.6vw',

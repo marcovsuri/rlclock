@@ -10,70 +10,54 @@ const Footer: React.FC<FooterProps> = ({ isDarkMode }) => {
   const isMobile = useIsMobile();
 
   const currentYear = new Date().getFullYear();
-
-  const footerStyle: React.CSSProperties = {
-    textAlign: 'center',
-    padding: '2vh 0.5vw',
-    margin: '3vh auto 2vh auto',
-    color: isDarkMode ? '#E8EAED' : '#5F6368',
-    fontSize: '0.9rem',
-    backgroundColor: isDarkMode ? '#1F1F1F' : '#FFFFFF',
-    transition: 'all 3s ease',
-    userSelect: 'none',
-    width: 'fit-content',
-    borderRadius: '12px',
-    justifyContent: 'center',
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-  };
-
-  const footerSubtextStyle: React.CSSProperties = {
-    fontSize: '0.8rem',
-  };
-
-  const foxStyle: React.CSSProperties = {
-    cursor: 'pointer',
-    display: 'inline-block',
-  };
-
-  const hiddenCreditsStyle: React.CSSProperties = {
-    fontSize: '0.75rem',
-    maxHeight: showCredits ? '200px' : '0',
-    opacity: showCredits ? 1 : 0,
-    padding: showCredits ? '0.5rem' : '0',
-    border: isDarkMode ? '1px solid rgba(176, 38, 62, 0.4)' : '1px solid rgba(154, 31, 54, 0.4)',
-    borderRadius: '12px',
-    width: 'fit-content',
-    margin: isMobile ? '1vh 2vw' : '1vh auto',
-    marginBottom: 0,
-    overflow: 'hidden',
-    transition: 'opacity 3s ease, max-height 2s ease, padding 3s ease',
-    color: isDarkMode ? '#B0263E' : 'rgba(154, 31, 54)',
-  };
+  const secondaryText = isDarkMode ? '#9AA0A6' : '#5F6368';
+  const maroon = isDarkMode ? '#B0263E' : 'rgb(154, 31, 54)';
 
   return (
-    <footer style={footerStyle}>
-      <div style={{ marginBottom: '0.5vh' }}>
-        <span className="text-muted">
-          A friendly&nbsp;
-          <span
-            style={foxStyle}
-            onClick={() => setShowCredits(!showCredits)}
-            role="button"
-            aria-label="Toggle credits"
-          >
-            🦊
-          </span>
-          &nbsp;re/creation. ©&nbsp;{currentYear}
-        </span>
-      </div>
+    <footer
+      style={{
+        textAlign: 'center',
+        padding: isMobile ? '3vh 3vw 2vh' : '1.5vw 1vw 1vw',
+        color: secondaryText,
+        fontSize: isMobile ? 13 : 14,
+        userSelect: 'none',
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        gap: isMobile ? '0.5vh' : '0.2vw',
+      }}
+    >
       <div>
-        <span className="text-muted" style={footerSubtextStyle}>
-          Full credit to the creators of the original RL Clock. ✌️
+        A friendly&nbsp;
+        <span
+          style={{ cursor: 'pointer', display: 'inline-block' }}
+          onClick={() => setShowCredits(!showCredits)}
+          role="button"
+          aria-label="Toggle credits"
+        >
+          🦊
         </span>
+        &nbsp;re/creation. ©&nbsp;{currentYear}
       </div>
-      <div style={hiddenCreditsStyle}>
+      <div style={{ fontSize: isMobile ? 13 : 14 }}>
+        Full credit to the creators of the original RL Clock.
+      </div>
+      <div
+        style={{
+          fontSize: isMobile ? 13 : 14,
+          maxHeight: showCredits ? '200px' : '0',
+          opacity: showCredits ? 1 : 0,
+          padding: showCredits ? (isMobile ? '1.5vw 3vw' : '0.3vw 0.8vw') : '0',
+          border: showCredits
+            ? `1px solid ${isDarkMode ? 'rgba(176, 38, 62, 0.4)' : 'rgba(154, 31, 54, 0.4)'}`
+            : '1px solid transparent',
+          borderRadius: isMobile ? '2vw' : '0.4vw',
+          overflow: 'hidden',
+          transition: 'opacity 3s ease, max-height 2s ease, padding 3s ease, border-color 3s ease',
+          color: maroon,
+          marginTop: isMobile ? '0.5vh' : '0.2vw',
+        }}
+      >
         <em className={showCredits ? 'shimmer-text' : ''}>
           Recreated by Marco Suri, Dylan Pan, Austin Reid, Avish Kumar, Michael DiLallo, and Mr. Piper
         </em>

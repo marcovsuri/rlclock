@@ -35,7 +35,7 @@ const ResultsCard: React.FC<ResultsCardProps> = ({
       <p
         style={{
           textAlign: 'center',
-          fontSize: isMobile ? '3.5vw' : '1vw',
+          fontSize: 16,
           color: isDarkMode ? '#9AA0A6' : '#5F6368',
         }}
       >
@@ -49,7 +49,7 @@ const ResultsCard: React.FC<ResultsCardProps> = ({
       <p
         style={{
           textAlign: 'center',
-          fontSize: isMobile ? '3.5vw' : '1vw',
+          fontSize: 16,
           color: isDarkMode ? '#9AA0A6' : '#5F6368',
         }}
       >
@@ -178,7 +178,7 @@ const ResultsCard: React.FC<ResultsCardProps> = ({
       {/* Header — small label, not giant */}
       <h3
         style={{
-          fontSize: isMobile ? '3.5vw' : '0.85vw',
+          fontSize: isMobile ? 13 : 14,
           margin: 0,
           marginBottom: isMobile ? '2vw' : '0.8vw',
           color: isDarkMode ? '#9AA0A6' : '#5F6368',
@@ -203,7 +203,7 @@ const ResultsCard: React.FC<ResultsCardProps> = ({
             {/* Date header */}
             <div
               style={{
-                fontSize: isMobile ? '3vw' : '0.75vw',
+                fontSize: isMobile ? 13 : 14,
                 fontWeight: 600,
                 color: isDarkMode ? '#B0263E' : 'rgb(154, 31, 54)',
                 marginBottom: isMobile ? '1vw' : '0.3vw',
@@ -245,7 +245,7 @@ const ResultsCard: React.FC<ResultsCardProps> = ({
             margin: '0 auto',
             marginTop: isMobile ? '2vw' : '0.6vw',
             padding: isMobile ? '1.5vw 4vw' : '0.3vw 1vw',
-            fontSize: isMobile ? '3vw' : '0.8vw',
+            fontSize: isMobile ? 13 : 14,
             fontWeight: 500,
             color: isDarkMode ? '#B0263E' : 'rgb(154, 31, 54)',
             background: 'none',
@@ -280,7 +280,7 @@ const ResultRow: React.FC<{
         alignItems: 'center',
         padding: isMobile ? '1.5vw 2vw' : '0.35vw 0.6vw',
         borderRadius: isMobile ? '2vw' : '0.4vw',
-        fontSize: isMobile ? '3.5vw' : '0.95vw',
+        fontSize: 16,
         fontWeight: 500,
         color: isDarkMode ? '#E8EAED' : '#202124',
         backgroundColor: hovered

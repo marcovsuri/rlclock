@@ -30,7 +30,7 @@ const InfoCard: React.FC<Props> = ({ title, subtitle, isDarkMode }) => {
       <h1
         style={{
           margin: isMobile ? '0 0 3vh 0' : '0 0 4vh 0',
-          fontSize: isMobile ? '6vw' : '4vw',
+          fontSize: isMobile ? 32 : 48,
           color: isDarkMode ? '#E8EAED' : '#202124',
           fontWeight: 1000,
         }}
@@ -40,7 +40,7 @@ const InfoCard: React.FC<Props> = ({ title, subtitle, isDarkMode }) => {
       <h3
         style={{
           margin: isMobile ? '1vw' : '0',
-          fontSize: isMobile ? '6vw' : '2vw',
+          fontSize: isMobile ? 26 : 32,
         }}
       >
         {subtitle}

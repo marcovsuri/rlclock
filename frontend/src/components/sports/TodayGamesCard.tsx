@@ -21,7 +21,7 @@ const TodayGamesCard: React.FC<TodayGamesCardProps> = ({
           alignItems: 'center',
           gap: isMobile ? '2vw' : '0.6vw',
           padding: isMobile ? '2vw 3vw' : '0.5vw 1vw',
-          fontSize: isMobile ? '3.5vw' : '1vw',
+          fontSize: 16,
           color: isDarkMode ? '#9AA0A6' : '#5F6368',
           fontWeight: 500,
         }}
@@ -49,7 +49,7 @@ const TodayGamesCard: React.FC<TodayGamesCardProps> = ({
     >
       <h3
         style={{
-          fontSize: isMobile ? '3.5vw' : '0.85vw',
+          fontSize: isMobile ? 13 : 14,
           margin: 0,
           marginBottom: isMobile ? '2vw' : '0.6vw',
           color: isDarkMode ? '#9AA0A6' : '#5F6368',
@@ -82,7 +82,7 @@ const TodayGamesCard: React.FC<TodayGamesCardProps> = ({
                 justifyContent: 'space-between',
                 alignItems: 'center',
                 fontWeight: isVarsity ? 600 : 500,
-                fontSize: isMobile ? '3.5vw' : '1vw',
+                fontSize: 16,
                 color: isDarkMode ? '#E8EAED' : '#202124',
                 backgroundColor: isVarsity
                   ? isDarkMode ? 'rgba(138, 31, 46, 0.2)' : 'rgba(154, 31, 54, 0.12)'

@@ -13,6 +13,7 @@ import getServiceData from '../core/serviceDataFetcher';
 import { ServiceData } from '../types/serviceData';
 import { getSchedule, Schedule } from '../core/clockFetcher';
 import { Link } from 'react-router-dom';
+import Footer from '../components/global/Footer';
 import {
   getServiceMonthCounter,
   getServiceMonthLeaderboardData,
@@ -399,6 +400,8 @@ const Home: React.FC<HomeProps> = ({ isDarkMode }) => {
               />
             )}
           </div>
+
+          <Footer isDarkMode={isDarkMode} />
         </div>
       </motion.div>
     </>

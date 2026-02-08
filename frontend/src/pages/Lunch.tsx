@@ -56,7 +56,7 @@ export default function Lunch({ isDarkMode }: LunchProps) {
   };
 
   const titleStyle: React.CSSProperties = {
-    fontSize: isMobile ? '5vh' : '3vw',
+    fontSize: isMobile ? 32 : 48,
     color: isDarkMode ? '#B0263E' : 'rgb(154, 31, 54)',
     marginBottom: '4vh',
     textAlign: 'center',
@@ -74,7 +74,7 @@ export default function Lunch({ isDarkMode }: LunchProps) {
 
   const noLunchStyle: React.CSSProperties = {
     textAlign: 'center',
-    fontSize: '1.2rem',
+    fontSize: 16,
     color: '#5F6368',
     marginTop: '2vh',
   };

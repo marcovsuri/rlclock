@@ -8,7 +8,7 @@ interface ClockProps {
 
 const Clock: React.FC<ClockProps> = ({ isDarkMode }) => {
   const [schedule, setSchedule] = useState<Schedule | null | undefined>(
-    undefined
+    undefined,
   );
   const [currentTime, setCurrentTime] = useState(new Date());
   const [showFullSchedule, setShowFullSchedule] = useState(false);
@@ -30,7 +30,7 @@ const Clock: React.FC<ClockProps> = ({ isDarkMode }) => {
     const nextMidnight = new Date(
       now.getFullYear(),
       now.getMonth(),
-      now.getDate() + 1
+      now.getDate() + 1,
     );
     const delay = nextMidnight.getTime() - now.getTime();
 
@@ -109,8 +109,7 @@ const Clock: React.FC<ClockProps> = ({ isDarkMode }) => {
         return {
           label: 'Passing Time',
           timeRemaining: next.startTime.getTime() - now.getTime(),
-          totalDuration:
-            next.startTime.getTime() - p.endTime.getTime(),
+          totalDuration: next.startTime.getTime() - p.endTime.getTime(),
           current: null,
           currentIndex: i,
         };
@@ -132,14 +131,6 @@ const Clock: React.FC<ClockProps> = ({ isDarkMode }) => {
     const min = Math.floor(totalSec / 60);
     const sec = totalSec % 60;
     return `${min}:${sec.toString().padStart(2, '0')}`;
-  };
-
-  const formatCurrentTime = (date: Date) => {
-    const h = date.getHours();
-    const m = date.getMinutes();
-    const hour12 = h % 12 === 0 ? 12 : h % 12;
-    const ampm = h >= 12 ? 'PM' : 'AM';
-    return `${hour12}:${m.toString().padStart(2, '0')} ${ampm}`;
   };
 
   const to12HourFormat = (time: string): string => {
@@ -204,7 +195,7 @@ const Clock: React.FC<ClockProps> = ({ isDarkMode }) => {
           >
             <span
               style={{
-                fontSize: isMobile ? '5.5vw' : '1.5vw',
+                fontSize: isMobile ? 20 : 24,
                 fontWeight: 600,
               }}
             >
@@ -213,7 +204,7 @@ const Clock: React.FC<ClockProps> = ({ isDarkMode }) => {
             {countdown && (
               <span
                 style={{
-                  fontSize: isMobile ? '5.5vw' : '1.5vw',
+                  fontSize: isMobile ? 20 : 24,
                   fontWeight: 600,
                   fontVariantNumeric: 'tabular-nums',
                 }}
@@ -228,7 +219,9 @@ const Clock: React.FC<ClockProps> = ({ isDarkMode }) => {
               style={{
                 width: '100%',
                 height: isMobile ? '1vh' : '0.35vw',
-                backgroundColor: isDarkMode ? 'rgba(255,255,255,0.4)' : 'rgba(255,255,255,0.25)',
+                backgroundColor: isDarkMode
+                  ? 'rgba(255,255,255,0.4)'
+                  : 'rgba(255,255,255,0.25)',
                 borderRadius: '999px',
                 overflow: 'hidden',
               }}
@@ -257,7 +250,7 @@ const Clock: React.FC<ClockProps> = ({ isDarkMode }) => {
               display: 'flex',
               justifyContent: 'space-between',
               alignItems: 'center',
-              fontSize: isMobile ? '3.5vw' : '0.95vw',
+              fontSize: 16,
               color: normalText,
             }}
           >
@@ -302,17 +295,17 @@ const Clock: React.FC<ClockProps> = ({ isDarkMode }) => {
                     display: 'flex',
                     justifyContent: 'space-between',
                     fontWeight: isCurrent ? 600 : 400,
-                    fontSize: isMobile ? '3.2vw' : '0.85vw',
+                    fontSize: isMobile ? 13 : 14,
                     backgroundColor: isCurrent
                       ? maroonBg
                       : isFuture
-                      ? neutralBg
-                      : 'transparent',
+                        ? neutralBg
+                        : 'transparent',
                     color: isCurrent
                       ? 'white'
                       : isPast
-                      ? neutralText
-                      : normalText,
+                        ? neutralText
+                        : normalText,
                     textAlign: 'left',
                   }}
                 >
@@ -343,7 +336,7 @@ const Clock: React.FC<ClockProps> = ({ isDarkMode }) => {
             border: 'none',
             color: maroonText,
             cursor: 'pointer',
-            fontSize: isMobile ? '3.2vw' : '0.85vw',
+            fontSize: isMobile ? 13 : 14,
             fontWeight: 500,
             padding: isMobile ? '1vw' : '0.3vw',
             display: 'flex',
@@ -370,7 +363,7 @@ const Clock: React.FC<ClockProps> = ({ isDarkMode }) => {
   const subtextStyle: React.CSSProperties = {
     fontWeight: 500,
     color: isDarkMode ? '#E8EAED' : '#202124',
-    fontSize: isMobile ? '5vw' : '1.5vw',
+    fontSize: isMobile ? 20 : 24,
   };
 
   return (
@@ -391,20 +384,33 @@ const Clock: React.FC<ClockProps> = ({ isDarkMode }) => {
       {/* Current time */}
       <div
         style={{
-          fontSize: isMobile ? '3.5vw' : '0.9vw',
+          fontSize: isMobile ? 14 : 14,
           color: isDarkMode ? '#9AA0A6' : '#5F6368',
           marginBottom: isMobile ? '0.5vh' : '0.3vw',
           fontWeight: 500,
           fontVariantNumeric: 'tabular-nums',
         }}
       >
-        {formatCurrentTime(currentTime)}
+        {(() => {
+          const h = currentTime.getHours();
+          const m = currentTime.getMinutes();
+          const hour12 = h % 12 === 0 ? 12 : h % 12;
+          const ampm = h >= 12 ? 'PM' : 'AM';
+          const colonVisible = currentTime.getSeconds() % 2 === 0;
+          return (
+            <>
+              {hour12}
+              <span style={{ opacity: colonVisible ? 1 : 0 }}>:</span>
+              {m.toString().padStart(2, '0')} {ampm}
+            </>
+          );
+        })()}
       </div>
       <h2
         style={{
           marginBottom: isMobile ? '1.5vh' : '0.8vw',
           marginTop: 0,
-          fontSize: isMobile ? '4.5vh' : '2.5vw',
+          fontSize: isMobile ? 32 : 48,
           color: isDarkMode ? '#B0263E' : 'rgb(154, 31, 54)',
           fontWeight: 700,
         }}
