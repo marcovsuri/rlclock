@@ -108,13 +108,13 @@ const ExamSchedule: React.FC<ExamScheduleProps> = ({ isDarkMode }) => {
   }, [exams, selectedClass, days]);
 
   const cellStyle: React.CSSProperties = {
-    border: '1px solid rgba(154, 31, 54, 0.2)',
+    border: isDarkMode ? '1px solid rgba(176, 38, 62, 0.3)' : '1px solid rgba(154, 31, 54, 0.2)',
     borderRadius: '12px',
     padding: '1rem',
     backgroundColor: isDarkMode
-      ? 'rgba(154, 31, 54, 0.15)'
+      ? 'rgba(138, 31, 46, 0.2)'
       : 'rgba(154, 31, 54, 0.05)',
-    color: isDarkMode ? 'white' : 'black',
+    color: isDarkMode ? '#E8EAED' : '#202124',
     textAlign: 'center',
     verticalAlign: 'center',
     minWidth: '20vw',
@@ -124,7 +124,7 @@ const ExamSchedule: React.FC<ExamScheduleProps> = ({ isDarkMode }) => {
     ...cellStyle,
     fontWeight: 600,
     backgroundColor: isDarkMode
-      ? 'rgba(154, 31, 54, 0.3)'
+      ? 'rgba(138, 31, 46, 0.35)'
       : 'rgba(154, 31, 54, 0.1)',
   };
 
@@ -139,7 +139,7 @@ const ExamSchedule: React.FC<ExamScheduleProps> = ({ isDarkMode }) => {
         overflowX: 'auto',
       }}
     >
-      <h2 style={{ textAlign: 'center', color: 'rgba(154, 31, 54, 1)' }}>
+      <h2 style={{ textAlign: 'center', color: isDarkMode ? '#B0263E' : 'rgba(154, 31, 54, 1)' }}>
         Class {selectedClass} Exam Schedule
       </h2>
 
@@ -159,12 +159,12 @@ const ExamSchedule: React.FC<ExamScheduleProps> = ({ isDarkMode }) => {
             style={{
               padding: '0.75rem 1.5rem',
               borderRadius: '8px',
-              border: '1px solid rgba(154, 31, 54, 0.2)',
+              border: isDarkMode ? '1px solid rgba(176, 38, 62, 0.3)' : '1px solid rgba(154, 31, 54, 0.2)',
               backgroundColor:
                 selectedClass === level
-                  ? 'rgba(154, 31, 54, 0.9)'
-                  : 'rgba(154, 31, 54, 0.1)',
-              color: selectedClass === level ? '#fff' : 'rgba(154, 31, 54, 1)',
+                  ? isDarkMode ? '#C43C5A' : 'rgba(154, 31, 54, 0.9)'
+                  : isDarkMode ? 'rgba(138, 31, 46, 0.15)' : 'rgba(154, 31, 54, 0.1)',
+              color: selectedClass === level ? '#fff' : isDarkMode ? '#B0263E' : 'rgba(154, 31, 54, 1)',
               fontWeight: 600,
               cursor: 'pointer',
               transition: 'all 0.3s ease',
@@ -180,7 +180,7 @@ const ExamSchedule: React.FC<ExamScheduleProps> = ({ isDarkMode }) => {
           style={{
             textAlign: 'center',
             marginTop: '4rem',
-            color: 'rgba(154, 31, 54, 1)',
+            color: isDarkMode ? '#B0263E' : 'rgba(154, 31, 54, 1)',
           }}
         >
           An error occurred. Check back later.
@@ -206,7 +206,7 @@ const ExamSchedule: React.FC<ExamScheduleProps> = ({ isDarkMode }) => {
                       ...cellStyle,
                       fontWeight: 600,
                       backgroundColor: isDarkMode
-                        ? 'rgba(154, 31, 54, 0.3)'
+                        ? 'rgba(138, 31, 46, 0.35)'
                         : 'rgba(154, 31, 54, 0.1)',
                     }}
                   >

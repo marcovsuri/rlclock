@@ -28,7 +28,7 @@ export default function Lunch({ isDarkMode }: LunchProps) {
     display: 'flex',
     flexDirection: 'column',
     minHeight: '100vh',
-    width: '100vw',
+    width: '100%',
     justifyContent: 'center',
     alignItems: 'center',
   };
@@ -37,13 +37,13 @@ export default function Lunch({ isDarkMode }: LunchProps) {
     flexGrow: 1,
     padding: '4vh 5vw',
     boxSizing: 'border-box',
-    backgroundColor: isDarkMode ? 'black' : 'white',
+    backgroundColor: isDarkMode ? '#1F1F1F' : '#FFFFFF',
     fontFamily: 'Roboto, sans-serif',
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
     // justifyContent: 'center',
-    color: isDarkMode ? 'white' : 'black',
+    color: isDarkMode ? '#E8EAED' : '#202124',
     margin: 'auto',
   };
 
@@ -57,7 +57,7 @@ export default function Lunch({ isDarkMode }: LunchProps) {
 
   const titleStyle: React.CSSProperties = {
     fontSize: isMobile ? '5vh' : '3vw',
-    color: 'rgb(154, 31, 54)',
+    color: isDarkMode ? '#B0263E' : 'rgb(154, 31, 54)',
     marginBottom: '4vh',
     textAlign: 'center',
   };
@@ -75,7 +75,7 @@ export default function Lunch({ isDarkMode }: LunchProps) {
   const noLunchStyle: React.CSSProperties = {
     textAlign: 'center',
     fontSize: '1.2rem',
-    color: '#555',
+    color: '#5F6368',
     marginTop: '2vh',
   };
 

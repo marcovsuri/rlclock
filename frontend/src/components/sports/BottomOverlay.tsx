@@ -25,13 +25,13 @@ const BottomOverlay: React.FC<BottomOverlayProps> = ({
   // Create two overlays - one for light mode and one for dark mode
   const lightOverlayStyle: React.CSSProperties = {
     ...baseOverlayStyle,
-    background: 'linear-gradient(to top, white, rgba(255, 255, 255, 0))',
+    background: 'linear-gradient(to top, #FFFFFF, rgba(255, 255, 255, 0))',
     opacity: isDarkMode ? 0 : 1,
   };
 
   const darkOverlayStyle: React.CSSProperties = {
     ...baseOverlayStyle,
-    background: 'linear-gradient(to top, black, rgba(0, 0, 0, 0))',
+    background: 'linear-gradient(to top, #1F1F1F, rgba(0, 0, 0, 0))',
     opacity: isDarkMode ? 1 : 0,
   };
 

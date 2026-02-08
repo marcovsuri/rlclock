@@ -11,18 +11,20 @@ const MenuSection = ({
 }) => {
   const sectionStyle: React.CSSProperties = {
     marginBottom: '3rem',
-    backgroundColor: isDarkMode ? 'black' : 'white',
+    backgroundColor: isDarkMode ? '#2D2E30' : '#FFFFFF',
     padding: '2rem',
     borderRadius: '16px',
-    boxShadow: '0 4px 20px 4px rgba(154, 31, 54, 0.5)',
+    boxShadow: isDarkMode
+      ? '0 2px 12px rgba(0,0,0,0.5)'
+      : '0 2px 12px rgba(0,0,0,0.1)',
   };
 
   const sectionTitleStyle: React.CSSProperties = {
     fontSize: '2rem',
-    color: 'rgb(154, 31, 54)',
+    color: isDarkMode ? '#B0263E' : 'rgb(154, 31, 54)',
     marginBottom: '1.5rem',
     fontWeight: 600,
-    borderBottom: '1px solid rgba(154, 31, 54, 0.4)',
+    borderBottom: isDarkMode ? '1px solid rgba(176, 38, 62, 0.4)' : '1px solid rgba(154, 31, 54, 0.4)',
     paddingBottom: '0.5rem',
     textAlign: 'center',
   };

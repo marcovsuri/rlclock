@@ -8,7 +8,6 @@ import getMenu from '../core/lunchFetcher';
 import { Menu } from '../types/lunch';
 import getSportsEvents from '../core/sportsFetcher';
 import { TeamEvent } from '../types/sports';
-import ServiceDriveCard from '../components/home/ServiceDriveCard';
 import ServiceMonthCard from '../components/home/ServiceMonthCard';
 import getServiceData from '../core/serviceDataFetcher';
 import { ServiceData } from '../types/serviceData';
@@ -32,7 +31,7 @@ const Home: React.FC<HomeProps> = ({ isDarkMode }) => {
   >(undefined);
 
   const [serviceData, setServiceData] = useState<ServiceData | undefined>(
-    undefined
+    undefined,
   );
   const [serviceMonthCounter, setServiceMonthCounter] = useState<number>(0);
   const [serviceMonthParticipationLeader, setServiceMonthParticipationLeader] =
@@ -67,10 +66,10 @@ const Home: React.FC<HomeProps> = ({ isDarkMode }) => {
         const topParticipation = data.reduce((prev, current) =>
           current.participationPercentage > prev.participationPercentage
             ? current
-            : prev
+            : prev,
         );
         const topPoints = data.reduce((prev, current) =>
-          current.points > prev.points ? current : prev
+          current.points > prev.points ? current : prev,
         );
 
         setServiceMonthParticipationLeader(topParticipation.class);
@@ -92,10 +91,8 @@ const Home: React.FC<HomeProps> = ({ isDarkMode }) => {
       const [month, day] = md.split('/').map(Number);
       const now = new Date();
 
-      // Assume sports dates within the current or upcoming school year
       let year = now.getFullYear();
 
-      // If the month is ahead of the current month by a large margin, it likely belongs to the previous year
       if (month > now.getMonth() + 1 + 2) {
         year -= 1;
       }
@@ -121,7 +118,7 @@ const Home: React.FC<HomeProps> = ({ isDarkMode }) => {
   }, []);
 
   const [schedule, setSchedule] = useState<Schedule | null | undefined>(
-    undefined
+    undefined,
   );
   const [currentTime, setCurrentTime] = useState(new Date());
 
@@ -141,7 +138,7 @@ const Home: React.FC<HomeProps> = ({ isDarkMode }) => {
     const nextMidnight = new Date(
       now.getFullYear(),
       now.getMonth(),
-      now.getDate() + 1
+      now.getDate() + 1,
     );
     const delay = nextMidnight.getTime() - now.getTime();
 
@@ -206,7 +203,7 @@ const Home: React.FC<HomeProps> = ({ isDarkMode }) => {
 
       if (next && now > p.endTime && now < next.startTime) {
         return {
-          label: `PT (${p.block} Block)`,
+          label: next.block ? `PT (${next.block} Block)` : 'Passing Time',
           timeRemaining: next.startTime.getTime() - now.getTime(),
           current: null,
         };
@@ -240,88 +237,68 @@ const Home: React.FC<HomeProps> = ({ isDarkMode }) => {
     document.title = `${label}${timeText}`;
   }, [label, formattedTime]);
 
-  const lunchFeatures = menu?.Entrées?.slice(0, 4)
-    .flatMap((item) => {
-      return item?.name;
-    })
-    .join('\n');
+  // Lunch: compact - just show count of entrees
+  const lunchEntrees = menu?.Entrées?.slice(0, 3);
+  const lunchSummary = lunchEntrees?.map((item) => item?.name).join(', ');
 
-  const gameResultsFeature = pastResults
-    ?.flatMap((result) => {
-      const winCount = result.wins.filter(Boolean).length;
-      const lossCount = result.wins.filter((win) => !win).length;
-      const total = winCount + lossCount;
-
-      // --- Multi-game result (more than 1 match tracked) ---
-      if (total > 1) {
-        let outcome;
-        if (winCount > lossCount) outcome = 'Win';
-        else if (lossCount > winCount) outcome = 'Loss';
-        else outcome = 'Tie'; // <-- implements ties
-
-        return `${result.team} → ${winCount} - ${lossCount} ${outcome}`;
-      }
-
-      // --- Single-game result ---
-      const rawScore = result.scores?.[0];
-
-      if (!rawScore) {
-        return `${result.team} → No score available`;
-      }
-
-      const raw = String(rawScore);
-      const formattedScore = raw.replace(/-+/g, ' - ');
-
-      // detect tie by score
-      const [a, b] = raw.split(/-+/).map(Number);
-      const outcome =
-        Number.isFinite(a) && Number.isFinite(b)
-          ? a === b
-            ? 'Tie'
-            : a > b
-            ? 'Win'
-            : 'Loss'
-          : '';
-
-      return `${result.team} → ${formattedScore} ${outcome}`;
-    })
-    .join('\n');
-
-  const containerStyle: React.CSSProperties = {
-    display: 'flex',
-    flexDirection: 'column',
-    minHeight: '100vh',
-    width: '100vw',
-    scrollbarWidth: 'none',
+  // Results: single-line summary with colored outcomes
+  const outcomeColor = (o: string) => {
+    if (o === 'W') return isDarkMode ? '#4ade80' : '#16a34a';
+    if (o === 'L') return isDarkMode ? '#9AA0A6' : '#5F6368';
+    return isDarkMode ? '#9AA0A6' : '#5F6368';
   };
 
-  const contentStyle: React.CSSProperties = {
-    flex: 1,
-    display: 'flex',
-    flexDirection: isMobile ? 'column' : 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-    padding: '1vw',
-    gap: isMobile ? '2vh' : '2vw',
-    textAlign: 'center',
-    boxSizing: 'border-box',
-  };
+  const resultItems =
+    pastResults && pastResults.length > 0
+      ? pastResults.map((result) => {
+          const winCount = result.wins.filter(Boolean).length;
+          const lossCount = result.wins.filter((win) => !win).length;
+          const total = winCount + lossCount;
 
-  const clockStyle: React.CSSProperties = {
-    width: isMobile ? '100%' : 'auto',
-    padding: '1vw',
-  };
+          let outcome = '';
+          if (total > 1) {
+            if (winCount > lossCount) outcome = 'W';
+            else if (lossCount > winCount) outcome = 'L';
+            else outcome = 'T';
+          } else {
+            const rawScore = result.scores?.[0];
+            if (rawScore) {
+              const raw = String(rawScore);
+              const [a, b] = raw.split(/-+/).map(Number);
+              if (Number.isFinite(a) && Number.isFinite(b)) {
+                outcome = a === b ? 'T' : a > b ? 'W' : 'L';
+              }
+            }
+          }
 
-  const cardsStyle: React.CSSProperties = {
-    display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'center',
-    alignItems: 'center',
-    gap: isMobile ? '2vh' : '2vw',
-    width: isMobile ? '100%' : 'auto',
-    padding: '1vw',
-    boxSizing: 'border-box',
-  };
+          return { team: result.team, outcome };
+        })
+      : null;
+
+  const resultsSummary = resultItems ? (
+    <span
+      style={{
+        display: 'inline-flex',
+        flexWrap: 'wrap',
+        gap: '0.3em',
+        alignItems: 'center',
+      }}
+    >
+      {resultItems.map((item, i) => (
+        <React.Fragment key={i}>
+          {i > 0 && <span style={{ opacity: 0.3 }}>·</span>}
+          <span>
+            {item.team}{' '}
+            <span
+              style={{ fontWeight: 600, color: outcomeColor(item.outcome) }}
+            >
+              {item.outcome || '—'}
+            </span>
+          </span>
+        </React.Fragment>
+      ))}
+    </span>
+  ) : null;
 
   const hasLunch =
     menu !== undefined &&
@@ -329,63 +306,42 @@ const Home: React.FC<HomeProps> = ({ isDarkMode }) => {
       menu?.['Sides and Vegetables']?.length > 0 ||
       menu?.Soups?.length > 0);
 
+  const containerStyle: React.CSSProperties = {
+    display: 'flex',
+    flexDirection: 'column',
+    minHeight: '100vh',
+    width: '100%',
+    scrollbarWidth: 'none',
+  };
+
+  const contentStyle: React.CSSProperties = {
+    flex: 1,
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'flex-start',
+    alignItems: 'center',
+    padding: isMobile ? '2vw' : '2vw',
+    paddingTop: isMobile ? '2vh' : '2vw',
+    gap: isMobile ? '1.5vh' : '1vw',
+    textAlign: 'center',
+    boxSizing: 'border-box',
+  };
+
+  const clockStyle: React.CSSProperties = {
+    width: isMobile ? '100%' : '40vw',
+  };
+
+  const cardsStyle: React.CSSProperties = {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'stretch',
+    gap: isMobile ? '1.5vh' : '1vw',
+    width: isMobile ? '93vw' : '40vw',
+    boxSizing: 'border-box',
+  };
+
   return (
     <>
-      {/* <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        exit={{ opacity: 0 }}
-        transition={{ duration: 0.5 }}
-        style={{
-          position: 'absolute',
-          top: 0,
-          left: 0,
-          width: '100%',
-          padding: '12px 20px',
-          textAlign: 'center',
-          fontWeight: 600,
-          fontSize: isMobile ? '0.5rem' : '1.1rem',
-          zIndex: 1000,
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center',
-        }}
-      >
-        <div
-          style={{
-            width: '50%',
-            borderRadius: isMobile ? '3vh' : '2vw',
-            backgroundColor: isDarkMode ? 'black' : 'white',
-            color: 'rgb(154, 31, 54)',
-            cursor: 'pointer',
-            boxShadow: '0 4px 20px 4px rgba(154, 31, 54, 0.5)',
-            padding: isMobile ? '0.5rem' : '1rem',
-            transition:
-              'transform 0.2s ease, box-shadow 0.2s ease, background-color 3s ease, color 3s ease',
-          }}
-          onMouseEnter={(e) => {
-            (e.currentTarget as HTMLElement).style.transform = 'scale(1.03)';
-            (e.currentTarget as HTMLElement).style.boxShadow =
-              '0 4px 30px 4px rgba(154, 31, 54, 0.5)';
-          }}
-          onMouseLeave={(e) => {
-            (e.currentTarget as HTMLElement).style.transform = 'scale(1)';
-            (e.currentTarget as HTMLElement).style.boxShadow =
-              '0 4px 20px 4px rgba(154, 31, 54, 0.5)';
-          }}
-        >
-          <Link
-            to="/exams"
-            style={{
-              color: 'rgb(154,31,54)',
-              textDecoration: 'none',
-            }}
-          >
-            2025 Midyear Exam Schedule Available &gt;&gt; Click Here!
-          </Link>
-        </div>
-      </motion.div> */}
-
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
@@ -395,34 +351,31 @@ const Home: React.FC<HomeProps> = ({ isDarkMode }) => {
       >
         {/* Main Content */}
         <div style={contentStyle}>
+          {/* Left: Clock (schedule + countdown) */}
           <div style={clockStyle}>
             <Clock isDarkMode={isDarkMode} />
           </div>
+
+          {/* Right: Cards ordered by urgency */}
           <div style={cardsStyle}>
+            {/* 1. Lunch status - compact */}
             <InfoCard
-              title="Today's Lunch:"
+              title="Today's Lunch"
+              compact
               subtitle={
                 menu === undefined
                   ? 'Loading...'
-                  : !hasLunch || !lunchFeatures
-                  ? 'No lunch served today.'
-                  : lunchFeatures
-                      .split('\n')
-                      .map((line, i) => <div key={i}>{line}</div>)
+                  : !hasLunch || !lunchSummary
+                    ? 'No lunch served today.'
+                    : lunchSummary
               }
-              info={hasLunch ? 'Click to see full menu!' : ''}
               path="/lunch"
               isDarkMode={isDarkMode}
             />
-            {/* <ServiceDriveCard
-              title="Thanksgiving Food Drive!"
-              numDonations={serviceData?.numDonations || 0}
-              donationGoal={serviceData?.donationGoal || 1000}
-              path="/service"
-              isDarkMode={isDarkMode}
-            /> */}
+
+            {/* 2. Service Month */}
             <ServiceMonthCard
-              title="Service Month!"
+              title="Service Month"
               numDonations={serviceMonthCounter || 0}
               donationGoal={DONATION_GOAL}
               topParticipationClass={serviceMonthParticipationLeader}
@@ -430,22 +383,21 @@ const Home: React.FC<HomeProps> = ({ isDarkMode }) => {
               path="/service"
               isDarkMode={isDarkMode}
             />
-            {pastResults !== undefined ? (
+
+            {/* 3. Condensed Athletics Results */}
+            {pastResults !== undefined && (
               <InfoCard
-                title="Latest Results:"
+                title="Latest Results"
+                compact
                 subtitle={
                   pastResults === undefined
                     ? 'Loading...'
-                    : gameResultsFeature
-                        ?.split('\n')
-                        .map((line, i) => <div key={i}>{line}</div>) ??
-                      'No recent results.'
+                    : (resultsSummary ?? 'No recent results.')
                 }
-                info="Click to see other results!"
                 path="/sports"
                 isDarkMode={isDarkMode}
               />
-            ) : null}
+            )}
           </div>
         </div>
       </motion.div>
