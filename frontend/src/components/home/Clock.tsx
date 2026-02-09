@@ -159,9 +159,11 @@ const Clock: React.FC<ClockProps> = ({ isDarkMode }) => {
 
   // Find the next period for preview
   const nextPeriod =
-    schedule && currentIndex >= 0 && currentIndex < schedule.periods.length - 1
-      ? schedule.periods[currentIndex + 1]
-      : null;
+    schedule && currentIndex === -1 && schedule.periods.length > 0
+      ? schedule.periods[0]
+      : schedule && currentIndex >= 0 && currentIndex < schedule.periods.length - 1
+        ? schedule.periods[currentIndex + 1]
+        : null;
 
   const renderContent = () => {
     if (schedule === undefined) return <p style={subtextStyle}>Loading...</p>;
@@ -214,7 +216,7 @@ const Clock: React.FC<ClockProps> = ({ isDarkMode }) => {
             )}
           </div>
           {/* Progress bar */}
-          {timeRemaining && totalDuration && (
+          {(timeRemaining && totalDuration || label === 'Before School') && (
             <div
               style={{
                 width: '100%',
@@ -228,7 +230,7 @@ const Clock: React.FC<ClockProps> = ({ isDarkMode }) => {
             >
               <div
                 style={{
-                  width: `${progressPercent}%`,
+                  width: label === 'Before School' ? '100%' : `${progressPercent}%`,
                   height: '100%',
                   backgroundColor: 'white',
                   borderRadius: '999px',
@@ -397,9 +399,13 @@ const Clock: React.FC<ClockProps> = ({ isDarkMode }) => {
           const hour12 = h % 12 === 0 ? 12 : h % 12;
           const ampm = h >= 12 ? 'PM' : 'AM';
           const colonVisible = currentTime.getSeconds() % 2 === 0;
+          const dateStr = currentTime.toLocaleDateString('en-US', {
+            month: 'short',
+            day: 'numeric',
+          });
           return (
             <>
-              {hour12}
+              {dateStr} - {hour12}
               <span style={{ opacity: colonVisible ? 1 : 0 }}>:</span>
               {m.toString().padStart(2, '0')} {ampm}
             </>

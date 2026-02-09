@@ -13,23 +13,22 @@ const MenuSection = ({
   const isMobile = useIsMobile();
 
   const sectionStyle: React.CSSProperties = {
-    marginBottom: '3rem',
     backgroundColor: isDarkMode ? '#2D2E30' : '#FFFFFF',
-    padding: '2rem',
-    borderRadius: '16px',
+    padding: isMobile ? '0.75rem' : '1rem 1.25rem',
+    borderRadius: '12px',
     boxShadow: isDarkMode
-      ? '0 2px 12px rgba(0,0,0,0.5)'
-      : '0 2px 12px rgba(0,0,0,0.1)',
+      ? '0 1px 4px rgba(0,0,0,0.4)'
+      : '0 1px 4px rgba(0,0,0,0.06)',
   };
 
   const sectionTitleStyle: React.CSSProperties = {
-    fontSize: isMobile ? 26 : 32,
+    fontSize: isMobile ? 20 : 24,
     color: isDarkMode ? '#B0263E' : 'rgb(154, 31, 54)',
-    marginBottom: '1.5rem',
+    margin: '0 0 0.5rem',
     fontWeight: 600,
-    borderBottom: isDarkMode ? '1px solid rgba(176, 38, 62, 0.4)' : '1px solid rgba(154, 31, 54, 0.4)',
-    paddingBottom: '0.5rem',
-    textAlign: 'center',
+    borderBottom: isDarkMode ? '1px solid rgba(176, 38, 62, 0.15)' : '1px solid rgba(154, 31, 54, 0.12)',
+    paddingBottom: '0.4rem',
+    textAlign: 'left',
   };
   return (
     <div style={sectionStyle}>

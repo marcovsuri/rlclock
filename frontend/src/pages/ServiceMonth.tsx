@@ -209,7 +209,7 @@ const ServiceMonth: React.FC<ServiceProps> = ({ isDarkMode }) => {
                   borderLeft: isPointsLeader
                     ? `3px solid ${isDarkMode ? '#C43C5A' : 'rgb(154,31,54)'}`
                     : '3px solid transparent',
-                  opacity: Math.max(1 - i * 0.08, 0.7),
+                  opacity: 1,
                 }}
               >
                 {/* Rank */}

@@ -73,9 +73,15 @@ const Sports: React.FC<SportsProps> = ({ isDarkMode }) => {
     getUpcomingSportsEvents().then((response) => {
       if (response.success) {
         const today = new Date();
-        const todayMD = `${today.getMonth() + 1}/${today.getDate()}`;
+        const todayMonth = today.getMonth() + 1;
+        const todayDay = today.getDate();
+        console.log('[Sports] upcoming data sample:', response.data.slice(0, 3));
+        console.log('[Sports] today:', todayMonth, todayDay);
         setUpcomingGames(
-          response.data.filter((e) => e.date.startsWith(todayMD)),
+          response.data.filter((e) => {
+            const [m, d] = e.date.split('/').map(Number);
+            return m === todayMonth && d === todayDay;
+          }),
         );
       } else {
         setUpcomingGames(null);

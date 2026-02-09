@@ -3,12 +3,13 @@ import { motion } from 'framer-motion';
 import Clock from '../components/home/Clock';
 import InfoCard from '../components/home/InfoCard';
 import useIsMobile from '../hooks/useIsMobile';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import getMenu from '../core/lunchFetcher';
 import { Menu } from '../types/lunch';
 import getSportsEvents from '../core/sportsFetcher';
 import { TeamEvent } from '../types/sports';
 import ServiceMonthCard from '../components/home/ServiceMonthCard';
+import confetti from 'canvas-confetti';
 import getServiceData from '../core/serviceDataFetcher';
 import { ServiceData } from '../types/serviceData';
 import { getSchedule, Schedule } from '../core/clockFetcher';
@@ -238,15 +239,65 @@ const Home: React.FC<HomeProps> = ({ isDarkMode }) => {
     document.title = `${label}${timeText}`;
   }, [label, formattedTime]);
 
-  // Lunch: compact - just show count of entrees
-  const lunchEntrees = menu?.Entrées?.slice(0, 3);
-  const lunchSummary = lunchEntrees?.map((item) => item?.name).join(', ');
+  const hasFiredConfetti = useRef(false);
+  useEffect(() => {
+    if (hasFiredConfetti.current) return;
+    const noSchool =
+      schedule === null || label === 'After School' || label === 'No Schedule';
+    if (noSchool) {
+      hasFiredConfetti.current = true;
+      setTimeout(() => {
+        confetti({ particleCount: 120, spread: 70, origin: { y: 0.6 } });
+        confetti({
+          particleCount: 80,
+          angle: 60,
+          spread: 50,
+          origin: { x: 0 },
+        });
+        confetti({
+          particleCount: 80,
+          angle: 120,
+          spread: 50,
+          origin: { x: 1 },
+        });
+      }, 0);
+    }
+  }, [label, schedule]);
 
-  // Results: single-line summary with colored outcomes
-  const outcomeColor = (o: string) => {
-    if (o === 'W') return isDarkMode ? '#4ade80' : '#16a34a';
-    if (o === 'L') return isDarkMode ? '#9AA0A6' : '#5F6368';
-    return isDarkMode ? '#9AA0A6' : '#5F6368';
+  const lunchEntrees = menu?.Entrées;
+  const lunchSummary = lunchEntrees?.length ? (() => {
+    const groups: { lastWord: string; prefixes: string[] }[] = [];
+    for (const item of lunchEntrees) {
+      const name = item?.name || '';
+      const words = name.split(' ');
+      const lastWord = words[words.length - 1];
+      const prefix = words.slice(0, -1).join(' ');
+      const existing = groups.find((g) => g.lastWord === lastWord);
+      if (existing) {
+        existing.prefixes.push(prefix);
+      } else {
+        groups.push({ lastWord, prefixes: [prefix] });
+      }
+    }
+    return (
+      <span style={{ display: 'flex', flexDirection: 'column', gap: '0.15em' }}>
+        {groups.map((g, i) => {
+          const descriptors = g.prefixes.filter((p) => p);
+          return (
+            <span key={i}>
+              {descriptors.length > 0 ? `${descriptors.join(', ')} ` : ''}
+              {g.lastWord}
+            </span>
+          );
+        })}
+      </span>
+    );
+  })() : null;
+
+  const decodeHtml = (s: string) => {
+    const el = document.createElement('textarea');
+    el.innerHTML = s;
+    return el.value;
   };
 
   const resultItems =
@@ -272,32 +323,126 @@ const Home: React.FC<HomeProps> = ({ isDarkMode }) => {
             }
           }
 
-          return { team: result.team, outcome };
+          const score = result.scores?.join(', ') || '—';
+
+          const opponent = decodeHtml(result.opponents?.join(', ') || '');
+
+          return { team: decodeHtml(result.team), opponent, score, outcome };
         })
       : null;
+
+  const pillColors = (o: string) => {
+    if (o === 'W')
+      return {
+        bg: isDarkMode ? 'rgba(74, 222, 128, 0.15)' : 'rgba(22, 163, 74, 0.1)',
+        text: isDarkMode ? '#4ade80' : '#16a34a',
+      };
+    if (o === 'L')
+      return {
+        bg: isDarkMode ? 'rgba(154, 160, 166, 0.15)' : 'rgba(95, 99, 104, 0.1)',
+        text: isDarkMode ? '#9AA0A6' : '#5F6368',
+      };
+    return {
+      bg: isDarkMode ? 'rgba(154, 160, 166, 0.15)' : 'rgba(95, 99, 104, 0.1)',
+      text: isDarkMode ? '#9AA0A6' : '#5F6368',
+    };
+  };
 
   const resultsSummary = resultItems ? (
     <span
       style={{
-        display: 'inline-flex',
-        flexWrap: 'wrap',
-        gap: '0.3em',
+        display: 'grid',
+        gridTemplateColumns: '1fr auto auto auto auto',
+        gap: '0.35em 0',
         alignItems: 'center',
+        fontVariantNumeric: 'tabular-nums',
       }}
     >
-      {resultItems.map((item, i) => (
-        <React.Fragment key={i}>
-          {i > 0 && <span style={{ opacity: 0.3 }}>·</span>}
-          <span>
-            {item.team}{' '}
+      {resultItems.map((item, i) => {
+        const parts = item.score.split(/-+/);
+        const hasTwoParts = parts.length === 2;
+        const [a, b] = hasTwoParts ? parts.map(Number) : [NaN, NaN];
+        const canBold = Number.isFinite(a) && Number.isFinite(b) && a !== b;
+        const bold = canBold
+          ? ({
+              fontWeight: 700,
+              color: isDarkMode ? '#E8EAED' : '#202124',
+            } as const)
+          : undefined;
+        const faint = { color: isDarkMode ? '#9AA0A6' : '#5F6368' };
+        return (
+          <React.Fragment key={i}>
             <span
-              style={{ fontWeight: 600, color: outcomeColor(item.outcome) }}
+              style={{
+                overflow: 'hidden',
+                whiteSpace: 'nowrap',
+                textOverflow: 'ellipsis',
+                paddingRight: '0.75em',
+              }}
             >
-              {item.outcome || '—'}
+              {item.team}
+              {item.opponent && (
+                <span style={{ ...faint, fontWeight: 400, fontSize: 13 }}>
+                  {' '}
+                  vs {item.opponent}
+                </span>
+              )}
             </span>
-          </span>
-        </React.Fragment>
-      ))}
+            <span
+              style={{
+                ...faint,
+                fontSize: 14,
+                textAlign: 'right',
+                ...(bold && a > b ? bold : {}),
+              }}
+            >
+              {hasTwoParts ? parts[0] : item.score}
+            </span>
+            <span
+              style={{
+                ...faint,
+                fontSize: 14,
+                textAlign: 'center',
+                padding: '0 2px',
+              }}
+            >
+              {hasTwoParts ? '-' : ''}
+            </span>
+            <span
+              style={{
+                ...faint,
+                fontSize: 14,
+                textAlign: 'left',
+                paddingRight: '0.75em',
+                ...(bold && b > a ? bold : {}),
+              }}
+            >
+              {hasTwoParts ? parts[1] : ''}
+            </span>
+            <span
+              style={{
+                fontSize: 12,
+                fontWeight: 600,
+                padding: '3px 7px 2px',
+                borderRadius: '999px',
+                backgroundColor: pillColors(item.outcome).bg,
+                color: pillColors(item.outcome).text,
+                minWidth: '1.5em',
+                textAlign: 'center',
+                justifySelf: 'end',
+              }}
+            >
+              {item.outcome === 'W'
+                ? 'Win'
+                : item.outcome === 'L'
+                  ? 'Loss'
+                  : item.outcome === 'T'
+                    ? 'Tie'
+                    : '—'}
+            </span>
+          </React.Fragment>
+        );
+      })}
     </span>
   ) : null;
 

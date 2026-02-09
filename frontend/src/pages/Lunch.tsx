@@ -29,47 +29,42 @@ export default function Lunch({ isDarkMode }: LunchProps) {
     flexDirection: 'column',
     minHeight: '100vh',
     width: '100%',
-    justifyContent: 'center',
     alignItems: 'center',
   };
 
   const innerStyle: React.CSSProperties = {
     flexGrow: 1,
-    padding: '4vh 5vw',
+    padding: isMobile ? '2rem 1rem' : '2rem 3rem',
     boxSizing: 'border-box',
     backgroundColor: isDarkMode ? '#1F1F1F' : '#FFFFFF',
     fontFamily: 'Roboto, sans-serif',
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
-    // justifyContent: 'center',
     color: isDarkMode ? '#E8EAED' : '#202124',
-    margin: 'auto',
+    width: '100%',
   };
 
   const contentStyle: React.CSSProperties = {
-    padding: isMobile ? '4vw' : '2vw',
-    width: isMobile ? '90vw' : '60vw',
-    margin: '2vh auto',
+    padding: 0,
+    width: isMobile ? '100%' : '60vw',
+    maxWidth: '600px',
+    margin: '0 auto',
     boxSizing: 'border-box',
-    justifyContent: 'center',
   };
 
   const titleStyle: React.CSSProperties = {
-    fontSize: isMobile ? 32 : 48,
+    fontSize: isMobile ? 26 : 32,
     color: isDarkMode ? '#B0263E' : 'rgb(154, 31, 54)',
-    marginBottom: '4vh',
+    margin: '0 0 1rem',
     textAlign: 'center',
   };
 
   const sectionContainerStyle: React.CSSProperties = {
-    justifySelf: 'center',
-    alignSelf: 'center',
     display: 'flex',
     flexDirection: 'column',
-    gap: '1vh',
+    gap: '1rem',
     width: '100%',
-    maxWidth: '900px',
   };
 
   const noLunchStyle: React.CSSProperties = {

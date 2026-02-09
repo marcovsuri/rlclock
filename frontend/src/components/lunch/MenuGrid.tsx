@@ -6,12 +6,10 @@ interface MenuGridProps {
 
 const MenuGrid: React.FC<MenuGridProps> = ({ items, isDarkMode }) => {
   const gridStyle: React.CSSProperties = {
-    display: 'grid',
-    gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))',
-    gap: '1rem',
+    display: 'flex',
+    flexDirection: 'column',
+    gap: '0.25rem',
     width: '100%',
-    justifyContent: 'center',
-    alignItems: 'center',
   };
   return (
     <div style={gridStyle}>

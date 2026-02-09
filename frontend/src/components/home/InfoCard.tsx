@@ -26,8 +26,8 @@ const InfoCard: React.FC<Props> = ({
     <div
       onClick={() => navigate(path)}
       style={{
-        width: isMobile ? 'auto' : 'auto',
-        minWidth: isMobile ? '80vw' : '25vw',
+        width: '100%',
+        boxSizing: 'border-box' as const,
         padding: compact
           ? isMobile
             ? '2.5vh 3vw'
@@ -44,7 +44,7 @@ const InfoCard: React.FC<Props> = ({
           : '0 2px 8px rgba(0,0,0,0.08)',
         transition:
           'transform 0.2s ease, box-shadow 0.2s ease, background-color 3s ease, color 3s ease',
-        margin: 'auto',
+        margin: 0,
         textAlign: 'left',
         display: 'flex',
         alignItems: 'center',
@@ -79,7 +79,7 @@ const InfoCard: React.FC<Props> = ({
         <div
           style={{
             fontSize: 16,
-            fontWeight: 500,
+            fontWeight: 400,
             color: isDarkMode ? '#E8EAED' : '#202124',
             lineHeight: 1.4,
           }}

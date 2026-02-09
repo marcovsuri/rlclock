@@ -75,7 +75,7 @@ const ServiceMonthCard: React.FC<Props> = ({
 
     controls.start(
       { width: `${targetPercent}%` },
-      { duration: duration / 1000, ease: 'linear' }
+      { duration: duration / 1000, ease: 'linear' },
     );
   }, [targetPercent, numDonations, donationGoal, controls]);
 
@@ -85,8 +85,8 @@ const ServiceMonthCard: React.FC<Props> = ({
     <div
       onClick={() => navigate(path)}
       style={{
-        width: isMobile ? 'auto' : 'auto',
-        minWidth: isMobile ? '80vw' : '25vw',
+        width: '100%',
+        boxSizing: 'border-box' as const,
         padding: isMobile ? '2.5vh 3vw 3vh' : '1vw 1.5vw 1.2vw',
         borderRadius: isMobile ? '3vw' : '0.8vw',
         backgroundColor: isDarkMode ? '#2D2E30' : '#FFFFFF',
@@ -97,7 +97,7 @@ const ServiceMonthCard: React.FC<Props> = ({
           : '0 2px 8px rgba(0,0,0,0.08)',
         transition:
           'transform 0.2s ease, box-shadow 0.2s ease, background-color 3s ease, color 3s ease',
-        margin: 'auto',
+        margin: 0,
         textAlign: 'left',
       }}
       onMouseEnter={(e) => {
@@ -113,25 +113,73 @@ const ServiceMonthCard: React.FC<Props> = ({
           : '0 2px 8px rgba(0,0,0,0.08)';
       }}
     >
-      {/* Header row with title and chevron */}
       <div
         style={{
           display: 'flex',
-          justifyContent: 'space-between',
           alignItems: 'center',
-          marginBottom: '0.5em',
+          gap: isMobile ? '3vw' : '1.5vw',
         }}
       >
-        <h3
+        {/* Left: title + leaders + donation count */}
+        <div style={{ flex: 1, minWidth: 0 }}>
+          <h3
+            style={{
+              margin: '0 0 0.5em',
+              fontSize: isMobile ? 20 : 24,
+              color: maroon,
+              fontWeight: 600,
+            }}
+          >
+            {title}
+          </h3>
+
+          {/* Leaders */}
+          <div
+            style={{
+              fontSize: 16,
+              marginBottom: '0.6em',
+              lineHeight: 1.5,
+              color: isDarkMode ? '#9AA0A6' : '#5F6368',
+            }}
+          >
+            <div>
+              Participation Leader:{' '}
+              <strong style={{ color: isDarkMode ? '#E8EAED' : '#202124' }}>
+                Class {topParticipationClass}
+              </strong>
+            </div>
+            <div>
+              Points Leader:{' '}
+              <strong style={{ color: isDarkMode ? '#E8EAED' : '#202124' }}>
+                Class {topPointsClass}
+              </strong>
+            </div>
+          </div>
+
+          {/* Donation count */}
+          <div
+            style={{
+              fontSize: isMobile ? 13 : 14,
+              color: isDarkMode ? '#9AA0A6' : '#5F6368',
+              fontWeight: 500,
+            }}
+          >
+            {animatedDonations} of {donationGoal} Items Donated
+          </div>
+        </div>
+
+        {/* Right: percentage + chevron */}
+        <span
           style={{
-            margin: 0,
-            fontSize: isMobile ? 20 : 24,
-            color: maroon,
-            fontWeight: 600,
+            fontSize: isMobile ? 36 : 44,
+            fontWeight: 700,
+            color: isDarkMode ? '#E8EAED' : '#202124',
+            flexShrink: 0,
+            lineHeight: 1,
           }}
         >
-          {title}
-        </h3>
+          {Math.min(Math.round((animatedDonations / donationGoal) * 100), 100)}%
+        </span>
         <span
           style={{
             fontSize: isMobile ? 20 : 24,
@@ -143,56 +191,13 @@ const ServiceMonthCard: React.FC<Props> = ({
         </span>
       </div>
 
-      {/* Leaders */}
-      <div
-        style={{
-          fontSize: 16,
-          marginBottom: '0.6em',
-          lineHeight: 1.5,
-          color: isDarkMode ? '#9AA0A6' : '#5F6368',
-        }}
-      >
-        <div>
-          Participation Leader:{' '}
-          <strong
-            style={{
-              color: isDarkMode ? '#E8EAED' : '#202124',
-            }}
-          >
-            Class {topParticipationClass}
-          </strong>
-        </div>
-        <div>
-          Points Leader:{' '}
-          <strong
-            style={{
-              color: isDarkMode ? '#E8EAED' : '#202124',
-            }}
-          >
-            Class {topPointsClass}
-          </strong>
-        </div>
-      </div>
-
-      {/* Progress */}
-      <div
-        style={{
-          fontSize: isMobile ? 13 : 14,
-          color: isDarkMode ? '#9AA0A6' : '#5F6368',
-          marginBottom: '0.4em',
-          fontWeight: 500,
-        }}
-      >
-        {animatedDonations} of {donationGoal} Items Donated
-      </div>
-
+      {/* Progress bar — full width */}
       <div
         style={{
           width: '100%',
           height: isMobile ? '1.5vh' : '0.5vw',
-          backgroundColor: isDarkMode
-            ? '#4A4B4D'
-            : '#F2F2F2',
+          marginTop: '0.6em',
+          backgroundColor: isDarkMode ? '#4A4B4D' : '#F2F2F2',
           borderRadius: '999px',
           overflow: 'hidden',
         }}

@@ -190,7 +190,7 @@ const App: React.FC = () => {
             style={{
               fontSize: isMobile ? 26 : 32,
               fontWeight: 600,
-              marginBottom: '1rem',
+              margin: '0 0 1rem',
               color: isDarkMode ? '#E8EAED' : '#202124',
             }}
           >
@@ -217,7 +217,13 @@ const App: React.FC = () => {
           >
             This message will only show up once.
           </p>
-          <div style={{ display: 'flex', gap: '0.75rem', justifyContent: 'center' }}>
+          <div
+            style={{
+              display: 'flex',
+              gap: '0.75rem',
+              justifyContent: 'center',
+            }}
+          >
             <button
               onClick={() => {
                 navigator.clipboard.writeText(
@@ -407,7 +413,13 @@ const App: React.FC = () => {
             Please give any feedback or suggestions to Marco Suri, Dylan Pan,
             and Austin Reid.
           </p>
-          <div style={{ display: 'flex', gap: '0.75rem', justifyContent: 'center' }}>
+          <div
+            style={{
+              display: 'flex',
+              gap: '0.75rem',
+              justifyContent: 'center',
+            }}
+          >
             <button
               onClick={() => {
                 navigator.clipboard.writeText(
