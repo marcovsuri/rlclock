@@ -1,14 +1,15 @@
 import React from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
+import DarkModeToggle from './DarkModeToggle';
 import useIsMobile from '../../hooks/useIsMobile';
 import AnnouncementsButton from './AnnouncementsButton';
 
 interface SidebarNavProps {
   isDarkMode: boolean;
+  toggleDarkMode: () => void;
   onOpenAnnouncements: () => void;
   onOpenFeedback: () => void;
   isOpen: boolean;
-  onClose: () => void;
 }
 
 const navItems = [
@@ -16,14 +17,15 @@ const navItems = [
   { label: 'Lunch', path: '/lunch' },
   { label: 'Sports', path: '/sports' },
   { label: 'Service', path: '/service' },
+  // { label: 'Exams', path: '/exams' }, // Comment out to remove exams
 ];
 
 const SidebarNav: React.FC<SidebarNavProps> = ({
   isDarkMode,
+  toggleDarkMode,
   onOpenAnnouncements,
   onOpenFeedback,
   isOpen,
-  onClose,
 }) => {
   const navigate = useNavigate();
   const location = useLocation();
@@ -33,48 +35,57 @@ const SidebarNav: React.FC<SidebarNavProps> = ({
   const drawerWidth = isMobile ? '36vw' : '12vw';
 
   return (
-    <>
-      {/* Backdrop scrim */}
+    <div
+      style={{
+        position: 'fixed',
+        top: 0,
+        left: 0,
+        height: '100vh',
+        width: isMobile ? '50vw' : '12vw',
+        backgroundColor: isDarkMode
+          ? 'rgba(17, 17, 17, 0.5)'
+          : 'rgba(253, 253, 253, 0.5)',
+        backdropFilter: 'blur(10px)',
+        WebkitBackdropFilter: 'blur(5px)',
+        padding: isMobile ? '6rem 1.5rem 2rem' : '4rem 2rem 1rem',
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'space-between',
+        gap: '1rem',
+        transform: isOpen ? 'translateX(0)' : 'translateX(-100%)',
+        transition: 'all 3s ease, transform 0.5s ease, box-shadow 0.5s ease',
+        borderRadius: '16px',
+        zIndex: 1001,
+        pointerEvents: isOpen ? 'auto' : 'none',
+        boxShadow: isOpen ? '4px 0 30px 4px  rgba(154, 31, 54, 0.5)' : 'none',
+      }}
+    >
       <div
-        onClick={onClose}
         style={{
-          position: 'fixed',
-          inset: 0,
-          backgroundColor: 'rgba(0,0,0,0.35)',
-          zIndex: 1000,
-          opacity: isOpen ? 1 : 0,
-          pointerEvents: isOpen ? 'auto' : 'none',
-          transition: 'opacity 0.3s ease',
-        }}
-      />
-
-      {/* Drawer */}
-      <div
-        style={{
-          position: 'fixed',
-          top: 0,
-          left: 0,
-          height: '100vh',
-          width: drawerWidth,
-          backgroundColor: isDarkMode
-            ? '#1F1F1F'
-            : '#F8F9FA',
-          padding: isMobile ? '3.5rem 0 2rem' : '2.2rem 0 1rem',
           display: 'flex',
           flexDirection: 'column',
-          justifyContent: 'space-between',
-          transform: isOpen ? 'translateX(0)' : 'translateX(-100%)',
-          transition: 'transform 0.3s ease, background-color 3s ease, box-shadow 3s ease',
-          borderRadius: isMobile ? '0 3vw 3vw 0' : '0 0.8vw 0.8vw 0',
-          boxShadow: isOpen
-            ? isDarkMode
-              ? '4px 0 20px rgba(0,0,0,0.5)'
-              : '4px 0 20px rgba(0,0,0,0.08)'
-            : 'none',
-          zIndex: 1001,
-          pointerEvents: isOpen ? 'auto' : 'none',
-          boxSizing: 'border-box',
-          overflow: 'hidden',
+          gap: '1rem',
+          marginTop: isMobile ? '0' : '2rem',
+        }}
+      >
+        {navItems.map(({ label, path }) => (
+          <button
+            key={label}
+            onClick={() => navigate(path)}
+            style={getButtonStyle(location.pathname === path)}
+          >
+            {label}
+          </button>
+        ))}
+      </div>
+      <div
+        style={{
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'flex-start',
+          justifyContent: 'flex-start',
+          gap: '1rem',
+          marginBottom: isMobile ? '7rem' : '6rem',
         }}
       >
         {/* Nav items */}
@@ -164,7 +175,7 @@ const SidebarNav: React.FC<SidebarNavProps> = ({
           Send Feedback
         </button>
       </div>
-    </>
+    </div>
   );
 };
 

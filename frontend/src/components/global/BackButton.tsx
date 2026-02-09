@@ -18,15 +18,15 @@ const BackButton: React.FC = () => {
           fontSize: 16,
           fontWeight: 600,
           cursor: 'pointer',
-          boxShadow: '0 2px 6px rgba(0,0,0,0.08)',
+          boxShadow: '0 2px 6px rgba(154, 31, 54, 0.2)',
           transition: 'all 3s ease, box-shadow 0.5s ease',
           marginLeft: '0',
         }}
         onMouseEnter={(e) => {
-          e.currentTarget.style.boxShadow = '0 4px 12px rgba(0,0,0,0.12)';
+          e.currentTarget.style.boxShadow = '0 6px 12px rgba(154, 31, 54, 0.4)';
         }}
         onMouseLeave={(e) => {
-          e.currentTarget.style.boxShadow = '0 2px 6px rgba(0,0,0,0.08)';
+          e.currentTarget.style.boxShadow = '0 2px 6px rgba(154, 31, 54, 0.2)';
         }}
       >
         ← Back

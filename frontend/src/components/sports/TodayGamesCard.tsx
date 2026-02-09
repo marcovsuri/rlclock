@@ -38,16 +38,17 @@ const TodayGamesCard: React.FC<TodayGamesCardProps> = ({
   return (
     <div
       style={{
-        backgroundColor: isDarkMode ? '#2D2E30' : '#FFFFFF',
-        borderRadius: isMobile ? '3vw' : '0.8vw',
-        boxShadow: isDarkMode
-          ? '0 2px 12px rgba(0,0,0,0.5)'
-          : '0 2px 12px rgba(0,0,0,0.1)',
-        padding: isMobile ? '3vw' : '1.2vw',
-        width: '100%',
+        backgroundColor: isDarkMode ? 'black' : 'white',
+        borderRadius: isMobile ? '5vw' : '2vw',
+        boxShadow: '0 4px 20px 4px rgba(154, 31, 54, 0.5)',
+        padding: isMobile ? '4vw' : '2vw',
+        paddingTop: isMobile ? '1vh' : '1vh',
+        marginBottom: isMobile ? '0vh' : '2vh',
+        color: 'rgb(154, 31, 54)',
+        width: isMobile ? '100%' : '80%',
       }}
     >
-      <h3
+      <h2
         style={{
           fontSize: isMobile ? 13 : 14,
           margin: 0,
@@ -59,18 +60,48 @@ const TodayGamesCard: React.FC<TodayGamesCardProps> = ({
         }}
       >
         Today's Games
-      </h3>
+      </h2>
 
-      <div
-        style={{
-          display: 'flex',
-          flexDirection: 'column',
-          gap: isMobile ? '1.5vw' : '0.4vw',
-        }}
-      >
-        {todayGames.map((game, index) => {
+      {!todayGames || todayGames.length === 0 ? (
+        <p
+          style={{
+            textAlign: 'center',
+            fontWeight: 500,
+            color: isDarkMode ? 'white' : 'black',
+          }}
+        >
+          {todayGames === undefined ? 'Loading...' : 'No games today.'}
+        </p>
+      ) : (
+        todayGames.map((game, index) => {
           const isHome = game.where.toLowerCase().includes('home');
           const isVarsity = game.team.toLowerCase().includes('varsity');
+          const isAway = !isHome;
+
+          const baseStyle = {
+            padding: isMobile ? '2.5vw' : '1vw',
+            borderRadius: isMobile ? '3vw' : '1vw',
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            fontWeight: 500,
+            fontSize: isMobile ? '4vw' : '1.2vw',
+            color: isDarkMode ? 'white' : 'black',
+            marginBottom: '1vh',
+            backgroundColor: 'rgba(154, 31, 54, 0.3)',
+            opacity: 1,
+            border: 'none',
+            boxShadow: 'none',
+          };
+
+          if (isVarsity) {
+            baseStyle.border = `2px solid rgba(154, 31, 54, 0.7)`;
+            baseStyle.boxShadow = '0 0 15px 2px rgba(154, 31, 54, 0.7)';
+          }
+
+          if (isAway) {
+            baseStyle.opacity = 0.6;
+          }
 
           return (
             <div
@@ -98,18 +129,11 @@ const TodayGamesCard: React.FC<TodayGamesCardProps> = ({
                   ? 'vs. ' + game.opponents.join(', ')
                   : ''}
               </span>
-              <span
-                style={{
-                  flexShrink: 0,
-                  marginLeft: isMobile ? '2vw' : '1vw',
-                }}
-              >
-                {game.time}
-              </span>
+              <span>{game.time}</span>
             </div>
           );
-        })}
-      </div>
+        })
+      )}
     </div>
   );
 };

@@ -36,7 +36,7 @@ export default function Lunch({ isDarkMode }: LunchProps) {
     flexGrow: 1,
     padding: isMobile ? '2rem 1rem' : '2rem 3rem',
     boxSizing: 'border-box',
-    backgroundColor: isDarkMode ? '#1F1F1F' : '#FFFFFF',
+    backgroundColor: isDarkMode ? 'black' : 'white',
     fontFamily: 'Roboto, sans-serif',
     display: 'flex',
     flexDirection: 'column',

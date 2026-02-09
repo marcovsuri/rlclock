@@ -8,6 +8,7 @@ import getMenu from '../core/lunchFetcher';
 import { Menu } from '../types/lunch';
 import getSportsEvents from '../core/sportsFetcher';
 import { TeamEvent } from '../types/sports';
+import ServiceDriveCard from '../components/home/ServiceDriveCard';
 import ServiceMonthCard from '../components/home/ServiceMonthCard';
 import confetti from 'canvas-confetti';
 import getServiceData from '../core/serviceDataFetcher';
@@ -33,7 +34,7 @@ const Home: React.FC<HomeProps> = ({ isDarkMode }) => {
   >(undefined);
 
   const [serviceData, setServiceData] = useState<ServiceData | undefined>(
-    undefined,
+    undefined
   );
   const [serviceMonthCounter, setServiceMonthCounter] = useState<number>(0);
   const [serviceMonthParticipationLeader, setServiceMonthParticipationLeader] =
@@ -68,10 +69,10 @@ const Home: React.FC<HomeProps> = ({ isDarkMode }) => {
         const topParticipation = data.reduce((prev, current) =>
           current.participationPercentage > prev.participationPercentage
             ? current
-            : prev,
+            : prev
         );
         const topPoints = data.reduce((prev, current) =>
-          current.points > prev.points ? current : prev,
+          current.points > prev.points ? current : prev
         );
 
         setServiceMonthParticipationLeader(topParticipation.class);
@@ -93,8 +94,10 @@ const Home: React.FC<HomeProps> = ({ isDarkMode }) => {
       const [month, day] = md.split('/').map(Number);
       const now = new Date();
 
+      // Assume sports dates within the current or upcoming school year
       let year = now.getFullYear();
 
+      // If the month is ahead of the current month by a large margin, it likely belongs to the previous year
       if (month > now.getMonth() + 1 + 2) {
         year -= 1;
       }
@@ -120,7 +123,7 @@ const Home: React.FC<HomeProps> = ({ isDarkMode }) => {
   }, []);
 
   const [schedule, setSchedule] = useState<Schedule | null | undefined>(
-    undefined,
+    undefined
   );
   const [currentTime, setCurrentTime] = useState(new Date());
 
@@ -140,7 +143,7 @@ const Home: React.FC<HomeProps> = ({ isDarkMode }) => {
     const nextMidnight = new Date(
       now.getFullYear(),
       now.getMonth(),
-      now.getDate() + 1,
+      now.getDate() + 1
     );
     const delay = nextMidnight.getTime() - now.getTime();
 
@@ -205,7 +208,7 @@ const Home: React.FC<HomeProps> = ({ isDarkMode }) => {
 
       if (next && now > p.endTime && now < next.startTime) {
         return {
-          label: next.block ? `PT (${next.block} Block)` : 'Passing Time',
+          label: `PT (${p.block} Block)`,
           timeRemaining: next.startTime.getTime() - now.getTime(),
           current: null,
         };
@@ -446,48 +449,123 @@ const Home: React.FC<HomeProps> = ({ isDarkMode }) => {
     </span>
   ) : null;
 
-  const hasLunch =
-    menu !== undefined &&
-    (menu?.Entrées?.length > 0 ||
-      menu?.['Sides and Vegetables']?.length > 0 ||
-      menu?.Soups?.length > 0);
+      const raw = String(rawScore);
+      const formattedScore = raw.replace(/-+/g, ' - ');
+
+      // detect tie by score
+      const [a, b] = raw.split(/-+/).map(Number);
+      const outcome =
+        Number.isFinite(a) && Number.isFinite(b)
+          ? a === b
+            ? 'Tie'
+            : a > b
+            ? 'Win'
+            : 'Loss'
+          : '';
+
+      return `${result.team} → ${formattedScore} ${outcome}`;
+    })
+    .join('\n');
 
   const containerStyle: React.CSSProperties = {
     display: 'flex',
     flexDirection: 'column',
     minHeight: '100vh',
-    width: '100%',
+    width: '100vw',
     scrollbarWidth: 'none',
   };
 
   const contentStyle: React.CSSProperties = {
     flex: 1,
     display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'flex-start',
+    flexDirection: isMobile ? 'column' : 'row',
+    justifyContent: 'center',
     alignItems: 'center',
-    padding: isMobile ? '2vw' : '2vw',
-    paddingTop: isMobile ? '2vh' : '2vw',
-    gap: isMobile ? '1.5vh' : '1vw',
+    padding: '1vw',
+    gap: isMobile ? '2vh' : '2vw',
     textAlign: 'center',
     boxSizing: 'border-box',
   };
 
   const clockStyle: React.CSSProperties = {
-    width: isMobile ? '100%' : '40vw',
+    width: isMobile ? '100%' : 'auto',
+    padding: '1vw',
   };
 
   const cardsStyle: React.CSSProperties = {
     display: 'flex',
     flexDirection: 'column',
-    alignItems: 'stretch',
-    gap: isMobile ? '1.5vh' : '1vw',
-    width: isMobile ? '93vw' : '40vw',
+    justifyContent: 'center',
+    alignItems: 'center',
+    gap: isMobile ? '2vh' : '2vw',
+    width: isMobile ? '100%' : 'auto',
+    padding: '1vw',
     boxSizing: 'border-box',
   };
 
+  const hasLunch =
+    menu !== undefined &&
+    (menu?.Entrées?.length > 0 ||
+      menu?.['Sides and Vegetables']?.length > 0 ||
+      menu?.Soups?.length > 0);
+
   return (
     <>
+      {/* <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+        transition={{ duration: 0.5 }}
+        style={{
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          width: '100%',
+          padding: '12px 20px',
+          textAlign: 'center',
+          fontWeight: 600,
+          fontSize: isMobile ? '0.5rem' : '1.1rem',
+          zIndex: 1000,
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+        }}
+      >
+        <div
+          style={{
+            width: '50%',
+            borderRadius: isMobile ? '3vh' : '2vw',
+            backgroundColor: isDarkMode ? 'black' : 'white',
+            color: 'rgb(154, 31, 54)',
+            cursor: 'pointer',
+            boxShadow: '0 4px 20px 4px rgba(154, 31, 54, 0.5)',
+            padding: isMobile ? '0.5rem' : '1rem',
+            transition:
+              'transform 0.2s ease, box-shadow 0.2s ease, background-color 3s ease, color 3s ease',
+          }}
+          onMouseEnter={(e) => {
+            (e.currentTarget as HTMLElement).style.transform = 'scale(1.03)';
+            (e.currentTarget as HTMLElement).style.boxShadow =
+              '0 4px 30px 4px rgba(154, 31, 54, 0.5)';
+          }}
+          onMouseLeave={(e) => {
+            (e.currentTarget as HTMLElement).style.transform = 'scale(1)';
+            (e.currentTarget as HTMLElement).style.boxShadow =
+              '0 4px 20px 4px rgba(154, 31, 54, 0.5)';
+          }}
+        >
+          <Link
+            to="/exams"
+            style={{
+              color: 'rgb(154,31,54)',
+              textDecoration: 'none',
+            }}
+          >
+            2025 Midyear Exam Schedule Available &gt;&gt; Click Here!
+          </Link>
+        </div>
+      </motion.div> */}
+
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
@@ -497,31 +575,34 @@ const Home: React.FC<HomeProps> = ({ isDarkMode }) => {
       >
         {/* Main Content */}
         <div style={contentStyle}>
-          {/* Left: Clock (schedule + countdown) */}
           <div style={clockStyle}>
             <Clock isDarkMode={isDarkMode} />
           </div>
-
-          {/* Right: Cards ordered by urgency */}
           <div style={cardsStyle}>
-            {/* 1. Lunch status - compact */}
             <InfoCard
-              title="Today's Lunch"
-              compact
+              title="Today's Lunch:"
               subtitle={
                 menu === undefined
                   ? 'Loading...'
-                  : !hasLunch || !lunchSummary
-                    ? 'No lunch served today.'
-                    : lunchSummary
+                  : !hasLunch || !lunchFeatures
+                  ? 'No lunch served today.'
+                  : lunchFeatures
+                      .split('\n')
+                      .map((line, i) => <div key={i}>{line}</div>)
               }
+              info={hasLunch ? 'Click to see full menu!' : ''}
               path="/lunch"
               isDarkMode={isDarkMode}
             />
-
-            {/* 2. Service Month */}
+            {/* <ServiceDriveCard
+              title="Thanksgiving Food Drive!"
+              numDonations={serviceData?.numDonations || 0}
+              donationGoal={serviceData?.donationGoal || 1000}
+              path="/service"
+              isDarkMode={isDarkMode}
+            /> */}
             <ServiceMonthCard
-              title="Service Month"
+              title="Service Month!"
               numDonations={serviceMonthCounter || 0}
               donationGoal={DONATION_GOAL}
               topParticipationClass={serviceMonthParticipationLeader}
@@ -529,21 +610,22 @@ const Home: React.FC<HomeProps> = ({ isDarkMode }) => {
               path="/service"
               isDarkMode={isDarkMode}
             />
-
-            {/* 3. Condensed Athletics Results */}
-            {pastResults !== undefined && (
+            {pastResults !== undefined ? (
               <InfoCard
-                title="Latest Results"
-                compact
+                title="Latest Results:"
                 subtitle={
                   pastResults === undefined
                     ? 'Loading...'
-                    : (resultsSummary ?? 'No recent results.')
+                    : gameResultsFeature
+                        ?.split('\n')
+                        .map((line, i) => <div key={i}>{line}</div>) ??
+                      'No recent results.'
                 }
+                info="Click to see other results!"
                 path="/sports"
                 isDarkMode={isDarkMode}
               />
-            )}
+            ) : null}
           </div>
 
           <Footer isDarkMode={isDarkMode} />

@@ -1,5 +1,6 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect } from 'react';
 import ResultsCard from '../components/sports/ResultsCard';
+// import StatsCard from '../components/sports/StatsCard';
 import useIsMobile from '../hooks/useIsMobile';
 import TodayGamesCard from '../components/sports/TodayGamesCard';
 import { motion } from 'framer-motion';
@@ -12,56 +13,22 @@ interface SportsProps {
   isDarkMode: boolean;
 }
 
-type TeamRecord = { wins: number; losses: number; ties: number };
-
 const Sports: React.FC<SportsProps> = ({ isDarkMode }) => {
   const isMobile = useIsMobile();
   const [pastGames, setPastGames] = useState<TeamEvent[] | undefined | null>(
-    undefined,
+    undefined
   );
 
   const [upcomingGames, setUpcomingGames] = useState<
     UpcomingEvent[] | undefined | null
   >(undefined);
 
-  const records = useMemo(() => {
-    if (!pastGames) return null;
-    const map = new Map<string, TeamRecord>();
-    for (const event of pastGames) {
-      for (let i = 0; i < event.opponents.length; i++) {
-        const raw = event.scores?.[i] ? String(event.scores[i]) : '';
-        const [a, b] = raw.split(/-+/).map(Number);
-        if (!Number.isFinite(a) || !Number.isFinite(b)) continue;
-
-        const team = event.team.replace(/&amp;/g, '&');
-        if (!map.has(team)) map.set(team, { wins: 0, losses: 0, ties: 0 });
-        const rec = map.get(team)!;
-        if (a === b) rec.ties++;
-        else if (event.wins[i]) rec.wins++;
-        else rec.losses++;
-      }
-    }
-    return Array.from(map.entries()).sort((a, b) => a[0].localeCompare(b[0]));
-  }, [pastGames]);
-
   useEffect(() => {
     document.title = 'RL Clock | Sports';
     getSportsEvents().then((response) => {
       if (response.success) {
-        const now = new Date();
-        let effectiveYear = now.getFullYear();
-        let prevMonth = now.getMonth() + 1;
-        const seasonStart = new Date(2025, 10, 16); //CHANGE THIS WHEN SEASON CHANGES - start date for the current season, helps get the games only from this season
-        const games = response.data
-          .map((e) => {
-            const [m, d] = e.date.split('/').map(Number);
-            if (!m || !d) return null;
-            if (m > prevMonth) effectiveYear--;
-            prevMonth = m;
-            const gameDate = new Date(effectiveYear, m - 1, d);
-            return gameDate >= seasonStart ? e : null;
-          })
-          .filter((e): e is NonNullable<typeof e> => e !== null);
+        const games = response.data.slice(0, 50);
+
         setPastGames(games.length > 0 ? games : null);
       } else {
         setPastGames(null);
@@ -99,23 +66,21 @@ const Sports: React.FC<SportsProps> = ({ isDarkMode }) => {
         display: 'flex',
         flexDirection: 'column',
         minHeight: '100vh',
-        width: '100%',
+        width: '100vw',
       }}
     >
+      {/* OUTER CONTAINER for center layout */}
       <div
         style={{
-          width: isMobile ? '92vw' : '40vw',
-          margin: isMobile ? '3vh auto' : '3vh auto',
-          display: 'flex',
-          flexDirection: 'column',
-          gap: isMobile ? '2vw' : '1vw',
+          width: isMobile ? '90vw' : '60vw',
+          margin: '5vh auto',
+          boxSizing: 'border-box',
         }}
       >
-        <TodayGamesCard
-          todayGames={upcomingGames}
-          isMobile={isMobile}
-          isDarkMode={isDarkMode}
-        />
+        {/* Back Button manually aligned left */}
+        {/* <div style={{ margin: '5vh auto' }}>
+          <BackButton />
+        </div> */}
 
         {records && records.length > 0 && (
           <div
@@ -284,11 +249,28 @@ const Sports: React.FC<SportsProps> = ({ isDarkMode }) => {
           </div>
         )}
 
-        <ResultsCard
-          results={pastGames}
-          isMobile={isMobile}
-          isDarkMode={isDarkMode}
-        />
+        {/* Bottom Row: Results + Stats */}
+        <div
+          style={{
+            display: 'flex',
+            flexDirection: isMobile ? 'column' : 'row',
+            justifyContent: 'center',
+            alignItems: 'center',
+            gap: '2vw',
+            marginTop: '3vh',
+            height: isMobile ? 'auto' : '40vh',
+            width: isMobile ? '100%' : 'auto',
+            margin: '2vh auto',
+            marginBottom: '0vh',
+          }}
+        >
+          <ResultsCard
+            results={pastGames}
+            isMobile={isMobile}
+            isDarkMode={isDarkMode}
+          />
+          {/* <StatsCard stats={stats} isMobile={isMobile} isDarkMode={isDarkMode}/> */}
+        </div>
       </div>
     </motion.div>
   );

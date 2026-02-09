@@ -40,11 +40,9 @@ const AnimatedRoutes = ({ isDarkMode }: { isDarkMode: boolean }) => {
 };
 
 const App: React.FC = () => {
-  const [isDarkMode, setIsDarkMode] = useState(() => {
-    const dark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-    document.documentElement.classList.toggle('dark-mode', dark);
-    return dark;
-  });
+  const [isDarkMode, setIsDarkMode] = useState(
+    localStorage.getItem('darkMode') === 'true'
+  );
   const [showModal, setShowModal] = useState(false);
   const [showFeedback, setShowFeedback] = useState(false);
   const [showWelcome, setShowWelcome] = useState(() => {
@@ -55,19 +53,18 @@ const App: React.FC = () => {
   const [emailsCopied, setEmailsCopied] = useState(false);
   const isMobile = useIsMobile();
 
-  useEffect(() => {
-    requestAnimationFrame(() => {
-      document.documentElement.classList.remove('no-transition');
-    });
-
-    const mq = window.matchMedia('(prefers-color-scheme: dark)');
-    const handler = (e: MediaQueryListEvent) => setIsDarkMode(e.matches);
-    mq.addEventListener('change', handler);
-    return () => mq.removeEventListener('change', handler);
-  }, []);
+  const toggleDarkMode = () => {
+    setIsDarkMode((prev) => !prev);
+  };
 
   useEffect(() => {
-    document.documentElement.classList.toggle('dark-mode', isDarkMode);
+    const root = document.documentElement;
+    if (isDarkMode) {
+      root.classList.add('dark-mode');
+    } else {
+      root.classList.remove('dark-mode');
+    }
+    localStorage.setItem('darkMode', String(isDarkMode));
   }, [isDarkMode]);
 
   const dismissWelcome = () => {
@@ -89,7 +86,7 @@ const App: React.FC = () => {
       }
     };
 
-    if (anyModalOpen) {
+    if (showModal) {
       html.style.overflow = 'hidden';
       body.style.overflow = 'hidden';
       document.addEventListener('keydown', handleKeyDown);
@@ -104,7 +101,7 @@ const App: React.FC = () => {
       body.style.overflow = '';
       document.removeEventListener('keydown', handleKeyDown);
     };
-  }, [anyModalOpen]);
+  }, [showModal]);
 
   useEffect(() => {
     getAnnouncements().then((result) => {
@@ -126,10 +123,10 @@ const App: React.FC = () => {
       {/* Sidebar */}
       <SidebarNav
         isDarkMode={isDarkMode}
+        toggleDarkMode={toggleDarkMode}
         onOpenAnnouncements={() => setShowModal(true)}
         onOpenFeedback={() => setShowFeedback(true)}
         isOpen={sidebarOpen}
-        onClose={() => setSidebarOpen(false)}
       />
 
       {/* Sidebar toggle button */}
@@ -144,20 +141,24 @@ const App: React.FC = () => {
           fontSize: 16,
           lineHeight: 1,
           cursor: 'pointer',
-          transition: 'color 3s ease',
+          boxShadow: '0 2px 6px 4px rgba(154, 31, 54, 0.5)',
+          transition: 'left 0.5s ease, box-shadow 0.3s ease',
           position: 'fixed',
-          top: '0.8rem',
-          left: '0.8rem',
+          top: '1rem',
+          left: sidebarOpen ? (isMobile ? '1rem' : '11vw') : '1rem',
           zIndex: 1002,
+          marginLeft: '0',
         }}
         onMouseEnter={(e) => {
-          e.currentTarget.style.color = isDarkMode ? '#E8EAED' : '#202124';
+          e.currentTarget.style.boxShadow =
+            '0 4px 12px 6px rgba(154, 31, 54, 0.5)';
         }}
         onMouseLeave={(e) => {
-          e.currentTarget.style.color = isDarkMode ? '#9AA0A6' : '#5F6368';
+          e.currentTarget.style.boxShadow =
+            '0 2px 6px 4px rgba(154, 31, 54, 0.5)';
         }}
       >
-        {sidebarOpen ? '✕' : '☰'}
+        {sidebarOpen ? '✖' : '☰'}
       </button>
 
       {/* Main Content + Footer */}
@@ -273,13 +274,9 @@ const App: React.FC = () => {
         <div
           className={`modal-content ${showModal ? 'modal-show' : ''}`}
           style={{
-            background: isDarkMode ? '#2D2E30' : '#FFFFFF',
-            color: isDarkMode ? '#E8EAED' : '#202124',
-            padding: '1.5rem',
-            borderRadius: '0.8rem',
-            boxShadow: isDarkMode
-              ? '0 4px 24px rgba(0,0,0,0.6)'
-              : '0 4px 24px rgba(0,0,0,0.12)',
+            background: isDarkMode ? 'black' : 'white',
+            color: isDarkMode ? 'white' : 'black',
+            padding: '2rem',
           }}
           onClick={(e) => e.stopPropagation()}
         >
@@ -295,7 +292,7 @@ const App: React.FC = () => {
               fontWeight: 500,
             }}
           >
-            Close
+            ✖ Close
           </button>
           <h2
             style={{
@@ -312,12 +309,14 @@ const App: React.FC = () => {
             announcements.map(({ id, title, content, author, created_at }) => (
               <div
                 key={id}
+                className="modal-announcement"
                 style={{
-                  backgroundColor: isDarkMode ? '#2D2E30' : '#F2F2F2',
-                  color: isDarkMode ? '#E8EAED' : '#202124',
-                  marginBottom: '1rem',
-                  padding: '1.2rem',
-                  borderRadius: '0.6rem',
+                  background: 'rgba(154, 31, 54, 0.1)',
+                  color: isDarkMode ? 'white' : 'black',
+                  marginBottom: '2rem',
+                  padding: '2rem',
+                  borderRadius: '16px',
+                  border: '1px solid rgba(154, 31, 54, 0.2)',
                 }}
               >
                 <h3
@@ -347,9 +346,11 @@ const App: React.FC = () => {
                 >
                   {author} &middot;{' '}
                   {new Date(created_at).toLocaleDateString(undefined, {
-                    month: 'short',
+                    year: 'numeric',
+                    month: 'long',
                     day: 'numeric',
                   })}{' '}
+                  @{' '}
                   {new Date(created_at).toLocaleTimeString(undefined, {
                     hour: 'numeric',
                     minute: '2-digit',
@@ -359,14 +360,7 @@ const App: React.FC = () => {
               </div>
             ))
           ) : (
-            <p
-              style={{
-                textAlign: 'center',
-                color: isDarkMode ? '#9AA0A6' : '#5F6368',
-              }}
-            >
-              No announcements right now.
-            </p>
+            <p style={{ textAlign: 'center' }}>No current announcements.</p>
           )}
         </div>
       </div>

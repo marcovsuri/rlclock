@@ -11,7 +11,6 @@ const Clock: React.FC<ClockProps> = ({ isDarkMode }) => {
     undefined,
   );
   const [currentTime, setCurrentTime] = useState(new Date());
-  const [showFullSchedule, setShowFullSchedule] = useState(false);
   const isMobile = useIsMobile();
 
   useEffect(() => {
@@ -72,21 +71,13 @@ const Clock: React.FC<ClockProps> = ({ isDarkMode }) => {
     })[];
 
     if (periods.length === 0)
-      return {
-        label: 'No Schedule',
-        timeRemaining: null,
-        totalDuration: null,
-        current: null,
-        currentIndex: -1,
-      };
+      return { label: 'No Schedule', timeRemaining: null, current: null };
 
     if (now < periods[0].startTime)
       return {
         label: 'Before School',
         timeRemaining: periods[0].startTime.getTime() - now.getTime(),
-        totalDuration: null,
         current: null,
-        currentIndex: -1,
       };
 
     for (let i = 0; i < periods.length; i++) {
@@ -99,9 +90,7 @@ const Clock: React.FC<ClockProps> = ({ isDarkMode }) => {
             ? `${p.block} Block${p.name ? ` - ${p.name}` : ''}`
             : p.name,
           timeRemaining: p.endTime.getTime() - now.getTime(),
-          totalDuration: p.endTime.getTime() - p.startTime.getTime(),
           current: p,
-          currentIndex: i,
         };
       }
 
@@ -111,21 +100,14 @@ const Clock: React.FC<ClockProps> = ({ isDarkMode }) => {
           timeRemaining: next.startTime.getTime() - now.getTime(),
           totalDuration: next.startTime.getTime() - p.endTime.getTime(),
           current: null,
-          currentIndex: i,
         };
       }
     }
 
-    return {
-      label: 'After School',
-      timeRemaining: null,
-      totalDuration: null,
-      current: null,
-      currentIndex: periods.length,
-    };
+    return { label: 'After School', timeRemaining: null, current: null };
   };
 
-  const formatCountdown = (ms: number | null) => {
+  const formatTimeRemaining = (ms: number | null) => {
     if (!ms) return null;
     const totalSec = Math.floor(ms / 1000);
     const min = Math.floor(totalSec / 60);
@@ -140,22 +122,9 @@ const Clock: React.FC<ClockProps> = ({ isDarkMode }) => {
     return `${hour12}:${minute.toString().padStart(2, '0')} ${ampm}`;
   };
 
-  const { label, timeRemaining, totalDuration, current, currentIndex } =
-    schedule
-      ? getCurrentPeriodInfo(schedule)
-      : {
-          label: '',
-          timeRemaining: null,
-          totalDuration: null,
-          current: null,
-          currentIndex: -1,
-        };
-
-  const countdown = formatCountdown(timeRemaining);
-  const progressPercent =
-    timeRemaining && totalDuration
-      ? ((totalDuration - timeRemaining) / totalDuration) * 100
-      : 0;
+  const { label, timeRemaining, current } = schedule
+    ? getCurrentPeriodInfo(schedule)
+    : { label: '', timeRemaining: null, current: null };
 
   // Find the next period for preview
   const nextPeriod =
@@ -166,25 +135,19 @@ const Clock: React.FC<ClockProps> = ({ isDarkMode }) => {
         : null;
 
   const renderContent = () => {
-    if (schedule === undefined) return <p style={subtextStyle}>Loading...</p>;
-    if (schedule === null) return <p style={subtextStyle}>No School!</p>;
-
-    const maroonText = isDarkMode ? '#B0263E' : 'rgb(154, 31, 54)';
-    const maroonBg = isDarkMode ? '#8A1F2E' : 'rgb(154, 31, 54)';
-    const neutralBg = isDarkMode ? '#4A4B4D' : '#F2F2F2';
-    const neutralText = isDarkMode ? '#9AA0A6' : '#5F6368';
-    const normalText = isDarkMode ? '#E8EAED' : '#202124';
-
+    if (schedule === undefined) return 'Loading...';
+    if (schedule === null) return 'No School!';
     return (
       <>
-        {/* Active block - dominant */}
+        <p style={textStyle(isMobile, isDarkMode)}>{label}</p>
+        {formattedTime && (
+          <p style={textStyle(isMobile, isDarkMode)}>{formattedTime}</p>
+        )}
         <div
           style={{
-            backgroundColor: maroonBg,
-            color: 'white',
-            padding: isMobile ? '5vw' : '1.4vw',
-            borderRadius: isMobile ? '3vw' : '0.8vw',
-            marginBottom: isMobile ? '2vh' : '1.2vw',
+            display: 'flex',
+            flexDirection: 'column',
+            gap: isMobile ? '1.5vh' : '1vh',
           }}
         >
           <div
@@ -229,6 +192,7 @@ const Clock: React.FC<ClockProps> = ({ isDarkMode }) => {
               }}
             >
               <div
+                key={idx}
                 style={{
                   width: label === 'Before School' ? '100%' : `${progressPercent}%`,
                   height: '100%',
@@ -236,9 +200,20 @@ const Clock: React.FC<ClockProps> = ({ isDarkMode }) => {
                   borderRadius: '999px',
                   transition: 'width 1s linear',
                 }}
-              />
-            </div>
-          )}
+              >
+                <span style={{ textAlign: 'left' }}>
+                  {period.block
+                    ? period.name
+                      ? `${period.block} Block - ${period.name}`
+                      : `${period.block} Block`
+                    : period.name}
+                </span>
+                <span style={{ textAlign: 'right' }}>
+                  {to12HourFormat(period.start)} - {to12HourFormat(period.end)}
+                </span>
+              </div>
+            );
+          })}
         </div>
 
         {/* Next block preview */}
@@ -424,8 +399,44 @@ const Clock: React.FC<ClockProps> = ({ isDarkMode }) => {
         RL Clock
       </h2>
       {renderContent()}
-    </div>
+    </Card>
   );
 };
 
 export default Clock;
+
+// ------------------- Subcomponents & Styles -------------------
+
+const Card: React.FC<{
+  isMobile: boolean;
+  isDarkMode: boolean;
+  children: React.ReactNode;
+}> = ({ isMobile, isDarkMode, children }) => (
+  <div
+    style={{
+      backgroundColor: isDarkMode ? 'black' : 'white',
+      padding: isMobile ? '4vw' : '1.5vw',
+      borderRadius: isMobile ? '5vw' : '2vw',
+      boxShadow: '0 4px 20px 12px rgba(154, 31, 54, 0.5)',
+      textAlign: 'center',
+      color: 'rgb(154, 31, 54)',
+      width: isMobile ? '93vw' : '40vw',
+      margin: '0vh auto',
+      boxSizing: 'border-box',
+    }}
+  >
+    {children}
+  </div>
+);
+
+const headerStyle = (isMobile: boolean) => ({
+  marginBottom: '1vh',
+  fontSize: isMobile ? '5vh' : '3vw',
+});
+
+const textStyle = (isMobile: boolean, isDarkMode: boolean) => ({
+  fontWeight: 500,
+  color: isDarkMode ? 'white' : 'black',
+  fontSize: isMobile ? '4vw' : '1.5vw',
+  marginBottom: '2vh',
+});

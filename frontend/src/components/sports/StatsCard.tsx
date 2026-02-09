@@ -14,9 +14,9 @@ interface StatsCardProps {
 
 const StatsCard: React.FC<StatsCardProps> = ({ stats, isMobile }) => {
   const cardStyle: React.CSSProperties = {
-    backgroundColor: '#FFFFFF',
-    borderRadius: isMobile ? '4vw' : '1.2vw',
-    boxShadow: '0 2px 12px rgba(0,0,0,0.1)',
+    backgroundColor: 'white',
+    borderRadius: isMobile ? '5vw' : '2vw',
+    boxShadow: '0 4px 20px rgba(154, 31, 54, 0.5)',
     padding: isMobile ? '4vw' : '2vw',
     color: 'rgb(154, 31, 54)',
     width: isMobile ? '100%' : '48%',

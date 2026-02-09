@@ -42,7 +42,7 @@ const Summer: React.FC<SummerProps> = ({ isDarkMode }) => {
         alignItems: 'center',
         justifyContent: 'center',
         minHeight: '100vh',
-        width: '100%',
+        width: '100vw',
       }}
     >
       <SummerCountdown
@@ -52,8 +52,8 @@ const Summer: React.FC<SummerProps> = ({ isDarkMode }) => {
             style={{
               fontFamily: 'monospace',
               fontWeight: 500,
-              boxShadow: '0 2px 12px rgba(0,0,0,0.1)',
-              border: '1px solid rgba(0,0,0,0.08)',
+              boxShadow: '0 4px 20px 8px rgba(154, 31, 54, 0.8)',
+              border: '1px solid rgba(154, 31, 54, 1)',
               padding: isMobile ? '2vh' : '2vh 2vw',
               fontSize: isMobile ? 32 : 48,
               borderRadius: '16px',

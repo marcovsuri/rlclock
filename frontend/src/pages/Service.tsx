@@ -32,10 +32,10 @@ const Service: React.FC<ServiceProps> = ({ isDarkMode }) => {
         alignItems: 'center',
         justifyContent: 'flex-start',
         minHeight: '100vh',
-        width: '100%',
+        width: '100vw',
         padding: isMobile ? '4vh 2vw' : '4vh 4vw',
         boxSizing: 'border-box',
-        backgroundColor: isDarkMode ? '#1F1F1F' : '#FFFFFF',
+        backgroundColor: isDarkMode ? 'black' : 'white',
       }}
     >
       {/* Title Banner */}
@@ -43,7 +43,7 @@ const Service: React.FC<ServiceProps> = ({ isDarkMode }) => {
         style={{
           fontSize: isMobile ? 32 : 48,
           fontWeight: 'bold',
-          color: isDarkMode ? '#B0263E' : 'rgb(154, 31, 54)',
+          color: 'rgb(154, 31, 54)',
           marginBottom: '3vh',
           textAlign: 'center',
           marginTop: isMobile ? '4vh' : '6vh',
@@ -66,15 +66,15 @@ const Service: React.FC<ServiceProps> = ({ isDarkMode }) => {
           maxWidth: isMobile ? '90vw' : '60vw',
           fontSize: 16,
           lineHeight: 1.6,
-          color: isDarkMode ? '#E8EAED' : '#202124',
+          color: isDarkMode ? '#f0f0f0' : '#222',
           textAlign: 'left',
-          backgroundColor: isDarkMode ? '#2D2E30' : '#FFFFFF',
-          border: isDarkMode ? '1px solid rgba(255,255,255,0.1)' : '1px solid rgba(0,0,0,0.08)',
+          backgroundColor: isDarkMode ? 'rgb(15, 0, 0)' : 'rgb(255, 240, 240)',
+          border: `2px solid ${
+            isDarkMode ? 'rgba(154,31,54,0.8)' : 'rgba(154,31,54,0.5)'
+          }`,
           borderRadius: '16px',
           padding: isMobile ? '4vw' : '2vw',
-          boxShadow: isDarkMode
-            ? '0 2px 12px rgba(0,0,0,0.5)'
-            : '0 2px 12px rgba(0,0,0,0.1)',
+          // boxShadow: '0 8px 24px rgba(154,31,54,0.3)',
         }}
       >
         <h2
@@ -82,7 +82,7 @@ const Service: React.FC<ServiceProps> = ({ isDarkMode }) => {
             textAlign: 'center',
             fontSize: isMobile ? 26 : 32,
             marginBottom: '2vh',
-            color: isDarkMode ? '#B0263E' : 'rgb(154, 31, 54)',
+            color: 'rgb(154, 31, 54)',
           }}
         >
           #RLGIVES
@@ -98,7 +98,7 @@ const Service: React.FC<ServiceProps> = ({ isDarkMode }) => {
             style={{
               fontSize: isMobile ? 20 : 24,
               marginBottom: '0.5vh',
-              color: isDarkMode ? '#B0263E' : 'rgb(154, 31, 54)',
+              color: 'rgb(154, 31, 54)',
             }}
           >
             🎁 Our Initiative:
@@ -121,7 +121,7 @@ const Service: React.FC<ServiceProps> = ({ isDarkMode }) => {
             style={{
               fontSize: isMobile ? 20 : 24,
               marginBottom: '0.5vh',
-              color: isDarkMode ? '#B0263E' : 'rgb(154, 31, 54)',
+              color: 'rgb(154, 31, 54)',
             }}
           >
             🥫 Items Needed:
@@ -146,7 +146,7 @@ const Service: React.FC<ServiceProps> = ({ isDarkMode }) => {
             style={{
               fontSize: isMobile ? 20 : 24,
               marginBottom: '0.5vh',
-              color: isDarkMode ? '#B0263E' : 'rgb(154, 31, 54)',
+              color: 'rgb(154, 31, 54)',
             }}
           >
             📦 Donation Details:

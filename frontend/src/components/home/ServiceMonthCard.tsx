@@ -31,8 +31,9 @@ const ServiceMonthCard: React.FC<Props> = ({
 
   const controls = useAnimation();
 
+  // Animate number counters manually
   useEffect(() => {
-    const duration = 2000;
+    const duration = 2000; // ms
     const startTime = performance.now();
     let hasFiredConfetti = false;
 
@@ -42,6 +43,7 @@ const ServiceMonthCard: React.FC<Props> = ({
 
       setAnimatedDonations(Math.floor(newDonations));
 
+      // Trigger confetti if goal reached and hasn't fired yet
       if (!hasFiredConfetti && newDonations >= donationGoal) {
         hasFiredConfetti = true;
 
@@ -51,6 +53,7 @@ const ServiceMonthCard: React.FC<Props> = ({
           origin: { y: 0.6 },
         });
 
+        // extra burst
         confetti({
           particleCount: 80,
           angle: 60,
@@ -79,8 +82,6 @@ const ServiceMonthCard: React.FC<Props> = ({
     );
   }, [targetPercent, numDonations, donationGoal, controls]);
 
-  const maroon = isDarkMode ? '#B0263E' : 'rgb(154, 31, 54)';
-
   return (
     <div
       onClick={() => navigate(path)}
@@ -92,25 +93,22 @@ const ServiceMonthCard: React.FC<Props> = ({
         backgroundColor: isDarkMode ? '#2D2E30' : '#FFFFFF',
         color: isDarkMode ? '#E8EAED' : '#202124',
         cursor: 'pointer',
-        boxShadow: isDarkMode
-          ? '0 2px 8px rgba(0,0,0,0.4)'
-          : '0 2px 8px rgba(0,0,0,0.08)',
+        // boxShadow: '0 4px 20px 4px rgba(154, 31, 54, 0.5)',
+        boxShadow: '0 4px 20px 4px gold',
         transition:
           'transform 0.2s ease, box-shadow 0.2s ease, background-color 3s ease, color 3s ease',
         margin: 0,
         textAlign: 'left',
       }}
       onMouseEnter={(e) => {
-        (e.currentTarget as HTMLElement).style.transform = 'scale(1.02)';
-        (e.currentTarget as HTMLElement).style.boxShadow = isDarkMode
-          ? '0 4px 16px rgba(0,0,0,0.6)'
-          : '0 4px 16px rgba(0,0,0,0.12)';
+        (e.currentTarget as HTMLElement).style.transform = 'scale(1.03)';
+        (e.currentTarget as HTMLElement).style.boxShadow =
+          '0 4px 20px 4px gold';
       }}
       onMouseLeave={(e) => {
         (e.currentTarget as HTMLElement).style.transform = 'scale(1)';
-        (e.currentTarget as HTMLElement).style.boxShadow = isDarkMode
-          ? '0 2px 8px rgba(0,0,0,0.4)'
-          : '0 2px 8px rgba(0,0,0,0.08)';
+        (e.currentTarget as HTMLElement).style.boxShadow =
+          '0 4px 20px 4px gold';
       }}
     >
       <div
@@ -200,6 +198,8 @@ const ServiceMonthCard: React.FC<Props> = ({
           backgroundColor: isDarkMode ? '#4A4B4D' : '#F2F2F2',
           borderRadius: '999px',
           overflow: 'hidden',
+          marginTop: '1vh',
+          marginBottom: '2vh',
         }}
       >
         <motion.div
@@ -207,14 +207,23 @@ const ServiceMonthCard: React.FC<Props> = ({
           animate={controls}
           style={{
             height: '100%',
-            borderRadius: '999px',
             background:
               numDonations >= donationGoal
-                ? 'linear-gradient(90deg, rgb(31, 154, 101), rgb(0, 200, 80))'
-                : `linear-gradient(90deg, ${maroon}, rgb(200, 60, 80))`,
+                ? 'linear-gradient(90deg, rgb(31, 154, 101), rgb(0, 255, 94))'
+                : 'linear-gradient(90deg, rgb(180, 40, 40), rgb(255, 80, 80))',
           }}
         />
       </div>
+
+      <p
+        style={{
+          margin: 0,
+          fontSize: isMobile ? '3.5vw' : '0.9vw',
+          color: isDarkMode ? 'white' : 'black',
+        }}
+      >
+        Click to learn more!
+      </p>
     </div>
   );
 };

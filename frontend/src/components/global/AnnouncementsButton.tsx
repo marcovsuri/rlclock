@@ -3,13 +3,11 @@ import useIsMobile from '../../hooks/useIsMobile';
 
 type Props = {
   onClick: () => void;
-  isDarkMode?: boolean;
   hasUnread?: boolean;
 };
 
 const AnnouncementsButton: React.FC<Props> = ({
   onClick,
-  isDarkMode = false,
   hasUnread = false,
 }) => {
   const isMobile = useIsMobile();

@@ -39,14 +39,14 @@ const HeaderOverlay: React.FC<HeaderOverlayProps> = ({
   // Light mode gradient
   const lightOverlayStyle: React.CSSProperties = {
     ...overlayStyle,
-    background: 'linear-gradient(to bottom, #FFFFFF, rgba(255, 255, 255, 0))',
+    background: 'linear-gradient(to bottom, white, rgba(255, 255, 255, 0))',
     opacity: isDarkMode ? 0 : 1,
   };
 
   // Dark mode gradient
   const darkOverlayStyle: React.CSSProperties = {
     ...overlayStyle,
-    background: 'linear-gradient(to bottom, #1F1F1F, rgba(0, 0, 0, 0))',
+    background: 'linear-gradient(to bottom, black, rgba(0, 0, 0, 0))',
     opacity: isDarkMode ? 1 : 0,
   };
 

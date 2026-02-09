@@ -1,26 +1,13 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { TeamEvent } from '../../types/sports';
+import BottomOverlay from './BottomOverlay';
+import HeaderOverlay from './HeaderOverlay';
 
 interface ResultsCardProps {
   results: TeamEvent[] | undefined | null;
   isMobile: boolean;
   isDarkMode: boolean;
 }
-
-/** Decode HTML entities like &amp; → & */
-const decodeEntities = (text: string): string => {
-  const el = document.createElement('textarea');
-  el.innerHTML = text;
-  return el.value;
-};
-
-type FlatRow = {
-  date: string;
-  team: string;
-  opponent: string;
-  score: string;
-  outcome: 'Win' | 'Loss' | 'Tie' | '';
-};
 
 const ResultsCard: React.FC<ResultsCardProps> = ({
   results,
@@ -92,75 +79,46 @@ const ResultsCard: React.FC<ResultsCardProps> = ({
     }
   }
 
-  // Mobile collapse logic
-  const visibleGroups =
-    isMobile && !expanded
-      ? (() => {
-          let count = 0;
-          const result: typeof grouped = [];
-          for (const group of grouped) {
-            if (count >= MOBILE_COLLAPSED_COUNT) break;
-            const remaining = MOBILE_COLLAPSED_COUNT - count;
-            if (group.rows.length <= remaining) {
-              result.push(group);
-              count += group.rows.length;
-            } else {
-              result.push({
-                date: group.date,
-                rows: group.rows.slice(0, remaining),
-              });
-              count += remaining;
-            }
-          }
-          return result;
-        })()
-      : grouped;
-
-  const totalRows = rows.length;
-  const visibleRowCount = visibleGroups.reduce(
-    (sum, g) => sum + g.rows.length,
-    0,
-  );
-  const hasMore = isMobile && totalRows > MOBILE_COLLAPSED_COUNT;
-
-  const outcomeColor = (outcome: FlatRow['outcome']): string => {
-    if (outcome === 'Win') return isDarkMode ? '#4ade80' : '#16a34a';
-    if (outcome === 'Loss') return isDarkMode ? '#9AA0A6' : '#5F6368';
-    return isDarkMode ? '#9AA0A6' : '#5F6368';
+  const scrollAreaStyle: React.CSSProperties = {
+    flex: 1,
+    overflowY: 'auto',
+    position: 'relative',
+    scrollbarWidth: 'none',
+    display: 'flex',
+    flexDirection: 'column',
+    padding: 0,
   };
 
-  const dateYearMap = new Map<string, number>();
-  {
-    const now = new Date();
-    let effectiveYear = now.getFullYear();
-    let prevMonth = now.getMonth() + 1;
-    for (const group of grouped) {
-      const [m] = group.date.split('/').map(Number);
-      if (m && m > prevMonth) effectiveYear--;
-      if (m) prevMonth = m;
-      dateYearMap.set(group.date, effectiveYear);
-    }
-  }
+  const titleStyle: React.CSSProperties = {
+    fontSize: isMobile ? '5vh' : '2.5vw',
+    margin: 0,
+    color: 'rgb(154, 31, 54)',
+    paddingTop: isMobile ? '4vh' : '1vw',
+  };
 
-  const formatDate = (md: string): string => {
-    const months = [
-      'Jan',
-      'Feb',
-      'Mar',
-      'Apr',
-      'May',
-      'Jun',
-      'Jul',
-      'Aug',
-      'Sep',
-      'Oct',
-      'Nov',
-      'Dec',
-    ];
-    const [month, day] = md.split('/').map(Number);
-    if (!month || !day) return md;
-    const year = dateYearMap.get(md) ?? new Date().getFullYear();
-    return `${months[month - 1]} ${day}, ${year}`;
+  const resultsWrapperStyle: React.CSSProperties = {
+    position: 'relative',
+    paddingTop: '1vh',
+  };
+
+  const resultItemStyle: React.CSSProperties = {
+    backgroundColor: isDarkMode
+      ? 'rgba(154, 31, 54, 0.2)'
+      : 'rgba(154, 31, 54, 0.05)',
+    padding: isMobile ? '2.5vw' : '1vw',
+    borderRadius: isMobile ? '3vw' : '1vw',
+    fontWeight: 500,
+    fontSize: isMobile ? '4vw' : '1.2vw',
+    color: isDarkMode ? 'white' : 'black',
+    margin: '1vh 2vw',
+  };
+
+  const errorStyle: React.CSSProperties = {
+    textAlign: 'center',
+    fontSize: isMobile ? '4vh' : '1vw',
+    color: 'black',
+    justifyContent: 'center',
+    marginTop: '2vh',
   };
 
   return (
@@ -233,7 +191,7 @@ const ResultsCard: React.FC<ResultsCardProps> = ({
               ))}
             </div>
           </div>
-        ))}
+        )}
       </div>
 
       {/* Show more / less */}
