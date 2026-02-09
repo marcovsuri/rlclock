@@ -267,6 +267,7 @@ const ServiceMonth: React.FC<ServiceProps> = ({ isDarkMode }) => {
           </div>
         </div>
       )}
+      <img alt="Service Month" src="/2026-service-month.jpg" style={{marginTop: '2vw', maxWidth: '50vw', borderRadius: '0.8vw', boxShadow: 'rgba(0, 0, 0, 0.5) 0px 2px 12px'}}/>
     </div>
   );
 };
