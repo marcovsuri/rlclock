@@ -200,8 +200,6 @@ const ServiceMonth: React.FC<ServiceProps> = ({ isDarkMode }) => {
                   gridTemplateColumns: '0.3fr 1fr 1fr 1fr',
                   gap: isMobile ? '1vw' : '0.5vw',
                   alignItems: 'center',
-                  padding: isMobile ? '2vw' : '0.4vw 0.6vw',
-                  borderRadius: isMobile ? '2vw' : '0.4vw',
                   fontSize: 16,
                   fontWeight: isPointsLeader ? 600 : 500,
                   color: isDarkMode ? '#E8EAED' : '#202124',
@@ -271,7 +269,15 @@ const ServiceMonth: React.FC<ServiceProps> = ({ isDarkMode }) => {
           </div>
         </div>
       )}
-      <img alt="Service Month" src="/2026-service-month.jpg" style={{marginTop: '2vw', maxWidth: '50vw', borderRadius: '0.8vw', boxShadow: 'rgba(0, 0, 0, 0.5) 0px 2px 12px'}}/>
+      <img alt="Service Month" src="/2026-service-month.jpg" style={{
+        marginTop: isMobile ? '3vh' : '2vw',
+        width: isMobile ? '92vw' : '40vw',
+        boxShadow: isDarkMode
+          ? '0 2px 12px rgba(0,0,0,0.5)'
+          : '0 2px 12px rgba(0,0,0,0.1)',
+        overflow: 'hidden',
+        borderRadius: isMobile ? '3vw' : '0.8vw',
+      }} /> 
     </div>
   );
 };
