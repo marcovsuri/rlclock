@@ -8,7 +8,7 @@ interface ClockProps {
 
 const Clock: React.FC<ClockProps> = ({ isDarkMode }) => {
   const [schedule, setSchedule] = useState<Schedule | null | undefined>(
-    undefined,
+    undefined
   );
   const [currentTime, setCurrentTime] = useState(new Date());
 
@@ -30,7 +30,7 @@ const Clock: React.FC<ClockProps> = ({ isDarkMode }) => {
     const nextMidnight = new Date(
       now.getFullYear(),
       now.getMonth(),
-      now.getDate() + 1,
+      now.getDate() + 1
     );
     const delay = nextMidnight.getTime() - now.getTime();
 
@@ -161,14 +161,15 @@ const Clock: React.FC<ClockProps> = ({ isDarkMode }) => {
   const nextPeriod =
     schedule && currentIndex === -1 && schedule.periods.length > 0
       ? schedule.periods[0]
-      : schedule && currentIndex >= 0 && currentIndex < schedule.periods.length - 1
-        ? schedule.periods[currentIndex + 1]
-        : null;
+      : schedule &&
+        currentIndex >= 0 &&
+        currentIndex < schedule.periods.length - 1
+      ? schedule.periods[currentIndex + 1]
+      : null;
 
   const renderContent = () => {
     if (schedule === undefined) return <p style={subtextStyle}>Loading...</p>;
     if (schedule === null) return <p style={subtextStyle}>No School!</p>;
-
 
     const maroonBg = isDarkMode ? '#8A1F2E' : 'rgb(154, 31, 54)';
     const neutralBg = isDarkMode ? '#4A4B4D' : '#F2F2F2';
@@ -216,7 +217,7 @@ const Clock: React.FC<ClockProps> = ({ isDarkMode }) => {
             )}
           </div>
           {/* Progress bar */}
-          {(timeRemaining && totalDuration || label === 'Before School') && (
+          {((timeRemaining && totalDuration) || label === 'Before School') && (
             <div
               style={{
                 width: '100%',
@@ -230,7 +231,8 @@ const Clock: React.FC<ClockProps> = ({ isDarkMode }) => {
             >
               <div
                 style={{
-                  width: label === 'Before School' ? '100%' : `${progressPercent}%`,
+                  width:
+                    label === 'Before School' ? '100%' : `${progressPercent}%`,
                   height: '100%',
                   backgroundColor: 'white',
                   borderRadius: '999px',
@@ -242,7 +244,7 @@ const Clock: React.FC<ClockProps> = ({ isDarkMode }) => {
         </div>
 
         {/* Next block preview */}
-        {nextPeriod && (
+        {/* {nextPeriod && (
           <div
             style={{
               backgroundColor: neutralBg,
@@ -269,68 +271,76 @@ const Clock: React.FC<ClockProps> = ({ isDarkMode }) => {
               {to12HourFormat(nextPeriod.end)}
             </span>
           </div>
-        )}
+        )} */}
 
         {/* Full schedule */}
         <div
-            style={{
-              display: 'flex',
-              flexDirection: 'column',
-              gap: isMobile ? '0.8vh' : '0.4vw',
-              marginBottom: isMobile ? '1.5vh' : '0.8vw',
-            }}
-          >
-            {schedule.periods.map((period, idx) => {
-              const isCurrent =
-                current?.name === period.name &&
-                current?.start === period.start;
-              const isPast = idx < currentIndex;
-              const isFuture = !isCurrent && !isPast;
+          style={{
+            display: 'flex',
+            flexDirection: 'column',
+            gap: isMobile ? '0.8vh' : '0.4vw',
+            marginBottom: isMobile ? '1.5vh' : '0.8vw',
+          }}
+        >
+          {schedule.periods.map((period, idx) => {
+            const isCurrent =
+              current?.name === period.name && current?.start === period.start;
+            const isPast = idx < currentIndex;
+            const isFuture = !isCurrent && !isPast;
 
-              return (
-                <div
-                  key={idx}
-                  style={{
-                    padding: isCurrent
-                      ? (isMobile ? 'calc(2vw - 1.5px)' : 'calc(0.5vw - 1.5px) calc(0.8vw - 1.5px)')
-                      : (isMobile ? '2vw' : '0.5vw 0.8vw'),
-                    borderRadius: isMobile ? '2vw' : '0.5vw',
-                    display: 'flex',
-                    justifyContent: 'space-between',
-                    fontWeight: isCurrent ? 600 : 400,
-                    fontSize: isMobile ? 13 : 14,
-                    backgroundColor: isCurrent
-                      ? (isDarkMode ? 'rgba(138, 31, 46, 0.15)' : 'rgba(154, 31, 54, 0.08)')
-                      : isFuture
-                        ? neutralBg
-                        : 'transparent',
-                    border: isCurrent
-                      ? `1.5px solid ${isDarkMode ? '#B0263E' : 'rgb(154, 31, 54)'}`
-                      : 'none',
-                    color: isCurrent
-                      ? (isDarkMode ? '#B0263E' : 'rgb(154, 31, 54)')
-                      : isPast
-                        ? neutralText
-                        : normalText,
-                    transition: 'none',
-                    textAlign: 'left',
-                  }}
-                >
-                  <span>
-                    {period.block
-                      ? period.name
-                        ? `${period.block} Block - ${period.name}`
-                        : `${period.block} Block`
-                      : period.name}
-                  </span>
-                  <span>
-                    {to12HourFormat(period.start)} -{' '}
-                    {to12HourFormat(period.end)}
-                  </span>
-                </div>
-              );
-            })}
-          </div>
+            return (
+              <div
+                key={idx}
+                style={{
+                  padding: isCurrent
+                    ? isMobile
+                      ? 'calc(2vw - 1.5px)'
+                      : 'calc(0.5vw - 1.5px) calc(0.8vw - 1.5px)'
+                    : isMobile
+                    ? '2vw'
+                    : '0.5vw 0.8vw',
+                  borderRadius: isMobile ? '2vw' : '0.5vw',
+                  display: 'flex',
+                  justifyContent: 'space-between',
+                  fontWeight: isCurrent ? 600 : 400,
+                  fontSize: isMobile ? 13 : 14,
+                  backgroundColor: isCurrent
+                    ? isDarkMode
+                      ? 'rgba(138, 31, 46, 0.15)'
+                      : 'rgba(154, 31, 54, 0.08)'
+                    : isFuture
+                    ? neutralBg
+                    : 'transparent',
+                  border: isCurrent
+                    ? `1.5px solid ${
+                        isDarkMode ? '#B0263E' : 'rgb(154, 31, 54)'
+                      }`
+                    : 'none',
+                  color: isCurrent
+                    ? isDarkMode
+                      ? '#B0263E'
+                      : 'rgb(154, 31, 54)'
+                    : isPast
+                    ? neutralText
+                    : normalText,
+                  transition: 'none',
+                  textAlign: 'left',
+                }}
+              >
+                <span>
+                  {period.block
+                    ? period.name
+                      ? `${period.block} Block - ${period.name}`
+                      : `${period.block} Block`
+                    : period.name}
+                </span>
+                <span>
+                  {to12HourFormat(period.start)} - {to12HourFormat(period.end)}
+                </span>
+              </div>
+            );
+          })}
+        </div>
       </>
     );
   };
