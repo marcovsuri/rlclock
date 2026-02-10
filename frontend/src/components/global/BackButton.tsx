@@ -1,37 +1,37 @@
+import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import useIsMobile from '../../hooks/useIsMobile';
 
-const BackButton: React.FC = () => {
+const BackButton: React.FC<{ isDarkMode: boolean }> = ({ isDarkMode }) => {
   const navigate = useNavigate();
-  const isMobile = useIsMobile();
+  const accentColor = isDarkMode ? '#B0263E' : 'rgb(154, 31, 54)';
 
   return (
-    <div style={{ alignSelf: 'flex-start', marginBottom: '2vh' }}>
-      <button
-        onClick={() => navigate('/')}
-        style={{
-          padding: isMobile ? '0.8vh 4vw' : '0.8vh 1.5vw',
-          borderRadius: '12px',
-          border: '1px solid rgba(154, 31, 54, 0.2)',
-          backgroundColor: 'rgba(154, 31, 54, 0.1)', // very pale red
-          color: 'rgba(154, 31, 54, 1)', // deep red for text
-          fontSize: 16,
-          fontWeight: 600,
-          cursor: 'pointer',
-          boxShadow: '0 2px 6px rgba(0,0,0,0.08)',
-          transition: 'all 3s ease, box-shadow 0.5s ease',
-          marginLeft: '0',
-        }}
-        onMouseEnter={(e) => {
-          e.currentTarget.style.boxShadow = '0 4px 12px rgba(0,0,0,0.12)';
-        }}
-        onMouseLeave={(e) => {
-          e.currentTarget.style.boxShadow = '0 2px 6px rgba(0,0,0,0.08)';
-        }}
-      >
-        ← Back
-      </button>
-    </div>
+    <button
+      onClick={() => navigate('/')}
+      style={{
+        background: 'none',
+        border: 'none',
+        cursor: 'pointer',
+        padding: 0,
+        color: accentColor,
+        display: 'flex',
+        alignItems: 'center',
+        gap: '0.15rem',
+        fontSize: 13,
+        fontWeight: 400,
+      }}
+    >
+      <svg width="8" height="13" viewBox="0 0 8 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path
+          d="M7 1L1.5 6.5L7 12"
+          stroke="currentColor"
+          strokeWidth="1.5"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+      </svg>
+      Home
+    </button>
   );
 };
 

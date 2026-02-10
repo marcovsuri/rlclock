@@ -6,6 +6,7 @@ import {
   getServiceMonthLeaderboardData,
   SheetData,
 } from '../core/serviceMonthDataFetcher';
+import BackButton from '../components/global/BackButton';
 
 interface ServiceProps {
   isDarkMode: boolean;
@@ -90,6 +91,9 @@ const ServiceMonth: React.FC<ServiceProps> = ({ isDarkMode }) => {
         boxSizing: 'border-box',
       }}
     >
+      <div style={{ width: isMobile ? '92vw' : '40vw', textAlign: 'left', marginTop: 8 }}>
+        <BackButton isDarkMode={isDarkMode} />
+      </div>
       {/* Title */}
       <h1
         style={{

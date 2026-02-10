@@ -39,9 +39,22 @@ const AnimatedRoutes = ({ isDarkMode }: { isDarkMode: boolean }) => {
   );
 };
 
+type ThemePreference = 'system' | 'light' | 'dark';
+
+const resolveTheme = (pref: ThemePreference): boolean => {
+  if (pref === 'light') return false;
+  if (pref === 'dark') return true;
+  return window.matchMedia('(prefers-color-scheme: dark)').matches;
+};
+
 const App: React.FC = () => {
+  const [themePreference, setThemePreference] = useState<ThemePreference>(() => {
+    return (localStorage.getItem('themePreference') as ThemePreference) || 'system';
+  });
   const [isDarkMode, setIsDarkMode] = useState(() => {
-    const dark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    const dark = resolveTheme(
+      (localStorage.getItem('themePreference') as ThemePreference) || 'system',
+    );
     document.documentElement.classList.toggle('dark-mode', dark);
     return dark;
   });
@@ -55,16 +68,32 @@ const App: React.FC = () => {
   const [emailsCopied, setEmailsCopied] = useState(false);
   const isMobile = useIsMobile();
 
+  const handleThemeChange = (pref: ThemePreference) => {
+    localStorage.setItem('themePreference', pref);
+    setThemePreference(pref);
+    const dark = resolveTheme(pref);
+    setIsDarkMode(dark);
+    document.documentElement.classList.toggle('dark-mode', dark);
+  };
+
   useEffect(() => {
     requestAnimationFrame(() => {
-      document.documentElement.classList.remove('no-transition');
+      requestAnimationFrame(() => {
+        document.documentElement.classList.remove('no-transition');
+      });
     });
 
     const mq = window.matchMedia('(prefers-color-scheme: dark)');
-    const handler = (e: MediaQueryListEvent) => setIsDarkMode(e.matches);
+    const handler = () => {
+      if (themePreference === 'system') {
+        const dark = mq.matches;
+        setIsDarkMode(dark);
+        document.documentElement.classList.toggle('dark-mode', dark);
+      }
+    };
     mq.addEventListener('change', handler);
     return () => mq.removeEventListener('change', handler);
-  }, []);
+  }, [themePreference]);
 
   useEffect(() => {
     document.documentElement.classList.toggle('dark-mode', isDarkMode);
@@ -130,13 +159,15 @@ const App: React.FC = () => {
         onOpenFeedback={() => setShowFeedback(true)}
         isOpen={sidebarOpen}
         onClose={() => setSidebarOpen(false)}
+        themePreference={themePreference}
+        onThemeChange={handleThemeChange}
       />
 
       {/* Sidebar toggle button */}
       <button
         onClick={() => setSidebarOpen((prev) => !prev)}
         style={{
-          padding: isMobile ? '0.35rem 0.5rem' : '0.3rem 0.45rem',
+          padding: isMobile ? '0.5rem' : '0.4rem',
           borderRadius: isMobile ? '6px' : '0.3vw',
           border: 'none',
           backgroundColor: 'transparent',
@@ -157,8 +188,32 @@ const App: React.FC = () => {
           e.currentTarget.style.color = isDarkMode ? '#9AA0A6' : '#5F6368';
         }}
       >
-        {sidebarOpen ? '✕' : '☰'}
+        <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <line
+            x1="2" y1="5" x2="16" y2="5"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            style={{
+              transformOrigin: '9px 5px',
+              transform: sidebarOpen ? 'translateY(4px) rotate(45deg)' : 'none',
+              transition: 'transform 0.3s ease',
+            }}
+          />
+          <line
+            x1="2" y1="13" x2="16" y2="13"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            style={{
+              transformOrigin: '9px 13px',
+              transform: sidebarOpen ? 'translateY(-4px) rotate(-45deg)' : 'none',
+              transition: 'transform 0.3s ease',
+            }}
+          />
+        </svg>
       </button>
+
 
       {/* Main Content + Footer */}
       <div style={{ flex: 1 }}>

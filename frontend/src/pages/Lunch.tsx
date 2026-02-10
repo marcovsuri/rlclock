@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import MenuSection from '../components/lunch/MenuSection';
 import useIsMobile from '../hooks/useIsMobile';
+import BackButton from '../components/global/BackButton';
 
 interface LunchProps {
   isDarkMode: boolean;
@@ -84,7 +85,9 @@ export default function Lunch({ isDarkMode }: LunchProps) {
     >
       <div style={innerStyle}>
         <div style={contentStyle}>
-          {/* <BackButton /> */}
+          <div style={{ marginTop: 8 }}>
+            <BackButton isDarkMode={isDarkMode} />
+          </div>
           <h1 style={titleStyle}>RL Lunch Menu</h1>
 
           <div style={sectionContainerStyle}>

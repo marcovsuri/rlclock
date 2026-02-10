@@ -11,7 +11,7 @@ const Clock: React.FC<ClockProps> = ({ isDarkMode }) => {
     undefined,
   );
   const [currentTime, setCurrentTime] = useState(new Date());
-  const [showFullSchedule, setShowFullSchedule] = useState(false);
+
   const isMobile = useIsMobile();
 
   useEffect(() => {
@@ -169,7 +169,7 @@ const Clock: React.FC<ClockProps> = ({ isDarkMode }) => {
     if (schedule === undefined) return <p style={subtextStyle}>Loading...</p>;
     if (schedule === null) return <p style={subtextStyle}>No School!</p>;
 
-    const maroonText = isDarkMode ? '#B0263E' : 'rgb(154, 31, 54)';
+
     const maroonBg = isDarkMode ? '#8A1F2E' : 'rgb(154, 31, 54)';
     const neutralBg = isDarkMode ? '#4A4B4D' : '#F2F2F2';
     const neutralText = isDarkMode ? '#9AA0A6' : '#5F6368';
@@ -271,9 +271,8 @@ const Clock: React.FC<ClockProps> = ({ isDarkMode }) => {
           </div>
         )}
 
-        {/* Collapsed/expanded schedule */}
-        {showFullSchedule && (
-          <div
+        {/* Full schedule */}
+        <div
             style={{
               display: 'flex',
               flexDirection: 'column',
@@ -292,22 +291,28 @@ const Clock: React.FC<ClockProps> = ({ isDarkMode }) => {
                 <div
                   key={idx}
                   style={{
-                    padding: isMobile ? '2vw' : '0.5vw 0.8vw',
+                    padding: isCurrent
+                      ? (isMobile ? 'calc(2vw - 1.5px)' : 'calc(0.5vw - 1.5px) calc(0.8vw - 1.5px)')
+                      : (isMobile ? '2vw' : '0.5vw 0.8vw'),
                     borderRadius: isMobile ? '2vw' : '0.5vw',
                     display: 'flex',
                     justifyContent: 'space-between',
                     fontWeight: isCurrent ? 600 : 400,
                     fontSize: isMobile ? 13 : 14,
                     backgroundColor: isCurrent
-                      ? maroonBg
+                      ? (isDarkMode ? 'rgba(138, 31, 46, 0.15)' : 'rgba(154, 31, 54, 0.08)')
                       : isFuture
                         ? neutralBg
                         : 'transparent',
+                    border: isCurrent
+                      ? `1.5px solid ${isDarkMode ? '#B0263E' : 'rgb(154, 31, 54)'}`
+                      : 'none',
                     color: isCurrent
-                      ? 'white'
+                      ? (isDarkMode ? '#B0263E' : 'rgb(154, 31, 54)')
                       : isPast
                         ? neutralText
                         : normalText,
+                    transition: 'none',
                     textAlign: 'left',
                   }}
                 >
@@ -326,38 +331,6 @@ const Clock: React.FC<ClockProps> = ({ isDarkMode }) => {
               );
             })}
           </div>
-        )}
-
-        <button
-          onClick={(e) => {
-            e.stopPropagation();
-            setShowFullSchedule(!showFullSchedule);
-          }}
-          style={{
-            background: 'none',
-            border: 'none',
-            color: maroonText,
-            cursor: 'pointer',
-            fontSize: isMobile ? 13 : 14,
-            fontWeight: 500,
-            padding: isMobile ? '1vw' : '0.3vw',
-            display: 'flex',
-            alignItems: 'center',
-            gap: '0.3em',
-            margin: '0 auto',
-          }}
-        >
-          {showFullSchedule ? 'Hide schedule' : 'View full schedule'}
-          <span
-            style={{
-              display: 'inline-block',
-              transform: showFullSchedule ? 'rotate(90deg)' : 'rotate(0deg)',
-              transition: 'transform 0.2s ease',
-            }}
-          >
-            ›
-          </span>
-        </button>
       </>
     );
   };
@@ -378,7 +351,7 @@ const Clock: React.FC<ClockProps> = ({ isDarkMode }) => {
           ? '0 2px 12px rgba(0,0,0,0.5)'
           : '0 2px 12px rgba(0,0,0,0.1)',
         textAlign: 'center',
-        width: isMobile ? '93vw' : '40vw',
+        width: isMobile ? '93vw' : '34vw',
         margin: '0 auto',
         boxSizing: 'border-box',
       }}

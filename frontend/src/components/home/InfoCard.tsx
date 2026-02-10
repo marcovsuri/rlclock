@@ -95,7 +95,7 @@ const InfoCard: React.FC<Props> = ({
           flexShrink: 0,
         }}
       >
-        ›
+        {'›'}
       </span>
     </div>
   );

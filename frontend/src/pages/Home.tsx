@@ -463,18 +463,18 @@ const Home: React.FC<HomeProps> = ({ isDarkMode }) => {
   const contentStyle: React.CSSProperties = {
     flex: 1,
     display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'flex-start',
-    alignItems: 'center',
+    flexDirection: isMobile ? 'column' : 'row',
+    justifyContent: isMobile ? 'flex-start' : 'center',
+    alignItems: isMobile ? 'center' : 'center',
     padding: isMobile ? '2vw' : '2vw',
     paddingTop: isMobile ? '2vh' : '2vw',
-    gap: isMobile ? '1.5vh' : '1vw',
+    gap: isMobile ? '1.5vh' : '2vw',
     textAlign: 'center',
     boxSizing: 'border-box',
   };
 
   const clockStyle: React.CSSProperties = {
-    width: isMobile ? '100%' : '40vw',
+    width: isMobile ? '100%' : '34vw',
   };
 
   const cardsStyle: React.CSSProperties = {
@@ -482,7 +482,7 @@ const Home: React.FC<HomeProps> = ({ isDarkMode }) => {
     flexDirection: 'column',
     alignItems: 'stretch',
     gap: isMobile ? '1.5vh' : '1vw',
-    width: isMobile ? '93vw' : '40vw',
+    width: isMobile ? '93vw' : '34vw',
     boxSizing: 'border-box',
   };
 
@@ -545,9 +545,8 @@ const Home: React.FC<HomeProps> = ({ isDarkMode }) => {
               />
             )}
           </div>
-
-          <Footer isDarkMode={isDarkMode} />
         </div>
+        <Footer isDarkMode={isDarkMode} />
       </motion.div>
     </>
   );

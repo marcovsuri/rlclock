@@ -3,12 +3,16 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import useIsMobile from '../../hooks/useIsMobile';
 import AnnouncementsButton from './AnnouncementsButton';
 
+type ThemePreference = 'system' | 'light' | 'dark';
+
 interface SidebarNavProps {
   isDarkMode: boolean;
   onOpenAnnouncements: () => void;
   onOpenFeedback: () => void;
   isOpen: boolean;
   onClose: () => void;
+  themePreference: ThemePreference;
+  onThemeChange: (pref: ThemePreference) => void;
 }
 
 const navItems = [
@@ -24,6 +28,8 @@ const SidebarNav: React.FC<SidebarNavProps> = ({
   onOpenFeedback,
   isOpen,
   onClose,
+  themePreference,
+  onThemeChange,
 }) => {
   const navigate = useNavigate();
   const location = useLocation();
@@ -135,6 +141,60 @@ const SidebarNav: React.FC<SidebarNavProps> = ({
           {/* Announcements */}
           <div style={{ height: '1px', backgroundColor: dividerColor }} />
           <AnnouncementsButton onClick={() => { onOpenAnnouncements(); onClose(); }} isDarkMode={isDarkMode} />
+        </div>
+
+        {/* Theme selector */}
+        <div style={{
+          padding: isMobile ? '0.5rem 0.75rem' : '0.3vw 0.6vw',
+          display: 'flex',
+          flexDirection: 'column',
+          gap: '0.3rem',
+        }}>
+          <span style={{
+            fontSize: isMobile ? 11 : 12,
+            fontWeight: 500,
+            color: isDarkMode ? '#9AA0A6' : '#5F6368',
+            textTransform: 'uppercase',
+            letterSpacing: '0.05em',
+            transition: 'color 3s ease',
+          }}>
+            Theme
+          </span>
+          <div style={{
+            display: 'flex',
+            borderRadius: 6,
+            overflow: 'hidden',
+            border: `1px solid ${isDarkMode ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)'}`,
+            transition: 'border-color 3s ease',
+          }}>
+            {(['light', 'system', 'dark'] as ThemePreference[]).map((pref) => {
+              const active = themePreference === pref;
+              const label = pref === 'system' ? 'Auto' : pref === 'light' ? 'Light' : 'Dark';
+              return (
+                <button
+                  key={pref}
+                  onClick={() => onThemeChange(pref)}
+                  style={{
+                    flex: 1,
+                    padding: isMobile ? '0.35rem 0' : '0.25rem 0',
+                    border: 'none',
+                    cursor: 'pointer',
+                    fontSize: isMobile ? 11 : 12,
+                    fontWeight: active ? 600 : 400,
+                    backgroundColor: active
+                      ? isDarkMode ? '#3D3E40' : '#E0E0E0'
+                      : 'transparent',
+                    color: active
+                      ? isDarkMode ? '#E8EAED' : '#202124'
+                      : isDarkMode ? '#9AA0A6' : '#5F6368',
+                    transition: 'background-color 0.2s ease, color 0.2s ease',
+                  }}
+                >
+                  {label}
+                </button>
+              );
+            })}
+          </div>
         </div>
 
         {/* Send Feedback */}

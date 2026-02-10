@@ -7,6 +7,8 @@ import { TeamEvent } from '../types/sports';
 import getSportsEvents from '../core/sportsFetcher';
 import getUpcomingSportsEvents from '../core/upcomingSportsFetcher';
 import { UpcomingEvent } from '../types/upcomingSports';
+import BackButton from '../components/global/BackButton';
+
 
 interface SportsProps {
   isDarkMode: boolean;
@@ -111,6 +113,9 @@ const Sports: React.FC<SportsProps> = ({ isDarkMode }) => {
           gap: isMobile ? '2vw' : '1vw',
         }}
       >
+        <div style={{ alignSelf: 'flex-start' }}>
+          <BackButton isDarkMode={isDarkMode} />
+        </div>
         <TodayGamesCard
           todayGames={upcomingGames}
           isMobile={isMobile}
