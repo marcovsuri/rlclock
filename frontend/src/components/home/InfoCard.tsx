@@ -22,9 +22,17 @@ const InfoCard: React.FC<Props> = ({
   const navigate = useNavigate();
   const isMobile = useIsMobile();
 
+  const handleClick = () => {
+    if (path.startsWith('http')) {
+      window.open(path, '_blank');
+    } else {
+      navigate(path);
+    }
+  };
+
   return (
     <div
-      onClick={() => navigate(path)}
+      onClick={handleClick}
       style={{
         width: '100%',
         boxSizing: 'border-box' as const,

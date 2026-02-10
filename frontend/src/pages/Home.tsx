@@ -33,7 +33,7 @@ const Home: React.FC<HomeProps> = ({ isDarkMode }) => {
   >(undefined);
 
   const [serviceData, setServiceData] = useState<ServiceData | undefined>(
-    undefined,
+    undefined
   );
   const [serviceMonthCounter, setServiceMonthCounter] = useState<number>(0);
   const [serviceMonthParticipationLeader, setServiceMonthParticipationLeader] =
@@ -68,10 +68,10 @@ const Home: React.FC<HomeProps> = ({ isDarkMode }) => {
         const topParticipation = data.reduce((prev, current) =>
           current.participationPercentage > prev.participationPercentage
             ? current
-            : prev,
+            : prev
         );
         const topPoints = data.reduce((prev, current) =>
-          current.points > prev.points ? current : prev,
+          current.points > prev.points ? current : prev
         );
 
         setServiceMonthParticipationLeader(topParticipation.class);
@@ -120,7 +120,7 @@ const Home: React.FC<HomeProps> = ({ isDarkMode }) => {
   }, []);
 
   const [schedule, setSchedule] = useState<Schedule | null | undefined>(
-    undefined,
+    undefined
   );
   const [currentTime, setCurrentTime] = useState(new Date());
 
@@ -140,7 +140,7 @@ const Home: React.FC<HomeProps> = ({ isDarkMode }) => {
     const nextMidnight = new Date(
       now.getFullYear(),
       now.getMonth(),
-      now.getDate() + 1,
+      now.getDate() + 1
     );
     const delay = nextMidnight.getTime() - now.getTime();
 
@@ -265,34 +265,38 @@ const Home: React.FC<HomeProps> = ({ isDarkMode }) => {
   }, [label, schedule]);
 
   const lunchEntrees = menu?.Entrées;
-  const lunchSummary = lunchEntrees?.length ? (() => {
-    const groups: { lastWord: string; prefixes: string[] }[] = [];
-    for (const item of lunchEntrees) {
-      const name = item?.name || '';
-      const words = name.split(' ');
-      const lastWord = words[words.length - 1];
-      const prefix = words.slice(0, -1).join(' ');
-      const existing = groups.find((g) => g.lastWord === lastWord);
-      if (existing) {
-        existing.prefixes.push(prefix);
-      } else {
-        groups.push({ lastWord, prefixes: [prefix] });
-      }
-    }
-    return (
-      <span style={{ display: 'flex', flexDirection: 'column', gap: '0.15em' }}>
-        {groups.map((g, i) => {
-          const descriptors = g.prefixes.filter((p) => p);
-          return (
-            <span key={i}>
-              {descriptors.length > 0 ? `${descriptors.join(', ')} ` : ''}
-              {g.lastWord}
-            </span>
-          );
-        })}
-      </span>
-    );
-  })() : null;
+  const lunchSummary = lunchEntrees?.length
+    ? (() => {
+        const groups: { lastWord: string; prefixes: string[] }[] = [];
+        for (const item of lunchEntrees) {
+          const name = item?.name || '';
+          const words = name.split(' ');
+          const lastWord = words[words.length - 1];
+          const prefix = words.slice(0, -1).join(' ');
+          const existing = groups.find((g) => g.lastWord === lastWord);
+          if (existing) {
+            existing.prefixes.push(prefix);
+          } else {
+            groups.push({ lastWord, prefixes: [prefix] });
+          }
+        }
+        return (
+          <span
+            style={{ display: 'flex', flexDirection: 'column', gap: '0.15em' }}
+          >
+            {groups.map((g, i) => {
+              const descriptors = g.prefixes.filter((p) => p);
+              return (
+                <span key={i}>
+                  {descriptors.length > 0 ? `${descriptors.join(', ')} ` : ''}
+                  {g.lastWord}
+                </span>
+              );
+            })}
+          </span>
+        );
+      })()
+    : null;
 
   const decodeHtml = (s: string) => {
     const el = document.createElement('textarea');
@@ -435,10 +439,10 @@ const Home: React.FC<HomeProps> = ({ isDarkMode }) => {
               {item.outcome === 'W'
                 ? 'Win'
                 : item.outcome === 'L'
-                  ? 'Loss'
-                  : item.outcome === 'T'
-                    ? 'Tie'
-                    : '—'}
+                ? 'Loss'
+                : item.outcome === 'T'
+                ? 'Tie'
+                : '—'}
             </span>
           </React.Fragment>
         );
@@ -504,6 +508,17 @@ const Home: React.FC<HomeProps> = ({ isDarkMode }) => {
 
           {/* Right: Cards ordered by urgency */}
           <div style={cardsStyle}>
+            {/* Temporary: Feedback Card */}
+            <InfoCard
+              title="Leave Feedback"
+              compact
+              subtitle={
+                'We value your feedback! Click to share your thoughts and help us improve RL Clock.'
+              }
+              path="https://forms.gle/zaLZeZfCjimX9TjR6"
+              isDarkMode={isDarkMode}
+            />
+
             {/* 1. Lunch status - compact */}
             <InfoCard
               title="Today's Lunch"
@@ -512,8 +527,8 @@ const Home: React.FC<HomeProps> = ({ isDarkMode }) => {
                 menu === undefined
                   ? 'Loading...'
                   : !hasLunch || !lunchSummary
-                    ? 'No lunch served today.'
-                    : lunchSummary
+                  ? 'No lunch served today.'
+                  : lunchSummary
               }
               path="/lunch"
               isDarkMode={isDarkMode}
@@ -538,7 +553,7 @@ const Home: React.FC<HomeProps> = ({ isDarkMode }) => {
                 subtitle={
                   pastResults === undefined
                     ? 'Loading...'
-                    : (resultsSummary ?? 'No recent results.')
+                    : resultsSummary ?? 'No recent results.'
                 }
                 path="/sports"
                 isDarkMode={isDarkMode}
