@@ -143,86 +143,81 @@ const SidebarNav: React.FC<SidebarNavProps> = ({
           <AnnouncementsButton onClick={() => { onOpenAnnouncements(); onClose(); }} isDarkMode={isDarkMode} />
         </div>
 
-        {/* Theme selector */}
-        <div style={{
-          padding: isMobile ? '0.5rem 0.75rem' : '0.3vw 0.6vw',
-          display: 'flex',
-          flexDirection: 'column',
-          gap: '0.3rem',
-        }}>
-          <span style={{
-            fontSize: isMobile ? 11 : 12,
-            fontWeight: 500,
-            color: isDarkMode ? '#9AA0A6' : '#5F6368',
-            textTransform: 'uppercase',
-            letterSpacing: '0.05em',
-            transition: 'color 3s ease',
-          }}>
-            Theme
-          </span>
+        {/* Bottom section */}
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+          {/* Theme selector */}
           <div style={{
+            padding: isMobile ? '0.5rem 0.75rem' : '0.3vw 0.6vw',
             display: 'flex',
-            borderRadius: 6,
-            overflow: 'hidden',
-            border: `1px solid ${isDarkMode ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)'}`,
-            transition: 'border-color 3s ease',
+            flexDirection: 'column',
+            gap: '0.3rem',
+            alignItems: 'flex-end',
           }}>
-            {(['light', 'system', 'dark'] as ThemePreference[]).map((pref) => {
-              const active = themePreference === pref;
-              const label = pref === 'system' ? 'Auto' : pref === 'light' ? 'Light' : 'Dark';
-              return (
-                <button
-                  key={pref}
-                  onClick={() => onThemeChange(pref)}
-                  style={{
-                    flex: 1,
-                    padding: isMobile ? '0.35rem 0' : '0.25rem 0',
-                    border: 'none',
-                    cursor: 'pointer',
-                    fontSize: isMobile ? 11 : 12,
-                    fontWeight: active ? 600 : 400,
-                    backgroundColor: active
-                      ? isDarkMode ? '#3D3E40' : '#E0E0E0'
-                      : 'transparent',
-                    color: active
-                      ? isDarkMode ? '#E8EAED' : '#202124'
-                      : isDarkMode ? '#9AA0A6' : '#5F6368',
-                    transition: 'background-color 0.2s ease, color 0.2s ease',
-                  }}
-                >
-                  {label}
-                </button>
-              );
-            })}
+            <div style={{
+              display: 'flex',
+              borderRadius: 6,
+              overflow: 'hidden',
+              border: `1px solid ${isDarkMode ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)'}`,
+              transition: 'border-color 3s ease',
+              width: '100%',
+            }}>
+              {(['light', 'system', 'dark'] as ThemePreference[]).map((pref) => {
+                const active = themePreference === pref;
+                const label = pref === 'system' ? 'Auto' : pref === 'light' ? 'Light' : 'Dark';
+                return (
+                  <button
+                    key={pref}
+                    onClick={() => onThemeChange(pref)}
+                    style={{
+                      flex: 1,
+                      padding: isMobile ? '0.35rem 0' : '0.25rem 0',
+                      border: 'none',
+                      cursor: 'pointer',
+                      fontSize: isMobile ? 11 : 12,
+                      fontWeight: active ? 600 : 400,
+                      backgroundColor: active
+                        ? isDarkMode ? '#3D3E40' : '#E0E0E0'
+                        : 'transparent',
+                      color: active
+                        ? isDarkMode ? '#E8EAED' : '#202124'
+                        : isDarkMode ? '#9AA0A6' : '#5F6368',
+                      transition: 'background-color 0.2s ease, color 0.2s ease',
+                    }}
+                  >
+                    {label}
+                  </button>
+                );
+              })}
+            </div>
           </div>
-        </div>
 
-        {/* Send Feedback */}
-        <button
-          onClick={() => { onOpenFeedback(); onClose(); }}
-          style={{
-            padding: isMobile ? '0.75rem 1rem' : '0.4vw 0.8vw',
-            border: 'none',
-            borderLeft: '3px solid transparent',
-            backgroundColor: 'transparent',
-            color: isDarkMode ? '#9AA0A6' : '#5F6368',
-            fontSize: isMobile ? 13 : 14,
-            fontWeight: 450,
-            cursor: 'pointer',
-            transition: 'color 3s ease',
-            width: '100%',
-            textAlign: 'left',
-            lineHeight: 1.4,
-          }}
-          onMouseEnter={(e) => {
-            e.currentTarget.style.color = isDarkMode ? '#E8EAED' : '#202124';
-          }}
-          onMouseLeave={(e) => {
-            e.currentTarget.style.color = isDarkMode ? '#9AA0A6' : '#5F6368';
-          }}
-        >
-          Send Feedback
-        </button>
+          {/* Send Feedback */}
+          <button
+            onClick={() => { onOpenFeedback(); onClose(); }}
+            style={{
+              padding: isMobile ? '0.75rem 1rem' : '0.4vw 0.8vw',
+              border: 'none',
+              borderLeft: '3px solid transparent',
+              backgroundColor: 'transparent',
+              color: isDarkMode ? '#9AA0A6' : '#5F6368',
+              fontSize: isMobile ? 13 : 14,
+              fontWeight: 450,
+              cursor: 'pointer',
+              transition: 'color 3s ease',
+              width: '100%',
+              textAlign: 'left',
+              lineHeight: 1.4,
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.color = isDarkMode ? '#E8EAED' : '#202124';
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.color = isDarkMode ? '#9AA0A6' : '#5F6368';
+            }}
+          >
+            Send Feedback
+          </button>
+        </div>
       </div>
     </>
   );
