@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 
 const useIsMobile = (breakpoint = 1024) => {
   const [isMobile, setIsMobile] = useState(
-    () => window.innerWidth <= breakpoint
+    () => window.innerWidth <= breakpoint,
   );
 
   useEffect(() => {

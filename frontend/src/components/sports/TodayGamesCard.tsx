@@ -26,7 +26,12 @@ const TodayGamesCard: React.FC<TodayGamesCardProps> = ({
           fontWeight: 500,
         }}
       >
-        <span style={{ color: isDarkMode ? '#B0263E' : 'rgb(154, 31, 54)', fontWeight: 600 }}>
+        <span
+          style={{
+            color: isDarkMode ? '#B0263E' : 'rgb(154, 31, 54)',
+            fontWeight: 600,
+          }}
+        >
           Today's Games:
         </span>
         <span>{todayGames === undefined ? 'Loading...' : 'None'}</span>
@@ -85,10 +90,12 @@ const TodayGamesCard: React.FC<TodayGamesCardProps> = ({
                 fontSize: 16,
                 color: isDarkMode ? '#E8EAED' : '#202124',
                 backgroundColor: isVarsity
-                  ? isDarkMode ? 'rgba(138, 31, 46, 0.2)' : 'rgba(154, 31, 54, 0.12)'
+                  ? isDarkMode
+                    ? 'rgba(138, 31, 46, 0.2)'
+                    : 'rgba(154, 31, 54, 0.12)'
                   : isDarkMode
-                  ? '#2D2E30'
-                  : '#F2F2F2',
+                    ? '#2D2E30'
+                    : '#F2F2F2',
                 opacity: isHome ? 1 : 0.65,
               }}
             >

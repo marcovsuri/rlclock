@@ -26,7 +26,9 @@ const MenuSection = ({
     color: isDarkMode ? '#B0263E' : 'rgb(154, 31, 54)',
     margin: '0 0 0.5rem',
     fontWeight: 600,
-    borderBottom: isDarkMode ? '1px solid rgba(176, 38, 62, 0.15)' : '1px solid rgba(154, 31, 54, 0.12)',
+    borderBottom: isDarkMode
+      ? '1px solid rgba(176, 38, 62, 0.15)'
+      : '1px solid rgba(154, 31, 54, 0.12)',
     paddingBottom: '0.4rem',
     textAlign: 'left',
   };

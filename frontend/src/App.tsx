@@ -48,9 +48,13 @@ const resolveTheme = (pref: ThemePreference): boolean => {
 };
 
 const App: React.FC = () => {
-  const [themePreference, setThemePreference] = useState<ThemePreference>(() => {
-    return (localStorage.getItem('themePreference') as ThemePreference) || 'system';
-  });
+  const [themePreference, setThemePreference] = useState<ThemePreference>(
+    () => {
+      return (
+        (localStorage.getItem('themePreference') as ThemePreference) || 'system'
+      );
+    },
+  );
   const [isDarkMode, setIsDarkMode] = useState(() => {
     const dark = resolveTheme(
       (localStorage.getItem('themePreference') as ThemePreference) || 'system',
@@ -188,9 +192,18 @@ const App: React.FC = () => {
           e.currentTarget.style.color = isDarkMode ? '#9AA0A6' : '#5F6368';
         }}
       >
-        <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <svg
+          width="18"
+          height="18"
+          viewBox="0 0 18 18"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
           <line
-            x1="2" y1="5" x2="16" y2="5"
+            x1="2"
+            y1="5"
+            x2="16"
+            y2="5"
             stroke="currentColor"
             strokeWidth="2"
             strokeLinecap="round"
@@ -201,19 +214,23 @@ const App: React.FC = () => {
             }}
           />
           <line
-            x1="2" y1="13" x2="16" y2="13"
+            x1="2"
+            y1="13"
+            x2="16"
+            y2="13"
             stroke="currentColor"
             strokeWidth="2"
             strokeLinecap="round"
             style={{
               transformOrigin: '9px 13px',
-              transform: sidebarOpen ? 'translateY(-4px) rotate(-45deg)' : 'none',
+              transform: sidebarOpen
+                ? 'translateY(-4px) rotate(-45deg)'
+                : 'none',
               transition: 'transform 0.3s ease',
             }}
           />
         </svg>
       </button>
-
 
       {/* Main Content + Footer */}
       <div style={{ flex: 1 }}>

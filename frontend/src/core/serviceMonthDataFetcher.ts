@@ -89,7 +89,7 @@ export const getServiceMonthCounter = async (): Promise<Result<number>> => {
       JSON.stringify({
         counter,
         lastUpdated: new Date().toISOString(),
-      })
+      }),
     );
 
     return {
@@ -143,11 +143,11 @@ export const getServiceMonthLeaderboardData = async (): Promise<
         return SheetDataSchema.parse({
           class: className,
           participationPercentage: Math.round(
-            parseFloat(participationPercentageStr)
+            parseFloat(participationPercentageStr),
           ),
           points: parseInt(pointsStr, 10),
         });
-      }
+      },
     );
 
     return {

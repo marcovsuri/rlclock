@@ -62,7 +62,7 @@ const getUpcomingSportsEvents = async (): Promise<Result<UpcomingEvent[]>> => {
 
     if (!url || !accessToken) {
       throw new Error(
-        'UPCOMING_SPORTS_URL or SUPABASE_ANON_KEY is not defined'
+        'UPCOMING_SPORTS_URL or SUPABASE_ANON_KEY is not defined',
       );
     }
 
@@ -81,7 +81,7 @@ const getUpcomingSportsEvents = async (): Promise<Result<UpcomingEvent[]>> => {
       JSON.stringify({
         events: data,
         lastUpdated: new Date().toISOString(),
-      })
+      }),
     );
 
     return { success: true, data };

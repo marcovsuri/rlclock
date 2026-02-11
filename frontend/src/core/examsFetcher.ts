@@ -66,7 +66,7 @@ const getExamData = async (): Promise<Result<Exam[]>> => {
 
     localStorage.setItem(
       'exams',
-      JSON.stringify({ examData: data, lastUpdated: new Date() })
+      JSON.stringify({ examData: data, lastUpdated: new Date() }),
     );
 
     return {

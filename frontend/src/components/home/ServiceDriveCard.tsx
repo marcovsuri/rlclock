@@ -74,7 +74,7 @@ const ServiceDriveCard: React.FC<Props> = ({
 
     controls.start(
       { width: `${targetPercent}%` },
-      { duration: duration / 1000, ease: 'linear' }
+      { duration: duration / 1000, ease: 'linear' },
     );
   }, [targetPercent, numDonations, donationGoal, controls]);
 
@@ -97,17 +97,15 @@ const ServiceDriveCard: React.FC<Props> = ({
       }}
       onMouseEnter={(e) => {
         (e.currentTarget as HTMLElement).style.transform = 'scale(1.03)';
-        (e.currentTarget as HTMLElement).style.boxShadow =
-          isDarkMode
-            ? '0 4px 30px 4px rgba(176, 38, 62, 0.5)'
-            : '0 4px 30px 4px rgba(154, 31, 54, 0.5)';
+        (e.currentTarget as HTMLElement).style.boxShadow = isDarkMode
+          ? '0 4px 30px 4px rgba(176, 38, 62, 0.5)'
+          : '0 4px 30px 4px rgba(154, 31, 54, 0.5)';
       }}
       onMouseLeave={(e) => {
         (e.currentTarget as HTMLElement).style.transform = 'scale(1)';
-        (e.currentTarget as HTMLElement).style.boxShadow =
-          isDarkMode
-            ? '0 4px 20px 4px rgba(176, 38, 62, 0.5)'
-            : '0 4px 20px 4px rgba(154, 31, 54, 0.5)';
+        (e.currentTarget as HTMLElement).style.boxShadow = isDarkMode
+          ? '0 4px 20px 4px rgba(176, 38, 62, 0.5)'
+          : '0 4px 20px 4px rgba(154, 31, 54, 0.5)';
       }}
     >
       <h2

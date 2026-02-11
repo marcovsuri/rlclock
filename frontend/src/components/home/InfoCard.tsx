@@ -41,8 +41,8 @@ const InfoCard: React.FC<Props> = ({
             ? '2.5vh 3vw'
             : '0.8vw 1.2vw'
           : isMobile
-          ? '3vh 3vw'
-          : '1.2vw 1.5vw',
+            ? '3vh 3vw'
+            : '1.2vw 1.5vw',
         borderRadius: isMobile ? '3vw' : '0.8vw',
         backgroundColor: isDarkMode ? '#2D2E30' : '#FFFFFF',
         color: isDarkMode ? '#E8EAED' : '#202124',

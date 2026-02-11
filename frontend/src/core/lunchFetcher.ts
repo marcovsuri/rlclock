@@ -52,7 +52,7 @@ const getMenu = async (): Promise<Result<Menu>> => {
 
     if (!url || !accessToken) {
       throw new Error(
-        'LUNCH_MENU_URL or LUNCH_MENU_ACCESS_TOKEN is not defined'
+        'LUNCH_MENU_URL or LUNCH_MENU_ACCESS_TOKEN is not defined',
       );
     }
 
@@ -74,7 +74,7 @@ const getMenu = async (): Promise<Result<Menu>> => {
       JSON.stringify({
         menu: data,
         lastUpdated: new Date(),
-      })
+      }),
     );
 
     return {

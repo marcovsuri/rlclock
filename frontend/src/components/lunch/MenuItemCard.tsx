@@ -22,8 +22,7 @@ const MenuItemCard: React.FC<MenuItemCardProps> = ({ item, isDarkMode }) => {
     boxSizing: 'border-box' as const,
     display: 'flex',
     alignItems: 'center',
-    transition:
-      'background-color 0.2s ease, color 3s ease',
+    transition: 'background-color 0.2s ease, color 3s ease',
     cursor: 'default',
   };
 

@@ -70,7 +70,7 @@ const getServiceData = async (): Promise<Result<ServiceData>> => {
 
     localStorage.setItem(
       'serviceData',
-      JSON.stringify({ serviceData: data, lastUpdated: new Date() })
+      JSON.stringify({ serviceData: data, lastUpdated: new Date() }),
     );
 
     return {

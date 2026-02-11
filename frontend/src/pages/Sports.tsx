@@ -9,7 +9,6 @@ import getUpcomingSportsEvents from '../core/upcomingSportsFetcher';
 import { UpcomingEvent } from '../types/upcomingSports';
 import BackButton from '../components/global/BackButton';
 
-
 interface SportsProps {
   isDarkMode: boolean;
 }
@@ -77,7 +76,10 @@ const Sports: React.FC<SportsProps> = ({ isDarkMode }) => {
         const today = new Date();
         const todayMonth = today.getMonth() + 1;
         const todayDay = today.getDate();
-        console.log('[Sports] upcoming data sample:', response.data.slice(0, 3));
+        console.log(
+          '[Sports] upcoming data sample:',
+          response.data.slice(0, 3),
+        );
         console.log('[Sports] today:', todayMonth, todayDay);
         setUpcomingGames(
           response.data.filter((e) => {

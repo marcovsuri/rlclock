@@ -200,7 +200,7 @@ const getSchedule = async (): Promise<Result<Schedule>> => {
       JSON.stringify({
         schedule: parsedData,
         lastUpdated: new Date(),
-      })
+      }),
     );
 
     return {

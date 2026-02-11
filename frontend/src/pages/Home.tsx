@@ -33,7 +33,7 @@ const Home: React.FC<HomeProps> = ({ isDarkMode }) => {
   >(undefined);
 
   const [serviceData, setServiceData] = useState<ServiceData | undefined>(
-    undefined
+    undefined,
   );
   const [serviceMonthCounter, setServiceMonthCounter] = useState<number>(0);
   const [serviceMonthParticipationLeader, setServiceMonthParticipationLeader] =
@@ -68,10 +68,10 @@ const Home: React.FC<HomeProps> = ({ isDarkMode }) => {
         const topParticipation = data.reduce((prev, current) =>
           current.participationPercentage > prev.participationPercentage
             ? current
-            : prev
+            : prev,
         );
         const topPoints = data.reduce((prev, current) =>
-          current.points > prev.points ? current : prev
+          current.points > prev.points ? current : prev,
         );
 
         setServiceMonthParticipationLeader(topParticipation.class);
@@ -120,7 +120,7 @@ const Home: React.FC<HomeProps> = ({ isDarkMode }) => {
   }, []);
 
   const [schedule, setSchedule] = useState<Schedule | null | undefined>(
-    undefined
+    undefined,
   );
   const [currentTime, setCurrentTime] = useState(new Date());
 
@@ -140,7 +140,7 @@ const Home: React.FC<HomeProps> = ({ isDarkMode }) => {
     const nextMidnight = new Date(
       now.getFullYear(),
       now.getMonth(),
-      now.getDate() + 1
+      now.getDate() + 1,
     );
     const delay = nextMidnight.getTime() - now.getTime();
 
@@ -439,10 +439,10 @@ const Home: React.FC<HomeProps> = ({ isDarkMode }) => {
               {item.outcome === 'W'
                 ? 'Win'
                 : item.outcome === 'L'
-                ? 'Loss'
-                : item.outcome === 'T'
-                ? 'Tie'
-                : '—'}
+                  ? 'Loss'
+                  : item.outcome === 'T'
+                    ? 'Tie'
+                    : '—'}
             </span>
           </React.Fragment>
         );
@@ -527,8 +527,8 @@ const Home: React.FC<HomeProps> = ({ isDarkMode }) => {
                 menu === undefined
                   ? 'Loading...'
                   : !hasLunch || !lunchSummary
-                  ? 'No lunch served today.'
-                  : lunchSummary
+                    ? 'No lunch served today.'
+                    : lunchSummary
               }
               path="/lunch"
               isDarkMode={isDarkMode}
@@ -553,7 +553,7 @@ const Home: React.FC<HomeProps> = ({ isDarkMode }) => {
                 subtitle={
                   pastResults === undefined
                     ? 'Loading...'
-                    : resultsSummary ?? 'No recent results.'
+                    : (resultsSummary ?? 'No recent results.')
                 }
                 path="/sports"
                 isDarkMode={isDarkMode}

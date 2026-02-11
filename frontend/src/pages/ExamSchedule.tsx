@@ -56,7 +56,7 @@ const ExamSchedule: React.FC<ExamScheduleProps> = ({ isDarkMode }) => {
         const fetchedExams: Exam[] = result.data;
         setExams(fetchedExams);
         const uniqueDays = Array.from(
-          new Set(fetchedExams.map((e) => e.day))
+          new Set(fetchedExams.map((e) => e.day)),
         ).sort((a, b) => new Date(a).getTime() - new Date(b).getTime());
         setDays(uniqueDays);
       }
@@ -81,7 +81,7 @@ const ExamSchedule: React.FC<ExamScheduleProps> = ({ isDarkMode }) => {
 
     // Sort slots by start time ascending
     const slots = Array.from(slotsSet).sort((a, b) =>
-      slotToStartTime[a].localeCompare(slotToStartTime[b])
+      slotToStartTime[a].localeCompare(slotToStartTime[b]),
     );
 
     setTimeSlots(slots);
@@ -94,7 +94,7 @@ const ExamSchedule: React.FC<ExamScheduleProps> = ({ isDarkMode }) => {
         grouped[slot][day] = classExams.filter(
           (exam) =>
             formatSlot(exam.time_start, exam.time_end) === slot &&
-            exam.day === day
+            exam.day === day,
         );
       });
     });
@@ -108,7 +108,9 @@ const ExamSchedule: React.FC<ExamScheduleProps> = ({ isDarkMode }) => {
   }, [exams, selectedClass, days]);
 
   const cellStyle: React.CSSProperties = {
-    border: isDarkMode ? '1px solid rgba(176, 38, 62, 0.3)' : '1px solid rgba(154, 31, 54, 0.2)',
+    border: isDarkMode
+      ? '1px solid rgba(176, 38, 62, 0.3)'
+      : '1px solid rgba(154, 31, 54, 0.2)',
     borderRadius: '12px',
     padding: '1rem',
     backgroundColor: isDarkMode
@@ -139,7 +141,12 @@ const ExamSchedule: React.FC<ExamScheduleProps> = ({ isDarkMode }) => {
         overflowX: 'auto',
       }}
     >
-      <h2 style={{ textAlign: 'center', color: isDarkMode ? '#B0263E' : 'rgba(154, 31, 54, 1)' }}>
+      <h2
+        style={{
+          textAlign: 'center',
+          color: isDarkMode ? '#B0263E' : 'rgba(154, 31, 54, 1)',
+        }}
+      >
         Class {selectedClass} Exam Schedule
       </h2>
 
@@ -159,12 +166,23 @@ const ExamSchedule: React.FC<ExamScheduleProps> = ({ isDarkMode }) => {
             style={{
               padding: '0.75rem 1.5rem',
               borderRadius: '8px',
-              border: isDarkMode ? '1px solid rgba(176, 38, 62, 0.3)' : '1px solid rgba(154, 31, 54, 0.2)',
+              border: isDarkMode
+                ? '1px solid rgba(176, 38, 62, 0.3)'
+                : '1px solid rgba(154, 31, 54, 0.2)',
               backgroundColor:
                 selectedClass === level
-                  ? isDarkMode ? '#C43C5A' : 'rgba(154, 31, 54, 0.9)'
-                  : isDarkMode ? 'rgba(138, 31, 46, 0.15)' : 'rgba(154, 31, 54, 0.1)',
-              color: selectedClass === level ? '#fff' : isDarkMode ? '#B0263E' : 'rgba(154, 31, 54, 1)',
+                  ? isDarkMode
+                    ? '#C43C5A'
+                    : 'rgba(154, 31, 54, 0.9)'
+                  : isDarkMode
+                    ? 'rgba(138, 31, 46, 0.15)'
+                    : 'rgba(154, 31, 54, 0.1)',
+              color:
+                selectedClass === level
+                  ? '#fff'
+                  : isDarkMode
+                    ? '#B0263E'
+                    : 'rgba(154, 31, 54, 1)',
               fontWeight: 600,
               cursor: 'pointer',
               transition: 'all 0.3s ease',
@@ -243,7 +261,7 @@ const ExamSchedule: React.FC<ExamScheduleProps> = ({ isDarkMode }) => {
                   </div>
                 </React.Fragment>
               );
-            })
+            }),
           )}
         </div>
       ) : (
@@ -317,7 +335,7 @@ const ExamSchedule: React.FC<ExamScheduleProps> = ({ isDarkMode }) => {
                                   ))}
                                 </ul>
                               </div>
-                            )
+                            ),
                           )}
                         </td>
                       );

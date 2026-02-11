@@ -12,7 +12,7 @@ const Service: React.FC<ServiceProps> = ({ isDarkMode }) => {
   const isMobile = useIsMobile();
 
   const [serviceData, setServiceData] = useState<ServiceData | undefined>(
-    undefined
+    undefined,
   );
 
   useEffect(() => {
@@ -69,7 +69,9 @@ const Service: React.FC<ServiceProps> = ({ isDarkMode }) => {
           color: isDarkMode ? '#E8EAED' : '#202124',
           textAlign: 'left',
           backgroundColor: isDarkMode ? '#2D2E30' : '#FFFFFF',
-          border: isDarkMode ? '1px solid rgba(255,255,255,0.1)' : '1px solid rgba(0,0,0,0.08)',
+          border: isDarkMode
+            ? '1px solid rgba(255,255,255,0.1)'
+            : '1px solid rgba(0,0,0,0.08)',
           borderRadius: '16px',
           padding: isMobile ? '4vw' : '2vw',
           boxShadow: isDarkMode

@@ -35,7 +35,7 @@ const getSportsEvents = async (): Promise<Result<TeamEvent[]>> => {
 
       if (now.getTime() - lastUpdated.getTime() < THIRTY_MINUTES) {
         console.log(
-          'Sports events: using local data (updated within 30 minutes)'
+          'Sports events: using local data (updated within 30 minutes)',
         );
         return {
           success: true,
@@ -65,7 +65,7 @@ const getSportsEvents = async (): Promise<Result<TeamEvent[]>> => {
 
     localStorage.setItem(
       'sportsEvents',
-      JSON.stringify({ events: data, lastUpdated: new Date() })
+      JSON.stringify({ events: data, lastUpdated: new Date() }),
     );
 
     return {

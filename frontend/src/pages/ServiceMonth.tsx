@@ -64,19 +64,26 @@ const ServiceMonth: React.FC<ServiceProps> = ({ isDarkMode }) => {
   const sortedData = leaderboardData.slice().sort((a, b) => {
     const dir = sortAsc ? 1 : -1;
     if (sortKey === 'class') return dir * a.class.localeCompare(b.class);
-    if (sortKey === 'participation') return dir * (a.participationPercentage - b.participationPercentage);
+    if (sortKey === 'participation')
+      return dir * (a.participationPercentage - b.participationPercentage);
     return dir * (a.points - b.points);
   });
 
-  const topParticipation = leaderboardData.length > 0
-    ? leaderboardData.reduce((prev, cur) =>
-        cur.participationPercentage > prev.participationPercentage ? cur : prev
-      ).class
-    : '';
+  const topParticipation =
+    leaderboardData.length > 0
+      ? leaderboardData.reduce((prev, cur) =>
+          cur.participationPercentage > prev.participationPercentage
+            ? cur
+            : prev,
+        ).class
+      : '';
 
-  const topPoints = leaderboardData.length > 0
-    ? leaderboardData.reduce((prev, cur) => cur.points > prev.points ? cur : prev).class
-    : '';
+  const topPoints =
+    leaderboardData.length > 0
+      ? leaderboardData.reduce((prev, cur) =>
+          cur.points > prev.points ? cur : prev,
+        ).class
+      : '';
 
   return (
     <div
@@ -91,7 +98,13 @@ const ServiceMonth: React.FC<ServiceProps> = ({ isDarkMode }) => {
         boxSizing: 'border-box',
       }}
     >
-      <div style={{ width: isMobile ? '92vw' : '40vw', textAlign: 'left', marginTop: 8 }}>
+      <div
+        style={{
+          width: isMobile ? '92vw' : '40vw',
+          textAlign: 'left',
+          marginTop: 8,
+        }}
+      >
         <BackButton isDarkMode={isDarkMode} />
       </div>
       {/* Title */}
@@ -175,85 +188,100 @@ const ServiceMonth: React.FC<ServiceProps> = ({ isDarkMode }) => {
             </span>
             <span
               onClick={() => handleSort('participation')}
-              style={{ textAlign: 'right', cursor: 'pointer', userSelect: 'none' }}
+              style={{
+                textAlign: 'right',
+                cursor: 'pointer',
+                userSelect: 'none',
+              }}
             >
-              Participation {sortKey === 'participation' ? (sortAsc ? '↑' : '↓') : ''}
+              Participation{' '}
+              {sortKey === 'participation' ? (sortAsc ? '↑' : '↓') : ''}
             </span>
             <span
               onClick={() => handleSort('points')}
-              style={{ textAlign: 'right', cursor: 'pointer', userSelect: 'none' }}
+              style={{
+                textAlign: 'right',
+                cursor: 'pointer',
+                userSelect: 'none',
+              }}
             >
               Points {sortKey === 'points' ? (sortAsc ? '↑' : '↓') : ''}
             </span>
           </div>
 
           {/* Rows */}
-          {sortedData.map(({ class: className, participationPercentage, points }, i) => {
-            const isPointsLeader = className === topPoints;
-            const isParticipationLeader = className === topParticipation;
+          {sortedData.map(
+            ({ class: className, participationPercentage, points }, i) => {
+              const isPointsLeader = className === topPoints;
+              const isParticipationLeader = className === topParticipation;
 
-            return (
-              <div
-                key={className}
-                style={{
-                  display: 'grid',
-                  gridTemplateColumns: '0.3fr 1fr 1fr 1fr',
-                  gap: isMobile ? '1vw' : '0.5vw',
-                  alignItems: 'center',
-                  fontSize: 16,
-                  fontWeight: isPointsLeader ? 600 : 500,
-                  color: isDarkMode ? '#E8EAED' : '#202124',
-                  backgroundColor: isPointsLeader
-                    ? isDarkMode
-                      ? 'rgba(138,31,46,0.2)'
-                      : 'rgba(154,31,54,0.06)'
-                    : 'transparent',
-                  borderLeft: isPointsLeader
-                    ? `3px solid ${isDarkMode ? '#C43C5A' : 'rgb(154,31,54)'}`
-                    : '3px solid transparent',
-                  opacity: 1,
-                }}
-              >
-                {/* Rank */}
-                <span
+              return (
+                <div
+                  key={className}
                   style={{
-                    color: isDarkMode ? '#9AA0A6' : '#5F6368',
-                    fontSize: isMobile ? 13 : 14,
+                    display: 'grid',
+                    gridTemplateColumns: '0.3fr 1fr 1fr 1fr',
+                    gap: isMobile ? '1vw' : '0.5vw',
+                    alignItems: 'center',
+                    fontSize: 16,
+                    fontWeight: isPointsLeader ? 600 : 500,
+                    color: isDarkMode ? '#E8EAED' : '#202124',
+                    backgroundColor: isPointsLeader
+                      ? isDarkMode
+                        ? 'rgba(138,31,46,0.2)'
+                        : 'rgba(154,31,54,0.06)'
+                      : 'transparent',
+                    borderLeft: isPointsLeader
+                      ? `3px solid ${isDarkMode ? '#C43C5A' : 'rgb(154,31,54)'}`
+                      : '3px solid transparent',
+                    opacity: 1,
                   }}
                 >
-                  {i + 1}
-                </span>
+                  {/* Rank */}
+                  <span
+                    style={{
+                      color: isDarkMode ? '#9AA0A6' : '#5F6368',
+                      fontSize: isMobile ? 13 : 14,
+                    }}
+                  >
+                    {i + 1}
+                  </span>
 
-                {/* Class name */}
-                <span>{className}</span>
+                  {/* Class name */}
+                  <span>{className}</span>
 
-                {/* Participation % */}
-                <span
-                  style={{
-                    textAlign: 'right',
-                    fontWeight: isParticipationLeader ? 700 : 500,
-                    color: isParticipationLeader
-                      ? isDarkMode ? '#C43C5A' : 'rgb(154,31,54)'
-                      : isDarkMode
-                      ? '#9AA0A6'
-                      : '#5F6368',
-                  }}
-                >
-                  {participationPercentage}%
-                </span>
+                  {/* Participation % */}
+                  <span
+                    style={{
+                      textAlign: 'right',
+                      fontWeight: isParticipationLeader ? 700 : 500,
+                      color: isParticipationLeader
+                        ? isDarkMode
+                          ? '#C43C5A'
+                          : 'rgb(154,31,54)'
+                        : isDarkMode
+                          ? '#9AA0A6'
+                          : '#5F6368',
+                    }}
+                  >
+                    {participationPercentage}%
+                  </span>
 
-                {/* Points */}
-                <span
-                  style={{
-                    textAlign: 'right',
-                    color: isDarkMode ? 'rgba(255,255,255,0.7)' : 'rgba(0,0,0,0.6)',
-                  }}
-                >
-                  {points}
-                </span>
-              </div>
-            );
-          })}
+                  {/* Points */}
+                  <span
+                    style={{
+                      textAlign: 'right',
+                      color: isDarkMode
+                        ? 'rgba(255,255,255,0.7)'
+                        : 'rgba(0,0,0,0.6)',
+                    }}
+                  >
+                    {points}
+                  </span>
+                </div>
+              );
+            },
+          )}
 
           {/* Sort indicator */}
           <div
@@ -269,15 +297,19 @@ const ServiceMonth: React.FC<ServiceProps> = ({ isDarkMode }) => {
           </div>
         </div>
       )}
-      <img alt="Service Month" src="/2026-service-month.jpg" style={{
-        marginTop: isMobile ? '3vh' : '2vw',
-        width: isMobile ? '92vw' : '40vw',
-        boxShadow: isDarkMode
-          ? '0 2px 12px rgba(0,0,0,0.5)'
-          : '0 2px 12px rgba(0,0,0,0.1)',
-        overflow: 'hidden',
-        borderRadius: isMobile ? '3vw' : '0.8vw',
-      }} /> 
+      <img
+        alt="Service Month"
+        src="/2026-service-month.jpg"
+        style={{
+          marginTop: isMobile ? '3vh' : '2vw',
+          width: isMobile ? '92vw' : '40vw',
+          boxShadow: isDarkMode
+            ? '0 2px 12px rgba(0,0,0,0.5)'
+            : '0 2px 12px rgba(0,0,0,0.1)',
+          overflow: 'hidden',
+          borderRadius: isMobile ? '3vw' : '0.8vw',
+        }}
+      />
     </div>
   );
 };

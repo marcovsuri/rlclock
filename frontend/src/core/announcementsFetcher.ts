@@ -70,7 +70,7 @@ const getAnnouncements = async (): Promise<Result<Announcement[]>> => {
 
     localStorage.setItem(
       'announcements',
-      JSON.stringify({ announcements: data, lastUpdated: new Date() })
+      JSON.stringify({ announcements: data, lastUpdated: new Date() }),
     );
 
     return {
