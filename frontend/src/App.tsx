@@ -64,12 +64,9 @@ const App: React.FC = () => {
   });
   const [showModal, setShowModal] = useState(false);
   const [showFeedback, setShowFeedback] = useState(false);
-  const [showWelcome, setShowWelcome] = useState(() => {
-    return !localStorage.getItem('welcomeDismissed');
-  });
+  const [emailsCopied, setEmailsCopied] = useState(false);
   const [announcements, setAnnouncements] = useState<Announcement[]>([]);
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  const [emailsCopied, setEmailsCopied] = useState(false);
   const isMobile = useIsMobile();
 
   const handleThemeChange = (pref: ThemePreference) => {
@@ -103,12 +100,7 @@ const App: React.FC = () => {
     document.documentElement.classList.toggle('dark-mode', isDarkMode);
   }, [isDarkMode]);
 
-  const dismissWelcome = () => {
-    setShowWelcome(false);
-    localStorage.setItem('welcomeDismissed', '1');
-  };
-
-  const anyModalOpen = showModal || showWelcome || showFeedback;
+  const anyModalOpen = showModal || showFeedback;
 
   useEffect(() => {
     const html = document.documentElement;
@@ -118,7 +110,6 @@ const App: React.FC = () => {
       if (e.key === 'Escape') {
         setShowModal(false);
         setShowFeedback(false);
-        dismissWelcome();
       }
     };
 
@@ -235,105 +226,6 @@ const App: React.FC = () => {
       {/* Main Content + Footer */}
       <div style={{ flex: 1 }}>
         <AnimatedRoutes isDarkMode={isDarkMode} />
-      </div>
-
-      {/* Welcome Popup */}
-      <div
-        className={`modal-backdrop ${showWelcome ? 'show' : 'hide'}`}
-        onClick={() => dismissWelcome()}
-        style={{ zIndex: 10001 }}
-      >
-        <div
-          className={`modal-content ${showWelcome ? 'modal-show' : ''}`}
-          style={{
-            background: isDarkMode ? '#2D2E30' : '#FFFFFF',
-            color: isDarkMode ? '#E8EAED' : '#202124',
-            padding: '2rem',
-            borderRadius: '0.8rem',
-            boxShadow: isDarkMode
-              ? '0 4px 24px rgba(0,0,0,0.6)'
-              : '0 4px 24px rgba(0,0,0,0.12)',
-            maxWidth: '420px',
-            textAlign: 'center',
-          }}
-          onClick={(e) => e.stopPropagation()}
-        >
-          <h2
-            style={{
-              fontSize: isMobile ? 26 : 32,
-              fontWeight: 600,
-              margin: '0 0 1rem',
-              color: isDarkMode ? '#E8EAED' : '#202124',
-            }}
-          >
-            User Interface Refresh
-          </h2>
-          <p
-            style={{
-              fontSize: 16,
-              lineHeight: 1.6,
-              margin: '0 0 1.5rem',
-              color: isDarkMode ? '#E8EAED' : '#202124',
-            }}
-          >
-            Please give any feedback or suggestions to Marco Suri, Dylan Pan,
-            and Austin Reid. Enjoy the new look of RL Clock!
-          </p>
-          <p
-            style={{
-              fontSize: 16,
-              lineHeight: 1.6,
-              margin: '0 0 1.5rem',
-              color: isDarkMode ? '#9AA0A6' : '#5F6368',
-            }}
-          >
-            This message will only show up once.
-          </p>
-          <div
-            style={{
-              display: 'flex',
-              gap: '0.75rem',
-              justifyContent: 'center',
-            }}
-          >
-            <button
-              onClick={() => {
-                navigator.clipboard.writeText(
-                  'austin.reid@roxburylatin.org, dylan.pan@roxburylatin.org, marco.suri@roxburylatin.org',
-                );
-                setEmailsCopied(true);
-                setTimeout(() => setEmailsCopied(false), 2000);
-              }}
-              style={{
-                padding: '0.5rem 1.5rem',
-                fontSize: 14,
-                fontWeight: 600,
-                color: isDarkMode ? '#B0263E' : 'rgb(154, 31, 54)',
-                backgroundColor: 'transparent',
-                border: `1.5px solid ${isDarkMode ? '#B0263E' : 'rgb(154, 31, 54)'}`,
-                borderRadius: '0.4rem',
-                cursor: 'pointer',
-              }}
-            >
-              {emailsCopied ? 'Copied!' : 'Copy Emails'}
-            </button>
-            <button
-              onClick={() => dismissWelcome()}
-              style={{
-                padding: '0.5rem 1.5rem',
-                fontSize: 14,
-                fontWeight: 600,
-                color: '#FFFFFF',
-                backgroundColor: isDarkMode ? '#B0263E' : 'rgb(154, 31, 54)',
-                border: 'none',
-                borderRadius: '0.4rem',
-                cursor: 'pointer',
-              }}
-            >
-              Got it
-            </button>
-          </div>
-        </div>
       </div>
 
       {/* Modal Overlay */}

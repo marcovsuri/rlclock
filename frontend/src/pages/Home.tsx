@@ -508,17 +508,6 @@ const Home: React.FC<HomeProps> = ({ isDarkMode }) => {
 
           {/* Right: Cards ordered by urgency */}
           <div style={cardsStyle}>
-            {/* Temporary: Feedback Card */}
-            <InfoCard
-              title="Leave Feedback"
-              compact
-              subtitle={
-                'We value your feedback! Click to share your thoughts and help us improve RL Clock.'
-              }
-              path="https://forms.gle/zaLZeZfCjimX9TjR6"
-              isDarkMode={isDarkMode}
-            />
-
             {/* 1. Lunch status - compact */}
             <InfoCard
               title="Today's Lunch"
