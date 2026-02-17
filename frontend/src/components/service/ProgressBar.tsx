@@ -85,7 +85,7 @@ const DonationProgressBar: React.FC<Props> = ({
           color: goalReached
             ? isDarkMode
               ? '#4ade80'
-              : '#16a34a'
+              : '#15803d'
             : isDarkMode
               ? '#B0263E'
               : 'rgb(154, 31, 54)',
@@ -114,7 +114,7 @@ const DonationProgressBar: React.FC<Props> = ({
             backgroundColor: goalReached
               ? isDarkMode
                 ? '#4ade80'
-                : '#16a34a'
+                : '#15803d'
               : isDarkMode
                 ? '#B0263E'
                 : 'rgb(154, 31, 54)',

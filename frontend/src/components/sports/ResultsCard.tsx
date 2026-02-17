@@ -124,7 +124,7 @@ const ResultsCard: React.FC<ResultsCardProps> = ({
   const hasMore = isMobile && totalRows > MOBILE_COLLAPSED_COUNT;
 
   const outcomeColor = (outcome: FlatRow['outcome']): string => {
-    if (outcome === 'Win') return isDarkMode ? '#4ade80' : '#16a34a';
+    if (outcome === 'Win') return isDarkMode ? '#4ade80' : '#15803d';
     if (outcome === 'Loss') return isDarkMode ? '#B0B5BA' : '#5F6368';
     return isDarkMode ? '#B0B5BA' : '#5F6368';
   };

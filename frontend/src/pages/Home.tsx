@@ -501,8 +501,8 @@ const Home: React.FC<HomeProps> = ({ isDarkMode }) => {
         style={containerStyle}
       >
         {/* Main Content */}
-        <h1 style={{ position: 'absolute', width: 1, height: 1, overflow: 'hidden', clip: 'rect(0,0,0,0)', whiteSpace: 'nowrap' }}>RL Clock Dashboard</h1>
         <main style={contentStyle}>
+          <h1 style={{ position: 'absolute', width: 1, height: 1, overflow: 'hidden', clip: 'rect(0,0,0,0)', whiteSpace: 'nowrap' }}>RL Clock Dashboard</h1>
           {/* Left: Clock (schedule + countdown) */}
           <div style={clockStyle}>
             <Clock isDarkMode={isDarkMode} />
