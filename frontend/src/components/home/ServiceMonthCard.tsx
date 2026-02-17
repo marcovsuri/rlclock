@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion, useAnimation } from 'framer-motion';
+
 import useIsMobile from '../../hooks/useIsMobile';
 import confetti from 'canvas-confetti';
 
@@ -92,6 +93,7 @@ const ServiceMonthCard: React.FC<Props> = ({
         backgroundColor: isDarkMode ? '#2D2E30' : '#FFFFFF',
         color: isDarkMode ? '#E8EAED' : '#202124',
         cursor: 'pointer',
+        borderLeft: `3px solid ${maroon}`,
         boxShadow: isDarkMode
           ? '0 2px 8px rgba(0,0,0,0.4)'
           : '0 2px 8px rgba(0,0,0,0.08)',
@@ -128,6 +130,9 @@ const ServiceMonthCard: React.FC<Props> = ({
               fontSize: isMobile ? 20 : 24,
               color: maroon,
               fontWeight: 600,
+              display: 'flex',
+              alignItems: 'center',
+              gap: '0.3em',
             }}
           >
             {title}

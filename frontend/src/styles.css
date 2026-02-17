@@ -13,6 +13,12 @@ html {
   margin: 0;
   padding: 0;
   background-color: #ffffff;
+  background-image: radial-gradient(
+    circle,
+    rgba(154, 31, 54, 0.25) 1px,
+    transparent 1px
+  );
+  background-size: 24px 24px;
   color: #202124;
   scrollbar-width: thin;
   overflow-x: hidden;
@@ -31,6 +37,12 @@ body {
 
 html.dark-mode {
   background-color: #1f1f1f;
+  background-image: radial-gradient(
+    circle,
+    rgba(176, 38, 62, 0.4) 1px,
+    transparent 1px
+  );
+  background-size: 24px 24px;
   color: #e8eaed;
 }
 

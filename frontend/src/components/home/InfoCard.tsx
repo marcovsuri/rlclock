@@ -9,6 +9,9 @@ type Props = {
   path: string;
   isDarkMode: boolean;
   compact?: boolean;
+  accentColor?: string;
+  tintColor?: string;
+  icon?: React.ReactNode;
 };
 
 const InfoCard: React.FC<Props> = ({
@@ -18,6 +21,9 @@ const InfoCard: React.FC<Props> = ({
   path,
   isDarkMode,
   compact = false,
+  accentColor,
+  tintColor,
+  icon,
 }) => {
   const navigate = useNavigate();
   const isMobile = useIsMobile();
@@ -44,6 +50,7 @@ const InfoCard: React.FC<Props> = ({
             ? '3vh 3vw'
             : '1.2vw 1.5vw',
         borderRadius: isMobile ? '3vw' : '0.8vw',
+        borderLeft: `3px solid ${isDarkMode ? '#B0263E' : 'rgb(154, 31, 54)'}`,
         backgroundColor: isDarkMode ? '#2D2E30' : '#FFFFFF',
         color: isDarkMode ? '#E8EAED' : '#202124',
         cursor: 'pointer',
@@ -80,8 +87,12 @@ const InfoCard: React.FC<Props> = ({
             color: isDarkMode ? '#9AA0A6' : '#5F6368',
             fontWeight: 500,
             marginBottom: compact ? '0.2em' : '0.4em',
+            display: 'flex',
+            alignItems: 'center',
+            gap: '0.4em',
           }}
         >
+          {icon && <span style={{ display: 'flex', alignItems: 'center', color: accentColor || (isDarkMode ? '#9AA0A6' : '#5F6368') }}>{icon}</span>}
           {title}
         </h3>
         <div

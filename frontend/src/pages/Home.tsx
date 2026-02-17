@@ -14,6 +14,7 @@ import getServiceData from '../core/serviceDataFetcher';
 import { ServiceData } from '../types/serviceData';
 import { getSchedule, Schedule } from '../core/clockFetcher';
 import { Link } from 'react-router-dom';
+
 import Footer from '../components/global/Footer';
 import {
   getServiceMonthCounter,
@@ -521,6 +522,8 @@ const Home: React.FC<HomeProps> = ({ isDarkMode }) => {
               }
               path="/lunch"
               isDarkMode={isDarkMode}
+
+
             />
 
             {/* 2. Service Month */}
@@ -546,6 +549,8 @@ const Home: React.FC<HomeProps> = ({ isDarkMode }) => {
                 }
                 path="/sports"
                 isDarkMode={isDarkMode}
+
+
               />
             )}
           </div>
