@@ -86,7 +86,7 @@ const ServiceMonth: React.FC<ServiceProps> = ({ isDarkMode }) => {
       : '';
 
   return (
-    <div
+    <main
       style={{
         display: 'flex',
         flexDirection: 'column',
@@ -126,7 +126,7 @@ const ServiceMonth: React.FC<ServiceProps> = ({ isDarkMode }) => {
         <p
           style={{
             fontSize: 16,
-            color: isDarkMode ? '#9AA0A6' : '#5F6368',
+            color: isDarkMode ? '#B0B5BA' : '#5F6368',
             marginBottom: isMobile ? '2vh' : '1vw',
             textAlign: 'center',
             fontWeight: 500,
@@ -169,7 +169,7 @@ const ServiceMonth: React.FC<ServiceProps> = ({ isDarkMode }) => {
               padding: isMobile ? '1.5vw 2vw' : '0.3vw 0.6vw',
               fontSize: isMobile ? 13 : 14,
               fontWeight: 600,
-              color: isDarkMode ? '#9AA0A6' : '#5F6368',
+              color: isDarkMode ? '#B0B5BA' : '#5F6368',
               textTransform: 'uppercase',
               letterSpacing: '0.05em',
               borderBottom: isDarkMode
@@ -240,7 +240,7 @@ const ServiceMonth: React.FC<ServiceProps> = ({ isDarkMode }) => {
                   {/* Rank */}
                   <span
                     style={{
-                      color: isDarkMode ? '#9AA0A6' : '#5F6368',
+                      color: isDarkMode ? '#B0B5BA' : '#5F6368',
                       fontSize: isMobile ? 13 : 14,
                     }}
                   >
@@ -260,7 +260,7 @@ const ServiceMonth: React.FC<ServiceProps> = ({ isDarkMode }) => {
                           ? '#C43C5A'
                           : 'rgb(154,31,54)'
                         : isDarkMode
-                          ? '#9AA0A6'
+                          ? '#B0B5BA'
                           : '#5F6368',
                     }}
                   >
@@ -288,7 +288,7 @@ const ServiceMonth: React.FC<ServiceProps> = ({ isDarkMode }) => {
             style={{
               marginTop: isMobile ? '2vw' : '0.5vw',
               fontSize: isMobile ? 13 : 14,
-              color: isDarkMode ? '#9AA0A6' : '#5F6368',
+              color: isDarkMode ? '#B0B5BA' : '#5F6368',
               textAlign: 'right',
               paddingRight: isMobile ? '2vw' : '0.6vw',
             }}
@@ -310,7 +310,7 @@ const ServiceMonth: React.FC<ServiceProps> = ({ isDarkMode }) => {
           borderRadius: isMobile ? '3vw' : '0.8vw',
         }}
       />
-    </div>
+    </main>
   );
 };
 

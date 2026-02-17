@@ -83,7 +83,7 @@ export default function Lunch({ isDarkMode }: LunchProps) {
       transition={{ duration: 0.5 }}
       style={containerStyle}
     >
-      <div style={innerStyle}>
+      <main style={innerStyle}>
         <div style={contentStyle}>
           <div style={{ marginTop: 8 }}>
             <BackButton isDarkMode={isDarkMode} />
@@ -127,7 +127,7 @@ export default function Lunch({ isDarkMode }: LunchProps) {
             ) : null}
           </div>
         </div>
-      </div>
+      </main>
     </motion.div>
   );
 }

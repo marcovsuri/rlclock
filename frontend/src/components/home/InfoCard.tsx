@@ -84,7 +84,7 @@ const InfoCard: React.FC<Props> = ({
           style={{
             margin: 0,
             fontSize: isMobile ? 13 : 14,
-            color: isDarkMode ? '#9AA0A6' : '#5F6368',
+            color: isDarkMode ? '#B0B5BA' : '#5F6368',
             fontWeight: 500,
             marginBottom: compact ? '0.2em' : '0.4em',
             display: 'flex',
@@ -92,7 +92,7 @@ const InfoCard: React.FC<Props> = ({
             gap: '0.4em',
           }}
         >
-          {icon && <span style={{ display: 'flex', alignItems: 'center', color: accentColor || (isDarkMode ? '#9AA0A6' : '#5F6368') }}>{icon}</span>}
+          {icon && <span style={{ display: 'flex', alignItems: 'center', color: accentColor || (isDarkMode ? '#B0B5BA' : '#5F6368') }}>{icon}</span>}
           {title}
         </h3>
         <div
@@ -110,7 +110,7 @@ const InfoCard: React.FC<Props> = ({
       <span
         style={{
           fontSize: isMobile ? 20 : 24,
-          color: isDarkMode ? '#9AA0A6' : '#5F6368',
+          color: isDarkMode ? '#B0B5BA' : '#5F6368',
           flexShrink: 0,
         }}
       >

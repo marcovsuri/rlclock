@@ -106,7 +106,7 @@ const Sports: React.FC<SportsProps> = ({ isDarkMode }) => {
         width: '100%',
       }}
     >
-      <div
+      <main
         style={{
           width: isMobile ? '92vw' : '40vw',
           margin: isMobile ? '3vh auto' : '3vh auto',
@@ -115,6 +115,7 @@ const Sports: React.FC<SportsProps> = ({ isDarkMode }) => {
           gap: isMobile ? '2vw' : '1vw',
         }}
       >
+        <h1 style={{ position: 'absolute', width: 1, height: 1, overflow: 'hidden', clip: 'rect(0,0,0,0)', whiteSpace: 'nowrap' }}>Sports</h1>
         <div style={{ alignSelf: 'flex-start' }}>
           <BackButton isDarkMode={isDarkMode} />
         </div>
@@ -141,7 +142,7 @@ const Sports: React.FC<SportsProps> = ({ isDarkMode }) => {
                 fontSize: isMobile ? 13 : 14,
                 margin: 0,
                 marginBottom: isMobile ? '2vw' : '0.8vw',
-                color: isDarkMode ? '#9AA0A6' : '#5F6368',
+                color: isDarkMode ? '#B0B5BA' : '#5F6368',
                 fontWeight: 500,
                 textTransform: 'uppercase',
                 letterSpacing: '0.05em',
@@ -158,7 +159,7 @@ const Sports: React.FC<SportsProps> = ({ isDarkMode }) => {
                 padding: isMobile ? '0 2vw 1vw' : '0 0.6vw 0.3vw',
                 fontSize: isMobile ? 13 : 14,
                 fontWeight: 600,
-                color: isDarkMode ? '#9AA0A6' : '#5F6368',
+                color: isDarkMode ? '#B0B5BA' : '#5F6368',
                 textTransform: 'uppercase',
                 letterSpacing: '0.05em',
               }}
@@ -224,7 +225,7 @@ const Sports: React.FC<SportsProps> = ({ isDarkMode }) => {
                     style={{
                       textAlign: 'center',
                       minWidth: isMobile ? '8vw' : '2.5vw',
-                      color: isDarkMode ? '#9AA0A6' : '#5F6368',
+                      color: isDarkMode ? '#B0B5BA' : '#5F6368',
                     }}
                   >
                     {rec.losses}
@@ -233,7 +234,7 @@ const Sports: React.FC<SportsProps> = ({ isDarkMode }) => {
                     style={{
                       textAlign: 'center',
                       minWidth: isMobile ? '8vw' : '2.5vw',
-                      color: isDarkMode ? '#9AA0A6' : '#5F6368',
+                      color: isDarkMode ? '#B0B5BA' : '#5F6368',
                     }}
                   >
                     {rec.ties}
@@ -272,7 +273,7 @@ const Sports: React.FC<SportsProps> = ({ isDarkMode }) => {
                   style={{
                     textAlign: 'center',
                     minWidth: isMobile ? '8vw' : '2.5vw',
-                    color: isDarkMode ? '#9AA0A6' : '#5F6368',
+                    color: isDarkMode ? '#B0B5BA' : '#5F6368',
                   }}
                 >
                   {records.reduce((s, [, r]) => s + r.losses, 0)}
@@ -281,7 +282,7 @@ const Sports: React.FC<SportsProps> = ({ isDarkMode }) => {
                   style={{
                     textAlign: 'center',
                     minWidth: isMobile ? '8vw' : '2.5vw',
-                    color: isDarkMode ? '#9AA0A6' : '#5F6368',
+                    color: isDarkMode ? '#B0B5BA' : '#5F6368',
                   }}
                 >
                   {records.reduce((s, [, r]) => s + r.ties, 0)}
@@ -296,7 +297,7 @@ const Sports: React.FC<SportsProps> = ({ isDarkMode }) => {
           isMobile={isMobile}
           isDarkMode={isDarkMode}
         />
-      </div>
+      </main>
     </motion.div>
   );
 };

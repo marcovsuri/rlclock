@@ -127,7 +127,7 @@ const DonationProgressBar: React.FC<Props> = ({
         style={{
           fontSize: isMobile ? 13 : 14,
           fontWeight: 500,
-          color: isDarkMode ? '#9AA0A6' : '#5F6368',
+          color: isDarkMode ? '#B0B5BA' : '#5F6368',
         }}
       >
         {animatedDonations.toLocaleString()} of {donationGoal.toLocaleString()}{' '}

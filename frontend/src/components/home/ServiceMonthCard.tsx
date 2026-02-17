@@ -144,7 +144,7 @@ const ServiceMonthCard: React.FC<Props> = ({
               fontSize: 16,
               marginBottom: '0.6em',
               lineHeight: 1.5,
-              color: isDarkMode ? '#9AA0A6' : '#5F6368',
+              color: isDarkMode ? '#B0B5BA' : '#5F6368',
             }}
           >
             <div>
@@ -165,7 +165,7 @@ const ServiceMonthCard: React.FC<Props> = ({
           <div
             style={{
               fontSize: isMobile ? 13 : 14,
-              color: isDarkMode ? '#9AA0A6' : '#5F6368',
+              color: isDarkMode ? '#B0B5BA' : '#5F6368',
               fontWeight: 500,
             }}
           >
@@ -188,7 +188,7 @@ const ServiceMonthCard: React.FC<Props> = ({
         <span
           style={{
             fontSize: isMobile ? 20 : 24,
-            color: isDarkMode ? '#9AA0A6' : '#5F6368',
+            color: isDarkMode ? '#B0B5BA' : '#5F6368',
             flexShrink: 0,
           }}
         >

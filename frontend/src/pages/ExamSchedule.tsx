@@ -141,14 +141,15 @@ const ExamSchedule: React.FC<ExamScheduleProps> = ({ isDarkMode }) => {
         overflowX: 'auto',
       }}
     >
-      <h2
+      <main>
+      <h1
         style={{
           textAlign: 'center',
           color: isDarkMode ? '#B0263E' : 'rgba(154, 31, 54, 1)',
         }}
       >
         Class {selectedClass} Exam Schedule
-      </h2>
+      </h1>
 
       <div
         style={{
@@ -347,6 +348,7 @@ const ExamSchedule: React.FC<ExamScheduleProps> = ({ isDarkMode }) => {
           </table>
         </div>
       )}
+      </main>
     </motion.div>
   );
 };

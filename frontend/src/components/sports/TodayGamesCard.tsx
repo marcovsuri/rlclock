@@ -22,7 +22,7 @@ const TodayGamesCard: React.FC<TodayGamesCardProps> = ({
           gap: isMobile ? '2vw' : '0.6vw',
           padding: isMobile ? '2vw 3vw' : '0.5vw 1vw',
           fontSize: 16,
-          color: isDarkMode ? '#9AA0A6' : '#5F6368',
+          color: isDarkMode ? '#B0B5BA' : '#5F6368',
           fontWeight: 500,
         }}
       >
@@ -57,7 +57,7 @@ const TodayGamesCard: React.FC<TodayGamesCardProps> = ({
           fontSize: isMobile ? 13 : 14,
           margin: 0,
           marginBottom: isMobile ? '2vw' : '0.6vw',
-          color: isDarkMode ? '#9AA0A6' : '#5F6368',
+          color: isDarkMode ? '#B0B5BA' : '#5F6368',
           fontWeight: 500,
           textTransform: 'uppercase',
           letterSpacing: '0.05em',

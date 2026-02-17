@@ -345,11 +345,11 @@ const Home: React.FC<HomeProps> = ({ isDarkMode }) => {
     if (o === 'L')
       return {
         bg: isDarkMode ? 'rgba(154, 160, 166, 0.15)' : 'rgba(95, 99, 104, 0.1)',
-        text: isDarkMode ? '#9AA0A6' : '#5F6368',
+        text: isDarkMode ? '#B0B5BA' : '#5F6368',
       };
     return {
       bg: isDarkMode ? 'rgba(154, 160, 166, 0.15)' : 'rgba(95, 99, 104, 0.1)',
-      text: isDarkMode ? '#9AA0A6' : '#5F6368',
+      text: isDarkMode ? '#B0B5BA' : '#5F6368',
     };
   };
 
@@ -374,7 +374,7 @@ const Home: React.FC<HomeProps> = ({ isDarkMode }) => {
               color: isDarkMode ? '#E8EAED' : '#202124',
             } as const)
           : undefined;
-        const faint = { color: isDarkMode ? '#9AA0A6' : '#5F6368' };
+        const faint = { color: isDarkMode ? '#B0B5BA' : '#5F6368' };
         return (
           <React.Fragment key={i}>
             <span
@@ -501,7 +501,8 @@ const Home: React.FC<HomeProps> = ({ isDarkMode }) => {
         style={containerStyle}
       >
         {/* Main Content */}
-        <div style={contentStyle}>
+        <h1 style={{ position: 'absolute', width: 1, height: 1, overflow: 'hidden', clip: 'rect(0,0,0,0)', whiteSpace: 'nowrap' }}>RL Clock Dashboard</h1>
+        <main style={contentStyle}>
           {/* Left: Clock (schedule + countdown) */}
           <div style={clockStyle}>
             <Clock isDarkMode={isDarkMode} />
@@ -554,7 +555,7 @@ const Home: React.FC<HomeProps> = ({ isDarkMode }) => {
               />
             )}
           </div>
-        </div>
+        </main>
         <Footer isDarkMode={isDarkMode} />
       </motion.div>
     </>

@@ -160,13 +160,14 @@ const App: React.FC = () => {
 
       {/* Sidebar toggle button */}
       <button
+        aria-label="Toggle navigation menu"
         onClick={() => setSidebarOpen((prev) => !prev)}
         style={{
           padding: isMobile ? '0.5rem' : '0.4rem',
           borderRadius: isMobile ? '6px' : '0.3vw',
           border: 'none',
           backgroundColor: 'transparent',
-          color: isDarkMode ? '#9AA0A6' : '#5F6368',
+          color: isDarkMode ? '#B0B5BA' : '#5F6368',
           fontSize: 16,
           lineHeight: 1,
           cursor: 'pointer',
@@ -180,7 +181,7 @@ const App: React.FC = () => {
           e.currentTarget.style.color = isDarkMode ? '#E8EAED' : '#202124';
         }}
         onMouseLeave={(e) => {
-          e.currentTarget.style.color = isDarkMode ? '#9AA0A6' : '#5F6368';
+          e.currentTarget.style.color = isDarkMode ? '#B0B5BA' : '#5F6368';
         }}
       >
         <svg
@@ -253,7 +254,7 @@ const App: React.FC = () => {
             style={{
               background: 'none',
               border: 'none',
-              color: isDarkMode ? '#9AA0A6' : '#5F6368',
+              color: isDarkMode ? '#B0B5BA' : '#5F6368',
               cursor: 'pointer',
               fontSize: 14,
               fontWeight: 500,
@@ -305,7 +306,7 @@ const App: React.FC = () => {
                 </p>
                 <small
                   style={{
-                    color: isDarkMode ? '#9AA0A6' : '#5F6368',
+                    color: isDarkMode ? '#B0B5BA' : '#5F6368',
                     fontSize: isMobile ? 13 : 14,
                   }}
                 >
@@ -326,7 +327,7 @@ const App: React.FC = () => {
             <p
               style={{
                 textAlign: 'center',
-                color: isDarkMode ? '#9AA0A6' : '#5F6368',
+                color: isDarkMode ? '#B0B5BA' : '#5F6368',
               }}
             >
               No announcements right now.

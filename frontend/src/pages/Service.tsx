@@ -25,7 +25,7 @@ const Service: React.FC<ServiceProps> = ({ isDarkMode }) => {
   }, []);
 
   return (
-    <div
+    <main
       style={{
         display: 'flex',
         flexDirection: 'column',
@@ -161,7 +161,7 @@ const Service: React.FC<ServiceProps> = ({ isDarkMode }) => {
           </ul>
         </div>
       </div>
-    </div>
+    </main>
   );
 };
 

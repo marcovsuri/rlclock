@@ -10,7 +10,7 @@ const Footer: React.FC<FooterProps> = ({ isDarkMode }) => {
   const isMobile = useIsMobile();
 
   const currentYear = new Date().getFullYear();
-  const secondaryText = isDarkMode ? '#9AA0A6' : '#5F6368';
+  const secondaryText = isDarkMode ? '#B0B5BA' : '#5F6368';
   const maroon = isDarkMode ? '#B0263E' : 'rgb(154, 31, 54)';
 
   return (

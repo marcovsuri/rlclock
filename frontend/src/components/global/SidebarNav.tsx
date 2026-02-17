@@ -55,7 +55,8 @@ const SidebarNav: React.FC<SidebarNavProps> = ({
       />
 
       {/* Drawer */}
-      <div
+      <nav
+        aria-label="Main navigation"
         style={{
           position: 'fixed',
           top: 0,
@@ -109,7 +110,7 @@ const SidebarNav: React.FC<SidebarNavProps> = ({
                     backgroundColor: 'transparent',
                     color: active
                       ? isDarkMode ? '#C43C5A' : 'rgb(154, 31, 54)'
-                      : isDarkMode ? '#9AA0A6' : '#5F6368',
+                      : isDarkMode ? '#B0B5BA' : '#5F6368',
                     fontSize: 16,
                     fontWeight: 450,
                     letterSpacing: '0.01em',
@@ -128,7 +129,7 @@ const SidebarNav: React.FC<SidebarNavProps> = ({
                   onMouseLeave={(e) => {
                     if (!active) {
                       e.currentTarget.style.color = isDarkMode
-                        ? '#9AA0A6' : '#5F6368';
+                        ? '#B0B5BA' : '#5F6368';
                     }
                   }}
                 >
@@ -180,7 +181,7 @@ const SidebarNav: React.FC<SidebarNavProps> = ({
                         : 'transparent',
                       color: active
                         ? isDarkMode ? '#E8EAED' : '#202124'
-                        : isDarkMode ? '#9AA0A6' : '#5F6368',
+                        : isDarkMode ? '#B0B5BA' : '#5F6368',
                       transition: 'background-color 0.2s ease, color 0.2s ease',
                     }}
                   >
@@ -199,7 +200,7 @@ const SidebarNav: React.FC<SidebarNavProps> = ({
               border: 'none',
               borderLeft: '3px solid transparent',
               backgroundColor: 'transparent',
-              color: isDarkMode ? '#9AA0A6' : '#5F6368',
+              color: isDarkMode ? '#B0B5BA' : '#5F6368',
               fontSize: isMobile ? 13 : 14,
               fontWeight: 450,
               cursor: 'pointer',
@@ -212,13 +213,13 @@ const SidebarNav: React.FC<SidebarNavProps> = ({
               e.currentTarget.style.color = isDarkMode ? '#E8EAED' : '#202124';
             }}
             onMouseLeave={(e) => {
-              e.currentTarget.style.color = isDarkMode ? '#9AA0A6' : '#5F6368';
+              e.currentTarget.style.color = isDarkMode ? '#B0B5BA' : '#5F6368';
             }}
           >
             Send Feedback
           </button>
         </div>
-      </div>
+      </nav>
     </>
   );
 };

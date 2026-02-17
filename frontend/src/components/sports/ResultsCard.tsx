@@ -36,7 +36,7 @@ const ResultsCard: React.FC<ResultsCardProps> = ({
         style={{
           textAlign: 'center',
           fontSize: 16,
-          color: isDarkMode ? '#9AA0A6' : '#5F6368',
+          color: isDarkMode ? '#B0B5BA' : '#5F6368',
         }}
       >
         Loading results...
@@ -50,7 +50,7 @@ const ResultsCard: React.FC<ResultsCardProps> = ({
         style={{
           textAlign: 'center',
           fontSize: 16,
-          color: isDarkMode ? '#9AA0A6' : '#5F6368',
+          color: isDarkMode ? '#B0B5BA' : '#5F6368',
         }}
       >
         No results available.
@@ -125,8 +125,8 @@ const ResultsCard: React.FC<ResultsCardProps> = ({
 
   const outcomeColor = (outcome: FlatRow['outcome']): string => {
     if (outcome === 'Win') return isDarkMode ? '#4ade80' : '#16a34a';
-    if (outcome === 'Loss') return isDarkMode ? '#9AA0A6' : '#5F6368';
-    return isDarkMode ? '#9AA0A6' : '#5F6368';
+    if (outcome === 'Loss') return isDarkMode ? '#B0B5BA' : '#5F6368';
+    return isDarkMode ? '#B0B5BA' : '#5F6368';
   };
 
   const dateYearMap = new Map<string, number>();
@@ -181,7 +181,7 @@ const ResultsCard: React.FC<ResultsCardProps> = ({
           fontSize: isMobile ? 13 : 14,
           margin: 0,
           marginBottom: isMobile ? '2vw' : '0.8vw',
-          color: isDarkMode ? '#9AA0A6' : '#5F6368',
+          color: isDarkMode ? '#B0B5BA' : '#5F6368',
           fontWeight: 500,
           textTransform: 'uppercase',
           letterSpacing: '0.05em',
@@ -307,7 +307,7 @@ const ResultRow: React.FC<{
       {!isMobile && (
         <span
           style={{
-            color: isDarkMode ? '#9AA0A6' : '#5F6368',
+            color: isDarkMode ? '#B0B5BA' : '#5F6368',
             textAlign: 'right',
             whiteSpace: 'nowrap',
           }}

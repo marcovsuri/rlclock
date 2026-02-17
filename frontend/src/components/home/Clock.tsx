@@ -173,7 +173,7 @@ const Clock: React.FC<ClockProps> = ({ isDarkMode }) => {
 
     const maroonBg = isDarkMode ? '#8A1F2E' : 'rgb(154, 31, 54)';
     const neutralBg = isDarkMode ? '#4A4B4D' : '#F2F2F2';
-    const neutralText = isDarkMode ? '#9AA0A6' : '#5F6368';
+    const neutralText = isDarkMode ? '#B0B5BA' : '#5F6368';
     const normalText = isDarkMode ? '#E8EAED' : '#202124';
 
     return (
@@ -371,7 +371,7 @@ const Clock: React.FC<ClockProps> = ({ isDarkMode }) => {
       <div
         style={{
           fontSize: isMobile ? 14 : 14,
-          color: isDarkMode ? '#9AA0A6' : '#5F6368',
+          color: isDarkMode ? '#B0B5BA' : '#5F6368',
           marginBottom: isMobile ? '0.5vh' : '0.3vw',
           fontWeight: 500,
           fontVariantNumeric: 'tabular-nums',

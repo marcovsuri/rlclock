@@ -35,7 +35,7 @@ const Summer: React.FC<SummerProps> = ({ isDarkMode }) => {
   }, []);
 
   return (
-    <div
+    <main
       style={{
         display: 'flex',
         flexDirection: 'column',
@@ -45,6 +45,7 @@ const Summer: React.FC<SummerProps> = ({ isDarkMode }) => {
         width: '100%',
       }}
     >
+      <h1 style={{ position: 'absolute', width: 1, height: 1, overflow: 'hidden', clip: 'rect(0,0,0,0)', whiteSpace: 'nowrap' }}>Summer Break Countdown</h1>
       <SummerCountdown
         title="🌞 Happy Summer Break! 🎉"
         subtitle={
@@ -64,7 +65,7 @@ const Summer: React.FC<SummerProps> = ({ isDarkMode }) => {
         }
         isDarkMode={isDarkMode}
       />
-    </div>
+    </main>
   );
 };
 
