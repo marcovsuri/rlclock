@@ -357,7 +357,7 @@ const Clock: React.FC<ClockProps> = ({ isDarkMode }) => {
         backgroundColor: isDarkMode ? '#2D2E30' : '#FFFFFF',
         padding: isMobile ? '4vw' : '1.5vw',
         borderRadius: isMobile ? '4vw' : '1.2vw',
-        borderTop: `3px solid ${isDarkMode ? '#B0263E' : 'rgb(154, 31, 54)'}`,
+        borderLeft: `3px solid ${isDarkMode ? '#B0263E' : 'rgb(154, 31, 54)'}`,
         boxShadow: isDarkMode
           ? '0 2px 12px rgba(0,0,0,0.5)'
           : '0 2px 12px rgba(0,0,0,0.1)',
