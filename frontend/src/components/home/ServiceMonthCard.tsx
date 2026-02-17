@@ -82,6 +82,10 @@ const ServiceMonthCard: React.FC<Props> = ({
 
   const maroon = isDarkMode ? '#B0263E' : 'rgb(154, 31, 54)';
 
+  const end = new Date(2026, 1, 20, 23, 59, 59);
+  const diff = end.getTime() - Date.now();
+  const daysLeft = diff <= 0 ? 0 : Math.ceil(diff / (1000 * 60 * 60 * 24));
+
   return (
     <div
       onClick={() => navigate(path)}
@@ -195,12 +199,33 @@ const ServiceMonthCard: React.FC<Props> = ({
         </span>
       </div>
 
+      {/* Days left label above progress bar */}
+      {daysLeft > 0 && (
+        <div
+          style={{
+            display: 'flex',
+            justifyContent: 'flex-end',
+            marginTop: '0.5em',
+          }}
+        >
+          <span
+            style={{
+              fontSize: isMobile ? 11 : 12,
+              fontWeight: 500,
+              color: isDarkMode ? '#B0B5BA' : '#5F6368',
+            }}
+          >
+            {daysLeft} day{daysLeft === 1 ? '' : 's'} left
+          </span>
+        </div>
+      )}
+
       {/* Progress bar — full width */}
       <div
         style={{
           width: '100%',
           height: isMobile ? '1.5vh' : '0.5vw',
-          marginTop: '0.6em',
+          marginTop: daysLeft > 0 ? '0.3em' : '0.6em',
           backgroundColor: isDarkMode ? '#4A4B4D' : '#F2F2F2',
           borderRadius: '999px',
           overflow: 'hidden',
