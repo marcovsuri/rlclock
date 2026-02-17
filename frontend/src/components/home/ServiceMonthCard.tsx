@@ -164,7 +164,7 @@ const ServiceMonthCard: React.FC<Props> = ({
             </div>
           </div>
 
-          {/* Donation count + days left */}
+          {/* Donation count */}
           <div
             style={{
               fontSize: isMobile ? 13 : 14,
@@ -173,22 +173,41 @@ const ServiceMonthCard: React.FC<Props> = ({
             }}
           >
             {animatedDonations} of {donationGoal} Items Donated
-            {daysLeft > 0 && ` — ${daysLeft} Day${daysLeft === 1 ? '' : 's'} Left`}
           </div>
         </div>
 
-        {/* Right: percentage + chevron */}
-        <span
+        {/* Right: percentage + days left + chevron */}
+        <div
           style={{
-            fontSize: isMobile ? 36 : 44,
-            fontWeight: 700,
-            color: isDarkMode ? '#E8EAED' : '#202124',
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
             flexShrink: 0,
-            lineHeight: 1,
           }}
         >
-          {Math.min(Math.round((animatedDonations / donationGoal) * 100), 100)}%
-        </span>
+          <span
+            style={{
+              fontSize: isMobile ? 36 : 44,
+              fontWeight: 700,
+              color: isDarkMode ? '#E8EAED' : '#202124',
+              lineHeight: 1,
+            }}
+          >
+            {Math.min(Math.round((animatedDonations / donationGoal) * 100), 100)}%
+          </span>
+          {daysLeft > 0 && (
+            <span
+              style={{
+                fontSize: isMobile ? 11 : 12,
+                color: isDarkMode ? '#B0B5BA' : '#5F6368',
+                fontWeight: 500,
+                marginTop: '0.2em',
+              }}
+            >
+              {daysLeft} Day{daysLeft === 1 ? '' : 's'} Left
+            </span>
+          )}
+        </div>
         <span
           style={{
             fontSize: isMobile ? 20 : 24,
