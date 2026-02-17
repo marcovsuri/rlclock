@@ -50,7 +50,6 @@ const InfoCard: React.FC<Props> = ({
             ? '3vh 3vw'
             : '1.2vw 1.5vw',
         borderRadius: isMobile ? '3vw' : '0.8vw',
-        borderLeft: `3px solid ${isDarkMode ? '#B0263E' : 'rgb(154, 31, 54)'}`,
         backgroundColor: isDarkMode ? '#2D2E30' : '#FFFFFF',
         color: isDarkMode ? '#E8EAED' : '#202124',
         cursor: 'pointer',

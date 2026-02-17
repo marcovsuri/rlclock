@@ -93,7 +93,6 @@ const ServiceMonthCard: React.FC<Props> = ({
         backgroundColor: isDarkMode ? '#2D2E30' : '#FFFFFF',
         color: isDarkMode ? '#E8EAED' : '#202124',
         cursor: 'pointer',
-        borderLeft: `3px solid ${maroon}`,
         boxShadow: isDarkMode
           ? '0 2px 8px rgba(0,0,0,0.4)'
           : '0 2px 8px rgba(0,0,0,0.08)',
