@@ -164,7 +164,7 @@ const ServiceMonthCard: React.FC<Props> = ({
             </div>
           </div>
 
-          {/* Donation count */}
+          {/* Donation count + days left */}
           <div
             style={{
               fontSize: isMobile ? 13 : 14,
@@ -173,6 +173,7 @@ const ServiceMonthCard: React.FC<Props> = ({
             }}
           >
             {animatedDonations} of {donationGoal} Items Donated
+            {daysLeft > 0 && ` — ${daysLeft} Day${daysLeft === 1 ? '' : 's'} Left`}
           </div>
         </div>
 
@@ -199,33 +200,12 @@ const ServiceMonthCard: React.FC<Props> = ({
         </span>
       </div>
 
-      {/* Days left label above progress bar */}
-      {daysLeft > 0 && (
-        <div
-          style={{
-            display: 'flex',
-            justifyContent: 'flex-end',
-            marginTop: '0.5em',
-          }}
-        >
-          <span
-            style={{
-              fontSize: isMobile ? 11 : 12,
-              fontWeight: 500,
-              color: isDarkMode ? '#B0B5BA' : '#5F6368',
-            }}
-          >
-            {daysLeft} day{daysLeft === 1 ? '' : 's'} left
-          </span>
-        </div>
-      )}
-
       {/* Progress bar — full width */}
       <div
         style={{
           width: '100%',
           height: isMobile ? '1.5vh' : '0.5vw',
-          marginTop: daysLeft > 0 ? '0.3em' : '0.6em',
+          marginTop: '0.6em',
           backgroundColor: isDarkMode ? '#4A4B4D' : '#F2F2F2',
           borderRadius: '999px',
           overflow: 'hidden',
