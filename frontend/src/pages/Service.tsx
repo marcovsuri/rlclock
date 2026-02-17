@@ -59,6 +59,31 @@ const Service: React.FC<ServiceProps> = ({ isDarkMode }) => {
         isDarkMode={isDarkMode}
       />
 
+      {/* Video */}
+      <div
+        style={{
+          marginTop: '4vh',
+          width: isMobile ? '50vw' : '25vw',
+          height: isMobile ? 'calc(50vw * 16 / 9)' : 'calc(25vw * 16 / 9)',
+          borderRadius: '16px',
+          overflow: 'hidden',
+          boxShadow: isDarkMode
+            ? '0 2px 12px rgba(0,0,0,0.5)'
+            : '0 2px 12px rgba(0,0,0,0.1)',
+          flexShrink: 0,
+          backgroundColor: 'red',
+        }}
+      >
+        <iframe
+          src="https://player.vimeo.com/video/1165563987?badge=0&autopause=0&player_id=0&app_id=58479"
+          style={{ width: '100%', height: '100%', border: 'none', display: 'block' }}
+          allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share"
+          referrerPolicy="strict-origin-when-cross-origin"
+          allowFullScreen
+          title="IMG_0948"
+        />
+      </div>
+
       {/* Instructions / Blurb */}
       <div
         style={{

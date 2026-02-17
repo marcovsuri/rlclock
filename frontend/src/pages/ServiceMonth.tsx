@@ -145,6 +145,53 @@ const ServiceMonth: React.FC<ServiceProps> = ({ isDarkMode }) => {
         isDarkMode={isDarkMode}
       />
 
+      {/* Video + Poster row */}
+      <div
+        style={{
+          marginTop: isMobile ? '3vh' : '2vw',
+          display: 'flex',
+          flexDirection: isMobile ? 'column' : 'row',
+          alignItems: isMobile ? 'center' : 'flex-start',
+          gap: isMobile ? '3vh' : '2vw',
+          width: isMobile ? '92vw' : 'auto',
+        }}
+      >
+        <div
+          style={{
+            width: isMobile ? '60vw' : '18vw',
+            height: isMobile ? 'calc(60vw * 16 / 9)' : 'calc(18vw * 16 / 9)',
+            borderRadius: isMobile ? '3vw' : '0.8vw',
+            overflow: 'hidden',
+            boxShadow: isDarkMode
+              ? '0 2px 12px rgba(0,0,0,0.5)'
+              : '0 2px 12px rgba(0,0,0,0.1)',
+            flexShrink: 0,
+          }}
+        >
+          <iframe
+            src="https://player.vimeo.com/video/1165563987?badge=0&autopause=0&player_id=0&app_id=58479"
+            style={{ width: '100%', height: '100%', border: 'none', display: 'block' }}
+            allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share"
+            referrerPolicy="strict-origin-when-cross-origin"
+            allowFullScreen
+            title="Service Month Video"
+          />
+        </div>
+        <img
+          alt="Service Month"
+          src="/2026-service-month.jpg"
+          style={{
+            height: isMobile ? 'calc(60vw * 16 / 9)' : 'calc(18vw * 16 / 9)',
+            width: 'auto',
+            borderRadius: isMobile ? '3vw' : '0.8vw',
+            boxShadow: isDarkMode
+              ? '0 2px 12px rgba(0,0,0,0.5)'
+              : '0 2px 12px rgba(0,0,0,0.1)',
+            flexShrink: 0,
+          }}
+        />
+      </div>
+
       {/* Combined Leaderboard Table */}
       {sortedData.length > 0 && (
         <div
@@ -297,19 +344,6 @@ const ServiceMonth: React.FC<ServiceProps> = ({ isDarkMode }) => {
           </div>
         </div>
       )}
-      <img
-        alt="Service Month"
-        src="/2026-service-month.jpg"
-        style={{
-          marginTop: isMobile ? '3vh' : '2vw',
-          width: isMobile ? '92vw' : '40vw',
-          boxShadow: isDarkMode
-            ? '0 2px 12px rgba(0,0,0,0.5)'
-            : '0 2px 12px rgba(0,0,0,0.1)',
-          overflow: 'hidden',
-          borderRadius: isMobile ? '3vw' : '0.8vw',
-        }}
-      />
     </main>
   );
 };
