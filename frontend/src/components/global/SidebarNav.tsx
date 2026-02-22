@@ -2,6 +2,7 @@ import React from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import useIsMobile from '../../hooks/useIsMobile';
 import AnnouncementsButton from './AnnouncementsButton';
+import { SHOW_SERVICE } from '../../config';
 
 type ThemePreference = 'system' | 'light' | 'dark';
 
@@ -19,7 +20,7 @@ const navItems = [
   { label: 'Home', path: '/' },
   { label: 'Lunch', path: '/lunch' },
   { label: 'Sports', path: '/sports' },
-  { label: 'Service', path: '/service' },
+  ...(SHOW_SERVICE ? [{ label: 'Service', path: '/service' }] : []),
 ];
 
 const SidebarNav: React.FC<SidebarNavProps> = ({

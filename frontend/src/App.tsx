@@ -13,6 +13,7 @@ import './styles.css';
 import SidebarNav from './components/global/SidebarNav';
 import useIsMobile from './hooks/useIsMobile';
 import { Navigate } from 'react-router-dom';
+import { SHOW_SERVICE } from './config';
 
 const AnimatedRoutes = ({ isDarkMode }: { isDarkMode: boolean }) => {
   const location = useLocation();
@@ -24,10 +25,14 @@ const AnimatedRoutes = ({ isDarkMode }: { isDarkMode: boolean }) => {
         <Route path="/" element={<Home isDarkMode={isDarkMode} />} />
         <Route path="/lunch" element={<Lunch isDarkMode={isDarkMode} />} />
         <Route path="/sports" element={<Sports isDarkMode={isDarkMode} />} />
-        <Route
-          path="/service"
-          element={<ServiceMonth isDarkMode={isDarkMode} />}
-        />
+        {SHOW_SERVICE ? (
+          <Route
+            path="/service"
+            element={<ServiceMonth isDarkMode={isDarkMode} />}
+          />
+        ) : (
+          <Route path="/service" element={<Navigate to="/" replace />} />
+        )}
         {/* <Route path="/summer" element={<Summer isDarkMode={isDarkMode} />} /> */}
         {/* <Route
           path="/exams"

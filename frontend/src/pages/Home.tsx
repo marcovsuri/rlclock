@@ -21,6 +21,7 @@ import {
   getServiceMonthLeaderboardData,
   SheetData,
 } from '../core/serviceMonthDataFetcher';
+import { SHOW_SERVICE } from '../config';
 interface HomeProps {
   isDarkMode: boolean;
 }
@@ -44,6 +45,7 @@ const Home: React.FC<HomeProps> = ({ isDarkMode }) => {
   const DONATION_GOAL = 7500;
 
   useEffect(() => {
+    if (!SHOW_SERVICE) return;
     getServiceData().then((result) => {
       if (result.success) {
         setServiceData(result.data);
@@ -52,6 +54,7 @@ const Home: React.FC<HomeProps> = ({ isDarkMode }) => {
   }, []);
 
   useEffect(() => {
+    if (!SHOW_SERVICE) return;
     getServiceMonthCounter().then((result) => {
       if (result.success) {
         setServiceMonthCounter(result.data);
@@ -60,6 +63,7 @@ const Home: React.FC<HomeProps> = ({ isDarkMode }) => {
   }, []);
 
   useEffect(() => {
+    if (!SHOW_SERVICE) return;
     getServiceMonthLeaderboardData().then((result) => {
       if (result.success) {
         const data = result.data;
@@ -528,15 +532,17 @@ const Home: React.FC<HomeProps> = ({ isDarkMode }) => {
             />
 
             {/* 2. Service Month */}
-            <ServiceMonthCard
-              title="Service Month"
-              numDonations={serviceMonthCounter || 0}
-              donationGoal={DONATION_GOAL}
-              topParticipationClass={serviceMonthParticipationLeader}
-              topPointsClass={serviceMonthPointsLeader}
-              path="/service"
-              isDarkMode={isDarkMode}
-            />
+            {SHOW_SERVICE && (
+              <ServiceMonthCard
+                title="Service Month"
+                numDonations={serviceMonthCounter || 0}
+                donationGoal={DONATION_GOAL}
+                topParticipationClass={serviceMonthParticipationLeader}
+                topPointsClass={serviceMonthPointsLeader}
+                path="/service"
+                isDarkMode={isDarkMode}
+              />
+            )}
 
             {/* 3. Condensed Athletics Results */}
             {pastResults !== undefined && (
