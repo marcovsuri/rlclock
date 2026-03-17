@@ -2,6 +2,7 @@ import type { Schedule } from '~/types/clock';
 import type { Route } from './+types/home';
 import Clock from '~/components/clock/Clock';
 import { scheduleFetcher } from '~/shared/fetchers';
+import { motion } from 'framer-motion';
 
 export function meta({}: Route.MetaArgs) {
   return [
@@ -18,11 +19,33 @@ export async function clientLoader() {
   return { schedule: scheduleResult.data };
 }
 
+const createStyles = () => {
+  const container: React.CSSProperties = {
+    display: 'flex',
+    flexDirection: 'column',
+    minHeight: '100vh',
+    width: '100%',
+    scrollbarWidth: 'none',
+  };
+
+  return { container };
+};
+
 export default function Home({ loaderData }: Route.ComponentProps) {
   const { schedule }: { schedule: Schedule } = loaderData;
+  const styles = createStyles();
+
   return (
     <>
-      <Clock schedule={schedule} />
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+        transition={{ duration: 0.5 }}
+        style={styles.container}
+      >
+        <Clock schedule={schedule} />
+      </motion.div>
     </>
   );
 }

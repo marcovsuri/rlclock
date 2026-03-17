@@ -3,6 +3,7 @@ import type { Schedule } from '~/types/clock';
 import ScheduleComponent from './ScheduleComponent';
 import { useEffect, useState } from 'react';
 import { OFFSET } from './testing';
+import { getClockDisplayInfo } from '~/utils/clock/utils';
 
 interface Props {
   schedule: Schedule;
@@ -43,37 +44,6 @@ const createStyles = () => {
   };
 
   return { container, currentBlock, remaining };
-};
-
-const getClockDisplayInfo = (
-  now: Date,
-  schedule: Schedule,
-): {
-  currentBlock: string;
-  minutesRemaining: number;
-  secondsRemaining: number;
-} => {
-  const currentPeriod = schedule.periods.find(
-    (p) => now >= p.start && now <= p.end,
-  );
-
-  const nextPeriod = !currentPeriod
-    ? schedule.periods.find((p) => p.start > now)
-    : null;
-
-  const secondsTotal = currentPeriod
-    ? Math.floor((currentPeriod.end.getTime() - now.getTime()) / 1000)
-    : nextPeriod
-      ? Math.floor((nextPeriod.start.getTime() - now.getTime()) / 1000)
-      : 0;
-
-  const minutesRemaining = Math.floor(secondsTotal / 60);
-  const secondsRemaining = secondsTotal % 60;
-  const currentBlock =
-    currentPeriod?.name ??
-    (nextPeriod ? `PT => ${nextPeriod.name}` : 'No school!');
-
-  return { currentBlock, minutesRemaining, secondsRemaining };
 };
 
 const Clock: React.FC<Props> = ({ schedule }) => {
