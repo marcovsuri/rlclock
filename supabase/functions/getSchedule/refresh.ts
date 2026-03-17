@@ -1,4 +1,5 @@
 import { API_Schedule, Period, Schedule } from "./types.ts";
+import { TIMEZONE } from "../_shared/global.ts";
 
 // TODO: remove for real data
 const DUMMY_SCHEDULE: API_Schedule = {
@@ -32,9 +33,25 @@ export async function fetchApiSchedule(): Promise<API_Schedule> {
 }
 
 const timeStringToDate = (timeStr: string): Date => {
-  const [h, m] = timeStr.split(":").map(Number);
+  // Get offset hours from GMT (changes with DST)
   const now = new Date();
-  return new Date(now.getFullYear(), now.getMonth(), now.getDate(), h, m);
+  const today = now.toLocaleDateString("en-CA", { timeZone: TIMEZONE });
+  const rawOffset = now.toLocaleDateString("en-US", {
+    timeZone: TIMEZONE,
+    timeZoneName: "shortOffset",
+  })
+    .split("GMT")[1]; // "-5" or "-4"
+
+  // Format offset for ISO string
+  const [sign, hours] = [rawOffset[0], rawOffset.slice(1)];
+  const offset = `${sign}${hours.padStart(2, "0")}:00`; // "-04:00" or "-05:00"
+
+  // Format time for ISO string
+  const [h, m] = timeStr.split(":");
+  const time = `${h.padStart(2, "0")}:${m}:00`;
+
+  // Create date in correct time zone
+  return new Date(`${today}T${time}${offset}`);
 };
 
 const cleanPeriodName = (name: string): string =>

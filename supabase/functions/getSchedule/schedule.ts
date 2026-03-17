@@ -1,3 +1,4 @@
+import { TIMEZONE } from "../_shared/global.ts";
 import { SupabaseClient } from "https://esm.sh/@supabase/supabase-js@2.46.1";
 import { Schedule, scheduleQuerySchema } from "./types.ts";
 import { fetchApiSchedule, transformSchedule } from "./refresh.ts";
@@ -5,10 +6,10 @@ import { fetchApiSchedule, transformSchedule } from "./refresh.ts";
 /** Returns today's date as "YYYY-MM-DD" in Eastern time, matching the Supabase `date` column */
 const getToday = (): string =>
   new Date()
-    .toLocaleString("en-CA", { timeZone: "America/New_York" })
+    .toLocaleString("en-CA", { timeZone: TIMEZONE })
     .split(",")[0];
 
-export async function getScheduleForToday(
+async function getScheduleForToday(
   supabase: SupabaseClient,
 ): Promise<Schedule> {
   // Todo: manual reset check
@@ -41,3 +42,5 @@ export async function getScheduleForToday(
 
   return schedule;
 }
+
+export { getScheduleForToday, TIMEZONE };
