@@ -1,0 +1,57 @@
+import { API_Schedule, Period, Schedule } from "./types.ts";
+
+// TODO: remove for real data
+const DUMMY_SCHEDULE: API_Schedule = {
+  name: "A-20 (ES)",
+  periods: [
+    { period: 0, name: "Homeroom", start: "8:20", end: "8:25" },
+    { period: 1, name: "Hall Block", start: "8:30", end: "8:50" },
+    { period: 2, name: "A Block", start: "8:55", end: "9:40" },
+    { period: 3, name: "B Block", start: "9:45", end: "10:30" },
+    { period: 4, name: "C Block", start: "10:35", end: "11:20" },
+    { period: 5, name: "D Block - First Lunch", start: "11:25", end: "11:50" },
+    {
+      period: 6,
+      name: "D Block - Between Lunches",
+      start: "11:55",
+      end: "12:10",
+    },
+    { period: 7, name: "D Block - Second Lunch", start: "12:15", end: "12:40" },
+    { period: 8, name: "E Block", start: "12:45", end: "13:30" },
+    { period: 9, name: "F Block", start: "13:35", end: "14:20" },
+    { period: 10, name: "G Block", start: "14:25", end: "13:10" },
+  ],
+};
+
+export async function fetchApiSchedule(): Promise<API_Schedule> {
+  // const url = "https://rl-mod-clock-api.azurewebsites.net/todays_schedule.json";
+  // const response = await fetch(url);
+  // const parsed = API_scheduleSchema.parse(await response.json());
+  // return parsed;
+  return DUMMY_SCHEDULE;
+}
+
+const timeStringToDate = (timeStr: string): Date => {
+  const [h, m] = timeStr.split(":").map(Number);
+  const now = new Date();
+  return new Date(now.getFullYear(), now.getMonth(), now.getDate(), h, m);
+};
+
+const cleanPeriodName = (name: string): string =>
+  name
+    .replace(/ Block/g, "")
+    .replace(/\bIn Between\b/gi, "Between");
+
+export function transformSchedule(schedule: API_Schedule): Schedule {
+  const periods: Period[] = schedule.periods
+    .filter((p) => p.start && p.end)
+    .map((p, i) => ({
+      index: i,
+      name: cleanPeriodName(p.name),
+      start: timeStringToDate(p.start),
+      end: timeStringToDate(p.end),
+      block: p.block,
+    }));
+
+  return { name: schedule.name, periods };
+}

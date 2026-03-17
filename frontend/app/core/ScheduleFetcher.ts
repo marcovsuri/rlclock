@@ -12,11 +12,13 @@ class ScheduleFetcher extends TimedCacheFetcher<Schedule> {
   constructor() {
     super();
 
-    const url = process.env.REACT_APP_SCHEDULE_URL;
-    const accessToken = process.env.REACT_APP_SUPABASE_ANON_KEY;
+    const url = import.meta.env.VITE_SCHEDULE_URL;
+    const accessToken = import.meta.env.VITE_SUPABASE_ANON_KEY;
 
     if (!url || !accessToken) {
-      throw new Error('SCHEDULE_URL or SUPABASE_ANON_KEY is not defined');
+      throw new Error(
+        'VITE_SCHEDULE_URL or VITE_SUPABASE_ANON_KEY is not defined',
+      );
     }
 
     this.fetchUrl = url;

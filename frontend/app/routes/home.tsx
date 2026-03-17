@@ -1,4 +1,6 @@
+import { useEffect } from 'react';
 import type { Route } from './+types/home';
+import scheduleFetcher from '~/core/ScheduleFetcher';
 
 export function meta({}: Route.MetaArgs) {
   return [
@@ -8,5 +10,14 @@ export function meta({}: Route.MetaArgs) {
 }
 
 export default function Home() {
+  useEffect(() => {
+    async function s() {
+      const r = await scheduleFetcher.get();
+      console.log(r);
+    }
+
+    s();
+  }, []);
+
   return <h1>Hello world</h1>;
 }

@@ -3,8 +3,8 @@ import { z } from 'zod';
 const periodSchema = z.object({
   index: z.number(),
   name: z.string(),
-  start: z.date(),
-  end: z.date(),
+  start: z.coerce.date(), // Force Date conversion
+  end: z.coerce.date(), // Force Date conversion
   block: z.string().length(1).optional(),
 });
 
