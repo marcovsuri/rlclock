@@ -1,7 +1,7 @@
 import ScheduleFetcher from '~/core/ScheduleFetcher';
-import SportsFetcher from '~/core/SportsFetcher';
+import MatchesFetcher from '~/core/MatchesFetcher';
 
 const scheduleFetcher = new ScheduleFetcher();
-const sportsFetcher = new SportsFetcher();
+const matchesFetcher = new MatchesFetcher();
 
-export { scheduleFetcher, sportsFetcher };
+export { scheduleFetcher, matchesFetcher };

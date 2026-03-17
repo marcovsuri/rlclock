@@ -3,8 +3,8 @@ import TimedCacheFetcher from './TimedCacheFetcher';
 import type { Result } from '~/types/global';
 import { handleError } from '~/shared/error';
 
-class SportsFetcher extends TimedCacheFetcher<Match[]> {
-  protected readonly storageKey = 'sports';
+class MatchesFetcher extends TimedCacheFetcher<Match[]> {
+  protected readonly storageKey = 'matches';
   protected readonly ttl = 20 * 1000; // 5 minutes // TODO: change
 
   protected readonly fetchUrl: string;
@@ -13,12 +13,12 @@ class SportsFetcher extends TimedCacheFetcher<Match[]> {
   constructor() {
     super();
 
-    const url = import.meta.env.VITE_SPORTS_URL;
+    const url = import.meta.env.VITE_MATCHES_URL;
     const accessToken = import.meta.env.VITE_SUPABASE_ANON_KEY;
 
     if (!url || !accessToken) {
       throw new Error(
-        'VITE_SPORTS_URL or VITE_SUPABASE_ANON_KEY is not defined',
+        'VITE_MATCHES_URL or VITE_SUPABASE_ANON_KEY is not defined',
       );
     }
 
@@ -44,4 +44,4 @@ class SportsFetcher extends TimedCacheFetcher<Match[]> {
   }
 }
 
-export default SportsFetcher;
+export default MatchesFetcher;

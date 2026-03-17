@@ -1,13 +1,13 @@
-import { sportsFetcher } from '~/shared/fetchers';
+import { matchesFetcher } from '~/shared/fetchers';
 import type { Route } from './+types/sports';
 import type { Match } from '~/types/sports';
 
 export async function clientLoader() {
   // Fetch sports
-  const sportsResult = await sportsFetcher.get();
-  if (!sportsResult.success) throw new Error(sportsResult.errorMessage);
+  const matchesResult = await matchesFetcher.get();
+  if (!matchesResult.success) throw new Error(matchesResult.errorMessage);
 
-  return { matches: sportsResult.data };
+  return { matches: matchesResult.data, upcomingMatches: [] };
 }
 
 export default function Sports({ loaderData }: Route.ComponentProps) {
