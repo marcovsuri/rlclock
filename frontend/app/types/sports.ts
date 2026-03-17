@@ -21,5 +21,16 @@ const matchesSchema = z.array(matchSchema);
 type Match = z.infer<typeof matchSchema>;
 type MatchResult = z.infer<typeof MatchResultEnum>;
 
+interface MatchRecord {
+  wins: number;
+  ties: number;
+  losses: number;
+}
+
+interface TeamRecord {
+  team: string;
+  record: MatchRecord;
+}
+
 export { matchesSchema };
-export type { Match, MatchResult };
+export type { Match, MatchResult, MatchRecord, TeamRecord };
