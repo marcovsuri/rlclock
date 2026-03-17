@@ -19,7 +19,7 @@ const DUMMY_SCHEDULE: API_Schedule = {
     { period: 7, name: "D Block - Second Lunch", start: "12:15", end: "12:40" },
     { period: 8, name: "E Block", start: "12:45", end: "13:30" },
     { period: 9, name: "F Block", start: "13:35", end: "14:20" },
-    { period: 10, name: "G Block", start: "14:25", end: "13:10" },
+    { period: 10, name: "G Block", start: "14:25", end: "15:10" },
   ],
 };
 
@@ -50,7 +50,6 @@ export function transformSchedule(schedule: API_Schedule): Schedule {
       name: cleanPeriodName(p.name),
       start: timeStringToDate(p.start),
       end: timeStringToDate(p.end),
-      block: p.block,
     }));
 
   return { name: schedule.name, periods };

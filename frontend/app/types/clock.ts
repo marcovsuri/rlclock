@@ -5,7 +5,6 @@ const periodSchema = z.object({
   name: z.string(),
   start: z.coerce.date(), // Force Date conversion
   end: z.coerce.date(), // Force Date conversion
-  block: z.string().length(1).optional(),
 });
 
 const scheduleSchema = z.object({

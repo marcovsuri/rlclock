@@ -35,11 +35,16 @@ abstract class TimedCacheFetcher<T> {
       if (!raw) throw new Error('No data in storage');
 
       const cached: CachedEntry<T> = JSON.parse(raw);
-      const age = Date.now() - new Date(cached.lastUpdated).getTime();
 
+      // Check age
+      const age = Date.now() - new Date(cached.lastUpdated).getTime();
       if (age > this.ttl) throw new Error('Cached data has expired');
 
-      return { success: true, data: cached.data };
+      // Check data format
+      const result = this.parseResponse(cached.data);
+      if (!result.success) throw new Error('Cached data not of correct format');
+
+      return { success: true, data: result.data };
     } catch (error) {
       if (error instanceof Error) {
         return { success: false, errorMessage: error.message };

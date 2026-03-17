@@ -1,6 +1,7 @@
-import { useEffect } from 'react';
+import type { Schedule } from '~/types/clock';
 import type { Route } from './+types/home';
 import scheduleFetcher from '~/core/ScheduleFetcher';
+import Clock from '~/components/clock/Clock';
 
 export function meta({}: Route.MetaArgs) {
   return [
@@ -9,15 +10,19 @@ export function meta({}: Route.MetaArgs) {
   ];
 }
 
-export default function Home() {
-  useEffect(() => {
-    async function s() {
-      const r = await scheduleFetcher.get();
-      console.log(r);
-    }
+export async function clientLoader() {
+  // Fetch schedule
+  const scheduleResult = await scheduleFetcher.get();
+  if (!scheduleResult.success) throw new Error(scheduleResult.errorMessage);
 
-    s();
-  }, []);
+  return { schedule: scheduleResult.data };
+}
 
-  return <h1>Hello world</h1>;
+export default function Home({ loaderData }: Route.ComponentProps) {
+  const { schedule }: { schedule: Schedule } = loaderData;
+  return (
+    <>
+      <Clock schedule={schedule} />
+    </>
+  );
 }

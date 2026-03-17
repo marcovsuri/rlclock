@@ -4,7 +4,7 @@ import type { Result } from '~/types/global';
 
 class ScheduleFetcher extends TimedCacheFetcher<Schedule> {
   protected readonly storageKey = 'schedule';
-  protected readonly ttl = 5 * 60 * 1000; // 5 minutes
+  protected readonly ttl = 10 * 1000; // 5 minutes // TODO: change
 
   protected readonly fetchUrl: string;
   protected readonly fetchOptions?: RequestInit;
