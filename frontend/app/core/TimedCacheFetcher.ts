@@ -1,3 +1,4 @@
+import { handleError } from '~/shared/error';
 import type { Result } from '~/types/global';
 
 interface CachedEntry<T> {
@@ -46,11 +47,7 @@ abstract class TimedCacheFetcher<T> {
 
       return { success: true, data: result.data };
     } catch (error) {
-      if (error instanceof Error) {
-        return { success: false, errorMessage: error.message };
-      }
-
-      return { success: false, errorMessage: 'Unknown error' };
+      return handleError(error);
     }
   }
 
@@ -69,11 +66,7 @@ abstract class TimedCacheFetcher<T> {
 
       return { success: true, data: null };
     } catch (error) {
-      if (error instanceof Error) {
-        return { success: false, errorMessage: error.message };
-      }
-
-      return { success: false, errorMessage: 'Unknown error' };
+      return handleError(error);
     }
   }
 
@@ -115,11 +108,7 @@ abstract class TimedCacheFetcher<T> {
 
       return { success: true, data: parsed.data };
     } catch (error) {
-      if (error instanceof Error) {
-        return { success: false, errorMessage: error.message };
-      }
-
-      return { success: false, errorMessage: 'Unknown error' };
+      return handleError(error);
     }
   }
 }

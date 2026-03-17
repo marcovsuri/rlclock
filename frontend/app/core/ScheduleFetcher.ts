@@ -1,6 +1,7 @@
 import { scheduleSchema, type Schedule } from '~/types/clock';
 import TimedCacheFetcher from './TimedCacheFetcher';
 import type { Result } from '~/types/global';
+import { handleError } from '~/shared/error';
 
 class ScheduleFetcher extends TimedCacheFetcher<Schedule> {
   protected readonly storageKey = 'schedule';
@@ -38,15 +39,9 @@ class ScheduleFetcher extends TimedCacheFetcher<Schedule> {
 
       return { success: true, data: result.data };
     } catch (error) {
-      if (error instanceof Error) {
-        return { success: false, errorMessage: error.message };
-      }
-
-      return { success: false, errorMessage: 'Unknown error' };
+      return handleError(error);
     }
   }
 }
 
-const scheduleFetcher = new ScheduleFetcher();
-
-export default scheduleFetcher;
+export default ScheduleFetcher;
