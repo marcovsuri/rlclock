@@ -6,10 +6,26 @@ interface Props {
   schedule: Schedule;
 }
 
+const createStyles = () => {
+  const container: React.CSSProperties = {
+    display: 'flex',
+    gap: '1vw',
+    alignItems: 'flex-end',
+    marginBottom: '3vh',
+    width: '100%',
+    flexWrap: 'nowrap',
+    justifyContent: 'center',
+  };
+
+  return { container };
+};
+
 const ScheduleComponent: React.FC<Props> = ({ schedule }) => {
+  const styles = createStyles();
+
   return (
     <>
-      <div className="flex gap-[1vw] items-end mb-[3vh] w-full flex-nowrap justify-center">
+      <div style={styles.container}>
         {schedule.periods.map((p, i) => (
           <Block key={i} period={p} />
         ))}

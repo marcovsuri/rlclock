@@ -8,6 +8,43 @@ interface Props {
   schedule: Schedule;
 }
 
+const createStyles = () => {
+  const container: React.CSSProperties = {
+    fontFamily: 'sans-serif',
+    backgroundColor: 'black',
+    color: 'white',
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'center',
+    minHeight: '100vh',
+    paddingTop: '2vh',
+    paddingBottom: '2vh',
+    paddingLeft: '2vw',
+    paddingRight: '2vw',
+  };
+
+  const currentBlock: React.CSSProperties = {
+    fontSize: '5vw',
+    fontWeight: 'bold',
+    letterSpacing: '0.3vw',
+    textAlign: 'center',
+    lineHeight: 1,
+  };
+
+  const remaining: React.CSSProperties = {
+    fontSize: '1.8vw',
+    fontWeight: 'normal',
+    letterSpacing: '0.15vw',
+    textAlign: 'center',
+    opacity: 0.7,
+    marginTop: '0.5vh',
+    marginBottom: '3vh',
+  };
+
+  return { container, currentBlock, remaining };
+};
+
 const getClockDisplayInfo = (
   now: Date,
   schedule: Schedule,
@@ -55,19 +92,17 @@ const Clock: React.FC<Props> = ({ schedule }) => {
   const { currentBlock, minutesRemaining, secondsRemaining } =
     getClockDisplayInfo(now, schedule);
 
+  const styles = createStyles();
+
   return (
-    <>
-      <div className="font-sans bg-black text-white flex flex-col items-center justify-center min-h-screen py-[2vh] px-[2vw]">
-        <ScheduleComponent schedule={schedule} />
-        <div className="text-[5vw] font-bold tracking-[0.3vw] text-center leading-none">
-          {currentBlock}
-        </div>
-        <div className="text-[1.8vw] font-normal tracking-[0.15vw] text-center opacity-70 mt-[0.5vh] mb-[3vh]">
-          {String(minutesRemaining).padStart(2, '0')}:
-          {String(secondsRemaining).padStart(2, '0')} remaining
-        </div>
+    <div style={styles.container}>
+      <ScheduleComponent schedule={schedule} />
+      <div style={styles.currentBlock}>{currentBlock}</div>
+      <div style={styles.remaining}>
+        {String(minutesRemaining).padStart(2, '0')}:
+        {String(secondsRemaining).padStart(2, '0')} remaining
       </div>
-    </>
+    </div>
   );
 };
 

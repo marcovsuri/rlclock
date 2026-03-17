@@ -6,6 +6,50 @@ interface Props {
   period: Period;
 }
 
+const createStyles = (isCurrent: boolean) => {
+  const container: React.CSSProperties = {
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    width: 'calc((100% - 40 * 1vw) / 11)',
+    height: '45vh',
+    transform: 'rotate(25deg)',
+    borderRadius: '0.5vw',
+    paddingTop: '1vh',
+    paddingBottom: '1vh',
+    paddingLeft: '0.2vw',
+    paddingRight: '0.2vw',
+    backgroundColor: isCurrent ? '#ff1a1a' : '#7a0000',
+  };
+
+  const time: React.CSSProperties = {
+    fontSize: '0.9vw',
+    opacity: 0.8,
+    textAlign: 'center',
+    WebkitUserSelect: 'none',
+    MozUserSelect: 'none',
+    msUserSelect: 'none',
+    userSelect: 'none',
+  };
+
+  const name: React.CSSProperties = {
+    fontSize: '1.5vw',
+    fontWeight: 'bold',
+    textAlign: 'center',
+    margin: 'auto',
+    writingMode: 'vertical-rl',
+    textOrientation: 'mixed',
+    transform: 'rotate(180deg)',
+    WebkitUserSelect: 'none',
+    MozUserSelect: 'none',
+    msUserSelect: 'none',
+    userSelect: 'none',
+  };
+
+  return { container, time, name };
+};
+
 const Block: React.FC<Props> = ({ period }) => {
   const { name, start, end } = period;
 
@@ -22,38 +66,14 @@ const Block: React.FC<Props> = ({ period }) => {
   const now = new Date(Date.now() - OFFSET);
   const isCurrent = now >= start && now <= end;
 
+  const styles = createStyles(isCurrent);
+
   return (
-    <>
-      <div
-        className={[
-          // Layout
-          'flex flex-col justify-between items-center',
-          // Size — width uses calc() so inline style handles it
-          'h-[45vh]',
-          // Rotation & shape
-          'rotate-25 rounded-[0.5vw]',
-          // Spacing
-          'py-[1vh] px-[0.2vw]',
-          // Color
-          isCurrent ? 'bg-[#ff1a1a]' : 'bg-[#7a0000]',
-        ].join(' ')}
-        style={{ width: 'calc((100% - 40 * 1vw) / 11)' }}
-      >
-        {/* End time sits at the top of the (rotated) bar */}
-        <div className="text-[0.9vw] opacity-80 text-center">{endTime}</div>
-
-        {/* Block name runs vertically */}
-        <div
-          className="text-[1.5vw] font-bold text-center my-auto rotate-180"
-          style={{ writingMode: 'vertical-rl', textOrientation: 'mixed' }}
-        >
-          {name}
-        </div>
-
-        {/* Start time sits at the bottom */}
-        <div className="text-[0.9vw] opacity-80 text-center">{startTime}</div>
-      </div>
-    </>
+    <div style={styles.container}>
+      <div style={styles.time}>{endTime}</div>
+      <div style={styles.name}>{name}</div>
+      <div style={styles.time}>{startTime}</div>
+    </div>
   );
 };
 
