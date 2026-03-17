@@ -1,7 +1,7 @@
 import type { Schedule } from '~/types/clock';
 import type { Route } from './+types/home';
-import scheduleFetcher from '~/core/ScheduleFetcher';
 import Clock from '~/components/clock/Clock';
+import { scheduleFetcher } from '~/shared/fetchers';
 
 export function meta({}: Route.MetaArgs) {
   return [
