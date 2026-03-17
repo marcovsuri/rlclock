@@ -1,5 +1,6 @@
 import React from 'react';
 import type { Period } from '~/types/clock';
+import { OFFSET } from './testing';
 
 interface Props {
   period: Period;
@@ -18,7 +19,6 @@ const Block: React.FC<Props> = ({ period }) => {
   });
 
   // Todo: remove offset
-  const OFFSET = -1 * 8 * 60 * 60 * 1000; // 10 hours in ms
   const now = new Date(Date.now() - OFFSET);
   const isCurrent = now >= start && now <= end;
 

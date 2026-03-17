@@ -2,14 +2,45 @@ import type React from 'react';
 import type { Schedule } from '~/types/clock';
 import ScheduleComponent from './ScheduleComponent';
 import { useEffect, useState } from 'react';
+import { OFFSET } from './testing';
 
 interface Props {
   schedule: Schedule;
 }
 
+const getClockDisplayInfo = (
+  now: Date,
+  schedule: Schedule,
+): {
+  currentBlock: string;
+  minutesRemaining: number;
+  secondsRemaining: number;
+} => {
+  const currentPeriod = schedule.periods.find(
+    (p) => now >= p.start && now <= p.end,
+  );
+
+  const nextPeriod = !currentPeriod
+    ? schedule.periods.find((p) => p.start > now)
+    : null;
+
+  const secondsTotal = currentPeriod
+    ? Math.floor((currentPeriod.end.getTime() - now.getTime()) / 1000)
+    : nextPeriod
+      ? Math.floor((nextPeriod.start.getTime() - now.getTime()) / 1000)
+      : 0;
+
+  const minutesRemaining = Math.floor(secondsTotal / 60);
+  const secondsRemaining = secondsTotal % 60;
+  const currentBlock =
+    currentPeriod?.name ??
+    (nextPeriod ? `PT => ${nextPeriod.name}` : 'No school!');
+
+  return { currentBlock, minutesRemaining, secondsRemaining };
+};
+
 const Clock: React.FC<Props> = ({ schedule }) => {
   // Todo: remove offset
-  const OFFSET = -1 * 8 * 60 * 60 * 1000; // 10 hours in ms
   const [now, setNow] = useState(new Date(Date.now() - OFFSET));
 
   useEffect(() => {
@@ -21,17 +52,8 @@ const Clock: React.FC<Props> = ({ schedule }) => {
     return () => clearInterval(interval);
   }, []);
 
-  const currentPeriod = schedule.periods.find(
-    (p) => now >= p.start && now <= p.end,
-  );
-
-  const secondsTotal = currentPeriod
-    ? Math.floor((currentPeriod.end.getTime() - now.getTime()) / 1000)
-    : 0;
-
-  const minutesRemaining = Math.floor(secondsTotal / 60);
-  const secondsRemaining = secondsTotal % 60;
-  const currentBlock = currentPeriod?.name ?? 'No current block';
+  const { currentBlock, minutesRemaining, secondsRemaining } =
+    getClockDisplayInfo(now, schedule);
 
   return (
     <>
