@@ -40,6 +40,7 @@ export default function Sports({ loaderData }: Route.ComponentProps) {
   console.log(matches);
   console.log(records);
 
+  // Todo: move styling to createStyles()
   return (
     <motion.div
       initial={{ opacity: 0 }}
@@ -75,7 +76,7 @@ export default function Sports({ loaderData }: Route.ComponentProps) {
           Sports
         </h1>
         <div style={{ alignSelf: 'flex-start' }}>
-          <BackButton isDarkMode={isDarkMode} />
+          <BackButton text={'Home'} isDarkMode={isDarkMode} />
         </div>
         <TodayMatchesCard
           todayMatches={upcomingMatches}

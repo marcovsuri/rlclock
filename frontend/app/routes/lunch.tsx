@@ -1,6 +1,11 @@
+import React from 'react';
+import { motion } from 'framer-motion';
 import { menuFetcher } from '~/shared/fetchers';
 import type { Route } from './+types/lunch';
 import type { Menu } from '~/types/lunch';
+import useIsMobile from '~/hooks/useIsMobile';
+import BackButton from '~/components/global/BackButton';
+import MenuSection from '~/components/lunch/MenuSection';
 
 export function meta({}: Route.MetaArgs) {
   return [
@@ -17,9 +22,106 @@ export async function clientLoader() {
   return { menu: menuResult.data };
 }
 
+const MENU_SECTIONS: { key: keyof Menu; title: string }[] = [
+  { key: 'Entrées', title: 'Entrées' },
+  { key: 'Sides and Vegetables', title: 'Sides and Vegetables' },
+  { key: 'Soups', title: 'Soups' },
+];
+
+const createStyles = (isMobile: boolean, isDarkMode: boolean) => {
+  const container: React.CSSProperties = {
+    display: 'flex',
+    flexDirection: 'column',
+    minHeight: '100vh',
+    width: '100%',
+    alignItems: 'center',
+  };
+
+  const inner: React.CSSProperties = {
+    flexGrow: 1,
+    padding: isMobile ? '2rem 1rem' : '2rem 3rem',
+    boxSizing: 'border-box',
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    color: isDarkMode ? '#E8EAED' : '#202124',
+    width: '100%',
+  };
+
+  const content: React.CSSProperties = {
+    width: isMobile ? '100%' : '60vw',
+    maxWidth: '600px',
+    margin: '0 auto',
+    boxSizing: 'border-box',
+  };
+
+  const title: React.CSSProperties = {
+    fontSize: isMobile ? 26 : 32,
+    color: isDarkMode ? '#B0263E' : 'rgb(154, 31, 54)',
+    margin: '0 0 1rem',
+    textAlign: 'center',
+  };
+
+  const sectionList: React.CSSProperties = {
+    display: 'flex',
+    flexDirection: 'column',
+    gap: '1rem',
+    width: '100%',
+  };
+
+  const empty: React.CSSProperties = {
+    textAlign: 'center',
+    fontSize: 16,
+    color: '#5F6368',
+    marginTop: '2vh',
+  };
+
+  return { container, inner, content, title, sectionList, empty };
+};
+
 export default function Lunch({ loaderData }: Route.ComponentProps) {
   const { menu }: { menu: Menu } = loaderData;
+  const isDarkMode = true; // Todo: make based on user preferences
+  const isMobile = useIsMobile();
+  const styles = createStyles(isMobile, isDarkMode);
 
-  console.log(menu);
-  return <h1>Lunch</h1>;
+  const visibleSections = MENU_SECTIONS.filter(
+    ({ key }) => menu[key].length > 0,
+  );
+
+  return (
+    <>
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+        transition={{ duration: 0.5 }}
+        style={styles.container}
+      >
+        <main style={styles.inner}>
+          <div style={styles.content}>
+            <div style={{ marginTop: 8 }}>
+              <BackButton text={'Home'} isDarkMode={isDarkMode} />
+            </div>
+            <h1 style={styles.title}>RL Lunch Menu</h1>
+            <div style={styles.sectionList}>
+              {visibleSections.length > 0 ? (
+                visibleSections.map(({ key, title }) => (
+                  <MenuSection
+                    key={key}
+                    title={title}
+                    items={menu[key].map((item) => item.name)}
+                    isMobile={isMobile}
+                    isDarkMode={isDarkMode}
+                  />
+                ))
+              ) : (
+                <p style={styles.empty}>No lunch served today.</p>
+              )}
+            </div>
+          </div>
+        </main>
+      </motion.div>
+    </>
+  );
 }

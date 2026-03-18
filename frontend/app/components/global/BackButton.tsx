@@ -2,6 +2,7 @@ import React from 'react';
 import { useNavigate } from 'react-router';
 
 interface Props {
+  text: string;
   isDarkMode: boolean;
 }
 
@@ -24,12 +25,13 @@ const createStyles = (isDarkMode: boolean) => {
   return { button };
 };
 
-const BackButton: React.FC<Props> = ({ isDarkMode }) => {
+const BackButton: React.FC<Props> = ({ text, isDarkMode }) => {
   const navigate = useNavigate();
   const styles = createStyles(isDarkMode);
 
   return (
     <button onClick={() => navigate('/')} style={styles.button}>
+      {/* TODO: svg and text alignment */}
       <svg
         width="8"
         height="13"
@@ -45,7 +47,7 @@ const BackButton: React.FC<Props> = ({ isDarkMode }) => {
           strokeLinejoin="round"
         />
       </svg>
-      Home
+      {text}
     </button>
   );
 };
