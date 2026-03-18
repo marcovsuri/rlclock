@@ -3,7 +3,7 @@ import { z } from "zod";
 const stationSchema = z.object({
   id: z.string(),
   name: z.string(),
-  image: z.string().url(),
+  image: z.url(),
 });
 
 const allergensSchema = z.object({
@@ -15,11 +15,7 @@ const allergensSchema = z.object({
   lifestyleNames: z.array(z.string()),
   lmLifestyleCodes: z.array(z.string()),
   lmLifestyleNames: z.array(z.string()),
-  performanceSpotlight: z.string().or(z.object({
-    s: z.number(),
-    p: z.number(),
-    v: z.number(),
-  })),
+  performanceSpotlight: z.string(),
 });
 
 const menuItemSchema = z.object({
@@ -43,22 +39,25 @@ const menuItemSchema = z.object({
   hasDetails: z.boolean(),
 });
 
-export const menuSchema = z.object({
+const menuSchema = z.object({
   "Today's Menu Features": z.array(menuItemSchema),
-  "Specials": z.array(menuItemSchema),
-  "Soups": z.array(menuItemSchema),
-  "Salads": z.array(menuItemSchema),
-  "Deli": z.array(menuItemSchema),
-  "Entrées": z.array(menuItemSchema),
+  Specials: z.array(menuItemSchema),
+  Soups: z.array(menuItemSchema),
+  Salads: z.array(menuItemSchema),
+  Deli: z.array(menuItemSchema),
+  Entrées: z.array(menuItemSchema),
   "Sides and Vegetables": z.array(menuItemSchema),
-  "Desserts": z.array(menuItemSchema),
+  Desserts: z.array(menuItemSchema),
   // "Daily": z.array(menuItemSchema),
   // "Exclude": z.array(menuItemSchema),
   // "Snacks": z.array(menuItemSchema),
   // "Events": z.array(menuItemSchema),
 });
 
-export type MenuItem = z.infer<typeof menuItemSchema>;
-export type Menu = z.infer<typeof menuSchema>;
-export type Station = z.infer<typeof stationSchema>;
-export type Allergens = z.infer<typeof allergensSchema>;
+type Station = z.infer<typeof stationSchema>;
+type Allergens = z.infer<typeof allergensSchema>;
+type MenuItem = z.infer<typeof menuItemSchema>;
+type Menu = z.infer<typeof menuSchema>;
+
+export type { Allergens, Menu, MenuItem, Station };
+export { menuSchema };

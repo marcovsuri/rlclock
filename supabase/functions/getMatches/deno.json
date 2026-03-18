@@ -1,6 +1,6 @@
 {
   "imports": {
-    "zod": "npm:zod@^3.24.3",
+    "zod": "npm:zod@^4.3.6",
     "deno-dom": "https://deno.land/x/deno_dom/deno-dom-wasm.ts"
   }
 }
