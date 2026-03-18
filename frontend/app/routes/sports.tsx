@@ -24,57 +24,60 @@ export async function clientLoader() {
   return { matches: matchesResult.data, upcomingMatches: [] };
 }
 
+const createStyles = (isMobile: boolean) => {
+  const container: React.CSSProperties = {
+    display: 'flex',
+    flexDirection: 'column',
+    minHeight: '100vh',
+    width: '100%',
+  };
+
+  const main: React.CSSProperties = {
+    width: isMobile ? '92vw' : '40vw',
+    margin: '3vh auto',
+    display: 'flex',
+    flexDirection: 'column',
+    gap: isMobile ? '2vw' : '1vw',
+  };
+
+  const hiddenTitle: React.CSSProperties = {
+    position: 'absolute',
+    width: 1,
+    height: 1,
+    overflow: 'hidden',
+    clip: 'rect(0,0,0,0)',
+    whiteSpace: 'nowrap',
+  };
+
+  return { container, main, hiddenTitle };
+};
+
 export default function Sports({ loaderData }: Route.ComponentProps) {
   const {
     matches,
     upcomingMatches,
   }: { matches: Match[]; upcomingMatches: never[] } = loaderData;
   const isDarkMode = true; // Todo: make based on user preferences
+  const isMobile = useIsMobile();
+  const styles = createStyles(isMobile);
 
   const recordsResult = calcTeamRecords(matches);
   if (!recordsResult.success) throw new Error(recordsResult.errorMessage);
   const records = recordsResult.data;
 
-  const isMobile = useIsMobile();
-
   console.log(matches);
   console.log(records);
 
-  // Todo: move styling to createStyles()
   return (
     <motion.div
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
       transition={{ duration: 0.5 }}
-      style={{
-        display: 'flex',
-        flexDirection: 'column',
-        minHeight: '100vh',
-        width: '100%',
-      }}
+      style={styles.container}
     >
-      <main
-        style={{
-          width: isMobile ? '92vw' : '40vw',
-          margin: isMobile ? '3vh auto' : '3vh auto',
-          display: 'flex',
-          flexDirection: 'column',
-          gap: isMobile ? '2vw' : '1vw',
-        }}
-      >
-        <h1
-          style={{
-            position: 'absolute',
-            width: 1,
-            height: 1,
-            overflow: 'hidden',
-            clip: 'rect(0,0,0,0)',
-            whiteSpace: 'nowrap',
-          }}
-        >
-          Sports
-        </h1>
+      <main style={styles.main}>
+        <h1 style={styles.hiddenTitle}>Sports</h1>
         <div style={{ alignSelf: 'flex-start' }}>
           <BackButton text={'Home'} isDarkMode={isDarkMode} />
         </div>
