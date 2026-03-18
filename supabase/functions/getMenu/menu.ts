@@ -14,7 +14,6 @@ const buildMenuUrl = (): string => {
     mode: "",
   });
   return `${SAGE_BASE_URL}?${params}`;
-  // return "https://www.sagedining.com/microsites/getMenuItems?menuId=134281&date=03/18/2026&meal=Lunch&mode="; // Todo: change after testing
 };
 
 /** Fetches and parses today's lunch menu from Sage Dining */
