@@ -5,13 +5,15 @@
 // Setup type definitions for built-in Supabase Runtime APIs
 // import "jsr:@supabase/functions-js/edge-runtime.d.ts";
 import { jsonResponse, optionsResponse } from "../_shared/cors.ts";
-import { fetchMenu } from "./menu.ts";
+import { getSupabaseClient } from "../_shared/client.ts";
+import { getMenu } from "./menu.ts";
 
 Deno.serve(async (req) => {
   if (req.method === "OPTIONS") return optionsResponse();
 
   try {
-    const menu = await fetchMenu();
+    const supabase = getSupabaseClient();
+    const menu = await getMenu(supabase);
 
     return jsonResponse(menu);
   } catch (error) {

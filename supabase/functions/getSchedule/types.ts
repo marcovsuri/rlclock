@@ -54,25 +54,10 @@ const scheduleEntrySchema = z.object({
   schedule: scheduleSchema,
 });
 
-type ScheduleEntry = z.infer<typeof scheduleEntrySchema>;
-
 const scheduleQuerySchema = z.array(scheduleEntrySchema);
 
+type ScheduleEntry = z.infer<typeof scheduleEntrySchema>;
 type ScheduleQuery = z.infer<typeof scheduleQuerySchema>;
 
-export {
-  API_currentBlockSchema,
-  API_scheduleSchema,
-  periodSchema,
-  scheduleEntrySchema,
-  scheduleQuerySchema,
-  scheduleSchema,
-};
-export type {
-  API_CurrentBlock,
-  API_Schedule,
-  Period,
-  Schedule,
-  ScheduleEntry,
-  ScheduleQuery,
-};
+export { API_scheduleSchema, scheduleQuerySchema };
+export type { API_Schedule, Period, Schedule };

@@ -7,14 +7,14 @@
 
 import { jsonResponse, optionsResponse } from "../_shared/cors.ts";
 import { getSupabaseClient } from "../_shared/client.ts";
-import { getScheduleForToday } from "./schedule.ts";
+import { getSchedule } from "./schedule.ts";
 
 Deno.serve(async (req) => {
   if (req.method === "OPTIONS") return optionsResponse();
 
   try {
     const supabase = getSupabaseClient();
-    const schedule = await getScheduleForToday(supabase);
+    const schedule = await getSchedule(supabase);
 
     return jsonResponse(schedule);
   } catch (error) {

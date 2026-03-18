@@ -1,5 +1,10 @@
 import { z } from "zod";
 
+/*
+----------------
+API TYPES
+----------------
+*/
 const stationSchema = z.object({
   id: z.string(),
   name: z.string(),
@@ -59,5 +64,22 @@ type Allergens = z.infer<typeof allergensSchema>;
 type MenuItem = z.infer<typeof menuItemSchema>;
 type Menu = z.infer<typeof menuSchema>;
 
-export type { Allergens, Menu, MenuItem, Station };
-export { menuSchema };
+/*
+----------------
+DATABASE TYPES
+----------------
+*/
+const menuEntrySchema = z.object({
+  id: z.number(),
+  created_at: z.string(),
+  day: z.string(),
+  menu: menuSchema,
+});
+
+const menuQuerySchema = z.array(menuEntrySchema);
+
+type MenuEntry = z.infer<typeof menuEntrySchema>;
+type MenuQuery = z.infer<typeof menuQuerySchema>;
+
+export { menuQuerySchema, menuSchema };
+export type { Menu };
