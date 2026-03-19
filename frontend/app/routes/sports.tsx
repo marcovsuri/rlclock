@@ -1,6 +1,6 @@
-import { matchesFetcher } from '~/shared/fetchers';
+import { matchesFetcher, upcomingMatchesFetcher } from '~/shared/fetchers';
 import type { Route } from './+types/sports';
-import type { Match } from '~/types/sports';
+import type { Match, UpcomingMatch } from '~/types/sports';
 import { calcTeamRecords } from '~/utils/sports/records';
 import useIsMobile from '~/hooks/useIsMobile';
 import { motion } from 'framer-motion';
@@ -8,6 +8,7 @@ import BackButton from '~/components/global/BackButton';
 import TodayMatchesCard from '~/components/sports/TodayMatchesCard';
 import ResultsCard from '~/components/sports/ResultsCard';
 import RecordsCard from '~/components/sports/RecordsCard';
+import { getTodayMatches } from '~/utils/sports/todayMatches';
 
 export function meta({}: Route.MetaArgs) {
   return [
@@ -18,10 +19,19 @@ export function meta({}: Route.MetaArgs) {
 
 export async function clientLoader() {
   // Fetch sports
-  const matchesResult = await matchesFetcher.get();
-  if (!matchesResult.success) throw new Error(matchesResult.errorMessage);
+  const [matchesResult, upcomingMatchesResult] = await Promise.all([
+    matchesFetcher.get(),
+    upcomingMatchesFetcher.get(),
+  ]);
 
-  return { matches: matchesResult.data, upcomingMatches: [] };
+  if (!matchesResult.success) throw new Error(matchesResult.errorMessage);
+  if (!upcomingMatchesResult.success)
+    throw new Error(upcomingMatchesResult.errorMessage);
+
+  return {
+    matches: matchesResult.data,
+    upcomingMatches: upcomingMatchesResult.data,
+  };
 }
 
 const createStyles = (isMobile: boolean) => {
@@ -56,7 +66,7 @@ export default function Sports({ loaderData }: Route.ComponentProps) {
   const {
     matches,
     upcomingMatches,
-  }: { matches: Match[]; upcomingMatches: never[] } = loaderData;
+  }: { matches: Match[]; upcomingMatches: UpcomingMatch[] } = loaderData;
   const isDarkMode = true; // Todo: make based on user preferences
   const isMobile = useIsMobile();
   const styles = createStyles(isMobile);
@@ -65,8 +75,12 @@ export default function Sports({ loaderData }: Route.ComponentProps) {
   if (!recordsResult.success) throw new Error(recordsResult.errorMessage);
   const records = recordsResult.data;
 
+  const todayMatches = getTodayMatches(upcomingMatches);
+
   console.log(matches);
   console.log(records);
+  console.log(upcomingMatches);
+  console.log(todayMatches);
 
   return (
     <motion.div
@@ -82,7 +96,7 @@ export default function Sports({ loaderData }: Route.ComponentProps) {
           <BackButton text={'Home'} isDarkMode={isDarkMode} />
         </div>
         <TodayMatchesCard
-          todayMatches={upcomingMatches}
+          todayMatches={todayMatches}
           isMobile={isMobile}
           isDarkMode={isDarkMode}
         />
