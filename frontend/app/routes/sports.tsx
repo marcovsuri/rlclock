@@ -8,7 +8,7 @@ import BackButton from '~/components/global/BackButton';
 import TodayMatchesCard from '~/components/sports/TodayMatchesCard';
 import ResultsCard from '~/components/sports/ResultsCard';
 import RecordsCard from '~/components/sports/RecordsCard';
-import { getTodayMatches } from '~/utils/sports/todayMatches';
+import { getTodayMatches, sortTodayMatches } from '~/utils/sports/todayMatches';
 
 export function meta({}: Route.MetaArgs) {
   return [
@@ -75,7 +75,7 @@ export default function Sports({ loaderData }: Route.ComponentProps) {
   if (!recordsResult.success) throw new Error(recordsResult.errorMessage);
   const records = recordsResult.data;
 
-  const todayMatches = getTodayMatches(upcomingMatches);
+  const todayMatches = sortTodayMatches(getTodayMatches(upcomingMatches));
 
   console.log(matches);
   console.log(records);
