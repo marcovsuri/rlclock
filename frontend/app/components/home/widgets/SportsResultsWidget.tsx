@@ -77,7 +77,7 @@ const SportsResultsWidget: React.FC<Props> = ({ matches, isDarkMode }) => {
     .slice(0, 4);
 
   return (
-    <Widget title="Latest Results" isDarkMode={isDarkMode}>
+    <Widget title="Latest Results" to="/sports" isDarkMode={isDarkMode}>
       {rows.map((row, i) => (
         <div key={i} style={styles.row}>
           <span style={styles.teamOpponent}>

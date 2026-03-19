@@ -19,7 +19,7 @@ const createStyles = (isDarkMode: boolean) => {
 const LunchWidget: React.FC<Props> = ({ items, isDarkMode }) => {
   const styles = createStyles(isDarkMode);
   return (
-    <Widget title="Today's Lunch" isDarkMode={isDarkMode}>
+    <Widget title="Today's Lunch" to="/lunch" isDarkMode={isDarkMode}>
       {items.map((item, i) => (
         <div key={i} style={styles.item}>
           {item}

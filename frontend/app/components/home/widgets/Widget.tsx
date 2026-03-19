@@ -1,12 +1,14 @@
 import React from 'react';
+import { useNavigate } from 'react-router';
 
 interface Props {
   title: string;
+  to?: string;
   children: React.ReactNode;
   isDarkMode: boolean;
 }
 
-const createStyles = (isDarkMode: boolean) => {
+const createStyles = (isDarkMode: boolean, redirectable: boolean = false) => {
   const card: React.CSSProperties = {
     backgroundColor: isDarkMode ? '#2D2E30' : '#FFFFFF',
     borderRadius: '12px',
@@ -20,6 +22,7 @@ const createStyles = (isDarkMode: boolean) => {
     display: 'flex',
     flexDirection: 'column',
     containerType: 'inline-size',
+    cursor: redirectable ? 'pointer' : 'default',
   };
 
   const title: React.CSSProperties = {
@@ -42,10 +45,13 @@ const createStyles = (isDarkMode: boolean) => {
   return { card, title, content };
 };
 
-const Widget: React.FC<Props> = ({ title, children, isDarkMode }) => {
-  const styles = createStyles(isDarkMode);
+const Widget: React.FC<Props> = ({ title, to, children, isDarkMode }) => {
+  const navigate = useNavigate();
+
+  const styles = createStyles(isDarkMode, !!to);
+
   return (
-    <div style={styles.card}>
+    <div style={styles.card} onClick={() => (to ? navigate(to) : null)}>
       <h3 style={styles.title}>{title}</h3>
       <div style={styles.content}>{children}</div>
     </div>
