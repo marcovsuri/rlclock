@@ -19,10 +19,11 @@ const createStyles = (isDarkMode: boolean) => {
     height: '100%',
     display: 'flex',
     flexDirection: 'column',
+    containerType: 'inline-size',
   };
 
   const title: React.CSSProperties = {
-    fontSize: 18,
+    fontSize: '3cqw',
     fontWeight: 600,
     color: isDarkMode ? '#B0B5BA' : '#5F6368',
     textTransform: 'uppercase',
