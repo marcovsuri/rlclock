@@ -33,11 +33,9 @@ class ScheduleFetcher extends TimedCacheFetcher<Schedule> {
 
   protected parseResponse(data: unknown): Result<Schedule> {
     try {
-      const result = scheduleSchema.safeParse(data);
+      const schedule = scheduleSchema.parse(data);
 
-      if (!result.success) throw result.error;
-
-      return { success: true, data: result.data };
+      return { success: true, data: schedule };
     } catch (error) {
       return handleError(error);
     }

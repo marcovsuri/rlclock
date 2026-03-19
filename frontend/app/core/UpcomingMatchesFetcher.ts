@@ -33,9 +33,9 @@ class UpcomingMatchesFetcher extends TimedCacheFetcher<UpcomingMatch[]> {
 
   protected parseResponse(data: unknown): Result<UpcomingMatch[]> {
     try {
-      const result = upcomingMatchesSchema.parse(data);
+      const matches = upcomingMatchesSchema.parse(data);
 
-      return { success: true, data: result };
+      return { success: true, data: matches };
     } catch (error) {
       return handleError(error);
     }

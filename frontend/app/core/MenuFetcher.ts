@@ -31,11 +31,9 @@ class MenuFetcher extends TimedCacheFetcher<Menu> {
 
   protected parseResponse(data: unknown): Result<Menu> {
     try {
-      const result = menuSchema.safeParse(data);
+      const menu = menuSchema.parse(data);
 
-      if (!result.success) throw result.error;
-
-      return { success: true, data: result.data };
+      return { success: true, data: menu };
     } catch (error) {
       return handleError(error);
     }

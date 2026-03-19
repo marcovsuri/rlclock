@@ -33,11 +33,9 @@ class MatchesFetcher extends TimedCacheFetcher<Match[]> {
 
   protected parseResponse(data: unknown): Result<Match[]> {
     try {
-      const result = matchesSchema.safeParse(data);
+      const matches = matchesSchema.parse(data);
 
-      if (!result.success) throw result.error;
-
-      return { success: true, data: result.data };
+      return { success: true, data: matches };
     } catch (error) {
       return handleError(error);
     }
