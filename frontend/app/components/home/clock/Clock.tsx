@@ -65,11 +65,13 @@ const Clock: React.FC<Props> = ({ schedule }) => {
   return (
     <div style={styles.container}>
       <ScheduleComponent schedule={schedule} />
-      <div style={styles.currentBlock}>{currentBlock}</div>
-      <div style={styles.remaining}>
-        {String(minutesRemaining).padStart(2, '0')}:
-        {String(secondsRemaining).padStart(2, '0')} remaining
-      </div>
+      <div style={styles.currentBlock}>{currentBlock ?? 'No school!'}</div>
+      {currentBlock ? (
+        <div style={styles.remaining}>
+          {String(minutesRemaining).padStart(2, '0')}:
+          {String(secondsRemaining).padStart(2, '0')} remaining
+        </div>
+      ) : null}
     </div>
   );
 };

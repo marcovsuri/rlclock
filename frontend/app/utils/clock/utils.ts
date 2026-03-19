@@ -4,7 +4,7 @@ const getClockDisplayInfo = (
   now: Date,
   schedule: Schedule,
 ): {
-  currentBlock: string;
+  currentBlock: string | null;
   minutesRemaining: number;
   secondsRemaining: number;
 } => {
@@ -25,8 +25,7 @@ const getClockDisplayInfo = (
   const minutesRemaining = Math.floor(secondsTotal / 60);
   const secondsRemaining = secondsTotal % 60;
   const currentBlock =
-    currentPeriod?.name ??
-    (nextPeriod ? `PT => ${nextPeriod.name}` : 'No school!');
+    currentPeriod?.name ?? (nextPeriod ? `PT => ${nextPeriod.name}` : null);
 
   return { currentBlock, minutesRemaining, secondsRemaining };
 };
