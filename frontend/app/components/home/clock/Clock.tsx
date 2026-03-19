@@ -12,13 +12,11 @@ interface Props {
 const createStyles = () => {
   const container: React.CSSProperties = {
     fontFamily: 'sans-serif',
-    backgroundColor: 'black',
     color: 'white',
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'center',
-    minHeight: '100vh',
     paddingTop: '2vh',
     paddingBottom: '2vh',
     paddingLeft: '2vw',
