@@ -1,8 +1,9 @@
 import React from 'react';
 import type { TeamRecord, MatchRecord } from '~/types/sports';
+import type { TeamRecordEntry } from '~/utils/sports/records';
 
 interface Props {
-  records: TeamRecord[];
+  records: TeamRecordEntry[];
   isMobile: boolean;
   isDarkMode: boolean;
 }
@@ -53,6 +54,13 @@ const createStyles = (isMobile: boolean, isDarkMode: boolean) => {
     fontWeight: 500,
     color: isDarkMode ? '#E8EAED' : '#202124',
   };
+  const varsityRow: React.CSSProperties = {
+    ...row,
+    backgroundColor: isDarkMode
+      ? 'rgba(138, 31, 46, 0.2)'
+      : 'rgba(154, 31, 54, 0.12)',
+    borderRadius: isMobile ? '2vw' : '0.4vw',
+  };
   const totalRow: React.CSSProperties = {
     ...row,
     fontWeight: 700,
@@ -75,6 +83,7 @@ const createStyles = (isMobile: boolean, isDarkMode: boolean) => {
     columnHeaders,
     rowList,
     row,
+    varsityRow,
     totalRow,
     statCell,
     winColor,
@@ -82,8 +91,11 @@ const createStyles = (isMobile: boolean, isDarkMode: boolean) => {
   };
 };
 
-const sumRecord = (records: TeamRecord[], key: keyof MatchRecord): number =>
-  records.reduce((sum, { record }) => sum + record[key], 0);
+const sumRecord = (
+  records: TeamRecordEntry[],
+  key: keyof MatchRecord,
+): number =>
+  records.reduce((sum, { record: { record } }) => sum + record[key], 0);
 
 const RecordsCard: React.FC<Props> = ({ records, isMobile, isDarkMode }) => {
   const styles = createStyles(isMobile, isDarkMode);
@@ -91,18 +103,15 @@ const RecordsCard: React.FC<Props> = ({ records, isMobile, isDarkMode }) => {
   return (
     <div style={styles.card}>
       <h3 style={styles.header}>Team Records</h3>
-
-      {/* Column headers */}
       <div style={styles.columnHeaders}>
         <span />
         <span style={styles.statCell}>W</span>
         <span style={styles.statCell}>L</span>
         <span style={styles.statCell}>T</span>
       </div>
-
       <div style={styles.rowList}>
-        {records.map(({ team, record }) => (
-          <div key={team} style={styles.row}>
+        {records.map(({ record: { team, record }, isVarsity }) => (
+          <div key={team} style={isVarsity ? styles.varsityRow : styles.row}>
             <span>{team}</span>
             <span style={{ ...styles.statCell, color: styles.winColor }}>
               {record.wins}
@@ -115,7 +124,6 @@ const RecordsCard: React.FC<Props> = ({ records, isMobile, isDarkMode }) => {
             </span>
           </div>
         ))}
-
         {/* Total row */}
         <div style={styles.totalRow}>
           <span>Total</span>

@@ -2,12 +2,17 @@ import { handleError } from '~/shared/error';
 import type { Result } from '~/types/global';
 import type { Match, MatchRecord, TeamRecord } from '~/types/sports';
 
+/** A `TeamRecord` annotated with whether the team is varsity */
+type TeamRecordEntry = { record: TeamRecord; isVarsity: boolean };
+
 /**
  * Derives a win/tie/loss record for each team from a list of matches.
- * Teams are sorted alphabetically in the returned array.
+ * Returns entries annotated with `isVarsity`, sorted with varsity teams
+ * first and alphabetically within each group.
  */
-function calcTeamRecords(matches: Match[]): Result<TeamRecord[]> {
+function calcTeamRecords(matches: Match[]): Result<TeamRecordEntry[]> {
   try {
+    // Accumulate records in a map keyed by team name
     const map = new Map<string, MatchRecord>();
 
     for (const match of matches) {
@@ -30,16 +35,17 @@ function calcTeamRecords(matches: Match[]): Result<TeamRecord[]> {
       }
     }
 
-    // Convert map to array and sort alphabetically by team name (varsity first)
-    const records: TeamRecord[] = Array.from(map.entries())
-      .map(([team, record]) => ({ team, record }))
+    // Convert map to array, annotate each entry with isVarsity,
+    // then sort: varsity first, alphabetically within each group
+    const records: TeamRecordEntry[] = Array.from(map.entries())
+      .map(([team, record]) => ({
+        record: { team, record },
+        isVarsity: team.startsWith('Varsity'),
+      }))
       .sort((a, b) => {
-        const aIsVarsity = a.team.startsWith('Varsity');
-        const bIsVarsity = b.team.startsWith('Varsity');
-
-        if (aIsVarsity && !bIsVarsity) return -1;
-        if (!aIsVarsity && bIsVarsity) return 1;
-        return a.team.localeCompare(b.team);
+        if (a.isVarsity && !b.isVarsity) return -1;
+        if (!a.isVarsity && b.isVarsity) return 1;
+        return a.record.team.localeCompare(b.record.team);
       });
 
     return { success: true, data: records };
@@ -49,3 +55,4 @@ function calcTeamRecords(matches: Match[]): Result<TeamRecord[]> {
 }
 
 export { calcTeamRecords };
+export type { TeamRecordEntry };
