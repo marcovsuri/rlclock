@@ -5,7 +5,11 @@
 // Setup type definitions for built-in Supabase Runtime APIs
 // import "jsr:@supabase/functions-js/edge-runtime.d.ts"
 import { jsonResponse, optionsResponse } from "../_shared/cors.ts";
-import { fetchCalendarHTML, parseUpcomingMatches } from "./parse.ts";
+import {
+  fetchCalendarHTML,
+  filterUpcomingMatchesBySeason,
+  parseUpcomingMatches,
+} from "./parse.ts";
 
 Deno.serve(async (req) => {
   if (req.method === "OPTIONS") return optionsResponse();
@@ -13,8 +17,9 @@ Deno.serve(async (req) => {
   try {
     const html = await fetchCalendarHTML();
     const matches = parseUpcomingMatches(html);
+    const seasonMatches = filterUpcomingMatchesBySeason(matches);
 
-    return jsonResponse(matches);
+    return jsonResponse(seasonMatches);
   } catch (error) {
     console.error("Failed to get upcoming matches:", error);
     return jsonResponse({ error: "Failed to get upcoming matches" }, 500);

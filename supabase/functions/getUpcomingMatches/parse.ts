@@ -5,7 +5,7 @@ import { upcomingMatchSchema } from "./types.ts";
 const ATHLETICS_URL = "https://www.roxburylatin.org/athletics/calendar/";
 
 /** Fetches the raw HTML from the athletics calendar page */
-export async function fetchCalendarHTML(): Promise<string> {
+async function fetchCalendarHTML(): Promise<string> {
   const response = await fetch(ATHLETICS_URL);
   if (!response.ok) {
     throw new Error(`Failed to fetch calendar: ${response.status}`);
@@ -27,7 +27,7 @@ function formatDate(raw: string): string | null {
 }
 
 /** Parses the upcoming matches table from the athletics calendar HTML */
-export function parseUpcomingMatches(html: string): UpcomingMatch[] {
+function parseUpcomingMatches(html: string): UpcomingMatch[] {
   const doc = new DOMParser().parseFromString(html, "text/html");
   if (!doc) return [];
   const rows = doc.querySelectorAll("table.events-table tbody tr");
@@ -68,3 +68,26 @@ export function parseUpcomingMatches(html: string): UpcomingMatch[] {
 
   return matches;
 }
+
+/** The start date of the current season — update each season */
+const SEASON_START = new Date("3/14/2026"); // Todo: turn this dynamic
+
+/**
+ * Filters upcoming matches to only include those from the current season.
+ * Unlike past matches, upcoming match dates include the year ("M/D/YYYY"),
+ * so no year-inference is needed — we can parse and compare directly.
+ */
+function filterUpcomingMatchesBySeason(
+  matches: UpcomingMatch[],
+): UpcomingMatch[] {
+  return matches.filter((match) => {
+    const date = new Date(match.date);
+    return date.getTime() && date >= SEASON_START;
+  });
+}
+
+export {
+  fetchCalendarHTML,
+  filterUpcomingMatchesBySeason,
+  parseUpcomingMatches,
+};

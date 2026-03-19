@@ -110,7 +110,7 @@ function parseMatches(html: string): Match[] {
 }
 
 /** The start date of the current season — update each season */
-const SEASON_START = new Date(2025, 10, 16); // Todo: turn this dynamic
+const SEASON_START = new Date("10/16/2025"); // Todo: turn this dynamic
 
 /**
  * Filters matches to only include those from the current season.
