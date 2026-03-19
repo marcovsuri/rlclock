@@ -318,17 +318,6 @@ entrypoint = "./functions/getMatches/index.ts"
 # For example, if you want to serve static HTML pages in your function:
 # static_files = [ "./functions/getMatches/*.html" ]
 
-[functions.getUpcomingSports]
-enabled = true
-verify_jwt = true
-import_map = "./functions/getUpcomingSports/deno.json"
-# Uncomment to specify a custom file path to the entrypoint.
-# Supported file extensions are: .ts, .js, .mjs, .jsx, .tsx
-entrypoint = "./functions/getUpcomingSports/index.ts"
-# Specifies static files to be bundled with the function. Supports glob patterns.
-# For example, if you want to serve static HTML pages in your function:
-# static_files = [ "./functions/getUpcomingSports/*.html" ]
-
 [functions.getAnnouncements]
 enabled = true
 verify_jwt = true
@@ -372,3 +361,14 @@ entrypoint = "./functions/getMenu/index.ts"
 # Specifies static files to be bundled with the function. Supports glob patterns.
 # For example, if you want to serve static HTML pages in your function:
 # static_files = [ "./functions/getMenu/*.html" ]
+
+[functions.getUpcomingMatches]
+enabled = true
+verify_jwt = true
+import_map = "./functions/getUpcomingMatches/deno.json"
+# Uncomment to specify a custom file path to the entrypoint.
+# Supported file extensions are: .ts, .js, .mjs, .jsx, .tsx
+entrypoint = "./functions/getUpcomingMatches/index.ts"
+# Specifies static files to be bundled with the function. Supports glob patterns.
+# For example, if you want to serve static HTML pages in your function:
+# static_files = [ "./functions/getUpcomingMatches/*.html" ]
