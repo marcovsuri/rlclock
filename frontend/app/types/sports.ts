@@ -32,5 +32,17 @@ interface TeamRecord {
   record: MatchRecord;
 }
 
-export { matchesSchema };
-export type { Match, MatchResult, MatchRecord, TeamRecord };
+const upcomingMatchSchema = z.object({
+  team: z.string(),
+  opponents: z.array(z.string()),
+  date: z.string(), // M/D/YYYY
+  time: z.string(),
+  location: z.string(),
+});
+
+const upcomingMatchesSchema = z.array(upcomingMatchSchema);
+
+type UpcomingMatch = z.infer<typeof upcomingMatchSchema>;
+
+export { matchesSchema, upcomingMatchesSchema };
+export type { Match, MatchResult, MatchRecord, TeamRecord, UpcomingMatch };
