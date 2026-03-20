@@ -22,6 +22,6 @@
       "supabase": true,
     },
     "liveServer.settings.multiRootWorkspaceName": "frontend",
-    "cSpell.words": ["rlclock", "SUPABASE"],
+    "cSpell.words": ["rlclock", "Roxbury", "SUPABASE"],
   },
 }
