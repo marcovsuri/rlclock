@@ -3,7 +3,7 @@ import type { Schedule } from '~/types/clock';
 import ScheduleComponent from './ScheduleComponent';
 import { useEffect, useState } from 'react';
 import { OFFSET } from './testing';
-import { getClockDisplayInfo } from '~/utils/clock/utils';
+import { formatCountdown, getClockDisplayInfo } from '~/utils/clock/utils';
 
 interface Props {
   schedule: Schedule;
@@ -57,8 +57,14 @@ const Clock: React.FC<Props> = ({ schedule }) => {
     return () => clearInterval(interval);
   }, []);
 
-  const { currentBlock, minutesRemaining, secondsRemaining } =
+  const { currentBlock, hoursRemaining, minutesRemaining, secondsRemaining } =
     getClockDisplayInfo(now, schedule);
+
+  const countdown = formatCountdown(
+    hoursRemaining,
+    minutesRemaining,
+    secondsRemaining,
+  );
 
   const styles = createStyles();
 
@@ -66,12 +72,7 @@ const Clock: React.FC<Props> = ({ schedule }) => {
     <div style={styles.container}>
       <ScheduleComponent schedule={schedule} />
       <div style={styles.currentBlock}>{currentBlock ?? 'No school!'}</div>
-      {currentBlock ? (
-        <div style={styles.remaining}>
-          {String(minutesRemaining).padStart(2, '0')}:
-          {String(secondsRemaining).padStart(2, '0')} remaining
-        </div>
-      ) : null}
+      {countdown && <div style={styles.remaining}>{countdown} remaining</div>}
     </div>
   );
 };
