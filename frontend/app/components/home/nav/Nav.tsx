@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Link, useLocation } from 'react-router';
-import useIsMobile from '~/hooks/useIsMobile';
 
 const NAV_LINKS = [
   { label: 'Home', href: '/' },
@@ -10,6 +9,7 @@ const NAV_LINKS = [
 ];
 
 interface Props {
+  isMobile: boolean;
   isDark: boolean;
   isOpen: boolean;
   onClose: () => void;
@@ -138,9 +138,8 @@ const createLinkStyle = (
   opacity: isActive ? 1 : 0.88,
 });
 
-const Nav: React.FC<Props> = ({ isDark, isOpen, onClose }) => {
+const Nav: React.FC<Props> = ({ isMobile, isDark, isOpen, onClose }) => {
   const { pathname } = useLocation();
-  const isMobile = useIsMobile();
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {

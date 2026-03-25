@@ -3,10 +3,10 @@ import type { Schedule } from '~/types/clock';
 import ScheduleComponent from './ScheduleComponent';
 import { OFFSET } from './testing';
 import { formatCountdown, getClockDisplayInfo } from '~/utils/clock/utils';
-import useIsMobile from '~/hooks/useIsMobile';
 
 interface Props {
   schedule: Schedule;
+  isMobile: boolean;
   isDark: boolean;
 }
 
@@ -48,9 +48,7 @@ const createStyles = (isMobile: boolean, isDark: boolean) => {
   return { container, currentBlock, remaining };
 };
 
-const Clock: React.FC<Props> = ({ schedule, isDark }) => {
-  const isMobile = useIsMobile();
-
+const Clock: React.FC<Props> = ({ schedule, isMobile, isDark }) => {
   // Todo: remove offset
   const [now, setNow] = useState(new Date(Date.now() - OFFSET));
 

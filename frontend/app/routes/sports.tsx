@@ -94,7 +94,12 @@ export default function Sports({ loaderData }: Route.ComponentProps) {
       style={styles.container}
     >
       <HamburgerButton isDark={isDark} onClick={() => setNavOpen(true)} />
-      <Nav isDark={isDark} isOpen={navOpen} onClose={() => setNavOpen(false)} />
+      <Nav
+        isMobile={isMobile}
+        isDark={isDark}
+        isOpen={navOpen}
+        onClose={() => setNavOpen(false)}
+      />
 
       <main style={styles.main}>
         <h1 style={styles.title}>RL Fox Den</h1>

@@ -104,6 +104,7 @@ export default function Lunch({ loaderData }: Route.ComponentProps) {
       >
         <HamburgerButton isDark={isDark} onClick={() => setNavOpen(true)} />
         <Nav
+          isMobile={isMobile}
           isDark={isDark}
           isOpen={navOpen}
           onClose={() => setNavOpen(false)}

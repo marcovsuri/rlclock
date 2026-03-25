@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import useIsMobile from '~/hooks/useIsMobile';
 
 interface Props {
+  isMobile: boolean;
   isDark: boolean;
 }
 
@@ -48,9 +48,8 @@ const createStyles = (
   return { footer, fox, credits };
 };
 
-const Footer: React.FC<Props> = ({ isDark }) => {
+const Footer: React.FC<Props> = ({ isMobile, isDark }) => {
   const [showCredits, setShowCredits] = useState(false);
-  const isMobile = useIsMobile();
   const styles = createStyles(showCredits, isDark, isMobile);
   const currentYear = new Date().getFullYear();
 

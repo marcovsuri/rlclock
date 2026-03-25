@@ -89,10 +89,15 @@ export default function Home({ loaderData }: Route.ComponentProps) {
       style={styles.page}
     >
       <HamburgerButton isDark={isDark} onClick={() => setNavOpen(true)} />
-      <Nav isDark={isDark} isOpen={navOpen} onClose={() => setNavOpen(false)} />
+      <Nav
+        isMobile={isMobile}
+        isDark={isDark}
+        isOpen={navOpen}
+        onClose={() => setNavOpen(false)}
+      />
 
       <div style={styles.clockWrapper}>
-        <Clock schedule={schedule} isDark={isDark} />
+        <Clock isMobile={isMobile} schedule={schedule} isDark={isDark} />
       </div>
       <div style={styles.widgetWrapper}>
         <WidgetContainer isMobile={isMobile}>
@@ -101,7 +106,7 @@ export default function Home({ loaderData }: Route.ComponentProps) {
         </WidgetContainer>
       </div>
 
-      <Footer isDark={isDark} />
+      <Footer isMobile={isMobile} isDark={isDark} />
     </motion.div>
   );
 }
