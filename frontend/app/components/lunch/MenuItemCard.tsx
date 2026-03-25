@@ -2,16 +2,16 @@ import React, { useState } from 'react';
 
 interface Props {
   item: string;
-  isDarkMode: boolean;
+  isDark: boolean;
 }
 
-const createStyles = (isDarkMode: boolean, hovered: boolean) => {
+const createStyles = (isDark: boolean, hovered: boolean) => {
   const card: React.CSSProperties = {
     backgroundColor: hovered
-      ? isDarkMode
+      ? isDark
         ? 'rgba(255,255,255,0.08)'
         : 'rgba(0,0,0,0.06)'
-      : isDarkMode
+      : isDark
         ? 'rgba(255,255,255,0.04)'
         : 'rgba(0,0,0,0.03)',
     border: 'none',
@@ -20,7 +20,7 @@ const createStyles = (isDarkMode: boolean, hovered: boolean) => {
     textAlign: 'left',
     fontWeight: 450,
     fontSize: 16,
-    color: isDarkMode ? '#E8EAED' : '#202124',
+    color: isDark ? '#E8EAED' : '#202124',
     width: '100%',
     boxSizing: 'border-box',
     display: 'flex',
@@ -31,9 +31,9 @@ const createStyles = (isDarkMode: boolean, hovered: boolean) => {
   return { card };
 };
 
-const MenuItemCard: React.FC<Props> = ({ item, isDarkMode }) => {
+const MenuItemCard: React.FC<Props> = ({ item, isDark }) => {
   const [hovered, setHovered] = useState(false);
-  const styles = createStyles(isDarkMode, hovered);
+  const styles = createStyles(isDark, hovered);
   return (
     <div
       style={styles.card}

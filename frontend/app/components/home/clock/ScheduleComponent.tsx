@@ -5,7 +5,7 @@ import Block from './Block';
 interface Props {
   schedule: Schedule;
   isMobile: boolean;
-  isDarkMode: boolean;
+  isDark: boolean;
 }
 
 const createStyles = (isMobile: boolean) => {
@@ -24,23 +24,14 @@ const createStyles = (isMobile: boolean) => {
   return { container };
 };
 
-const ScheduleComponent: React.FC<Props> = ({
-  schedule,
-  isMobile,
-  isDarkMode,
-}) => {
+const ScheduleComponent: React.FC<Props> = ({ schedule, isMobile, isDark }) => {
   const styles = createStyles(isMobile);
 
   return (
     <>
       <div style={styles.container}>
         {schedule.periods.map((p, i) => (
-          <Block
-            key={i}
-            period={p}
-            isMobile={isMobile}
-            isDarkMode={isDarkMode}
-          />
+          <Block key={i} period={p} isMobile={isMobile} isDark={isDark} />
         ))}
       </div>
     </>

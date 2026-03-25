@@ -121,8 +121,8 @@ export const formatDate = (
 /** Return the display color for a given outcome */
 export const outcomeColor = (
   outcome: FlatRow['outcome'],
-  isDarkMode: boolean,
+  isDark: boolean,
 ): string => {
-  if (outcome === 'Win') return isDarkMode ? '#4ade80' : '#15803d';
-  return isDarkMode ? '#B0B5BA' : '#5F6368';
+  if (outcome === 'Win') return isDark ? '#4ade80' : '#15803d';
+  return isDark ? '#B0B5BA' : '#5F6368';
 };

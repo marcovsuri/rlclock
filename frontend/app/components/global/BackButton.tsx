@@ -3,11 +3,11 @@ import { useNavigate } from 'react-router';
 
 interface Props {
   text: string;
-  isDarkMode: boolean;
+  isDark: boolean;
 }
 
-const createStyles = (isDarkMode: boolean) => {
-  const accentColor = isDarkMode ? '#B0263E' : 'rgb(154, 31, 54)';
+const createStyles = (isDark: boolean) => {
+  const accentColor = isDark ? '#B0263E' : 'rgb(154, 31, 54)';
 
   const button: React.CSSProperties = {
     background: 'none',
@@ -25,9 +25,9 @@ const createStyles = (isDarkMode: boolean) => {
   return { button };
 };
 
-const BackButton: React.FC<Props> = ({ text, isDarkMode }) => {
+const BackButton: React.FC<Props> = ({ text, isDark }) => {
   const navigate = useNavigate();
-  const styles = createStyles(isDarkMode);
+  const styles = createStyles(isDark);
 
   return (
     <button onClick={() => navigate('/')} style={styles.button}>

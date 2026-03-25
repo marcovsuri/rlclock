@@ -4,10 +4,10 @@ import type { Match } from '~/types/sports';
 
 interface Props {
   matches: Match[];
-  isDarkMode: boolean;
+  isDark: boolean;
 }
 
-const createStyles = (isDarkMode: boolean) => {
+const createStyles = (isDark: boolean) => {
   const row: React.CSSProperties = {
     display: 'grid',
     gridTemplateColumns: '1fr auto auto',
@@ -18,7 +18,7 @@ const createStyles = (isDarkMode: boolean) => {
   const teamOpponent: React.CSSProperties = {
     fontSize: 'clamp(1rem, 4cqw, 1.2rem)',
     fontWeight: 500,
-    color: isDarkMode ? '#E8EAED' : '#202124',
+    color: isDark ? '#E8EAED' : '#202124',
     display: 'flex',
     flexWrap: 'wrap',
     alignItems: 'baseline',
@@ -28,13 +28,13 @@ const createStyles = (isDarkMode: boolean) => {
   const opponent: React.CSSProperties = {
     fontSize: 'clamp(0.9rem, 3.2cqw, 1rem)',
     fontWeight: 400,
-    color: isDarkMode ? '#B0B5BA' : '#5F6368',
+    color: isDark ? '#B0B5BA' : '#5F6368',
   };
 
   const score: React.CSSProperties = {
     fontSize: 'clamp(1rem, 4cqw, 1.1rem)',
     fontWeight: 500,
-    color: isDarkMode ? '#E8EAED' : '#202124',
+    color: isDark ? '#E8EAED' : '#202124',
     whiteSpace: 'nowrap',
     textAlign: 'right',
   };
@@ -46,13 +46,13 @@ const createStyles = (isDarkMode: boolean) => {
     fontWeight: 600,
     padding: '0.2rem 0.6rem',
     borderRadius: '999px',
-    color: result === 'win' ? '#fff' : isDarkMode ? '#E8EAED' : '#202124',
+    color: result === 'win' ? '#fff' : isDark ? '#E8EAED' : '#202124',
     backgroundColor:
       result === 'win'
-        ? isDarkMode
+        ? isDark
           ? '#16a34a'
           : '#15803d'
-        : isDarkMode
+        : isDark
           ? '#3A3B3D'
           : '#E8EAED',
     whiteSpace: 'nowrap',
@@ -61,8 +61,8 @@ const createStyles = (isDarkMode: boolean) => {
   return { row, teamOpponent, opponent, score, createOutcomeBadgeStyles };
 };
 
-const SportsResultsWidget: React.FC<Props> = ({ matches, isDarkMode }) => {
-  const styles = createStyles(isDarkMode);
+const SportsResultsWidget: React.FC<Props> = ({ matches, isDark }) => {
+  const styles = createStyles(isDark);
 
   // Flatten to individual match-opponent rows, take the 4 most recent
   const rows = matches
@@ -77,7 +77,7 @@ const SportsResultsWidget: React.FC<Props> = ({ matches, isDarkMode }) => {
     .slice(0, 4);
 
   return (
-    <Widget title="Latest Results" to="/sports" isDarkMode={isDarkMode}>
+    <Widget title="Latest Results" to="/sports" isDark={isDark}>
       {rows.map((row, i) => (
         <div key={i} style={styles.row}>
           <span style={styles.teamOpponent}>

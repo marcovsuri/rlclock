@@ -30,7 +30,7 @@ const MENU_SECTIONS: { key: keyof Menu; title: string }[] = [
   { key: 'Soups', title: 'Soups' },
 ];
 
-const createStyles = (isMobile: boolean, isDarkMode: boolean) => {
+const createStyles = (isMobile: boolean, isDark: boolean) => {
   const container: React.CSSProperties = {
     display: 'flex',
     flexDirection: 'column',
@@ -46,7 +46,7 @@ const createStyles = (isMobile: boolean, isDarkMode: boolean) => {
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
-    color: isDarkMode ? '#E8EAED' : '#202124',
+    color: isDark ? '#E8EAED' : '#202124',
     width: '100%',
   };
 
@@ -59,7 +59,7 @@ const createStyles = (isMobile: boolean, isDarkMode: boolean) => {
 
   const title: React.CSSProperties = {
     fontSize: isMobile ? 26 : 32,
-    color: isDarkMode ? '#B0263E' : 'rgb(154, 31, 54)',
+    color: isDark ? '#B0263E' : 'rgb(154, 31, 54)',
     margin: '0 0 1rem',
     textAlign: 'center',
   };
@@ -83,11 +83,11 @@ const createStyles = (isMobile: boolean, isDarkMode: boolean) => {
 
 export default function Lunch({ loaderData }: Route.ComponentProps) {
   const { menu }: { menu: Menu } = loaderData;
-  const { isDarkMode } = useTheme();
+  const { isDark } = useTheme();
   const isMobile = useIsMobile();
   const [navOpen, setNavOpen] = useState<boolean>(false);
 
-  const styles = createStyles(isMobile, isDarkMode);
+  const styles = createStyles(isMobile, isDark);
 
   const visibleSections = MENU_SECTIONS.filter(
     ({ key }) => menu[key].length > 0,
@@ -102,11 +102,12 @@ export default function Lunch({ loaderData }: Route.ComponentProps) {
         transition={{ duration: 0.5 }}
         style={styles.container}
       >
-        <HamburgerButton
-          isDarkMode={isDarkMode}
-          onClick={() => setNavOpen(true)}
+        <HamburgerButton isDark={isDark} onClick={() => setNavOpen(true)} />
+        <Nav
+          isDark={isDark}
+          isOpen={navOpen}
+          onClose={() => setNavOpen(false)}
         />
-        <Nav isDarkMode={isDarkMode} isOpen={navOpen} onClose={() => null} />
         <main style={styles.inner}>
           <div style={styles.content}>
             <h1 style={styles.title}>RL Lunch Menu</h1>
@@ -118,7 +119,7 @@ export default function Lunch({ loaderData }: Route.ComponentProps) {
                     title={title}
                     items={menu[key].map((item) => item.name)}
                     isMobile={isMobile}
-                    isDarkMode={isDarkMode}
+                    isDark={isDark}
                   />
                 ))
               ) : (

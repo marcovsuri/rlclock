@@ -37,7 +37,7 @@ export async function clientLoader() {
   };
 }
 
-const createStyles = (isMobile: boolean, isDarkMode: boolean) => {
+const createStyles = (isMobile: boolean, isDark: boolean) => {
   const container: React.CSSProperties = {
     display: 'flex',
     flexDirection: 'column',
@@ -55,7 +55,7 @@ const createStyles = (isMobile: boolean, isDarkMode: boolean) => {
 
   const title: React.CSSProperties = {
     fontSize: isMobile ? 26 : 32,
-    color: isDarkMode ? '#B0263E' : 'rgb(154, 31, 54)',
+    color: isDark ? '#B0263E' : 'rgb(154, 31, 54)',
     margin: '0 0 1rem',
     textAlign: 'center',
   };
@@ -68,11 +68,11 @@ export default function Sports({ loaderData }: Route.ComponentProps) {
     matches,
     upcomingMatches,
   }: { matches: Match[]; upcomingMatches: UpcomingMatch[] } = loaderData;
-  const { isDarkMode } = useTheme();
+  const { isDark } = useTheme();
   const isMobile = useIsMobile();
   const [navOpen, setNavOpen] = useState<boolean>(false);
 
-  const styles = createStyles(isMobile, isDarkMode);
+  const styles = createStyles(isMobile, isDark);
 
   const recordsResult = calcTeamRecords(matches);
   if (!recordsResult.success) throw new Error(recordsResult.errorMessage);
@@ -93,33 +93,22 @@ export default function Sports({ loaderData }: Route.ComponentProps) {
       transition={{ duration: 0.5 }}
       style={styles.container}
     >
-      <HamburgerButton
-        isDarkMode={isDarkMode}
-        onClick={() => setNavOpen(true)}
-      />
-      <Nav isDarkMode={isDarkMode} isOpen={navOpen} onClose={() => null} />
+      <HamburgerButton isDark={isDark} onClick={() => setNavOpen(true)} />
+      <Nav isDark={isDark} isOpen={navOpen} onClose={() => setNavOpen(false)} />
 
       <main style={styles.main}>
         <h1 style={styles.title}>RL Fox Den</h1>
         <TodayMatchesCard
           todayMatches={todayMatches}
           isMobile={isMobile}
-          isDarkMode={isDarkMode}
+          isDark={isDark}
         />
 
         {records.length > 0 && (
-          <RecordsCard
-            records={records}
-            isMobile={isMobile}
-            isDarkMode={isDarkMode}
-          />
+          <RecordsCard records={records} isMobile={isMobile} isDark={isDark} />
         )}
 
-        <ResultsCard
-          results={matches}
-          isMobile={isMobile}
-          isDarkMode={isDarkMode}
-        />
+        <ResultsCard results={matches} isMobile={isMobile} isDark={isDark} />
       </main>
     </motion.div>
   );

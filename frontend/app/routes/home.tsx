@@ -43,7 +43,7 @@ export async function clientLoader(): Promise<{
   };
 }
 
-const createStyles = (isMobile: boolean, isDarkMode: boolean) => {
+const createStyles = (isMobile: boolean, isDark: boolean) => {
   const page: React.CSSProperties = {
     display: 'flex',
     flexDirection: 'column',
@@ -52,7 +52,7 @@ const createStyles = (isMobile: boolean, isDarkMode: boolean) => {
     overflowY: 'auto',
     paddingTop: isMobile ? '4.75rem' : '5.25rem',
     paddingBottom: isMobile ? '1.5rem' : '2rem',
-    color: isDarkMode ? '#E8EAED' : '#202124',
+    color: isDark ? '#E8EAED' : '#202124',
   };
 
   const clockWrapper: React.CSSProperties = {
@@ -75,9 +75,9 @@ export default function Home({ loaderData }: Route.ComponentProps) {
   const { schedule, matches, menu } = loaderData;
   const [navOpen, setNavOpen] = useState<boolean>(false);
   const isMobile = useIsMobile();
-  const { isDarkMode } = useTheme();
+  const { isDark } = useTheme();
 
-  const styles = createStyles(isMobile, isDarkMode);
+  const styles = createStyles(isMobile, isDark);
   const lunchItems = menu['Entrées'].map((i) => i.name);
 
   return (
@@ -88,23 +88,20 @@ export default function Home({ loaderData }: Route.ComponentProps) {
       transition={{ duration: 0.5 }}
       style={styles.page}
     >
-      <HamburgerButton
-        isDarkMode={isDarkMode}
-        onClick={() => setNavOpen(true)}
-      />
-      <Nav isDarkMode={isDarkMode} isOpen={navOpen} onClose={() => null} />
+      <HamburgerButton isDark={isDark} onClick={() => setNavOpen(true)} />
+      <Nav isDark={isDark} isOpen={navOpen} onClose={() => setNavOpen(false)} />
 
       <div style={styles.clockWrapper}>
-        <Clock schedule={schedule} isDarkMode={isDarkMode} />
+        <Clock schedule={schedule} isDark={isDark} />
       </div>
       <div style={styles.widgetWrapper}>
         <WidgetContainer isMobile={isMobile}>
-          <LunchWidget items={lunchItems} isDarkMode={isDarkMode} />
-          <SportsResultsWidget matches={matches} isDarkMode={isDarkMode} />
+          <LunchWidget items={lunchItems} isDark={isDark} />
+          <SportsResultsWidget matches={matches} isDark={isDark} />
         </WidgetContainer>
       </div>
 
-      <Footer isDarkMode={isDarkMode} />
+      <Footer isDark={isDark} />
     </motion.div>
   );
 }

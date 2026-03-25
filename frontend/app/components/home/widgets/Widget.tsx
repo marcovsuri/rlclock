@@ -5,18 +5,18 @@ interface Props {
   title: string;
   to?: string;
   children: React.ReactNode;
-  isDarkMode: boolean;
+  isDark: boolean;
 }
 
-const createStyles = (isDarkMode: boolean, redirectable: boolean = false) => {
+const createStyles = (isDark: boolean, redirectable: boolean = false) => {
   const card: React.CSSProperties = {
-    backgroundColor: isDarkMode ? '#2D2E30' : '#FFFFFF',
+    backgroundColor: isDark ? '#2D2E30' : '#FFFFFF',
     borderRadius: '18px',
     padding: '1rem 1.1rem',
-    boxShadow: isDarkMode
+    boxShadow: isDark
       ? '0 2px 12px rgba(0,0,0,0.5)'
       : '0 2px 12px rgba(0,0,0,0.1)',
-    border: isDarkMode
+    border: isDark
       ? '1px solid rgba(255,255,255,0.08)'
       : '1px solid rgba(32,33,36,0.08)',
     width: '100%',
@@ -34,7 +34,7 @@ const createStyles = (isDarkMode: boolean, redirectable: boolean = false) => {
   const title: React.CSSProperties = {
     fontSize: 'clamp(0.8rem, 3.6cqw, 1.05rem)',
     fontWeight: 600,
-    color: isDarkMode ? '#B0B5BA' : '#5F6368',
+    color: isDark ? '#B0B5BA' : '#5F6368',
     textTransform: 'uppercase',
     letterSpacing: '0.08em',
     margin: '0 0 0.9rem',
@@ -52,10 +52,10 @@ const createStyles = (isDarkMode: boolean, redirectable: boolean = false) => {
   return { card, title, content };
 };
 
-const Widget: React.FC<Props> = ({ title, to, children, isDarkMode }) => {
+const Widget: React.FC<Props> = ({ title, to, children, isDark }) => {
   const navigate = useNavigate();
 
-  const styles = createStyles(isDarkMode, !!to);
+  const styles = createStyles(isDark, !!to);
 
   return (
     <div style={styles.card} onClick={() => (to ? navigate(to) : null)}>

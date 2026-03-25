@@ -1,29 +1,29 @@
 import React from 'react';
 
 interface Props {
-  isDarkMode: boolean;
+  isDark: boolean;
   onClick: () => void;
 }
 
-const createStyles = (isDarkMode: boolean) => {
+const createStyles = (isDark: boolean) => {
   const button: React.CSSProperties = {
     position: 'fixed',
     top: '1rem',
     left: '1rem',
     zIndex: 110,
-    background: isDarkMode ? 'rgba(45,46,48,0.82)' : 'rgba(255,255,255,0.88)',
-    border: isDarkMode
+    background: isDark ? 'rgba(45,46,48,0.82)' : 'rgba(255,255,255,0.88)',
+    border: isDark
       ? '1px solid rgba(255,255,255,0.12)'
       : '1px solid rgba(32,33,36,0.08)',
     borderRadius: '12px',
     padding: '10px',
     cursor: 'pointer',
-    color: isDarkMode ? '#E8EAED' : '#202124',
+    color: isDark ? '#E8EAED' : '#202124',
     display: 'flex',
     flexDirection: 'column',
     gap: '5px',
     backdropFilter: 'blur(8px)',
-    boxShadow: isDarkMode
+    boxShadow: isDark
       ? '0 12px 24px rgba(0,0,0,0.35)'
       : '0 12px 24px rgba(0,0,0,0.12)',
   };
@@ -39,8 +39,8 @@ const createStyles = (isDarkMode: boolean) => {
   return { button, bar };
 };
 
-const HamburgerButton: React.FC<Props> = ({ isDarkMode, onClick }) => {
-  const styles = createStyles(isDarkMode);
+const HamburgerButton: React.FC<Props> = ({ isDark, onClick }) => {
+  const styles = createStyles(isDark);
 
   return (
     <button

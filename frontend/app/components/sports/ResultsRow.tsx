@@ -4,14 +4,10 @@ import { type FlatRow, outcomeColor } from '~/utils/sports/results';
 interface Props {
   row: FlatRow;
   isMobile: boolean;
-  isDarkMode: boolean;
+  isDark: boolean;
 }
 
-const createStyles = (
-  isMobile: boolean,
-  isDarkMode: boolean,
-  hovered: boolean,
-) => {
+const createStyles = (isMobile: boolean, isDark: boolean, hovered: boolean) => {
   const container: React.CSSProperties = {
     display: 'grid',
     gridTemplateColumns: isMobile ? '1fr auto' : '1fr auto auto',
@@ -21,12 +17,8 @@ const createStyles = (
     borderRadius: isMobile ? '2vw' : '0.4vw',
     fontSize: 16,
     fontWeight: 500,
-    color: isDarkMode ? '#E8EAED' : '#202124',
-    backgroundColor: hovered
-      ? isDarkMode
-        ? '#3A3B3D'
-        : '#F2F2F2'
-      : 'transparent',
+    color: isDark ? '#E8EAED' : '#202124',
+    backgroundColor: hovered ? (isDark ? '#3A3B3D' : '#F2F2F2') : 'transparent',
     transition: 'background-color 0.15s ease',
     cursor: 'default',
   };
@@ -36,7 +28,7 @@ const createStyles = (
     whiteSpace: 'nowrap',
   };
   const score: React.CSSProperties = {
-    color: isDarkMode ? '#B0B5BA' : '#5F6368',
+    color: isDark ? '#B0B5BA' : '#5F6368',
     textAlign: 'right',
     whiteSpace: 'nowrap',
   };
@@ -49,9 +41,9 @@ const createStyles = (
   return { container, teamOpponent, score, outcome };
 };
 
-const ResultsRow: React.FC<Props> = ({ row, isMobile, isDarkMode }) => {
+const ResultsRow: React.FC<Props> = ({ row, isMobile, isDark }) => {
   const [hovered, setHovered] = useState(false);
-  const styles = createStyles(isMobile, isDarkMode, hovered);
+  const styles = createStyles(isMobile, isDark, hovered);
 
   return (
     <div
@@ -66,7 +58,7 @@ const ResultsRow: React.FC<Props> = ({ row, isMobile, isDarkMode }) => {
       <span
         style={{
           ...styles.outcome,
-          color: outcomeColor(row.outcome, isDarkMode),
+          color: outcomeColor(row.outcome, isDark),
         }}
       >
         {row.outcome || '—'}

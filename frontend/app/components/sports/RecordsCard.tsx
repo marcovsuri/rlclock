@@ -5,14 +5,14 @@ import type { TeamRecordEntry } from '~/utils/sports/records';
 interface Props {
   records: TeamRecordEntry[];
   isMobile: boolean;
-  isDarkMode: boolean;
+  isDark: boolean;
 }
 
-const createStyles = (isMobile: boolean, isDarkMode: boolean) => {
+const createStyles = (isMobile: boolean, isDark: boolean) => {
   const card: React.CSSProperties = {
-    backgroundColor: isDarkMode ? '#2D2E30' : '#FFFFFF',
+    backgroundColor: isDark ? '#2D2E30' : '#FFFFFF',
     borderRadius: isMobile ? '3vw' : '0.8vw',
-    boxShadow: isDarkMode
+    boxShadow: isDark
       ? '0 2px 12px rgba(0,0,0,0.5)'
       : '0 2px 12px rgba(0,0,0,0.1)',
     padding: isMobile ? '3vw' : '1.2vw',
@@ -22,7 +22,7 @@ const createStyles = (isMobile: boolean, isDarkMode: boolean) => {
     fontSize: isMobile ? 13 : 14,
     margin: 0,
     marginBottom: isMobile ? '2vw' : '0.8vw',
-    color: isDarkMode ? '#B0B5BA' : '#5F6368',
+    color: isDark ? '#B0B5BA' : '#5F6368',
     fontWeight: 500,
     textTransform: 'uppercase',
     letterSpacing: '0.05em',
@@ -38,7 +38,7 @@ const createStyles = (isMobile: boolean, isDarkMode: boolean) => {
     padding: isMobile ? '0 2vw 1vw' : '0 0.6vw 0.3vw',
     fontSize: isMobile ? 13 : 14,
     fontWeight: 600,
-    color: isDarkMode ? '#B0B5BA' : '#5F6368',
+    color: isDark ? '#B0B5BA' : '#5F6368',
     textTransform: 'uppercase',
     letterSpacing: '0.05em',
   };
@@ -52,11 +52,11 @@ const createStyles = (isMobile: boolean, isDarkMode: boolean) => {
     padding: isMobile ? '1.5vw 2vw' : '0.35vw 0.6vw',
     fontSize: 16,
     fontWeight: 500,
-    color: isDarkMode ? '#E8EAED' : '#202124',
+    color: isDark ? '#E8EAED' : '#202124',
   };
   const varsityRow: React.CSSProperties = {
     ...row,
-    backgroundColor: isDarkMode
+    backgroundColor: isDark
       ? 'rgba(138, 31, 46, 0.2)'
       : 'rgba(154, 31, 54, 0.12)',
     borderRadius: isMobile ? '2vw' : '0.4vw',
@@ -65,7 +65,7 @@ const createStyles = (isMobile: boolean, isDarkMode: boolean) => {
     ...row,
     fontWeight: 700,
     marginTop: isMobile ? '1vw' : '0.25vw',
-    borderTop: isDarkMode
+    borderTop: isDark
       ? '1px solid rgba(255,255,255,0.08)'
       : '1px solid rgba(0,0,0,0.06)',
     paddingTop: isMobile ? '2vw' : '0.5vw',
@@ -74,8 +74,8 @@ const createStyles = (isMobile: boolean, isDarkMode: boolean) => {
     textAlign: 'center',
     minWidth: isMobile ? '8vw' : '2.5vw',
   };
-  const winColor = isDarkMode ? '#4ade80' : '#16a34a';
-  const neutralColor = isDarkMode ? '#B0B5BA' : '#5F6368';
+  const winColor = isDark ? '#4ade80' : '#16a34a';
+  const neutralColor = isDark ? '#B0B5BA' : '#5F6368';
 
   return {
     card,
@@ -97,8 +97,8 @@ const sumRecord = (
 ): number =>
   records.reduce((sum, { record: { record } }) => sum + record[key], 0);
 
-const RecordsCard: React.FC<Props> = ({ records, isMobile, isDarkMode }) => {
-  const styles = createStyles(isMobile, isDarkMode);
+const RecordsCard: React.FC<Props> = ({ records, isMobile, isDark }) => {
+  const styles = createStyles(isMobile, isDark);
 
   return (
     <div style={styles.card}>

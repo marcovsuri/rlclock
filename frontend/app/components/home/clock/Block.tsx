@@ -5,23 +5,23 @@ import { OFFSET } from './testing';
 interface Props {
   period: Period;
   isMobile: boolean;
-  isDarkMode: boolean;
+  isDark: boolean;
 }
 
 const createStyles = (
   isCurrent: boolean,
   isMobile: boolean,
-  isDarkMode: boolean,
+  isDark: boolean,
 ) => {
   const backgroundColor = isCurrent
-    ? isDarkMode
+    ? isDark
       ? '#ff1a1a'
       : '#7a0000'
-    : isDarkMode
+    : isDark
       ? '#7a0000'
       : '#ff9e9e';
 
-  const color = isDarkMode ? '#FFF' : isCurrent ? '#FFF' : '#000';
+  const color = isDark ? '#FFF' : isCurrent ? '#FFF' : '#000';
 
   const container: React.CSSProperties = {
     display: 'flex',
@@ -38,10 +38,10 @@ const createStyles = (
     paddingRight: isMobile ? '1rem' : '0.2vw',
     backgroundColor,
     color,
-    border: isDarkMode
+    border: isDark
       ? '1px solid rgba(255,255,255,0.08)'
       : '1px solid rgba(32,33,36,0.08)',
-    boxShadow: isDarkMode
+    boxShadow: isDark
       ? '0 12px 28px rgba(0,0,0,0.25)'
       : '0 10px 24px rgba(0,0,0,0.08)',
     gap: isMobile ? '0.75rem' : 0,
@@ -76,7 +76,7 @@ const createStyles = (
   return { container, time, name };
 };
 
-const Block: React.FC<Props> = ({ period, isMobile, isDarkMode }) => {
+const Block: React.FC<Props> = ({ period, isMobile, isDark }) => {
   const { name, start, end } = period;
 
   const startTime = start.toLocaleTimeString('en-US', {
@@ -92,7 +92,7 @@ const Block: React.FC<Props> = ({ period, isMobile, isDarkMode }) => {
   const now = new Date(Date.now() - OFFSET);
   const isCurrent = now >= start && now <= end;
 
-  const styles = createStyles(isCurrent, isMobile, isDarkMode);
+  const styles = createStyles(isCurrent, isMobile, isDark);
 
   return (
     <div style={styles.container}>

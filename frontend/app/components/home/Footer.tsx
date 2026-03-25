@@ -2,16 +2,16 @@ import React, { useState } from 'react';
 import useIsMobile from '~/hooks/useIsMobile';
 
 interface Props {
-  isDarkMode: boolean;
+  isDark: boolean;
 }
 
 const createStyles = (
   showCredits: boolean,
-  isDarkMode: boolean,
+  isDark: boolean,
   isMobile: boolean,
 ) => {
-  const secondaryText = isDarkMode ? '#B0B5BA' : '#5F6368';
-  const maroon = isDarkMode ? '#B0263E' : 'rgb(154, 31, 54)';
+  const secondaryText = isDark ? '#B0B5BA' : '#5F6368';
+  const maroon = isDark ? '#B0263E' : 'rgb(154, 31, 54)';
 
   const footer: React.CSSProperties = {
     textAlign: 'center',
@@ -35,7 +35,7 @@ const createStyles = (
     opacity: showCredits ? 1 : 0,
     padding: showCredits ? (isMobile ? '1.5vw 3vw' : '0.3vw 0.8vw') : '0',
     border: showCredits
-      ? `1px solid ${isDarkMode ? 'rgba(176, 38, 62, 0.4)' : 'rgba(154, 31, 54, 0.4)'}`
+      ? `1px solid ${isDark ? 'rgba(176, 38, 62, 0.4)' : 'rgba(154, 31, 54, 0.4)'}`
       : '1px solid transparent',
     borderRadius: isMobile ? '2vw' : '0.4vw',
     overflow: 'hidden',
@@ -48,10 +48,10 @@ const createStyles = (
   return { footer, fox, credits };
 };
 
-const Footer: React.FC<Props> = ({ isDarkMode }) => {
+const Footer: React.FC<Props> = ({ isDark }) => {
   const [showCredits, setShowCredits] = useState(false);
   const isMobile = useIsMobile();
-  const styles = createStyles(showCredits, isDarkMode, isMobile);
+  const styles = createStyles(showCredits, isDark, isMobile);
   const currentYear = new Date().getFullYear();
 
   return (

@@ -3,7 +3,7 @@ import MenuItemCard from './MenuItemCard';
 
 interface Props {
   items: string[];
-  isDarkMode: boolean;
+  isDark: boolean;
 }
 
 const styles = {
@@ -15,10 +15,10 @@ const styles = {
   } as React.CSSProperties,
 };
 
-const MenuGrid: React.FC<Props> = ({ items, isDarkMode }) => (
+const MenuGrid: React.FC<Props> = ({ items, isDark }) => (
   <div style={styles.grid}>
     {items.map((item, i) => (
-      <MenuItemCard key={i} item={item} isDarkMode={isDarkMode} />
+      <MenuItemCard key={i} item={item} isDark={isDark} />
     ))}
   </div>
 );

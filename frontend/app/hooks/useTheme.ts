@@ -5,7 +5,7 @@ type ThemePreference = 'system' | 'light' | 'dark';
 const resolveIsDark = (pref: ThemePreference): boolean => {
   if (pref === 'light') return false;
   if (pref === 'dark') return true;
-  return window.matchMedia('(prefers-color-scheme: dark)').matches;
+  return window.matchMedia('(prefers-color-scheme: dark)').matches; // pref === "system"
 };
 
 const getStoredPreference = (): ThemePreference =>
@@ -49,7 +49,7 @@ const useTheme = () => {
     setIsDark(dark);
   };
 
-  return { isDarkMode: isDark, preference, setThemePreference };
+  return { isDark, preference, setThemePreference };
 };
 
 export default useTheme;

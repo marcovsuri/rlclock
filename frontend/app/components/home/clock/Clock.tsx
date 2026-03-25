@@ -7,13 +7,13 @@ import useIsMobile from '~/hooks/useIsMobile';
 
 interface Props {
   schedule: Schedule;
-  isDarkMode: boolean;
+  isDark: boolean;
 }
 
-const createStyles = (isMobile: boolean, isDarkMode: boolean) => {
+const createStyles = (isMobile: boolean, isDark: boolean) => {
   const container: React.CSSProperties = {
     fontFamily: 'sans-serif',
-    color: isDarkMode ? '#FFFFFF' : '#202124',
+    color: isDark ? '#FFFFFF' : '#202124',
     display: 'flex',
     flexDirection: isMobile ? 'column-reverse' : 'column',
     alignItems: 'center',
@@ -48,7 +48,7 @@ const createStyles = (isMobile: boolean, isDarkMode: boolean) => {
   return { container, currentBlock, remaining };
 };
 
-const Clock: React.FC<Props> = ({ schedule, isDarkMode }) => {
+const Clock: React.FC<Props> = ({ schedule, isDark }) => {
   const isMobile = useIsMobile();
 
   // Todo: remove offset
@@ -72,14 +72,14 @@ const Clock: React.FC<Props> = ({ schedule, isDarkMode }) => {
     secondsRemaining,
   );
 
-  const styles = createStyles(isMobile, isDarkMode);
+  const styles = createStyles(isMobile, isDark);
 
   return (
     <div style={styles.container}>
       <ScheduleComponent
         schedule={schedule}
         isMobile={isMobile}
-        isDarkMode={isDarkMode}
+        isDark={isDark}
       />
       <div>
         <div style={styles.currentBlock}>{currentBlock ?? 'No school!'}</div>

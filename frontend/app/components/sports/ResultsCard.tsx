@@ -12,16 +12,16 @@ import {
 interface Props {
   results: Match[];
   isMobile: boolean;
-  isDarkMode: boolean;
+  isDark: boolean;
 }
 
 const MOBILE_COLLAPSED_COUNT = 3;
 
-const createStyles = (isMobile: boolean, isDarkMode: boolean) => {
+const createStyles = (isMobile: boolean, isDark: boolean) => {
   const card: React.CSSProperties = {
-    backgroundColor: isDarkMode ? '#2D2E30' : '#FFFFFF',
+    backgroundColor: isDark ? '#2D2E30' : '#FFFFFF',
     borderRadius: isMobile ? '3vw' : '0.8vw',
-    boxShadow: isDarkMode
+    boxShadow: isDark
       ? '0 2px 12px rgba(0,0,0,0.5)'
       : '0 2px 12px rgba(0,0,0,0.1)',
     padding: isMobile ? '3vw' : '1.2vw',
@@ -31,7 +31,7 @@ const createStyles = (isMobile: boolean, isDarkMode: boolean) => {
     fontSize: isMobile ? 13 : 14,
     margin: 0,
     marginBottom: isMobile ? '2vw' : '0.8vw',
-    color: isDarkMode ? '#B0B5BA' : '#5F6368',
+    color: isDark ? '#B0B5BA' : '#5F6368',
     fontWeight: 500,
     textTransform: 'uppercase',
     letterSpacing: '0.05em',
@@ -44,7 +44,7 @@ const createStyles = (isMobile: boolean, isDarkMode: boolean) => {
   const dateHeader: React.CSSProperties = {
     fontSize: isMobile ? 13 : 14,
     fontWeight: 600,
-    color: isDarkMode ? '#B0263E' : 'rgb(154, 31, 54)',
+    color: isDark ? '#B0263E' : 'rgb(154, 31, 54)',
     marginBottom: isMobile ? '1vw' : '0.3vw',
     textTransform: 'uppercase',
     letterSpacing: '0.03em',
@@ -61,7 +61,7 @@ const createStyles = (isMobile: boolean, isDarkMode: boolean) => {
     padding: isMobile ? '1.5vw 4vw' : '0.3vw 1vw',
     fontSize: isMobile ? 13 : 14,
     fontWeight: 500,
-    color: isDarkMode ? '#B0263E' : 'rgb(154, 31, 54)',
+    color: isDark ? '#B0263E' : 'rgb(154, 31, 54)',
     background: 'none',
     border: 'none',
     cursor: 'pointer',
@@ -69,9 +69,9 @@ const createStyles = (isMobile: boolean, isDarkMode: boolean) => {
   return { card, header, groupList, dateHeader, rowList, showMoreButton };
 };
 
-const ResultsCard: React.FC<Props> = ({ results, isMobile, isDarkMode }) => {
+const ResultsCard: React.FC<Props> = ({ results, isMobile, isDark }) => {
   const [expanded, setExpanded] = useState(false);
-  const styles = createStyles(isMobile, isDarkMode);
+  const styles = createStyles(isMobile, isDark);
 
   const rows = flattenMatches(results);
   const groups = groupByDate(rows);
@@ -97,7 +97,7 @@ const ResultsCard: React.FC<Props> = ({ results, isMobile, isDarkMode }) => {
                   key={i}
                   row={row}
                   isMobile={isMobile}
-                  isDarkMode={isDarkMode}
+                  isDark={isDark}
                 />
               ))}
             </div>

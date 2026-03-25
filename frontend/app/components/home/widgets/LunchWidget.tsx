@@ -3,24 +3,24 @@ import Widget from './Widget';
 
 interface Props {
   items: string[];
-  isDarkMode: boolean;
+  isDark: boolean;
 }
 
-const createStyles = (isDarkMode: boolean) => {
+const createStyles = (isDark: boolean) => {
   const item: React.CSSProperties = {
     fontSize: 'clamp(1rem, 4.2cqw, 1.2rem)',
     fontWeight: 500,
-    color: isDarkMode ? '#E8EAED' : '#202124',
+    color: isDark ? '#E8EAED' : '#202124',
     padding: '0.35rem 0',
     lineHeight: 1.35,
   };
   return { item };
 };
 
-const LunchWidget: React.FC<Props> = ({ items, isDarkMode }) => {
-  const styles = createStyles(isDarkMode);
+const LunchWidget: React.FC<Props> = ({ items, isDark }) => {
+  const styles = createStyles(isDark);
   return (
-    <Widget title="Today's Lunch" to="/lunch" isDarkMode={isDarkMode}>
+    <Widget title="Today's Lunch" to="/lunch" isDark={isDark}>
       {items.map((item, i) => (
         <div key={i} style={styles.item}>
           {item}

@@ -4,29 +4,29 @@ import type { UpcomingMatch } from '~/types/sports';
 interface Props {
   todayMatches: UpcomingMatch[];
   isMobile: boolean;
-  isDarkMode: boolean;
+  isDark: boolean;
 }
 
-const createStyles = (isMobile: boolean, isDarkMode: boolean) => {
+const createStyles = (isMobile: boolean, isDark: boolean) => {
   const emptyBanner: React.CSSProperties = {
     display: 'flex',
     alignItems: 'center',
     gap: isMobile ? '2vw' : '0.6vw',
     padding: isMobile ? '2vw 3vw' : '0.5vw 1vw',
     fontSize: 16,
-    color: isDarkMode ? '#B0B5BA' : '#5F6368',
+    color: isDark ? '#B0B5BA' : '#5F6368',
     fontWeight: 500,
   };
 
   const emptyLabel: React.CSSProperties = {
-    color: isDarkMode ? '#B0263E' : 'rgb(154, 31, 54)',
+    color: isDark ? '#B0263E' : 'rgb(154, 31, 54)',
     fontWeight: 600,
   };
 
   const card: React.CSSProperties = {
-    backgroundColor: isDarkMode ? '#2D2E30' : '#FFFFFF',
+    backgroundColor: isDark ? '#2D2E30' : '#FFFFFF',
     borderRadius: isMobile ? '3vw' : '0.8vw',
-    boxShadow: isDarkMode
+    boxShadow: isDark
       ? '0 2px 12px rgba(0,0,0,0.5)'
       : '0 2px 12px rgba(0,0,0,0.1)',
     padding: isMobile ? '3vw' : '1.2vw',
@@ -37,7 +37,7 @@ const createStyles = (isMobile: boolean, isDarkMode: boolean) => {
     fontSize: isMobile ? 13 : 14,
     margin: 0,
     marginBottom: isMobile ? '2vw' : '0.6vw',
-    color: isDarkMode ? '#B0B5BA' : '#5F6368',
+    color: isDark ? '#B0B5BA' : '#5F6368',
     fontWeight: 500,
     textTransform: 'uppercase',
     letterSpacing: '0.05em',
@@ -65,12 +65,12 @@ const createStyles = (isMobile: boolean, isDarkMode: boolean) => {
     alignItems: 'center',
     fontWeight: isVarsity ? 600 : 500,
     fontSize: 16,
-    color: isDarkMode ? '#E8EAED' : '#202124',
+    color: isDark ? '#E8EAED' : '#202124',
     backgroundColor: isVarsity
-      ? isDarkMode
+      ? isDark
         ? 'rgba(138, 31, 46, 0.2)'
         : 'rgba(154, 31, 54, 0.12)'
-      : isDarkMode
+      : isDark
         ? '#2D2E30'
         : '#F2F2F2',
     opacity: isHome ? 1 : 0.65,
@@ -90,9 +90,9 @@ const createStyles = (isMobile: boolean, isDarkMode: boolean) => {
 const TodayMatchesCard: React.FC<Props> = ({
   todayMatches,
   isMobile,
-  isDarkMode,
+  isDark,
 }) => {
-  const styles = createStyles(isMobile, isDarkMode);
+  const styles = createStyles(isMobile, isDark);
 
   if (todayMatches.length === 0) {
     return (

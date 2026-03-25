@@ -10,16 +10,16 @@ const NAV_LINKS = [
 ];
 
 interface Props {
-  isDarkMode: boolean;
+  isDark: boolean;
   isOpen: boolean;
   onClose: () => void;
 }
 
-const createStyles = (isDarkMode: boolean, isMobile: boolean) => {
+const createStyles = (isDark: boolean, isMobile: boolean) => {
   const backdrop: React.CSSProperties = {
     position: 'fixed',
     inset: 0,
-    backgroundColor: isDarkMode
+    backgroundColor: isDark
       ? 'rgba(8, 9, 10, 0.7)'
       : 'rgba(248, 245, 246, 0.78)',
     backdropFilter: isMobile ? 'blur(14px)' : 'blur(10px)',
@@ -32,7 +32,7 @@ const createStyles = (isDarkMode: boolean, isMobile: boolean) => {
     left: 0,
     bottom: 0,
     width: isMobile ? '100vw' : 'clamp(320px, 34vw, 460px)',
-    backgroundColor: isDarkMode
+    backgroundColor: isDark
       ? 'rgba(20, 21, 23, 0.96)'
       : 'rgba(255, 252, 253, 0.97)',
     zIndex: 121,
@@ -40,15 +40,15 @@ const createStyles = (isDarkMode: boolean, isMobile: boolean) => {
     flexDirection: 'column',
     justifyContent: 'space-between',
     padding: isMobile ? '1.25rem 1.25rem 2rem' : '1.5rem 1.25rem 2rem',
-    color: isDarkMode ? '#E8EAED' : '#202124',
+    color: isDark ? '#E8EAED' : '#202124',
     borderRight: isMobile
       ? 'none'
-      : isDarkMode
+      : isDark
         ? '1px solid rgba(255,255,255,0.08)'
         : '1px solid rgba(32,33,36,0.08)',
     borderTopRightRadius: isMobile ? 0 : '28px',
     borderBottomRightRadius: isMobile ? 0 : '28px',
-    boxShadow: isDarkMode
+    boxShadow: isDark
       ? '0 20px 48px rgba(0,0,0,0.35)'
       : '0 20px 48px rgba(0,0,0,0.14)',
   };
@@ -69,8 +69,8 @@ const createStyles = (isDarkMode: boolean, isMobile: boolean) => {
   };
 
   const closeButton: React.CSSProperties = {
-    background: isDarkMode ? 'rgba(255,255,255,0.06)' : 'rgba(32,33,36,0.06)',
-    border: isDarkMode
+    background: isDark ? 'rgba(255,255,255,0.06)' : 'rgba(32,33,36,0.06)',
+    border: isDark
       ? '1px solid rgba(255,255,255,0.08)'
       : '1px solid rgba(32,33,36,0.08)',
     borderRadius: '999px',
@@ -93,7 +93,7 @@ const createStyles = (isDarkMode: boolean, isMobile: boolean) => {
 
   const footer: React.CSSProperties = {
     fontSize: '0.95rem',
-    color: isDarkMode ? '#B0B5BA' : '#5F6368',
+    color: isDark ? '#B0B5BA' : '#5F6368',
     letterSpacing: '0.04em',
   };
 
@@ -109,7 +109,7 @@ const createStyles = (isDarkMode: boolean, isMobile: boolean) => {
 };
 
 const createLinkStyle = (
-  isDarkMode: boolean,
+  isDark: boolean,
   isMobile: boolean,
   isActive: boolean,
 ): React.CSSProperties => ({
@@ -124,21 +124,21 @@ const createLinkStyle = (
   fontWeight: 600,
   transition: 'background 0.15s, opacity 0.15s, border-color 0.15s',
   background: isActive
-    ? isDarkMode
+    ? isDark
       ? 'rgba(176, 38, 62, 0.22)'
       : 'rgba(154, 31, 54, 0.1)'
     : 'transparent',
   border: isActive
-    ? isDarkMode
+    ? isDark
       ? '1px solid rgba(176, 38, 62, 0.32)'
       : '1px solid rgba(154, 31, 54, 0.18)'
-    : isDarkMode
+    : isDark
       ? '1px solid rgba(255,255,255,0.08)'
       : '1px solid rgba(32,33,36,0.08)',
   opacity: isActive ? 1 : 0.88,
 });
 
-const Nav: React.FC<Props> = ({ isDarkMode, isOpen, onClose }) => {
+const Nav: React.FC<Props> = ({ isDark, isOpen, onClose }) => {
   const { pathname } = useLocation();
   const isMobile = useIsMobile();
 
@@ -150,7 +150,7 @@ const Nav: React.FC<Props> = ({ isDarkMode, isOpen, onClose }) => {
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [onClose]);
 
-  const styles = createStyles(isDarkMode, isMobile);
+  const styles = createStyles(isDark, isMobile);
 
   return (
     <AnimatePresence>
@@ -199,11 +199,7 @@ const Nav: React.FC<Props> = ({ isDarkMode, isOpen, onClose }) => {
             <div style={styles.navList}>
               {NAV_LINKS.map(({ label, href }, i) => {
                 const isActive = pathname === href;
-                const linkStyle = createLinkStyle(
-                  isDarkMode,
-                  isMobile,
-                  isActive,
-                );
+                const linkStyle = createLinkStyle(isDark, isMobile, isActive);
 
                 return (
                   <motion.div
