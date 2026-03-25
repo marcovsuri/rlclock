@@ -9,6 +9,9 @@ import TodayMatchesCard from '~/components/sports/TodayMatchesCard';
 import ResultsCard from '~/components/sports/ResultsCard';
 import RecordsCard from '~/components/sports/RecordsCard';
 import { getTodayMatches, sortTodayMatches } from '~/utils/sports/todayMatches';
+import { useState } from 'react';
+import HamburgerButton from '~/components/home/nav/HamburgerButton';
+import Nav from '~/components/home/nav/Nav';
 
 export function meta({}: Route.MetaArgs) {
   return [
@@ -34,7 +37,7 @@ export async function clientLoader() {
   };
 }
 
-const createStyles = (isMobile: boolean) => {
+const createStyles = (isMobile: boolean, isDarkMode: boolean) => {
   const container: React.CSSProperties = {
     display: 'flex',
     flexDirection: 'column',
@@ -50,16 +53,14 @@ const createStyles = (isMobile: boolean) => {
     gap: isMobile ? '2vw' : '1vw',
   };
 
-  const hiddenTitle: React.CSSProperties = {
-    position: 'absolute',
-    width: 1,
-    height: 1,
-    overflow: 'hidden',
-    clip: 'rect(0,0,0,0)',
-    whiteSpace: 'nowrap',
+  const title: React.CSSProperties = {
+    fontSize: isMobile ? 26 : 32,
+    color: isDarkMode ? '#B0263E' : 'rgb(154, 31, 54)',
+    margin: '0 0 1rem',
+    textAlign: 'center',
   };
 
-  return { container, main, hiddenTitle };
+  return { container, main, title };
 };
 
 export default function Sports({ loaderData }: Route.ComponentProps) {
@@ -69,7 +70,9 @@ export default function Sports({ loaderData }: Route.ComponentProps) {
   }: { matches: Match[]; upcomingMatches: UpcomingMatch[] } = loaderData;
   const isDarkMode = true; // Todo: make based on user preferences
   const isMobile = useIsMobile();
-  const styles = createStyles(isMobile);
+  const [navOpen, setNavOpen] = useState<boolean>(false);
+
+  const styles = createStyles(isMobile, isDarkMode);
 
   const recordsResult = calcTeamRecords(matches);
   if (!recordsResult.success) throw new Error(recordsResult.errorMessage);
@@ -90,11 +93,11 @@ export default function Sports({ loaderData }: Route.ComponentProps) {
       transition={{ duration: 0.5 }}
       style={styles.container}
     >
+      <HamburgerButton onClick={() => setNavOpen(true)} />
+      <Nav isOpen={navOpen} onClose={() => setNavOpen(false)} />
+
       <main style={styles.main}>
-        <h1 style={styles.hiddenTitle}>Sports</h1>
-        <div style={{ alignSelf: 'flex-start' }}>
-          <BackButton text={'Home'} isDarkMode={isDarkMode} />
-        </div>
+        <h1 style={styles.title}>RL Fox Den</h1>
         <TodayMatchesCard
           todayMatches={todayMatches}
           isMobile={isMobile}

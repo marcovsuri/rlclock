@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { menuFetcher } from '~/shared/fetchers';
 import type { Route } from './+types/lunch';
@@ -6,6 +6,8 @@ import type { Menu } from '~/types/lunch';
 import useIsMobile from '~/hooks/useIsMobile';
 import BackButton from '~/components/global/BackButton';
 import MenuSection from '~/components/lunch/MenuSection';
+import HamburgerButton from '~/components/home/nav/HamburgerButton';
+import Nav from '~/components/home/nav/Nav';
 
 export function meta({}: Route.MetaArgs) {
   return [
@@ -83,6 +85,8 @@ export default function Lunch({ loaderData }: Route.ComponentProps) {
   const { menu }: { menu: Menu } = loaderData;
   const isDarkMode = true; // Todo: make based on user preferences
   const isMobile = useIsMobile();
+  const [navOpen, setNavOpen] = useState<boolean>(false);
+
   const styles = createStyles(isMobile, isDarkMode);
 
   const visibleSections = MENU_SECTIONS.filter(
@@ -98,11 +102,10 @@ export default function Lunch({ loaderData }: Route.ComponentProps) {
         transition={{ duration: 0.5 }}
         style={styles.container}
       >
+        <HamburgerButton onClick={() => setNavOpen(true)} />
+        <Nav isOpen={navOpen} onClose={() => setNavOpen(false)} />
         <main style={styles.inner}>
           <div style={styles.content}>
-            <div style={{ marginTop: 8 }}>
-              <BackButton text={'Home'} isDarkMode={isDarkMode} />
-            </div>
             <h1 style={styles.title}>RL Lunch Menu</h1>
             <div style={styles.sectionList}>
               {visibleSections.length > 0 ? (

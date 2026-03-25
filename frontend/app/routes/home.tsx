@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import type { Schedule } from '~/types/clock';
 import type { Match } from '~/types/sports';
 import type { Menu } from '~/types/lunch';
@@ -13,6 +13,8 @@ import Clock from '~/components/home/clock/Clock';
 import LunchWidget from '~/components/home/widgets/LunchWidget';
 import SportsResultsWidget from '~/components/home/widgets/SportsResultsWidget';
 import WidgetContainer from '~/components/home/widgets/WidgetContainer';
+import HamburgerButton from '~/components/home/nav/HamburgerButton';
+import Nav from '~/components/home/nav/Nav';
 
 const isDarkMode = true; // TODO: user preference
 
@@ -63,6 +65,8 @@ const createStyles = () => {
 
 export default function Home({ loaderData }: Route.ComponentProps) {
   const { schedule, matches, menu } = loaderData;
+  const [navOpen, setNavOpen] = useState<boolean>(false);
+
   const styles = createStyles();
   const lunchItems = menu['Entrées'].map((i) => i.name);
 
@@ -74,6 +78,9 @@ export default function Home({ loaderData }: Route.ComponentProps) {
       transition={{ duration: 0.5 }}
       style={styles.page}
     >
+      <HamburgerButton onClick={() => setNavOpen(true)} />
+      <Nav isOpen={navOpen} onClose={() => setNavOpen(false)} />
+
       <div style={styles.clockWrapper}>
         <Clock schedule={schedule} />
       </div>
