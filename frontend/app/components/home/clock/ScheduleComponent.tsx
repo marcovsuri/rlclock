@@ -4,15 +4,19 @@ import Block from './Block';
 
 interface Props {
   schedule: Schedule;
+  isMobile: boolean;
+  isDarkMode: boolean;
 }
 
-const createStyles = () => {
+const createStyles = (isMobile: boolean) => {
   const container: React.CSSProperties = {
     display: 'flex',
-    gap: '1vw',
-    alignItems: 'flex-end',
-    marginBottom: '3vh',
+    flexDirection: isMobile ? 'column' : 'row',
+    gap: isMobile ? '0.75rem' : '1vw',
+    alignItems: isMobile ? 'stretch' : 'flex-end',
+    marginBottom: isMobile ? 0 : '1rem',
     width: '100%',
+    maxWidth: isMobile ? '520px' : '100%',
     flexWrap: 'nowrap',
     justifyContent: 'center',
   };
@@ -20,14 +24,23 @@ const createStyles = () => {
   return { container };
 };
 
-const ScheduleComponent: React.FC<Props> = ({ schedule }) => {
-  const styles = createStyles();
+const ScheduleComponent: React.FC<Props> = ({
+  schedule,
+  isMobile,
+  isDarkMode,
+}) => {
+  const styles = createStyles(isMobile);
 
   return (
     <>
       <div style={styles.container}>
         {schedule.periods.map((p, i) => (
-          <Block key={i} period={p} />
+          <Block
+            key={i}
+            period={p}
+            isMobile={isMobile}
+            isDarkMode={isDarkMode}
+          />
         ))}
       </div>
     </>

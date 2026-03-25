@@ -15,8 +15,9 @@ import SportsResultsWidget from '~/components/home/widgets/SportsResultsWidget';
 import WidgetContainer from '~/components/home/widgets/WidgetContainer';
 import HamburgerButton from '~/components/home/nav/HamburgerButton';
 import Nav from '~/components/home/nav/Nav';
-
-const isDarkMode = true; // TODO: user preference
+import useIsMobile from '~/hooks/useIsMobile';
+import useDarkMode from '~/hooks/useDarkMode';
+import Footer from '~/components/home/Footer';
 
 export function meta({}: Route.MetaArgs) {
   return [{ title: 'RL Clock' }, { name: 'description', content: 'RL Clock' }];
@@ -42,32 +43,41 @@ export async function clientLoader(): Promise<{
   };
 }
 
-const createStyles = () => {
+const createStyles = (isMobile: boolean, isDarkMode: boolean) => {
   const page: React.CSSProperties = {
     display: 'flex',
     flexDirection: 'column',
-    height: '100vh', // exact viewport — no scroll
+    minHeight: '100dvh',
     width: '100%',
-    overflow: 'hidden',
-    scrollbarWidth: 'none',
+    overflowY: 'auto',
+    paddingTop: isMobile ? '4.75rem' : '5.25rem',
+    paddingBottom: isMobile ? '1.5rem' : '2rem',
+    color: isDarkMode ? '#E8EAED' : '#202124',
   };
+
   const clockWrapper: React.CSSProperties = {
-    flex: '0 0 auto', // clock shrinks/grows only as its content needs
+    flex: '0 0 auto',
+    width: '100%',
   };
+
   const widgetWrapper: React.CSSProperties = {
-    flex: '1 1 0', // widgets take whatever remains
+    flex: '0 0 auto',
     display: 'flex',
     alignItems: 'stretch',
-    minHeight: 0, // allows flex child to shrink below content size
+    width: '100%',
+    minHeight: 0,
   };
+
   return { page, clockWrapper, widgetWrapper };
 };
 
 export default function Home({ loaderData }: Route.ComponentProps) {
   const { schedule, matches, menu } = loaderData;
   const [navOpen, setNavOpen] = useState<boolean>(false);
+  const isMobile = useIsMobile();
+  const isDarkMode = useDarkMode();
 
-  const styles = createStyles();
+  const styles = createStyles(isMobile, isDarkMode);
   const lunchItems = menu['Entrées'].map((i) => i.name);
 
   return (
@@ -78,18 +88,23 @@ export default function Home({ loaderData }: Route.ComponentProps) {
       transition={{ duration: 0.5 }}
       style={styles.page}
     >
-      <HamburgerButton onClick={() => setNavOpen(true)} />
-      <Nav isOpen={navOpen} onClose={() => setNavOpen(false)} />
+      <HamburgerButton
+        isDarkMode={isDarkMode}
+        onClick={() => setNavOpen(true)}
+      />
+      <Nav isDarkMode={isDarkMode} isOpen={navOpen} onClose={() => null} />
 
       <div style={styles.clockWrapper}>
-        <Clock schedule={schedule} />
+        <Clock schedule={schedule} isDarkMode={isDarkMode} />
       </div>
       <div style={styles.widgetWrapper}>
-        <WidgetContainer>
+        <WidgetContainer isMobile={isMobile}>
           <LunchWidget items={lunchItems} isDarkMode={isDarkMode} />
           <SportsResultsWidget matches={matches} isDarkMode={isDarkMode} />
         </WidgetContainer>
       </div>
+
+      <Footer isDarkMode={isDarkMode} />
     </motion.div>
   );
 }

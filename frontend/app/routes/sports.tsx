@@ -3,8 +3,8 @@ import type { Route } from './+types/sports';
 import type { Match, UpcomingMatch } from '~/types/sports';
 import { calcTeamRecords } from '~/utils/sports/records';
 import useIsMobile from '~/hooks/useIsMobile';
+import useDarkMode from '~/hooks/useDarkMode';
 import { motion } from 'framer-motion';
-import BackButton from '~/components/global/BackButton';
 import TodayMatchesCard from '~/components/sports/TodayMatchesCard';
 import ResultsCard from '~/components/sports/ResultsCard';
 import RecordsCard from '~/components/sports/RecordsCard';
@@ -68,7 +68,7 @@ export default function Sports({ loaderData }: Route.ComponentProps) {
     matches,
     upcomingMatches,
   }: { matches: Match[]; upcomingMatches: UpcomingMatch[] } = loaderData;
-  const isDarkMode = true; // Todo: make based on user preferences
+  const isDarkMode = useDarkMode();
   const isMobile = useIsMobile();
   const [navOpen, setNavOpen] = useState<boolean>(false);
 
@@ -93,8 +93,11 @@ export default function Sports({ loaderData }: Route.ComponentProps) {
       transition={{ duration: 0.5 }}
       style={styles.container}
     >
-      <HamburgerButton onClick={() => setNavOpen(true)} />
-      <Nav isOpen={navOpen} onClose={() => setNavOpen(false)} />
+      <HamburgerButton
+        isDarkMode={isDarkMode}
+        onClick={() => setNavOpen(true)}
+      />
+      <Nav isDarkMode={isDarkMode} isOpen={navOpen} onClose={() => null} />
 
       <main style={styles.main}>
         <h1 style={styles.title}>RL Fox Den</h1>

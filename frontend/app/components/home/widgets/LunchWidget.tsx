@@ -8,10 +8,11 @@ interface Props {
 
 const createStyles = (isDarkMode: boolean) => {
   const item: React.CSSProperties = {
-    fontSize: '3cqw',
+    fontSize: 'clamp(1rem, 4.2cqw, 1.2rem)',
     fontWeight: 500,
     color: isDarkMode ? '#E8EAED' : '#202124',
-    padding: '0.2rem 0',
+    padding: '0.35rem 0',
+    lineHeight: 1.35,
   };
   return { item };
 };

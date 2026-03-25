@@ -11,27 +11,33 @@ interface Props {
 const createStyles = (isDarkMode: boolean, redirectable: boolean = false) => {
   const card: React.CSSProperties = {
     backgroundColor: isDarkMode ? '#2D2E30' : '#FFFFFF',
-    borderRadius: '12px',
-    padding: '1rem 1.25rem',
+    borderRadius: '18px',
+    padding: '1rem 1.1rem',
     boxShadow: isDarkMode
       ? '0 2px 12px rgba(0,0,0,0.5)'
       : '0 2px 12px rgba(0,0,0,0.1)',
+    border: isDarkMode
+      ? '1px solid rgba(255,255,255,0.08)'
+      : '1px solid rgba(32,33,36,0.08)',
     width: '100%',
     boxSizing: 'border-box',
     height: '100%',
+    minHeight: '220px',
     display: 'flex',
     flexDirection: 'column',
     containerType: 'inline-size',
     cursor: redirectable ? 'pointer' : 'default',
+    transition:
+      'transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease',
   };
 
   const title: React.CSSProperties = {
-    fontSize: '3cqw',
+    fontSize: 'clamp(0.8rem, 3.6cqw, 1.05rem)',
     fontWeight: 600,
     color: isDarkMode ? '#B0B5BA' : '#5F6368',
     textTransform: 'uppercase',
-    letterSpacing: '0.05em',
-    margin: '0 0 0.75rem',
+    letterSpacing: '0.08em',
+    margin: '0 0 0.9rem',
     flexShrink: 0,
   };
 
@@ -39,7 +45,8 @@ const createStyles = (isDarkMode: boolean, redirectable: boolean = false) => {
     flex: 1,
     display: 'flex',
     flexDirection: 'column',
-    justifyContent: 'space-evenly',
+    justifyContent: 'flex-start',
+    gap: '0.8rem',
   };
 
   return { card, title, content };

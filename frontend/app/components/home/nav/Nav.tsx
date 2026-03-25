@@ -1,6 +1,7 @@
-import { useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Link, useLocation } from 'react-router';
+import useIsMobile from '~/hooks/useIsMobile';
 
 const NAV_LINKS = [
   { label: 'Home', href: '/' },
@@ -9,17 +10,20 @@ const NAV_LINKS = [
 ];
 
 interface Props {
+  isDarkMode: boolean;
   isOpen: boolean;
   onClose: () => void;
 }
 
-const createStyles = (isActive: boolean) => {
+const createStyles = (isDarkMode: boolean, isMobile: boolean) => {
   const backdrop: React.CSSProperties = {
     position: 'fixed',
     inset: 0,
-    backgroundColor: 'rgba(0, 0, 0, 0.5)',
-    backdropFilter: 'blur(4px)',
-    zIndex: 100,
+    backgroundColor: isDarkMode
+      ? 'rgba(8, 9, 10, 0.7)'
+      : 'rgba(248, 245, 246, 0.78)',
+    backdropFilter: isMobile ? 'blur(14px)' : 'blur(10px)',
+    zIndex: 120,
   };
 
   const drawer: React.CSSProperties = {
@@ -27,58 +31,116 @@ const createStyles = (isActive: boolean) => {
     top: 0,
     left: 0,
     bottom: 0,
-    width: '260px',
-    backgroundColor: 'var(--nav-bg, #111)',
-    borderRight: '1px solid rgba(255,255,255,0.08)',
-    zIndex: 101,
+    width: isMobile ? '100vw' : 'clamp(320px, 34vw, 460px)',
+    backgroundColor: isDarkMode
+      ? 'rgba(20, 21, 23, 0.96)'
+      : 'rgba(255, 252, 253, 0.97)',
+    zIndex: 121,
     display: 'flex',
     flexDirection: 'column',
-    padding: '2rem 1.5rem',
-    gap: '0.5rem',
+    justifyContent: 'space-between',
+    padding: isMobile ? '1.25rem 1.25rem 2rem' : '1.5rem 1.25rem 2rem',
+    color: isDarkMode ? '#E8EAED' : '#202124',
+    borderRight: isMobile
+      ? 'none'
+      : isDarkMode
+        ? '1px solid rgba(255,255,255,0.08)'
+        : '1px solid rgba(32,33,36,0.08)',
+    borderTopRightRadius: isMobile ? 0 : '28px',
+    borderBottomRightRadius: isMobile ? 0 : '28px',
+    boxShadow: isDarkMode
+      ? '0 20px 48px rgba(0,0,0,0.35)'
+      : '0 20px 48px rgba(0,0,0,0.14)',
   };
 
   const header: React.CSSProperties = {
     display: 'flex',
     justifyContent: 'space-between',
     alignItems: 'center',
-    marginBottom: '2rem',
+    gap: '1rem',
   };
 
   const title: React.CSSProperties = {
     fontWeight: 700,
-    fontSize: '1.1rem',
-    letterSpacing: '0.05em',
+    fontSize: 'clamp(1.1rem, 4vw, 1.35rem)',
+    letterSpacing: '0.08em',
+    textTransform: 'uppercase',
     opacity: 0.9,
   };
 
   const closeButton: React.CSSProperties = {
-    background: 'none',
-    border: 'none',
+    background: isDarkMode ? 'rgba(255,255,255,0.06)' : 'rgba(32,33,36,0.06)',
+    border: isDarkMode
+      ? '1px solid rgba(255,255,255,0.08)'
+      : '1px solid rgba(32,33,36,0.08)',
+    borderRadius: '999px',
     cursor: 'pointer',
     color: 'inherit',
-    padding: '4px',
+    padding: '0.75rem',
     display: 'flex',
-    opacity: 0.7,
+    alignItems: 'center',
+    justifyContent: 'center',
   };
 
-  const navLink: React.CSSProperties = {
-    display: 'block',
-    padding: '0.75rem 1rem',
-    borderRadius: '8px',
-    textDecoration: 'none',
-    color: 'inherit',
-    fontSize: '1rem',
-    fontWeight: 500,
-    transition: 'background 0.15s, opacity 0.15s',
-    background: isActive ? 'rgba(255,255,255,0.07)' : 'transparent',
-    opacity: isActive ? 1 : 0.6,
+  const navList: React.CSSProperties = {
+    display: 'flex',
+    flexDirection: 'column',
+    gap: '0.9rem',
+    justifyContent: 'start',
+    paddingTop: '1rem',
+    flex: 1,
   };
 
-  return { backdrop, drawer, header, title, closeButton, navLink };
+  const footer: React.CSSProperties = {
+    fontSize: '0.95rem',
+    color: isDarkMode ? '#B0B5BA' : '#5F6368',
+    letterSpacing: '0.04em',
+  };
+
+  return {
+    backdrop,
+    drawer,
+    header,
+    title,
+    closeButton,
+    navList,
+    footer,
+  };
 };
 
-const Nav = ({ isOpen, onClose }: Props) => {
+const createLinkStyle = (
+  isDarkMode: boolean,
+  isMobile: boolean,
+  isActive: boolean,
+): React.CSSProperties => ({
+  display: 'block',
+  padding: '1rem 1.15rem',
+  borderRadius: '18px',
+  textDecoration: 'none',
+  color: 'inherit',
+  fontSize: isMobile
+    ? 'clamp(1.4rem, 7vw, 2.4rem)'
+    : 'clamp(1.15rem, 2.3vw, 1.55rem)',
+  fontWeight: 600,
+  transition: 'background 0.15s, opacity 0.15s, border-color 0.15s',
+  background: isActive
+    ? isDarkMode
+      ? 'rgba(176, 38, 62, 0.22)'
+      : 'rgba(154, 31, 54, 0.1)'
+    : 'transparent',
+  border: isActive
+    ? isDarkMode
+      ? '1px solid rgba(176, 38, 62, 0.32)'
+      : '1px solid rgba(154, 31, 54, 0.18)'
+    : isDarkMode
+      ? '1px solid rgba(255,255,255,0.08)'
+      : '1px solid rgba(32,33,36,0.08)',
+  opacity: isActive ? 1 : 0.88,
+});
+
+const Nav: React.FC<Props> = ({ isDarkMode, isOpen, onClose }) => {
   const { pathname } = useLocation();
+  const isMobile = useIsMobile();
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -87,6 +149,8 @@ const Nav = ({ isOpen, onClose }: Props) => {
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [onClose]);
+
+  const styles = createStyles(isDarkMode, isMobile);
 
   return (
     <AnimatePresence>
@@ -99,23 +163,25 @@ const Nav = ({ isOpen, onClose }: Props) => {
             exit={{ opacity: 0 }}
             transition={{ duration: 0.2 }}
             onClick={onClose}
-            style={createStyles(false).backdrop}
+            style={styles.backdrop}
           />
 
           <motion.nav
-            key="drawer"
-            initial={{ x: '-100%' }}
-            animate={{ x: 0 }}
-            exit={{ x: '-100%' }}
-            transition={{ type: 'spring', stiffness: 300, damping: 30 }}
-            style={createStyles(false).drawer}
+            key="overlay"
+            initial={isMobile ? { opacity: 0, y: -24 } : { opacity: 0, x: -40 }}
+            animate={isMobile ? { opacity: 1, y: 0 } : { opacity: 1, x: 0 }}
+            exit={isMobile ? { opacity: 0, y: -24 } : { opacity: 0, x: -40 }}
+            transition={{ duration: 0.24, ease: 'easeOut' }}
+            style={styles.drawer}
+            aria-modal="true"
+            role="dialog"
           >
-            <div style={createStyles(false).header}>
-              <span style={createStyles(false).title}>RL Clock</span>
+            <div style={styles.header}>
+              <span style={styles.title}>RL Clock</span>
               <button
                 onClick={onClose}
                 aria-label="Close menu"
-                style={createStyles(false).closeButton}
+                style={styles.closeButton}
               >
                 <svg
                   width="20"
@@ -130,36 +196,31 @@ const Nav = ({ isOpen, onClose }: Props) => {
               </button>
             </div>
 
-            {NAV_LINKS.map(({ label, href }, i) => {
-              const isActive = pathname === href;
-              const styles = createStyles(isActive);
+            <div style={styles.navList}>
+              {NAV_LINKS.map(({ label, href }, i) => {
+                const isActive = pathname === href;
+                const linkStyle = createLinkStyle(
+                  isDarkMode,
+                  isMobile,
+                  isActive,
+                );
 
-              return (
-                <motion.div
-                  key={href}
-                  initial={{ opacity: 0, x: -16 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: 0.05 + i * 0.05 }}
-                >
-                  <Link
-                    to={href}
-                    onClick={onClose}
-                    style={styles.navLink}
-                    onMouseEnter={(e) =>
-                      (e.currentTarget.style.background =
-                        'rgba(255,255,255,0.07)')
-                    }
-                    onMouseLeave={(e) =>
-                      (e.currentTarget.style.background = isActive
-                        ? 'rgba(255,255,255,0.07)'
-                        : 'transparent')
-                    }
+                return (
+                  <motion.div
+                    key={href}
+                    initial={{ opacity: 0, y: 18 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.06 + i * 0.05 }}
                   >
-                    {label}
-                  </Link>
-                </motion.div>
-              );
-            })}
+                    <Link to={href} onClick={onClose} style={linkStyle}>
+                      {label}
+                    </Link>
+                  </motion.div>
+                );
+              })}
+            </div>
+
+            <div style={styles.footer}>Navigation</div>
           </motion.nav>
         </>
       )}

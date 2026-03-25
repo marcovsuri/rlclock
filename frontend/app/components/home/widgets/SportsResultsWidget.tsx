@@ -12,11 +12,11 @@ const createStyles = (isDarkMode: boolean) => {
     display: 'grid',
     gridTemplateColumns: '1fr auto auto',
     alignItems: 'center',
-    gap: '0.75rem',
+    gap: '0.6rem',
   };
 
   const teamOpponent: React.CSSProperties = {
-    fontSize: '3.5cqw',
+    fontSize: 'clamp(1rem, 4cqw, 1.2rem)',
     fontWeight: 500,
     color: isDarkMode ? '#E8EAED' : '#202124',
     display: 'flex',
@@ -26,13 +26,13 @@ const createStyles = (isDarkMode: boolean) => {
   };
 
   const opponent: React.CSSProperties = {
-    fontSize: '2.5cqw',
+    fontSize: 'clamp(0.9rem, 3.2cqw, 1rem)',
     fontWeight: 400,
     color: isDarkMode ? '#B0B5BA' : '#5F6368',
   };
 
   const score: React.CSSProperties = {
-    fontSize: '3.5cqw',
+    fontSize: 'clamp(1rem, 4cqw, 1.1rem)',
     fontWeight: 500,
     color: isDarkMode ? '#E8EAED' : '#202124',
     whiteSpace: 'nowrap',
@@ -42,7 +42,7 @@ const createStyles = (isDarkMode: boolean) => {
   const createOutcomeBadgeStyles = (
     result: 'win' | 'tie' | 'loss',
   ): React.CSSProperties => ({
-    fontSize: '3cqw',
+    fontSize: 'clamp(0.85rem, 3.3cqw, 0.95rem)',
     fontWeight: 600,
     padding: '0.2rem 0.6rem',
     borderRadius: '999px',

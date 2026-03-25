@@ -4,7 +4,7 @@ import { menuFetcher } from '~/shared/fetchers';
 import type { Route } from './+types/lunch';
 import type { Menu } from '~/types/lunch';
 import useIsMobile from '~/hooks/useIsMobile';
-import BackButton from '~/components/global/BackButton';
+import useDarkMode from '~/hooks/useDarkMode';
 import MenuSection from '~/components/lunch/MenuSection';
 import HamburgerButton from '~/components/home/nav/HamburgerButton';
 import Nav from '~/components/home/nav/Nav';
@@ -83,7 +83,7 @@ const createStyles = (isMobile: boolean, isDarkMode: boolean) => {
 
 export default function Lunch({ loaderData }: Route.ComponentProps) {
   const { menu }: { menu: Menu } = loaderData;
-  const isDarkMode = true; // Todo: make based on user preferences
+  const isDarkMode = useDarkMode();
   const isMobile = useIsMobile();
   const [navOpen, setNavOpen] = useState<boolean>(false);
 
@@ -102,8 +102,11 @@ export default function Lunch({ loaderData }: Route.ComponentProps) {
         transition={{ duration: 0.5 }}
         style={styles.container}
       >
-        <HamburgerButton onClick={() => setNavOpen(true)} />
-        <Nav isOpen={navOpen} onClose={() => setNavOpen(false)} />
+        <HamburgerButton
+          isDarkMode={isDarkMode}
+          onClick={() => setNavOpen(true)}
+        />
+        <Nav isDarkMode={isDarkMode} isOpen={navOpen} onClose={() => null} />
         <main style={styles.inner}>
           <div style={styles.content}>
             <h1 style={styles.title}>RL Lunch Menu</h1>

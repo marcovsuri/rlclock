@@ -68,220 +68,49 @@ html.dark-mode a {
 
 /* Text shimmer animation */
 @keyframes shimmer-reveal {
-  0%,
-  99% {
-    background-position: -200% center;
-    background-clip: text;
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    color: transparent;
+  0% {
+    background-position: 200% center;
+    opacity: 0;
+  }
+  15% {
+    opacity: 1;
+  }
+  82% {
+    background-position: 0% center;
   }
   100% {
     background: none;
     -webkit-text-fill-color: rgba(154, 31, 54, 1);
     color: rgba(154, 31, 54, 1);
+    opacity: 1;
   }
 }
 
-/* Modal backdrop */
-.modal-backdrop {
-  position: fixed;
-  inset: 0;
-  background-color: rgba(0, 0, 0, 0.5);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 1;
-  opacity: 0;
-  pointer-events: none;
-  transition: all 0.3s ease;
-  backdrop-filter: blur(2px);
-}
-
-.modal-backdrop.show {
-  opacity: 1;
-  pointer-events: all;
-}
-
-.modal-backdrop.hide {
-  opacity: 0;
-  pointer-events: none;
-}
-
-/* Modal visibility container */
-.modal-container {
-  opacity: 0;
-  visibility: hidden;
-  transform: translateY(-20px);
-  transition:
-    transform 0.3s ease,
-    opacity 1s ease,
-    visibility 1s ease,
-    background-color 3s ease;
-  z-index: 2000;
-}
-
-.modal-show .modal-container {
-  opacity: 1;
-  visibility: visible;
-  transform: translateY(-20px);
-}
-
-/* Modal content */
-.modal-content {
-  background-color: var(--modal-bg, white);
-  color: var(--modal-text, #000);
-  padding: 1rem;
-  border-radius: 16px;
-  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
-  overflow-y: auto;
-  max-height: 80vh;
-  max-width: 90vw;
-  width: 95%;
-  font-size: 16px;
-  transform: translateY(-20px);
-  opacity: 0;
-  visibility: hidden;
-  border: 1px solid rgba(154, 31, 54, 0.2);
-  transition:
-    transform 0.3s ease,
-    opacity 1s ease,
-    visibility 1s ease,
-    background-color 3s ease;
-  margin: auto 2vw;
-}
-
-.modal-show {
-  transform: translateY(0);
-  opacity: 1;
-  visibility: visible;
-}
-
-.modal-content h2 {
-  font-size: 26px;
-  margin-bottom: 1.5rem;
-  font-weight: 600;
-  border-bottom: 1px solid rgba(154, 31, 54, 0.4);
-  padding-bottom: 0.5rem;
-  text-align: center;
-  color: rgb(154, 31, 54);
-}
-
-/* Modal announcement */
-.modal-announcement {
-  margin-bottom: 1.5rem;
-  padding: 2rem;
-  border-radius: 16px;
-  background-color: var(--announcement-bg, white);
-  color: rgb(154, 31, 54);
-  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
-  text-align: left;
-  border: 1px solid rgba(154, 31, 54, 0.2);
-  opacity: 0;
-  transform: translateY(10px);
-  transition:
-    transform 1s ease,
-    opacity 1s ease,
-    visibility 1s ease,
-    background-color 3s ease;
-}
-
-.modal-show .modal-announcement {
-  opacity: 1;
-  transform: translateY(-20px);
-}
-
-.modal-announcement h3 {
-  margin: 0 0 0.5rem;
-  font-size: 20px;
-  font-weight: 600;
-}
-
-.modal-announcement p {
-  font-size: 16px;
-}
-
-/* Modal close button */
-.modal-close-btn {
-  padding: 0.8vh 1.5vw;
-  border-radius: 12px;
-  border: 1px solid rgba(154, 31, 54, 0.2);
-  background-color: rgba(154, 31, 54, 0.2);
-  color: rgba(154, 31, 54, 1);
-  font-size: 16px;
-  font-weight: 600;
-  cursor: pointer;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
-  transition: all 3s ease;
-}
-
-.modal-close-btn:hover {
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
-}
-
-html.dark-mode .modal-content {
-  border-color: rgba(176, 38, 62, 0.3);
-}
-
-html.dark-mode .modal-content h2 {
-  color: #b0263e;
-  border-bottom-color: rgba(176, 38, 62, 0.4);
-}
-
-html.dark-mode .modal-announcement {
-  color: #b0263e;
-  border-color: rgba(176, 38, 62, 0.3);
-}
-
-html.dark-mode .modal-close-btn {
-  border-color: rgba(176, 38, 62, 0.3);
-  background-color: rgba(138, 31, 46, 0.25);
-  color: #c43c5a;
+.shimmer-text {
+  display: inline-block;
+  background-image: linear-gradient(
+    110deg,
+    rgba(154, 31, 54, 1) 0%,
+    rgba(226, 173, 186, 1) 45%,
+    rgba(154, 31, 54, 1) 100%
+  );
+  background-size: 220% 100%;
+  background-position: 200% center;
+  background-repeat: no-repeat;
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+  animation: shimmer-reveal 1.8s ease-out forwards;
+  will-change: background-position, color;
 }
 
 html.dark-mode .shimmer-text {
-  animation-name: shimmer-reveal-dark;
-}
-
-@keyframes shimmer-reveal-dark {
-  0%,
-  99% {
-    background-position: -200% center;
-    background-clip: text;
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    color: transparent;
-  }
-  100% {
-    background: none;
-    -webkit-text-fill-color: #b0263e;
-    color: #b0263e;
-  }
-}
-
-/* Responsive scaling */
-@media (min-width: 768px) {
-  .modal-content {
-    width: 600px;
-    font-size: 16px;
-  }
-}
-
-@media (min-width: 1024px) {
-  .modal-content {
-    width: 800px;
-    font-size: 16px;
-  }
-
-  .modal-content h2 {
-    font-size: 32px;
-  }
-
-  .modal-announcement h3 {
-    font-size: 24px;
-  }
-
-  .modal-announcement p {
-    font-size: 16px;
-  }
+  background-image: linear-gradient(
+    110deg,
+    rgba(176, 38, 62, 1) 0%,
+    rgba(244, 193, 205, 1) 45%,
+    rgba(176, 38, 62, 1) 100%
+  );
+  animation-name: shimmer-reveal;
 }

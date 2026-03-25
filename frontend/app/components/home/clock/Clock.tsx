@@ -1,50 +1,56 @@
-import type React from 'react';
+import React, { useEffect, useState } from 'react';
 import type { Schedule } from '~/types/clock';
 import ScheduleComponent from './ScheduleComponent';
-import { useEffect, useState } from 'react';
 import { OFFSET } from './testing';
 import { formatCountdown, getClockDisplayInfo } from '~/utils/clock/utils';
+import useIsMobile from '~/hooks/useIsMobile';
 
 interface Props {
   schedule: Schedule;
+  isDarkMode: boolean;
 }
 
-const createStyles = () => {
+const createStyles = (isMobile: boolean, isDarkMode: boolean) => {
   const container: React.CSSProperties = {
     fontFamily: 'sans-serif',
-    color: 'white',
+    color: isDarkMode ? '#FFFFFF' : '#202124',
     display: 'flex',
-    flexDirection: 'column',
+    flexDirection: isMobile ? 'column-reverse' : 'column',
     alignItems: 'center',
     justifyContent: 'center',
-    paddingTop: '2vh',
-    paddingBottom: '2vh',
-    paddingLeft: '2vw',
-    paddingRight: '2vw',
+    gap: isMobile ? '1.25rem' : '1rem',
+    paddingTop: isMobile ? '0.5rem' : '1rem',
+    paddingBottom: isMobile ? '1rem' : '1.5rem',
+    paddingLeft: isMobile ? '1rem' : '2vw',
+    paddingRight: isMobile ? '1rem' : '2vw',
   };
 
   const currentBlock: React.CSSProperties = {
-    fontSize: '5vw',
+    fontSize: isMobile
+      ? 'clamp(2rem, 10vw, 3rem)'
+      : 'clamp(2.75rem, 5vw, 4.5rem)',
     fontWeight: 'bold',
-    letterSpacing: '0.3vw',
+    letterSpacing: isMobile ? '0.04em' : '0.08em',
     textAlign: 'center',
     lineHeight: 1,
   };
 
   const remaining: React.CSSProperties = {
-    fontSize: '1.8vw',
+    fontSize: isMobile
+      ? 'clamp(1rem, 4.5vw, 1.1rem)'
+      : 'clamp(1rem, 1.8vw, 1.5rem)',
     fontWeight: 'normal',
-    letterSpacing: '0.15vw',
+    letterSpacing: '0.04em',
     textAlign: 'center',
-    opacity: 0.7,
-    marginTop: '0.5vh',
-    marginBottom: '3vh',
+    opacity: 0.78,
   };
 
   return { container, currentBlock, remaining };
 };
 
-const Clock: React.FC<Props> = ({ schedule }) => {
+const Clock: React.FC<Props> = ({ schedule, isDarkMode }) => {
+  const isMobile = useIsMobile();
+
   // Todo: remove offset
   const [now, setNow] = useState(new Date(Date.now() - OFFSET));
 
@@ -66,13 +72,19 @@ const Clock: React.FC<Props> = ({ schedule }) => {
     secondsRemaining,
   );
 
-  const styles = createStyles();
+  const styles = createStyles(isMobile, isDarkMode);
 
   return (
     <div style={styles.container}>
-      <ScheduleComponent schedule={schedule} />
-      <div style={styles.currentBlock}>{currentBlock ?? 'No school!'}</div>
-      {countdown && <div style={styles.remaining}>{countdown} remaining</div>}
+      <ScheduleComponent
+        schedule={schedule}
+        isMobile={isMobile}
+        isDarkMode={isDarkMode}
+      />
+      <div>
+        <div style={styles.currentBlock}>{currentBlock ?? 'No school!'}</div>
+        {countdown && <div style={styles.remaining}>{countdown} remaining</div>}
+      </div>
     </div>
   );
 };
