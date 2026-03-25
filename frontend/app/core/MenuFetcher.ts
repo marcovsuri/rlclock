@@ -2,10 +2,11 @@ import { menuSchema, type Menu } from '~/types/lunch';
 import TimedCacheFetcher from './TimedCacheFetcher';
 import type { Result } from '~/types/global';
 import { handleError } from '~/shared/error';
+import { TTL } from './testing';
 
 class MenuFetcher extends TimedCacheFetcher<Menu> {
   protected readonly storageKey = 'menu';
-  protected readonly ttl = 20 * 1000; // 5 minutes // Todo: change
+  protected readonly ttl = TTL;
 
   protected readonly fetchUrl: string;
   protected readonly fetchOptions?: RequestInit | undefined;

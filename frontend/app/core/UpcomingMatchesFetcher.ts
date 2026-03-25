@@ -2,10 +2,11 @@ import { upcomingMatchesSchema, type UpcomingMatch } from '~/types/sports';
 import TimedCacheFetcher from './TimedCacheFetcher';
 import type { Result } from '~/types/global';
 import { handleError } from '~/shared/error';
+import { TTL } from './testing';
 
 class UpcomingMatchesFetcher extends TimedCacheFetcher<UpcomingMatch[]> {
   protected readonly storageKey = 'upcomingMatches';
-  protected readonly ttl = 20 * 1000; // 5 minutes // TODO: change
+  protected readonly ttl = TTL;
 
   protected readonly fetchUrl: string;
   protected readonly fetchOptions?: RequestInit;
