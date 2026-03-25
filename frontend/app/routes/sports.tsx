@@ -3,7 +3,6 @@ import type { Route } from './+types/sports';
 import type { Match, UpcomingMatch } from '~/types/sports';
 import { calcTeamRecords } from '~/utils/sports/records';
 import useIsMobile from '~/hooks/useIsMobile';
-import useDarkMode from '~/hooks/useDarkMode';
 import { motion } from 'framer-motion';
 import TodayMatchesCard from '~/components/sports/TodayMatchesCard';
 import ResultsCard from '~/components/sports/ResultsCard';
@@ -12,6 +11,7 @@ import { getTodayMatches, sortTodayMatches } from '~/utils/sports/todayMatches';
 import { useState } from 'react';
 import HamburgerButton from '~/components/home/nav/HamburgerButton';
 import Nav from '~/components/home/nav/Nav';
+import useTheme from '~/hooks/useTheme';
 
 export function meta({}: Route.MetaArgs) {
   return [
@@ -68,7 +68,7 @@ export default function Sports({ loaderData }: Route.ComponentProps) {
     matches,
     upcomingMatches,
   }: { matches: Match[]; upcomingMatches: UpcomingMatch[] } = loaderData;
-  const isDarkMode = useDarkMode();
+  const { isDarkMode } = useTheme();
   const isMobile = useIsMobile();
   const [navOpen, setNavOpen] = useState<boolean>(false);
 

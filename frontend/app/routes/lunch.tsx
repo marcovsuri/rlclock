@@ -4,10 +4,10 @@ import { menuFetcher } from '~/shared/fetchers';
 import type { Route } from './+types/lunch';
 import type { Menu } from '~/types/lunch';
 import useIsMobile from '~/hooks/useIsMobile';
-import useDarkMode from '~/hooks/useDarkMode';
 import MenuSection from '~/components/lunch/MenuSection';
 import HamburgerButton from '~/components/home/nav/HamburgerButton';
 import Nav from '~/components/home/nav/Nav';
+import useTheme from '~/hooks/useTheme';
 
 export function meta({}: Route.MetaArgs) {
   return [
@@ -83,7 +83,7 @@ const createStyles = (isMobile: boolean, isDarkMode: boolean) => {
 
 export default function Lunch({ loaderData }: Route.ComponentProps) {
   const { menu }: { menu: Menu } = loaderData;
-  const isDarkMode = useDarkMode();
+  const { isDarkMode } = useTheme();
   const isMobile = useIsMobile();
   const [navOpen, setNavOpen] = useState<boolean>(false);
 

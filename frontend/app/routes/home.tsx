@@ -16,8 +16,8 @@ import WidgetContainer from '~/components/home/widgets/WidgetContainer';
 import HamburgerButton from '~/components/home/nav/HamburgerButton';
 import Nav from '~/components/home/nav/Nav';
 import useIsMobile from '~/hooks/useIsMobile';
-import useDarkMode from '~/hooks/useDarkMode';
 import Footer from '~/components/home/Footer';
+import useTheme from '~/hooks/useTheme';
 
 export function meta({}: Route.MetaArgs) {
   return [{ title: 'RL Clock' }, { name: 'description', content: 'RL Clock' }];
@@ -75,7 +75,7 @@ export default function Home({ loaderData }: Route.ComponentProps) {
   const { schedule, matches, menu } = loaderData;
   const [navOpen, setNavOpen] = useState<boolean>(false);
   const isMobile = useIsMobile();
-  const isDarkMode = useDarkMode();
+  const { isDarkMode } = useTheme();
 
   const styles = createStyles(isMobile, isDarkMode);
   const lunchItems = menu['Entrées'].map((i) => i.name);
