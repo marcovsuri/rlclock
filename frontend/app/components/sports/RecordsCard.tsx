@@ -1,5 +1,5 @@
 import React from 'react';
-import type { TeamRecord, MatchRecord } from '~/types/sports';
+import type { MatchRecord } from '~/types/sports';
 import type { TeamRecordEntry } from '~/utils/sports/records';
 
 interface Props {
