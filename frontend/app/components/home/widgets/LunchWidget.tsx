@@ -21,11 +21,15 @@ const LunchWidget: React.FC<Props> = ({ items, isDark }) => {
   const styles = createStyles(isDark);
   return (
     <Widget title="Today's Lunch" to="/lunch" isDark={isDark}>
-      {items.map((item, i) => (
-        <div key={i} style={styles.item}>
-          {item}
-        </div>
-      ))}
+      {items.length > 0 ? (
+        items.map((item, i) => (
+          <div key={i} style={styles.item}>
+            {item}
+          </div>
+        ))
+      ) : (
+        <div style={styles.item}>No lunch today</div>
+      )}
     </Widget>
   );
 };
