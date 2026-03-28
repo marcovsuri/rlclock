@@ -1,11 +1,18 @@
 import React, { useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Link, useLocation } from 'react-router';
+import useTheme, { type ThemePreference } from '~/hooks/useTheme';
 
 const NAV_LINKS = [
   { label: 'Home', href: '/' },
   { label: 'Lunch', href: '/lunch' },
   { label: 'Sports', href: '/sports' },
+];
+
+const THEME_OPTIONS: { label: string; value: ThemePreference }[] = [
+  { label: 'Light', value: 'light' },
+  { label: 'Dark', value: 'dark' },
+  { label: 'System', value: 'system' },
 ];
 
 interface Props {
@@ -39,7 +46,7 @@ const createStyles = (isDark: boolean, isMobile: boolean) => {
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'space-between',
-    padding: isMobile ? '1.25rem 1.25rem 2rem' : '1.5rem 1.25rem 2rem',
+    padding: isMobile ? '1.25rem' : '1.5rem',
     color: isDark ? '#E8EAED' : '#202124',
     borderRight: isMobile
       ? 'none'
@@ -92,9 +99,37 @@ const createStyles = (isDark: boolean, isMobile: boolean) => {
   };
 
   const footer: React.CSSProperties = {
+    marginTop: '1rem',
     fontSize: '0.95rem',
     color: isDark ? '#B0B5BA' : '#5F6368',
     letterSpacing: '0.04em',
+    textAlign: 'center',
+  };
+
+  const controls: React.CSSProperties = {
+    display: 'flex',
+    flexDirection: 'column',
+    gap: '0.8rem',
+    paddingTop: '1rem',
+  };
+
+  const themeLabel: React.CSSProperties = {
+    fontSize: '0.8rem',
+    fontWeight: 700,
+    letterSpacing: '0.12em',
+    textTransform: 'uppercase',
+    color: isDark ? '#B0B5BA' : '#5F6368',
+  };
+
+  const themePicker: React.CSSProperties = {
+    display: 'grid',
+    gridTemplateColumns: 'repeat(3, minmax(0, 1fr))',
+    gap: '0.6rem',
+  };
+
+  const fox: React.CSSProperties = {
+    cursor: 'pointer',
+    display: 'inline-block',
   };
 
   return {
@@ -104,7 +139,11 @@ const createStyles = (isDark: boolean, isMobile: boolean) => {
     title,
     closeButton,
     navList,
+    controls,
+    themeLabel,
+    themePicker,
     footer,
+    fox,
   };
 };
 
@@ -138,8 +177,38 @@ const createLinkStyle = (
   opacity: isActive ? 1 : 0.88,
 });
 
+const createThemeButtonStyle = (
+  isDark: boolean,
+  isActive: boolean,
+): React.CSSProperties => ({
+  appearance: 'none',
+  border: isActive
+    ? isDark
+      ? '1px solid rgba(176, 38, 62, 0.34)'
+      : '1px solid rgba(154, 31, 54, 0.22)'
+    : isDark
+      ? '1px solid rgba(255,255,255,0.08)'
+      : '1px solid rgba(32,33,36,0.08)',
+  background: isActive
+    ? isDark
+      ? 'rgba(176, 38, 62, 0.18)'
+      : 'rgba(154, 31, 54, 0.08)'
+    : isDark
+      ? 'rgba(255,255,255,0.04)'
+      : 'rgba(32,33,36,0.04)',
+  color: 'inherit',
+  borderRadius: '14px',
+  padding: '0.75rem 0.6rem',
+  fontSize: '0.95rem',
+  fontWeight: isActive ? 700 : 600,
+  cursor: 'pointer',
+  transition: 'background 0.15s, border-color 0.15s, opacity 0.15s',
+  opacity: isActive ? 1 : 0.88,
+});
+
 const Nav: React.FC<Props> = ({ isMobile, isDark, isOpen, onClose }) => {
   const { pathname } = useLocation();
+  const { preference, setThemePreference } = useTheme();
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -150,6 +219,7 @@ const Nav: React.FC<Props> = ({ isMobile, isDark, isOpen, onClose }) => {
   }, [onClose]);
 
   const styles = createStyles(isDark, isMobile);
+  const currentYear = new Date().getFullYear();
 
   return (
     <AnimatePresence>
@@ -215,7 +285,33 @@ const Nav: React.FC<Props> = ({ isMobile, isDark, isOpen, onClose }) => {
               })}
             </div>
 
-            <div style={styles.footer}>Navigation</div>
+            <div style={styles.controls}>
+              <div style={styles.themeLabel}>Theme</div>
+              <div style={styles.themePicker}>
+                {THEME_OPTIONS.map(({ label, value }) => {
+                  const isActive = preference === value;
+                  return (
+                    <button
+                      key={value}
+                      type="button"
+                      onClick={() => setThemePreference(value)}
+                      aria-pressed={isActive}
+                      style={createThemeButtonStyle(isDark, isActive)}
+                    >
+                      {label}
+                    </button>
+                  );
+                })}
+              </div>
+
+              <div style={styles.footer}>
+                A friendly&nbsp;
+                <span style={styles.fox} aria-label="Toggle credits">
+                  🦊
+                </span>
+                &nbsp;re/creation. © {currentYear}
+              </div>
+            </div>
           </motion.nav>
         </>
       )}
