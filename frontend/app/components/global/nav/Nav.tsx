@@ -104,6 +104,8 @@ const createStyles = (isDark: boolean, isMobile: boolean) => {
     color: isDark ? '#B0B5BA' : '#5F6368',
     letterSpacing: '0.04em',
     textAlign: 'center',
+    userSelect: 'none',
+    WebkitUserSelect: 'none',
   };
 
   const controls: React.CSSProperties = {
@@ -128,9 +130,60 @@ const createStyles = (isDark: boolean, isMobile: boolean) => {
   };
 
   const fox: React.CSSProperties = {
-    cursor: 'pointer',
     display: 'inline-block',
   };
+
+  const createLinkStyle = (isActive: boolean): React.CSSProperties => ({
+    display: 'block',
+    padding: '1rem 1.15rem',
+    borderRadius: '18px',
+    textDecoration: 'none',
+    color: 'inherit',
+    fontSize: isMobile
+      ? 'clamp(1.4rem, 7vw, 2.4rem)'
+      : 'clamp(1.15rem, 2.3vw, 1.55rem)',
+    fontWeight: 600,
+    transition: 'background 0.15s, opacity 0.15s, border-color 0.15s',
+    background: isActive
+      ? isDark
+        ? 'rgba(176, 38, 62, 0.22)'
+        : 'rgba(154, 31, 54, 0.1)'
+      : 'transparent',
+    border: isActive
+      ? isDark
+        ? '1px solid rgba(176, 38, 62, 0.32)'
+        : '1px solid rgba(154, 31, 54, 0.18)'
+      : isDark
+        ? '1px solid rgba(255,255,255,0.08)'
+        : '1px solid rgba(32,33,36,0.08)',
+    opacity: isActive ? 1 : 0.88,
+  });
+
+  const createThemeButtonStyle = (isActive: boolean): React.CSSProperties => ({
+    appearance: 'none',
+    border: isActive
+      ? isDark
+        ? '1px solid rgba(176, 38, 62, 0.34)'
+        : '1px solid rgba(154, 31, 54, 0.22)'
+      : isDark
+        ? '1px solid rgba(255,255,255,0.08)'
+        : '1px solid rgba(32,33,36,0.08)',
+    background: isActive
+      ? isDark
+        ? 'rgba(176, 38, 62, 0.18)'
+        : 'rgba(154, 31, 54, 0.08)'
+      : isDark
+        ? 'rgba(255,255,255,0.04)'
+        : 'rgba(32,33,36,0.04)',
+    color: 'inherit',
+    borderRadius: '14px',
+    padding: '0.75rem 0.6rem',
+    fontSize: '0.95rem',
+    fontWeight: isActive ? 700 : 600,
+    cursor: 'pointer',
+    transition: 'background 0.15s, border-color 0.15s, opacity 0.15s',
+    opacity: isActive ? 1 : 0.88,
+  });
 
   return {
     backdrop,
@@ -144,67 +197,10 @@ const createStyles = (isDark: boolean, isMobile: boolean) => {
     themePicker,
     footer,
     fox,
+    createLinkStyle,
+    createThemeButtonStyle,
   };
 };
-
-const createLinkStyle = (
-  isDark: boolean,
-  isMobile: boolean,
-  isActive: boolean,
-): React.CSSProperties => ({
-  display: 'block',
-  padding: '1rem 1.15rem',
-  borderRadius: '18px',
-  textDecoration: 'none',
-  color: 'inherit',
-  fontSize: isMobile
-    ? 'clamp(1.4rem, 7vw, 2.4rem)'
-    : 'clamp(1.15rem, 2.3vw, 1.55rem)',
-  fontWeight: 600,
-  transition: 'background 0.15s, opacity 0.15s, border-color 0.15s',
-  background: isActive
-    ? isDark
-      ? 'rgba(176, 38, 62, 0.22)'
-      : 'rgba(154, 31, 54, 0.1)'
-    : 'transparent',
-  border: isActive
-    ? isDark
-      ? '1px solid rgba(176, 38, 62, 0.32)'
-      : '1px solid rgba(154, 31, 54, 0.18)'
-    : isDark
-      ? '1px solid rgba(255,255,255,0.08)'
-      : '1px solid rgba(32,33,36,0.08)',
-  opacity: isActive ? 1 : 0.88,
-});
-
-const createThemeButtonStyle = (
-  isDark: boolean,
-  isActive: boolean,
-): React.CSSProperties => ({
-  appearance: 'none',
-  border: isActive
-    ? isDark
-      ? '1px solid rgba(176, 38, 62, 0.34)'
-      : '1px solid rgba(154, 31, 54, 0.22)'
-    : isDark
-      ? '1px solid rgba(255,255,255,0.08)'
-      : '1px solid rgba(32,33,36,0.08)',
-  background: isActive
-    ? isDark
-      ? 'rgba(176, 38, 62, 0.18)'
-      : 'rgba(154, 31, 54, 0.08)'
-    : isDark
-      ? 'rgba(255,255,255,0.04)'
-      : 'rgba(32,33,36,0.04)',
-  color: 'inherit',
-  borderRadius: '14px',
-  padding: '0.75rem 0.6rem',
-  fontSize: '0.95rem',
-  fontWeight: isActive ? 700 : 600,
-  cursor: 'pointer',
-  transition: 'background 0.15s, border-color 0.15s, opacity 0.15s',
-  opacity: isActive ? 1 : 0.88,
-});
 
 const Nav: React.FC<Props> = ({ isMobile, isDark, isOpen, onClose }) => {
   const { pathname } = useLocation();
@@ -268,7 +264,7 @@ const Nav: React.FC<Props> = ({ isMobile, isDark, isOpen, onClose }) => {
             <div style={styles.navList}>
               {NAV_LINKS.map(({ label, href }, i) => {
                 const isActive = pathname === href;
-                const linkStyle = createLinkStyle(isDark, isMobile, isActive);
+                const linkStyle = styles.createLinkStyle(isActive);
 
                 return (
                   <motion.div
@@ -296,7 +292,7 @@ const Nav: React.FC<Props> = ({ isMobile, isDark, isOpen, onClose }) => {
                       type="button"
                       onClick={() => setThemePreference(value)}
                       aria-pressed={isActive}
-                      style={createThemeButtonStyle(isDark, isActive)}
+                      style={styles.createThemeButtonStyle(isActive)}
                     >
                       {label}
                     </button>

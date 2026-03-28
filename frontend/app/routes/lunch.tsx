@@ -5,8 +5,8 @@ import type { Route } from './+types/lunch';
 import type { Menu } from '~/types/lunch';
 import useIsMobile from '~/hooks/useIsMobile';
 import MenuSection from '~/components/lunch/MenuSection';
-import HamburgerButton from '~/components/home/nav/HamburgerButton';
-import Nav from '~/components/home/nav/Nav';
+import HamburgerButton from '~/components/global/nav/HamburgerButton';
+import Nav from '~/components/global/nav/Nav';
 import useTheme from '~/hooks/useTheme';
 
 export function meta({}: Route.MetaArgs) {

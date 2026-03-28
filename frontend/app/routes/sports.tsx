@@ -9,8 +9,8 @@ import ResultsCard from '~/components/sports/ResultsCard';
 import RecordsCard from '~/components/sports/RecordsCard';
 import { getTodayMatches, sortTodayMatches } from '~/utils/sports/todayMatches';
 import { useState } from 'react';
-import HamburgerButton from '~/components/home/nav/HamburgerButton';
-import Nav from '~/components/home/nav/Nav';
+import HamburgerButton from '~/components/global/nav/HamburgerButton';
+import Nav from '~/components/global/nav/Nav';
 import useTheme from '~/hooks/useTheme';
 
 export function meta({}: Route.MetaArgs) {
