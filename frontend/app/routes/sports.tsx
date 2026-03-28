@@ -27,13 +27,15 @@ export async function clientLoader() {
     upcomingMatchesFetcher.get(),
   ]);
 
-  if (!matchesResult.success) throw new Error(matchesResult.errorMessage);
+  if (!matchesResult.success) console.error(matchesResult.errorMessage);
   if (!upcomingMatchesResult.success)
-    throw new Error(upcomingMatchesResult.errorMessage);
+    console.error(upcomingMatchesResult.errorMessage);
 
   return {
-    matches: matchesResult.data,
-    upcomingMatches: upcomingMatchesResult.data,
+    matches: matchesResult.success ? matchesResult.data : null,
+    upcomingMatches: upcomingMatchesResult.success
+      ? upcomingMatchesResult.data
+      : null,
   };
 }
 
@@ -67,18 +69,20 @@ export default function Sports({ loaderData }: Route.ComponentProps) {
   const {
     matches,
     upcomingMatches,
-  }: { matches: Match[]; upcomingMatches: UpcomingMatch[] } = loaderData;
+  }: { matches: Match[] | null; upcomingMatches: UpcomingMatch[] | null } =
+    loaderData;
+
   const { isDark } = useTheme();
   const isMobile = useIsMobile();
   const [navOpen, setNavOpen] = useState<boolean>(false);
 
   const styles = createStyles(isMobile, isDark);
 
-  const recordsResult = calcTeamRecords(matches);
+  const recordsResult = calcTeamRecords(matches ?? []);
   if (!recordsResult.success) throw new Error(recordsResult.errorMessage);
   const records = recordsResult.data;
 
-  const todayMatches = sortTodayMatches(getTodayMatches(upcomingMatches));
+  const todayMatches = sortTodayMatches(getTodayMatches(upcomingMatches ?? []));
 
   console.log(matches);
   console.log(records);
@@ -113,7 +117,11 @@ export default function Sports({ loaderData }: Route.ComponentProps) {
           <RecordsCard records={records} isMobile={isMobile} isDark={isDark} />
         )}
 
-        <ResultsCard results={matches} isMobile={isMobile} isDark={isDark} />
+        <ResultsCard
+          results={matches ?? []}
+          isMobile={isMobile}
+          isDark={isDark}
+        />
       </main>
     </motion.div>
   );

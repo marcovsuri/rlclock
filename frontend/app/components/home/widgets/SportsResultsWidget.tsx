@@ -3,7 +3,7 @@ import Widget from './Widget';
 import type { Match } from '~/types/sports';
 
 interface Props {
-  matches: Match[];
+  matches: Match[] | null;
   isDark: boolean;
 }
 
@@ -58,11 +58,26 @@ const createStyles = (isDark: boolean) => {
     whiteSpace: 'nowrap',
   });
 
-  return { row, teamOpponent, opponent, score, createOutcomeBadgeStyles };
+  const item: React.CSSProperties = {
+    fontSize: 'clamp(1rem, 4.2cqw, 1.2rem)',
+    fontWeight: 500,
+    color: isDark ? '#E8EAED' : '#202124',
+    padding: '0.35rem 0',
+    lineHeight: 1.35,
+  };
+
+  return { row, teamOpponent, opponent, score, createOutcomeBadgeStyles, item };
 };
 
 const SportsResultsWidget: React.FC<Props> = ({ matches, isDark }) => {
   const styles = createStyles(isDark);
+
+  if (!matches)
+    return (
+      <Widget title="Latest Results" to="/sports" isDark={isDark}>
+        <div style={styles.item}>No results</div>
+      </Widget>
+    );
 
   // Flatten to individual match-opponent rows, take the 4 most recent
   const rows = matches

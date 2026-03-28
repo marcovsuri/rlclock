@@ -5,7 +5,7 @@ import { OFFSET } from './testing';
 import { formatCountdown, getClockDisplayInfo } from '~/utils/clock/utils';
 
 interface Props {
-  schedule: Schedule;
+  schedule: Schedule | null;
   isMobile: boolean;
   isDark: boolean;
 }
@@ -49,6 +49,15 @@ const createStyles = (isMobile: boolean, isDark: boolean) => {
 };
 
 const Clock: React.FC<Props> = ({ schedule, isMobile, isDark }) => {
+  const styles = createStyles(isMobile, isDark);
+
+  if (!schedule)
+    return (
+      <div style={styles.container}>
+        <div style={styles.currentBlock}>No school</div>
+      </div>
+    );
+
   // Todo: remove offset
   const [now, setNow] = useState(new Date(Date.now() - OFFSET));
 
@@ -69,8 +78,6 @@ const Clock: React.FC<Props> = ({ schedule, isMobile, isDark }) => {
     minutesRemaining,
     secondsRemaining,
   );
-
-  const styles = createStyles(isMobile, isDark);
 
   return (
     <div style={styles.container}>

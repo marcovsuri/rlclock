@@ -2,7 +2,7 @@ import React from 'react';
 import Widget from './Widget';
 
 interface Props {
-  items: string[];
+  items: string[] | null;
   isDark: boolean;
 }
 
@@ -21,7 +21,7 @@ const LunchWidget: React.FC<Props> = ({ items, isDark }) => {
   const styles = createStyles(isDark);
   return (
     <Widget title="Today's Lunch" to="/lunch" isDark={isDark}>
-      {items.length > 0 ? (
+      {items && items.length > 0 ? (
         items.map((item, i) => (
           <div key={i} style={styles.item}>
             {item}

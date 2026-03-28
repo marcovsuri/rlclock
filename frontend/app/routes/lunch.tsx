@@ -19,9 +19,9 @@ export function meta({}: Route.MetaArgs) {
 export async function clientLoader() {
   // Fetch menu
   const menuResult = await menuFetcher.get();
-  if (!menuResult.success) throw new Error(menuResult.errorMessage);
+  if (!menuResult.success) console.error(menuResult.errorMessage);
 
-  return { menu: menuResult.data };
+  return { menu: menuResult.success ? menuResult.data : null };
 }
 
 const MENU_SECTIONS: { key: keyof Menu; title: string }[] = [
@@ -82,16 +82,16 @@ const createStyles = (isMobile: boolean, isDark: boolean) => {
 };
 
 export default function Lunch({ loaderData }: Route.ComponentProps) {
-  const { menu }: { menu: Menu } = loaderData;
+  const { menu }: { menu: Menu | null } = loaderData;
   const { isDark } = useTheme();
   const isMobile = useIsMobile();
   const [navOpen, setNavOpen] = useState<boolean>(false);
 
   const styles = createStyles(isMobile, isDark);
 
-  const visibleSections = MENU_SECTIONS.filter(
-    ({ key }) => menu[key].length > 0,
-  );
+  const visibleSections = menu
+    ? MENU_SECTIONS.filter(({ key }) => menu[key].length > 0)
+    : [];
 
   return (
     <>
@@ -113,7 +113,7 @@ export default function Lunch({ loaderData }: Route.ComponentProps) {
           <div style={styles.content}>
             <h1 style={styles.title}>RL Lunch Menu</h1>
             <div style={styles.sectionList}>
-              {visibleSections.length > 0 ? (
+              {menu && visibleSections.length > 0 ? (
                 visibleSections.map(({ key, title }) => (
                   <MenuSection
                     key={key}

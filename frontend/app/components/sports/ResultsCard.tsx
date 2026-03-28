@@ -86,23 +86,25 @@ const ResultsCard: React.FC<Props> = ({ results, isMobile, isDark }) => {
     <div style={styles.card}>
       <h3 style={styles.header}>Past Results</h3>
       <div style={styles.groupList}>
-        {visibleGroups.map((group) => (
-          <div key={group.date}>
-            <div style={styles.dateHeader}>
-              {formatDate(group.date, yearMap)}
-            </div>
-            <div style={styles.rowList}>
-              {group.rows.map((row, i) => (
-                <ResultsRow
-                  key={i}
-                  row={row}
-                  isMobile={isMobile}
-                  isDark={isDark}
-                />
-              ))}
-            </div>
-          </div>
-        ))}
+        {visibleGroups.length > 0
+          ? visibleGroups.map((group) => (
+              <div key={group.date}>
+                <div style={styles.dateHeader}>
+                  {formatDate(group.date, yearMap)}
+                </div>
+                <div style={styles.rowList}>
+                  {group.rows.map((row, i) => (
+                    <ResultsRow
+                      key={i}
+                      row={row}
+                      isMobile={isMobile}
+                      isDark={isDark}
+                    />
+                  ))}
+                </div>
+              </div>
+            ))
+          : 'No results'}
       </div>
       {hasMore && (
         <button

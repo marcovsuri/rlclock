@@ -23,23 +23,19 @@ export function meta({}: Route.MetaArgs) {
   return [{ title: 'RL Clock' }, { name: 'description', content: 'RL Clock' }];
 }
 
-export async function clientLoader(): Promise<{
-  schedule: Schedule;
-  matches: Match[];
-  menu: Menu;
-}> {
+export async function clientLoader() {
   const [scheduleResult, matchesResult, menuResult] = await Promise.all([
     scheduleFetcher.get(),
     matchesFetcher.get(),
     menuFetcher.get(),
   ]);
-  if (!scheduleResult.success) throw new Error(scheduleResult.errorMessage);
-  if (!matchesResult.success) throw new Error(matchesResult.errorMessage);
-  if (!menuResult.success) throw new Error(menuResult.errorMessage);
+  if (!scheduleResult.success) console.error(scheduleResult.errorMessage);
+  if (!matchesResult.success) console.error(matchesResult.errorMessage);
+  if (!menuResult.success) console.error(menuResult.errorMessage);
   return {
-    schedule: scheduleResult.data,
-    matches: matchesResult.data,
-    menu: menuResult.data,
+    schedule: scheduleResult.success ? scheduleResult.data : null,
+    matches: matchesResult.success ? matchesResult.data : null,
+    menu: menuResult.success ? menuResult.data : null,
   };
 }
 
@@ -47,6 +43,7 @@ const createStyles = (isMobile: boolean, isDark: boolean) => {
   const page: React.CSSProperties = {
     display: 'flex',
     flexDirection: 'column',
+    justifyContent: 'space-between',
     minHeight: '100dvh',
     width: '100%',
     overflowY: 'auto',
@@ -72,13 +69,18 @@ const createStyles = (isMobile: boolean, isDark: boolean) => {
 };
 
 export default function Home({ loaderData }: Route.ComponentProps) {
-  const { schedule, matches, menu } = loaderData;
+  const {
+    schedule,
+    matches,
+    menu,
+  }: { schedule: Schedule | null; matches: Match[] | null; menu: Menu | null } =
+    loaderData;
   const [navOpen, setNavOpen] = useState<boolean>(false);
   const isMobile = useIsMobile();
   const { isDark } = useTheme();
 
   const styles = createStyles(isMobile, isDark);
-  const lunchItems = menu['Entrées'].map((i) => i.name);
+  const lunchItems = menu ? menu['Entrées'].map((i) => i.name) : null;
 
   return (
     <motion.div
@@ -99,14 +101,16 @@ export default function Home({ loaderData }: Route.ComponentProps) {
       <div style={styles.clockWrapper}>
         <Clock isMobile={isMobile} schedule={schedule} isDark={isDark} />
       </div>
-      <div style={styles.widgetWrapper}>
-        <WidgetContainer isMobile={isMobile}>
-          <LunchWidget items={lunchItems} isDark={isDark} />
-          <SportsResultsWidget matches={matches} isDark={isDark} />
-        </WidgetContainer>
-      </div>
 
-      <Footer isMobile={isMobile} isDark={isDark} />
+      <div>
+        <div style={styles.widgetWrapper}>
+          <WidgetContainer isMobile={isMobile}>
+            <LunchWidget items={lunchItems} isDark={isDark} />
+            <SportsResultsWidget matches={matches} isDark={isDark} />
+          </WidgetContainer>
+        </div>
+        <Footer isMobile={isMobile} isDark={isDark} />
+      </div>
     </motion.div>
   );
 }
