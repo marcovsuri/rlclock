@@ -19,8 +19,9 @@ Deno.serve(async (req: Request) => {
   const s1 = new Date();
 
   const urlStart =
-    "https://www.sagedining.com/microsites/getMenuItems?menuId=134281&date=";
-  const date = (s1.getMonth() + 1) + "/" + s1.getDate() + "/" + s1.getFullYear();
+    "https://www.sagedining.com/microsites/getMenuItems?menuId=135739&date=";
+  const date = (s1.getMonth() + 1) + "/" + s1.getDate() + "/" +
+    s1.getFullYear();
   const urlEnd = "&meal=Lunch&mode=";
 
   const url = urlStart + date + urlEnd;
