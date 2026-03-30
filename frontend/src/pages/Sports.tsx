@@ -52,7 +52,7 @@ const Sports: React.FC<SportsProps> = ({ isDarkMode }) => {
         const now = new Date();
         let effectiveYear = now.getFullYear();
         let prevMonth = now.getMonth() + 1;
-        const seasonStart = new Date(2025, 10, 16); //CHANGE THIS WHEN SEASON CHANGES - start date for the current season, helps get the games only from this season
+        const seasonStart = new Date(2025, 2, 9); //CHANGE THIS WHEN SEASON CHANGES - start date for the current season, helps get the games only from this season
         const games = response.data
           .map((e) => {
             const [m, d] = e.date.split('/').map(Number);
@@ -115,7 +115,18 @@ const Sports: React.FC<SportsProps> = ({ isDarkMode }) => {
           gap: isMobile ? '2vw' : '1vw',
         }}
       >
-        <h1 style={{ position: 'absolute', width: 1, height: 1, overflow: 'hidden', clip: 'rect(0,0,0,0)', whiteSpace: 'nowrap' }}>Sports</h1>
+        <h1
+          style={{
+            position: 'absolute',
+            width: 1,
+            height: 1,
+            overflow: 'hidden',
+            clip: 'rect(0,0,0,0)',
+            whiteSpace: 'nowrap',
+          }}
+        >
+          Sports
+        </h1>
         <div style={{ alignSelf: 'flex-start' }}>
           <BackButton isDarkMode={isDarkMode} />
         </div>
