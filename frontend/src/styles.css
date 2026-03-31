@@ -1,6 +1,7 @@
 :root {
   --transition-duration: 3s;
   --transition-timing: ease;
+  transform: rotate(180deg);
 }
 
 html.no-transition,
@@ -22,16 +23,16 @@ html {
   color: #202124;
   scrollbar-width: thin;
   overflow-x: hidden;
-  transition:
-    background-color var(--transition-duration) var(--transition-timing),
+  transition: background-color var(--transition-duration)
+      var(--transition-timing),
     color var(--transition-duration) var(--transition-timing);
 }
 
 body {
   margin: 0;
   padding: 0;
-  transition:
-    background-color var(--transition-duration) var(--transition-timing),
+  transition: background-color var(--transition-duration)
+      var(--transition-timing),
     color var(--transition-duration) var(--transition-timing);
 }
 
@@ -55,8 +56,8 @@ html.dark-mode a {
 *::before,
 *::after {
   box-sizing: border-box;
-  transition:
-    background-color var(--transition-duration) var(--transition-timing);
+  transition: background-color var(--transition-duration)
+    var(--transition-timing);
 }
 
 /* Shared transitions */
@@ -113,10 +114,7 @@ html.dark-mode a {
   opacity: 0;
   visibility: hidden;
   transform: translateY(-20px);
-  transition:
-    transform 0.3s ease,
-    opacity 1s ease,
-    visibility 1s ease,
+  transition: transform 0.3s ease, opacity 1s ease, visibility 1s ease,
     background-color 3s ease;
   z-index: 2000;
 }
@@ -143,10 +141,7 @@ html.dark-mode a {
   opacity: 0;
   visibility: hidden;
   border: 1px solid rgba(154, 31, 54, 0.2);
-  transition:
-    transform 0.3s ease,
-    opacity 1s ease,
-    visibility 1s ease,
+  transition: transform 0.3s ease, opacity 1s ease, visibility 1s ease,
     background-color 3s ease;
   margin: auto 2vw;
 }
@@ -179,10 +174,7 @@ html.dark-mode a {
   border: 1px solid rgba(154, 31, 54, 0.2);
   opacity: 0;
   transform: translateY(10px);
-  transition:
-    transform 1s ease,
-    opacity 1s ease,
-    visibility 1s ease,
+  transition: transform 1s ease, opacity 1s ease, visibility 1s ease,
     background-color 3s ease;
 }
 
