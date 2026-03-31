@@ -14,7 +14,6 @@
     "@types/react-dom": "^19.1.2",
     "canvas-confetti": "^1.9.4",
     "framer-motion": "^12.9.4",
-    "gh-pages": "^6.3.0",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
     "react-icons": "^5.5.0",
@@ -28,9 +27,7 @@
     "start": "react-scripts start",
     "build": "TSC_COMPILE_ON_ERROR=true react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject",
-    "predeploy": "npm run build",
-    "deploy": "gh-pages -d build"
+    "eject": "react-scripts eject"
   },
   "eslintConfig": {
     "extends": [
