@@ -8,7 +8,7 @@ interface ClockProps {
 
 const Clock: React.FC<ClockProps> = ({ isDarkMode }) => {
   const [schedule, setSchedule] = useState<Schedule | null | undefined>(
-    undefined,
+    undefined
   );
   const [currentTime, setCurrentTime] = useState(new Date());
 
@@ -30,7 +30,7 @@ const Clock: React.FC<ClockProps> = ({ isDarkMode }) => {
     const nextMidnight = new Date(
       now.getFullYear(),
       now.getMonth(),
-      now.getDate() + 1,
+      now.getDate() + 1
     );
     const delay = nextMidnight.getTime() - now.getTime();
 
@@ -162,10 +162,10 @@ const Clock: React.FC<ClockProps> = ({ isDarkMode }) => {
     schedule && currentIndex === -1 && schedule.periods.length > 0
       ? schedule.periods[0]
       : schedule &&
-          currentIndex >= 0 &&
-          currentIndex < schedule.periods.length - 1
-        ? schedule.periods[currentIndex + 1]
-        : null;
+        currentIndex >= 0 &&
+        currentIndex < schedule.periods.length - 1
+      ? schedule.periods[currentIndex + 1]
+      : null;
 
   const renderContent = () => {
     if (schedule === undefined) return <p style={subtextStyle}>Loading...</p>;
@@ -297,8 +297,8 @@ const Clock: React.FC<ClockProps> = ({ isDarkMode }) => {
                       ? 'calc(2vw - 1.5px)'
                       : 'calc(0.5vw - 1.5px) calc(0.8vw - 1.5px)'
                     : isMobile
-                      ? '2vw'
-                      : '0.5vw 0.8vw',
+                    ? '2vw'
+                    : '0.5vw 0.8vw',
                   borderRadius: isMobile ? '2vw' : '0.5vw',
                   display: 'flex',
                   justifyContent: 'space-between',
@@ -309,8 +309,8 @@ const Clock: React.FC<ClockProps> = ({ isDarkMode }) => {
                       ? 'rgba(138, 31, 46, 0.15)'
                       : 'rgba(154, 31, 54, 0.08)'
                     : isFuture
-                      ? neutralBg
-                      : 'transparent',
+                    ? neutralBg
+                    : 'transparent',
                   border: isCurrent
                     ? `1.5px solid ${
                         isDarkMode ? '#B0263E' : 'rgb(154, 31, 54)'
@@ -321,8 +321,8 @@ const Clock: React.FC<ClockProps> = ({ isDarkMode }) => {
                       ? '#B0263E'
                       : 'rgb(154, 31, 54)'
                     : isPast
-                      ? neutralText
-                      : normalText,
+                    ? neutralText
+                    : normalText,
                   transition: 'none',
                   textAlign: 'left',
                 }}
@@ -404,17 +404,20 @@ const Clock: React.FC<ClockProps> = ({ isDarkMode }) => {
           fontWeight: 700,
         }}
       >
-        RL Clock
+        {/* RL Clock */}
+        April Fools!
       </h2>
-      <div style={{
-        width: '3em',
-        height: '3px',
-        backgroundColor: isDarkMode ? '#B0263E' : 'rgb(154, 31, 54)',
-        margin: '0 auto',
-        marginBottom: isMobile ? '1.5vh' : '0.8vw',
-        borderRadius: '2px',
-        opacity: 0.6,
-      }} />
+      <div
+        style={{
+          width: '3em',
+          height: '3px',
+          backgroundColor: isDarkMode ? '#B0263E' : 'rgb(154, 31, 54)',
+          margin: '0 auto',
+          marginBottom: isMobile ? '1.5vh' : '0.8vw',
+          borderRadius: '2px',
+          opacity: 0.6,
+        }}
+      />
       {renderContent()}
     </div>
   );
