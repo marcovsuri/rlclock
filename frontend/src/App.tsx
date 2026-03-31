@@ -59,11 +59,11 @@ const App: React.FC = () => {
       return (
         (localStorage.getItem('themePreference') as ThemePreference) || 'system'
       );
-    },
+    }
   );
   const [isDarkMode, setIsDarkMode] = useState(() => {
     const dark = resolveTheme(
-      (localStorage.getItem('themePreference') as ThemePreference) || 'system',
+      (localStorage.getItem('themePreference') as ThemePreference) || 'system'
     );
     document.documentElement.classList.toggle('dark-mode', dark);
     return dark;
@@ -394,7 +394,7 @@ const App: React.FC = () => {
             <button
               onClick={() => {
                 navigator.clipboard.writeText(
-                  'austin.reid@roxburylatin.org, dylan.pan@roxburylatin.org, marco.suri@roxburylatin.org',
+                  'austin.reid@roxburylatin.org, dylan.pan@roxburylatin.org, marco.suri@roxburylatin.org'
                 );
                 setEmailsCopied(true);
                 setTimeout(() => setEmailsCopied(false), 2000);
@@ -405,7 +405,9 @@ const App: React.FC = () => {
                 fontWeight: 600,
                 color: isDarkMode ? '#B0263E' : 'rgb(154, 31, 54)',
                 backgroundColor: 'transparent',
-                border: `1.5px solid ${isDarkMode ? '#B0263E' : 'rgb(154, 31, 54)'}`,
+                border: `1.5px solid ${
+                  isDarkMode ? '#B0263E' : 'rgb(154, 31, 54)'
+                }`,
                 borderRadius: '0.4rem',
                 cursor: 'pointer',
               }}
