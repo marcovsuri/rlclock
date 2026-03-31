@@ -2,7 +2,6 @@
   --transition-duration: 3s;
   --transition-timing: ease;
   /* transform: rotate(180deg); */
-  transform: rotate(0deg);
 }
 
 html.no-transition,
