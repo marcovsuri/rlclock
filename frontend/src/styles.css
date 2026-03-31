@@ -1,7 +1,7 @@
 :root {
   --transition-duration: 3s;
   --transition-timing: ease;
-  transform: rotate(180deg);
+  /* transform: rotate(180deg); */
 }
 
 html.no-transition,
