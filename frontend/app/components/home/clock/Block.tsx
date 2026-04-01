@@ -1,104 +1,96 @@
 import React from 'react';
 import type { Period } from '~/types/clock';
-import { OFFSET } from './testing';
+
+type BlockState = 'current' | 'past' | 'future';
 
 interface Props {
   period: Period;
+  state: BlockState;
   isMobile: boolean;
   isDark: boolean;
 }
 
 const createStyles = (
-  isCurrent: boolean,
+  state: BlockState,
   isMobile: boolean,
   isDark: boolean,
 ) => {
-  const backgroundColor = isCurrent
-    ? isDark
-      ? '#ff1a1a'
-      : '#7a0000'
-    : isDark
-      ? '#7a0000'
-      : '#ff9e9e';
-
-  const color = isDark ? '#FFF' : isCurrent ? '#FFF' : '#000';
+  const isCurrent = state === 'current';
+  const isPast = state === 'past';
+  const isFuture = state === 'future';
+  const primaryText = isDark ? '#E8EAED' : '#202124';
+  const secondaryText = isDark ? '#B0B5BA' : '#5F6368';
+  const accent = '#B0263E';
 
   const container: React.CSSProperties = {
     display: 'flex',
-    flexDirection: isMobile ? 'row' : 'column',
+    flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    width: isMobile ? '100%' : 'calc((100% - 40 * 1vw) / 11)',
-    minHeight: isMobile ? 'unset' : '45vh',
-    transform: isMobile ? 'none' : 'rotate(25deg)',
-    borderRadius: isMobile ? '18px' : '0.5vw',
-    paddingTop: isMobile ? '0.9rem' : '1vh',
-    paddingBottom: isMobile ? '0.9rem' : '1vh',
-    paddingLeft: isMobile ? '1rem' : '0.2vw',
-    paddingRight: isMobile ? '1rem' : '0.2vw',
-    backgroundColor,
-    color,
-    border: isDark
-      ? '1px solid rgba(255,255,255,0.08)'
-      : '1px solid rgba(32,33,36,0.08)',
-    boxShadow: isDark
-      ? '0 12px 28px rgba(0,0,0,0.25)'
-      : '0 10px 24px rgba(0,0,0,0.08)',
-    gap: isMobile ? '0.75rem' : 0,
+    width: '100%',
+    borderRadius: isMobile ? '0.95rem' : '0.5vw',
+    padding: isCurrent
+      ? isMobile
+        ? 'calc(0.75rem - 1.5px) calc(0.8rem - 1.5px)'
+        : 'calc(0.5vw - 1.5px) calc(0.8vw - 1.5px)'
+      : isMobile
+        ? '0.75rem 0.8rem'
+        : '0.5vw 0.8vw',
+    backgroundColor: isCurrent
+      ? isDark
+        ? 'rgba(138, 31, 46, 0.15)'
+        : 'rgba(154, 31, 54, 0.08)'
+      : isFuture
+        ? isDark
+          ? '#4A4B4D'
+          : '#F2F2F2'
+        : 'transparent',
+    border: isCurrent ? `1.5px solid ${accent}` : 'none',
+    gap: '0.9rem',
+    color: isCurrent ? accent : isPast ? secondaryText : primaryText,
   };
 
   const time: React.CSSProperties = {
-    fontSize: isMobile ? '0.85rem' : '0.9vw',
-    opacity: isCurrent ? 0.92 : 0.75,
-    textAlign: 'center',
-    WebkitUserSelect: 'none',
-    MozUserSelect: 'none',
-    msUserSelect: 'none',
+    fontSize: isMobile ? '13px' : '14px',
+    color: isCurrent ? accent : isPast ? secondaryText : primaryText,
+    textAlign: 'right',
     userSelect: 'none',
-    minWidth: isMobile ? '4.5rem' : undefined,
+    whiteSpace: 'nowrap',
   };
 
   const name: React.CSSProperties = {
-    fontSize: isMobile ? '1.1rem' : '1.5vw',
-    fontWeight: 'bold',
-    textAlign: 'center',
-    margin: 'auto',
-    writingMode: isMobile ? 'horizontal-tb' : 'vertical-rl',
-    textOrientation: isMobile ? 'mixed' : 'mixed',
-    transform: isMobile ? 'none' : 'rotate(180deg)',
-    WebkitUserSelect: 'none',
-    MozUserSelect: 'none',
-    msUserSelect: 'none',
+    fontSize: isMobile ? '13px' : '14px',
+    fontWeight: isCurrent ? 600 : 400,
+    textAlign: 'left',
     userSelect: 'none',
-    flex: isMobile ? 1 : undefined,
+    flex: 1,
+    color: isCurrent ? accent : isPast ? secondaryText : primaryText,
   };
 
   return { container, time, name };
 };
 
-const Block: React.FC<Props> = ({ period, isMobile, isDark }) => {
+const Block: React.FC<Props> = ({ period, state, isMobile, isDark }) => {
   const { name, start, end } = period;
 
   const startTime = start.toLocaleTimeString('en-US', {
     hour: 'numeric',
     minute: '2-digit',
   });
+
   const endTime = end.toLocaleTimeString('en-US', {
     hour: 'numeric',
     minute: '2-digit',
   });
 
-  // Todo: remove offset
-  const now = new Date(Date.now() - OFFSET);
-  const isCurrent = now >= start && now <= end;
-
-  const styles = createStyles(isCurrent, isMobile, isDark);
+  const styles = createStyles(state, isMobile, isDark);
 
   return (
     <div style={styles.container}>
-      <div style={styles.time}>{isMobile ? startTime : endTime}</div>
       <div style={styles.name}>{name}</div>
-      <div style={styles.time}>{isMobile ? endTime : startTime}</div>
+      <div style={styles.time}>
+        {startTime} - {endTime}
+      </div>
     </div>
   );
 };

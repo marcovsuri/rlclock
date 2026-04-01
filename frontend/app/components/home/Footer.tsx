@@ -15,13 +15,13 @@ const createStyles = (
 
   const footer: React.CSSProperties = {
     textAlign: 'center',
-    padding: isMobile ? '3vh 3vw 2vh' : '1.5vw 1vw 1vw',
+    padding: isMobile ? '0 1rem 1.5rem' : '1.5vw 1vw 1vw',
     fontSize: isMobile ? 13 : 14,
     userSelect: 'none',
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
-    gap: isMobile ? '0.5vh' : '0.2vw',
+    gap: isMobile ? '0.5rem' : '0.2vw',
     color: secondaryText,
   };
 
@@ -33,16 +33,17 @@ const createStyles = (
   const credits: React.CSSProperties = {
     maxHeight: showCredits ? '200px' : '0',
     opacity: showCredits ? 1 : 0,
-    padding: showCredits ? (isMobile ? '1.5vw 3vw' : '0.3vw 0.8vw') : '0',
+    padding: showCredits ? '0.55rem 0.9rem' : '0',
     border: showCredits
       ? `1px solid ${isDark ? 'rgba(176, 38, 62, 0.4)' : 'rgba(154, 31, 54, 0.4)'}`
       : '1px solid transparent',
-    borderRadius: isMobile ? '2vw' : '0.4vw',
+    borderRadius: isMobile ? '0.95rem' : '0.4vw',
     overflow: 'hidden',
     transition:
       'opacity 0.35s ease, max-height 0.5s ease, padding 0.35s ease, border-color 0.35s ease',
     color: maroon,
-    marginTop: isMobile ? '0.5vh' : '0.2vw',
+    marginTop: isMobile ? '0.2rem' : '0.2vw',
+    maxWidth: isMobile ? 'min(92vw, 720px)' : '34vw',
   };
 
   return { footer, fox, credits };

@@ -43,29 +43,55 @@ const createStyles = (isMobile: boolean, isDark: boolean) => {
   const page: React.CSSProperties = {
     display: 'flex',
     flexDirection: 'column',
-    justifyContent: 'space-between',
-    minHeight: '100dvh',
-    width: '100%',
-    overflowY: 'auto',
-    paddingTop: isMobile ? '4.75rem' : '5.25rem',
-    paddingBottom: isMobile ? '1.5rem' : '2rem',
+    minHeight: '100vh',
+    position: 'relative',
     color: isDark ? '#E8EAED' : '#202124',
   };
 
-  const clockWrapper: React.CSSProperties = {
-    flex: '0 0 auto',
-    width: '100%',
+  const shell: React.CSSProperties = {
+    flex: 1,
   };
 
-  const widgetWrapper: React.CSSProperties = {
-    flex: '0 0 auto',
+  const content: React.CSSProperties = {
     display: 'flex',
-    alignItems: 'stretch',
+    flexDirection: 'column',
+    minHeight: '100vh',
     width: '100%',
-    minHeight: 0,
+    scrollbarWidth: 'none',
+    opacity: 1,
   };
 
-  return { page, clockWrapper, widgetWrapper };
+  const main: React.CSSProperties = {
+    flex: 1,
+    display: 'flex',
+    flexDirection: isMobile ? 'column' : 'row',
+    justifyContent: isMobile ? 'flex-start' : 'center',
+    alignItems: 'center',
+    padding: isMobile ? '3.6rem 0.8rem 1.25rem' : '2vw',
+    gap: isMobile ? '1rem' : '2vw',
+    textAlign: 'center',
+    boxSizing: 'border-box',
+    width: '100%',
+  };
+
+  const section: React.CSSProperties = {
+    width: isMobile ? 'min(93vw, 720px)' : '34vw',
+  };
+
+  const footer: React.CSSProperties = {
+    width: '100%',
+  };
+
+  const hiddenHeading: React.CSSProperties = {
+    position: 'absolute',
+    width: '1px',
+    height: '1px',
+    overflow: 'hidden',
+    clip: 'rect(0px, 0px, 0px, 0px)',
+    whiteSpace: 'nowrap',
+  };
+
+  return { page, shell, content, main, section, footer, hiddenHeading };
 };
 
 export default function Home({ loaderData }: Route.ComponentProps) {
@@ -80,7 +106,10 @@ export default function Home({ loaderData }: Route.ComponentProps) {
   const { isDark } = useTheme();
 
   const styles = createStyles(isMobile, isDark);
-  const lunchItems = menu ? menu['Entrées'].map((i) => i.name) : null;
+
+  const lunchItems = menu
+    ? menu['Entrées'].slice(0, 5).map((i) => i.name)
+    : null;
 
   return (
     <motion.div
@@ -90,7 +119,10 @@ export default function Home({ loaderData }: Route.ComponentProps) {
       transition={{ duration: 0.5 }}
       style={styles.page}
     >
-      <HamburgerButton isDark={isDark} onClick={() => setNavOpen(true)} />
+      <HamburgerButton
+        isDark={isDark}
+        onClick={() => setNavOpen((current) => !current)}
+      />
       <Nav
         isMobile={isMobile}
         isDark={isDark}
@@ -98,18 +130,33 @@ export default function Home({ loaderData }: Route.ComponentProps) {
         onClose={() => setNavOpen(false)}
       />
 
-      <div style={styles.clockWrapper}>
-        <Clock isMobile={isMobile} schedule={schedule} isDark={isDark} />
-      </div>
+      <div style={styles.shell}>
+        <div style={styles.content}>
+          <main style={styles.main}>
+            <h1 style={styles.hiddenHeading}>RL Clock Dashboard</h1>
 
-      <div>
-        <div style={styles.widgetWrapper}>
-          <WidgetContainer isMobile={isMobile}>
-            <LunchWidget items={lunchItems} isDark={isDark} />
-            <SportsResultsWidget matches={matches} isDark={isDark} />
-          </WidgetContainer>
+            <div style={styles.section}>
+              <Clock isMobile={isMobile} schedule={schedule} isDark={isDark} />
+            </div>
+
+            <WidgetContainer isMobile={isMobile}>
+              <LunchWidget
+                items={lunchItems}
+                isDark={isDark}
+                isMobile={isMobile}
+              />
+              <SportsResultsWidget
+                matches={matches}
+                isDark={isDark}
+                isMobile={isMobile}
+              />
+            </WidgetContainer>
+          </main>
+
+          <div style={styles.footer}>
+            <Footer isMobile={isMobile} isDark={isDark} />
+          </div>
         </div>
-        <Footer isMobile={isMobile} isDark={isDark} />
       </div>
     </motion.div>
   );

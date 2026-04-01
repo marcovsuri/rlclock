@@ -30,6 +30,9 @@ html {
 body {
   margin: 0;
   padding: 0;
+  min-height: 100vh;
+  background: inherit;
+  color: inherit;
   transition:
     background-color var(--transition-duration) var(--transition-timing),
     color var(--transition-duration) var(--transition-timing);
