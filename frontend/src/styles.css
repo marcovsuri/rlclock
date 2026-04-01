@@ -4,7 +4,7 @@
   /* transform: rotate(180deg); */
   /* transform: rotate(30deg); */
   font-family: 'Comic Sans MS', cursive !important;
-  animation: wiggle 60s infinite forwards linear;
+  animation: wiggle 5s infinite forwards linear;
 }
 
 @keyframes wiggle {
