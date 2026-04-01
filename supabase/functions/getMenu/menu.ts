@@ -2,7 +2,7 @@ import { getToday } from "../_shared/global.ts";
 import { SupabaseClient } from "https://esm.sh/@supabase/supabase-js@2.46.1";
 import { Menu, menuQuerySchema, menuSchema } from "./types.ts";
 
-const SAGE_MENU_ID = "134281";
+const SAGE_MENU_ID = "135739"; // Todo: make this dynamic
 const SAGE_BASE_URL = "https://www.sagedining.com/microsites/getMenuItems";
 
 /** Builds the Sage Dining API URL for today's lunch menu */
