@@ -2,11 +2,10 @@ import { matchesSchema, type Match } from '~/types/sports';
 import TimedCacheFetcher from './TimedCacheFetcher';
 import type { Result } from '~/types/global';
 import { handleError } from '~/shared/error';
-import { TTL } from './testing';
 
 class MatchesFetcher extends TimedCacheFetcher<Match[]> {
   protected readonly storageKey = 'matches';
-  protected readonly ttl = TTL;
+  protected readonly ttl = 5 * 60 * 1000;
 
   protected readonly fetchUrl: string;
   protected readonly fetchOptions?: RequestInit;

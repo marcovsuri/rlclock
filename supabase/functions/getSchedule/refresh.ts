@@ -1,7 +1,6 @@
-import { API_Schedule, Period, Schedule } from "./types.ts";
+import { API_Schedule, API_scheduleSchema, Period, Schedule } from "./types.ts";
 import { TIMEZONE } from "../_shared/global.ts";
 
-// TODO: remove for real data
 const DUMMY_SCHEDULE: API_Schedule = {
   name: "A-20 (ES)",
   periods: [
@@ -25,11 +24,12 @@ const DUMMY_SCHEDULE: API_Schedule = {
 };
 
 export async function fetchApiSchedule(): Promise<API_Schedule> {
-  // const url = "https://rl-mod-clock-api.azurewebsites.net/todays_schedule.json";
-  // const response = await fetch(url);
-  // const parsed = API_scheduleSchema.parse(await response.json());
-  // return parsed;
-  return DUMMY_SCHEDULE;
+  const url = "https://rl-mod-clock-api.azurewebsites.net/todays_schedule.json";
+  const response = await fetch(url);
+  const parsed = API_scheduleSchema.parse(await response.json());
+  console.log(parsed);
+  return parsed;
+  // return DUMMY_SCHEDULE;
 }
 
 const timeStringToDate = (timeStr: string): Date => {
@@ -54,17 +54,35 @@ const timeStringToDate = (timeStr: string): Date => {
   return new Date(`${today}T${time}${offset}`);
 };
 
-const cleanPeriodName = (name: string): string =>
-  name
-    .replace(/ Block/g, "")
-    .replace(/\bIn Between\b/gi, "Between");
+const getLunchStatus = (name: string): string | null => {
+  if (/first lunch/i.test(name)) return "First Lunch";
+  if (/second lunch/i.test(name)) return "Second Lunch";
+  if (/in between|between lunches/i.test(name)) return "Between Lunches";
+  return null;
+};
+
+const buildPeriodName = (p: API_Schedule["periods"][number]): string => {
+  if (!p.block) {
+    // No block field — keep cleaned name (e.g. "Homeroom")
+    return p.name.replace(/ Block/g, "").replace(/\bIn Between\b/gi, "Between");
+  }
+
+  const lunch = getLunchStatus(p.name);
+  if (lunch) {
+    // Has block + lunch context (e.g. "A - First Lunch")
+    return `${p.block} - ${lunch}`;
+  }
+
+  // Normal block (e.g. "F Block")
+  return `${p.block} Block`;
+};
 
 export function transformSchedule(schedule: API_Schedule): Schedule {
   const periods: Period[] = schedule.periods
     .filter((p) => p.start && p.end)
     .map((p, i) => ({
       index: i,
-      name: cleanPeriodName(p.name),
+      name: buildPeriodName(p),
       start: timeStringToDate(p.start),
       end: timeStringToDate(p.end),
     }));

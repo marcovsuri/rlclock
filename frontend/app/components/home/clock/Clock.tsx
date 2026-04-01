@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import type { Schedule } from '~/types/clock';
 import ScheduleComponent from './ScheduleComponent';
-import { OFFSET } from './testing';
 import { getClockStampInfo, getClockStatusInfo } from '~/utils/clock/utils';
 
 interface Props {
@@ -118,15 +117,10 @@ const createStyles = (isMobile: boolean, isDark: boolean) => {
 
 const Clock: React.FC<Props> = ({ schedule, isMobile, isDark }) => {
   const styles = createStyles(isMobile, isDark);
-  // Todo: remove offset
-  const [now, setNow] = useState(new Date(Date.now() - OFFSET));
+  const [now, setNow] = useState(new Date(Date.now()));
 
   useEffect(() => {
-    // Todo: remove offset
-    const interval = setInterval(
-      () => setNow(new Date(Date.now() - OFFSET)),
-      1000,
-    );
+    const interval = setInterval(() => setNow(new Date(Date.now())), 1000);
     return () => clearInterval(interval);
   }, []);
 

@@ -2,11 +2,10 @@ import { scheduleSchema, type Schedule } from '~/types/clock';
 import TimedCacheFetcher from './TimedCacheFetcher';
 import type { Result } from '~/types/global';
 import { handleError } from '~/shared/error';
-import { TTL } from './testing';
 
 class ScheduleFetcher extends TimedCacheFetcher<Schedule> {
   protected readonly storageKey = 'schedule';
-  protected readonly ttl = TTL;
+  protected readonly ttl = 5 * 60 * 1000;
 
   protected readonly fetchUrl: string;
   protected readonly fetchOptions?: RequestInit;
