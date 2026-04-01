@@ -47,7 +47,7 @@ const createStyles = (isDark: boolean, isMobile: boolean) => {
     flexDirection: 'column',
     justifyContent: 'space-between',
     padding: isMobile ? '1.25rem' : '1.5rem',
-    color: isDark ? '#E8EAED' : '#202124',
+    color: isDark ? '#FFF' : '#202124',
     borderRight: isMobile
       ? 'none'
       : isDark
