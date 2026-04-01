@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import useIsMobile from '../../hooks/useIsMobile';
 import { getSchedule, Schedule } from '../../core/clockFetcher';
+import { get } from 'http';
 
 interface ClockProps {
   isDarkMode: boolean;
@@ -404,8 +405,8 @@ const Clock: React.FC<ClockProps> = ({ isDarkMode }) => {
           fontWeight: 700,
         }}
       >
-        RL Clock
-        {/* April Fools! */}
+        {/* RL Clock */}
+        April Fools!
       </h2>
       <div
         style={{
