@@ -1,19 +1,6 @@
 :root {
   --transition-duration: 3s;
   --transition-timing: ease;
-  /* transform: rotate(180deg); */
-  /* transform: rotate(30deg); */
-  font-family: 'Comic Sans MS', cursive !important;
-  animation: wiggle 5s infinite forwards linear;
-}
-
-@keyframes wiggle {
-  0% {
-    transform: rotate(0deg);
-  }
-  100% {
-    transform: rotate(360deg);
-  }
 }
 
 html.no-transition,

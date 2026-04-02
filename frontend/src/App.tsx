@@ -17,7 +17,6 @@ import { SHOW_SERVICE } from './config';
 
 const AnimatedRoutes = ({ isDarkMode }: { isDarkMode: boolean }) => {
   const location = useLocation();
-  console.log('Vercel change');
 
   return (
     <AnimatePresence mode="wait">

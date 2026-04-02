@@ -405,8 +405,7 @@ const Clock: React.FC<ClockProps> = ({ isDarkMode }) => {
           fontWeight: 700,
         }}
       >
-        {/* RL Clock */}
-        April Fools!
+        RL Clock
       </h2>
       <div
         style={{
