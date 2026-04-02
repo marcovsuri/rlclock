@@ -157,7 +157,7 @@ const getClockDisplayInfo = (
 
   return {
     phase: 'passing_time',
-    currentBlock: `PT => ${nextPeriod.name}`,
+    currentBlock: `PT → ${nextPeriod.name}`,
     currentPeriodIndex: null,
     nextPeriodIndex,
     ...createCountdownInfo(secondsTotal, durationSeconds),
