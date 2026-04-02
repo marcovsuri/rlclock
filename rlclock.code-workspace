@@ -3,24 +3,25 @@
     {
       "path": "./",
       "name": "root",
-      "exclude": ["frontend", "supabase"]
+      "exclude": ["frontend", "supabase"],
     },
     {
       "path": "frontend",
-      "name": "frontend"
+      "name": "frontend",
     },
     {
       "path": "supabase",
-      "name": "supabase"
-    }
+      "name": "supabase",
+    },
   ],
   "settings": {
     "editor.formatOnSave": true,
     "files.exclude": {
       "node_modules": true,
       "frontend": true,
-      "supabase": true
+      "supabase": true,
     },
-    "liveServer.settings.multiRootWorkspaceName": "frontend"
-  }
+    "liveServer.settings.multiRootWorkspaceName": "frontend",
+    "cSpell.words": ["rlclock", "Roxbury", "SUPABASE"],
+  },
 }

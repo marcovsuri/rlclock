@@ -3,12 +3,12 @@
   "name": "My Application",
   "icons": [
     {
-      "src": "alarm-clock.svg",
+      "src": "favicon.svg",
       "sizes": "192x192",
       "type": "image/png"
     },
     {
-      "src": "alarm-clock.svg",
+      "src": "favicon.svg",
       "sizes": "512x512",
       "type": "image/png"
     }

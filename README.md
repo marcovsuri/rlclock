@@ -1,112 +1,156 @@
 # RL Clock
 
-**RL Clock** is a real-time digital assistant for Roxbury Latin students. It displays the current class schedule, period countdown, lunch menu, sports results, upcoming games, service tracking, and announcements — all in one interface.
+RL Clock is a Roxbury Latin student dashboard. The app is a React Router frontend backed by Supabase Edge Functions for schedule, lunch, and athletics data.
 
-**Live at [rlclock.com](https://rlclock.com)**
+Live site: [rlclock.com](https://rlclock.com)
 
----
+## Frontend
 
-## Features
+The frontend now lives in `frontend/` as a React Router 7 app using React 19, TypeScript, Vite, and Framer Motion.
 
-- **Period Tracker** — Shows the current period and time remaining, adjusting automatically for special or modified schedules.
-- **Lunch Menu** — Displays the day's school lunch pulled from Sage Dining.
-- **Sports** — Recent game results with scores and win/loss records, plus upcoming games for the day.
-- **Service Tracking** — Daily and monthly views with progress bars for donation goals.
-- **Announcements** — Active school announcements displayed in a modal overlay.
-- **Dark Mode** — System, light, and dark theme support.
-- **Responsive Design** — Works on desktop and mobile.
+Current routes:
 
----
+- `/` - home dashboard with the live clock, lunch preview, and recent sports results
+- `/lunch` - full lunch menu view
+- `/sports` - upcoming games, recent results, and computed team records
+
+Current UI features:
+
+- responsive mobile/desktop layouts
+- animated navigation drawer
+- light, dark, and system theme selection
+- client-side data loading through React Router `clientLoader`s
+- localStorage-based fetch caching with Zod validation
+
+## Backend
+
+Supabase Edge Functions live in `supabase/functions/`.
+
+Functions actively used by the current frontend:
+
+- `getSchedule` - returns the current day schedule, using Supabase as a cache layer
+- `getMenu` - fetches and caches the daily Sage Dining lunch menu
+- `getMatches` - scrapes recent athletics results and filters to the current season
+- `getUpcomingMatches` - scrapes upcoming athletics events and filters to the current season
+
+Additional functions still present in the repo:
+
+- `getAnnouncements`
+- `getExams`
+- `getServiceData`
+
+Those extra functions are not currently wired into the React Router frontend routes in `frontend/app/routes.ts`.
+
+## Notes On Data Sources
+
+- `getMenu` fetches lunch data from Sage Dining.
+- `getMatches` and `getUpcomingMatches` scrape Roxbury Latin athletics pages.
+- `getSchedule` currently transforms a placeholder schedule defined in `supabase/functions/getSchedule/refresh.ts` and caches it in Supabase.
+- The sports parsers use season start constants in their parse files, so those dates need to be updated as seasons change.
 
 ## Tech Stack
 
-| Layer | Technologies |
-|-------|-------------|
-| Frontend | React 19, TypeScript, Framer Motion, React Router, Zod |
-| Backend | Supabase Edge Functions (Deno), PostgreSQL |
-| Deployment | GitHub Pages |
-
----
+| Layer       | Technologies                                                                                             |
+| ----------- | -------------------------------------------------------------------------------------------------------- |
+| Frontend    | React 19, React Router 7, TypeScript, Vite, Framer Motion, Zod                                           |
+| Backend     | Supabase Edge Functions, Supabase Postgres, Deno                                                         |
+| Data access | Browser fetch + localStorage cache on the frontend, Supabase + external fetch/scraping in edge functions |
 
 ## Getting Started
 
 ### Prerequisites
 
 - Node.js
+- npm
 - [Supabase CLI](https://supabase.com/docs/guides/cli)
 - Deno
 
-### Setup
+### 1. Clone the repo
 
-1. Clone the repository:
+```bash
+git clone https://github.com/marcovsuri/rlclock.git
+cd rlclock
+```
 
-   ```bash
-   git clone https://github.com/marcovsuri/rlclock.git
-   cd rlclock
-   ```
+### 2. Run the frontend
 
-2. Open `rlclock.code-workspace` in VS Code and install recommended extensions.
+Install dependencies:
 
-### Frontend
+```bash
+cd frontend
+npm install
+```
 
-1. Create a `.env` file in `frontend/` with the required environment variables:
+Create `frontend/.env` with the current frontend variables:
 
-   ```env
-   REACT_APP_LUNCH_MENU_URL=***
-   REACT_APP_SPORTS_URL=***
-   REACT_APP_UPCOMING_SPORTS_URL=***
-   REACT_APP_ANNOUNCEMENTS_URL=***
-   REACT_APP_EXAMS_URL=***
-   REACT_APP_SUPABASE_ANON_KEY=***
-   ```
+```env
+VITE_SCHEDULE_URL=http://127.0.0.1:54321/functions/v1/getSchedule
+VITE_MENU_URL=http://127.0.0.1:54321/functions/v1/getMenu
+VITE_MATCHES_URL=http://127.0.0.1:54321/functions/v1/getMatches
+VITE_UPCOMING_MATCHES_URL=http://127.0.0.1:54321/functions/v1/getUpcomingMatches
+VITE_SUPABASE_ANON_KEY=your_supabase_anon_key
+```
 
-2. Install dependencies and start the dev server:
+Start the dev server:
 
-   ```bash
-   cd frontend
-   npm install
-   npm start
-   ```
+```bash
+npm run dev
+```
 
-   The app runs at `localhost:3000`.
+The frontend runs at `http://localhost:5173`.
 
-### Backend
+### 3. Run Supabase locally
 
-1. Start Supabase and serve edge functions locally:
+From the repo root:
 
-   ```bash
-   supabase start
-   supabase functions serve
-   ```
+```bash
+supabase start
+supabase functions serve
+```
 
-2. Deploy edge functions when ready:
+Local functions are then available at:
 
-   ```bash
-   supabase functions deploy
-   ```
+```text
+http://127.0.0.1:54321/functions/v1/<function-name>
+```
 
----
+### 4. Typecheck the frontend
+
+```bash
+cd frontend
+npm run typecheck
+```
 
 ## Project Structure
 
-```
+```text
 rlclock/
 ├── frontend/
-│   └── src/
-│       ├── pages/          # Home, Lunch, Sports, Service, ExamSchedule
-│       ├── components/     # Reusable UI (Clock, MenuGrid, ResultsCard, etc.)
-│       ├── core/           # Data fetching logic
-│       ├── types/          # TypeScript type definitions
-│       ├── hooks/          # Custom React hooks
-│       ├── App.tsx         # Routing and layout
-│       └── styles.css      # Global styles with dark mode
+│   ├── app/
+│   │   ├── components/     # UI components for home, lunch, sports, and shared controls
+│   │   ├── core/           # Fetcher classes and client-side cache helpers
+│   │   ├── hooks/          # Theme and viewport hooks
+│   │   ├── routes/         # Home, lunch, sports, and catch-all routes
+│   │   ├── shared/         # Shared fetcher wiring and error helpers
+│   │   ├── types/          # Zod-backed frontend types (based on backend types)
+│   │   ├── utils/          # Utilities for components (e.g., clock display, sports calculations)
+│   │   ├── app.css         # Global styles
+│   │   └── root.tsx        # Document shell and app layout
+│   ├── package.json
+│   └── README.md
 ├── supabase/
-│   └── functions/          # Edge functions
-│       ├── getAnnouncements/
-│       ├── getLunch/
-│       ├── getSports/
-│       ├── getUpcomingSports/
-│       ├── getExams/
-│       └── getServiceData/
-└── rlclock.code-workspace
+│   ├── functions/ # Edge functions
+│   │   ├── _shared/              # Shared Supabase client and CORS helpers
+│   │   ├── getSchedule/
+│   │   ├── getMenu/
+│   │   ├── getMatches/
+│   │   ├── getUpcomingMatches/
+│   │   ├── getAnnouncements/
+│   │   ├── getExams/
+│   │   └── getServiceData/
+│   ├── migrations/
+│   └── config.toml
+├── .github/workflows/
+├── rlclock.code-workspace
+└── README.md
 ```

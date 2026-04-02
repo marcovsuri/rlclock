@@ -307,38 +307,16 @@ s3_access_key = "env(S3_ACCESS_KEY)"
 # Configures AWS_SECRET_ACCESS_KEY for S3 bucket
 s3_secret_key = "env(S3_SECRET_KEY)"
 
-[functions.getLunch]
+[functions.getMatches]
 enabled = true
 verify_jwt = true
-import_map = "./functions/getLunch/deno.json"
+import_map = "./functions/getMatches/deno.json"
 # Uncomment to specify a custom file path to the entrypoint.
 # Supported file extensions are: .ts, .js, .mjs, .jsx, .tsx
-entrypoint = "./functions/getLunch/index.ts"
+entrypoint = "./functions/getMatches/index.ts"
 # Specifies static files to be bundled with the function. Supports glob patterns.
 # For example, if you want to serve static HTML pages in your function:
-# static_files = [ "./functions/getLunch/*.html" ]
-
-[functions.getSports]
-enabled = true
-verify_jwt = true
-import_map = "./functions/getSports/deno.json"
-# Uncomment to specify a custom file path to the entrypoint.
-# Supported file extensions are: .ts, .js, .mjs, .jsx, .tsx
-entrypoint = "./functions/getSports/index.ts"
-# Specifies static files to be bundled with the function. Supports glob patterns.
-# For example, if you want to serve static HTML pages in your function:
-# static_files = [ "./functions/getSports/*.html" ]
-
-[functions.getUpcomingSports]
-enabled = true
-verify_jwt = true
-import_map = "./functions/getUpcomingSports/deno.json"
-# Uncomment to specify a custom file path to the entrypoint.
-# Supported file extensions are: .ts, .js, .mjs, .jsx, .tsx
-entrypoint = "./functions/getUpcomingSports/index.ts"
-# Specifies static files to be bundled with the function. Supports glob patterns.
-# For example, if you want to serve static HTML pages in your function:
-# static_files = [ "./functions/getUpcomingSports/*.html" ]
+# static_files = [ "./functions/getMatches/*.html" ]
 
 [functions.getAnnouncements]
 enabled = true
@@ -361,3 +339,36 @@ entrypoint = "./functions/getExams/index.ts"
 # Specifies static files to be bundled with the function. Supports glob patterns.
 # For example, if you want to serve static HTML pages in your function:
 # static_files = [ "./functions/getExams/*.html" ]
+
+[functions.getSchedule]
+enabled = true
+verify_jwt = true
+import_map = "./functions/getSchedule/deno.json"
+# Uncomment to specify a custom file path to the entrypoint.
+# Supported file extensions are: .ts, .js, .mjs, .jsx, .tsx
+entrypoint = "./functions/getSchedule/index.ts"
+# Specifies static files to be bundled with the function. Supports glob patterns.
+# For example, if you want to serve static HTML pages in your function:
+# static_files = [ "./functions/getSchedule/*.html" ]
+
+[functions.getMenu]
+enabled = true
+verify_jwt = true
+import_map = "./functions/getMenu/deno.json"
+# Uncomment to specify a custom file path to the entrypoint.
+# Supported file extensions are: .ts, .js, .mjs, .jsx, .tsx
+entrypoint = "./functions/getMenu/index.ts"
+# Specifies static files to be bundled with the function. Supports glob patterns.
+# For example, if you want to serve static HTML pages in your function:
+# static_files = [ "./functions/getMenu/*.html" ]
+
+[functions.getUpcomingMatches]
+enabled = true
+verify_jwt = true
+import_map = "./functions/getUpcomingMatches/deno.json"
+# Uncomment to specify a custom file path to the entrypoint.
+# Supported file extensions are: .ts, .js, .mjs, .jsx, .tsx
+entrypoint = "./functions/getUpcomingMatches/index.ts"
+# Specifies static files to be bundled with the function. Supports glob patterns.
+# For example, if you want to serve static HTML pages in your function:
+# static_files = [ "./functions/getUpcomingMatches/*.html" ]
