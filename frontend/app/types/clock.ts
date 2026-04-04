@@ -7,10 +7,12 @@ const periodSchema = z.object({
   end: z.coerce.date(), // Force Date conversion
 });
 
-const scheduleSchema = z.object({
-  name: z.string(),
-  periods: z.array(periodSchema),
-});
+const scheduleSchema = z
+  .object({
+    name: z.string(),
+    periods: z.array(periodSchema),
+  })
+  .nullable();
 
 type Period = z.infer<typeof periodSchema>;
 type Schedule = z.infer<typeof scheduleSchema>;

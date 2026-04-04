@@ -1,4 +1,4 @@
-import { DOMParser } from "deno-dom";
+import { DOMParser } from "https://deno.land/x/deno_dom/deno-dom-wasm.ts";
 import { Match, MatchResult, matchSchema } from "./types.ts";
 
 const ATHLETICS_URL = "https://www.roxburylatin.org/athletics/recent/";

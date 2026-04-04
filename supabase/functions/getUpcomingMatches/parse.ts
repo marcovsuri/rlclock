@@ -1,4 +1,4 @@
-import { DOMParser } from "deno-dom";
+import { DOMParser } from "https://deno.land/x/deno_dom/deno-dom-wasm.ts";
 import type { UpcomingMatch } from "./types.ts";
 import { upcomingMatchSchema } from "./types.ts";
 

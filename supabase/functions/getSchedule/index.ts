@@ -15,6 +15,7 @@ Deno.serve(async (req) => {
   try {
     const supabase = getAdminClient();
     const schedule = await getSchedule(supabase);
+    console.log("Returning schedule:", schedule);
 
     return jsonResponse(schedule);
   } catch (error) {

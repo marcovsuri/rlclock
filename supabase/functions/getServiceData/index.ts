@@ -1,5 +1,5 @@
 import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm";
-import { z } from "zod";
+import { z } from "https://esm.sh/zod@4.3.6";
 
 export const serviceDataSchema = z.object({
   id: z.string().uuid(),

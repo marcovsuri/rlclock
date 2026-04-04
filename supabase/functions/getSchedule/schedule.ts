@@ -5,7 +5,7 @@ import { fetchApiSchedule, transformSchedule } from "./refresh.ts";
 
 async function getSchedule(
   supabase: SupabaseClient,
-): Promise<Schedule> {
+): Promise<Schedule | null> {
   // Todo: manual reset check
 
   const today = getToday();
@@ -24,7 +24,13 @@ async function getSchedule(
   }
 
   // Nothing cached for today — fetch, store, and return
-  const schedule = transformSchedule(await fetchApiSchedule());
+  const apiSchedule = await fetchApiSchedule();
+
+  if (apiSchedule === null) {
+    return null;
+  }
+
+  const schedule = transformSchedule(apiSchedule);
 
   const { error: insertError } = await supabase
     .from("schedules")

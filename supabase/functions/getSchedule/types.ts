@@ -1,5 +1,4 @@
-import { z } from "zod";
-
+import { z } from "https://esm.sh/zod@4.3.6";
 /*
 ----------------
 API TYPES
@@ -17,7 +16,7 @@ const API_currentBlockSchema = z.object({
 const API_scheduleSchema = z.object({
   name: z.string(),
   periods: z.array(API_currentBlockSchema),
-});
+}).nullable();
 
 type API_CurrentBlock = z.infer<typeof API_currentBlockSchema>;
 type API_Schedule = z.infer<typeof API_scheduleSchema>;

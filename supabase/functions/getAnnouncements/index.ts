@@ -6,7 +6,7 @@
 // import "jsr:@supabase/functions-js/edge-runtime.d.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.46.1";
 
-import { z } from "zod";
+import { z } from "https://esm.sh/zod@4.3.6";
 
 export const announcementSchema = z.object({
   id: z.string().uuid(), // UUID string

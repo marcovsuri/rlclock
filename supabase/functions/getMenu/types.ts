@@ -1,5 +1,4 @@
-import { z } from "zod";
-
+import { z } from "https://esm.sh/zod@4.3.6";
 /*
 ----------------
 API TYPES

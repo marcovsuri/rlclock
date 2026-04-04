@@ -23,13 +23,18 @@ const DUMMY_SCHEDULE: API_Schedule = {
   ],
 };
 
-export async function fetchApiSchedule(): Promise<API_Schedule> {
+export async function fetchApiSchedule(): Promise<API_Schedule | null> {
   const url = "https://rl-mod-clock-api.azurewebsites.net/todays_schedule.json";
   const response = await fetch(url);
-  const parsed = API_scheduleSchema.parse(await response.json());
-  console.log(parsed);
-  return parsed;
-  // return DUMMY_SCHEDULE;
+  const json = await response.json();
+  console.log("Fetched schedule:", json);
+
+  if (!json || Object.keys(json).length === 0) {
+    return null; // no schedule today
+  }
+
+  // Validate shape with Zod
+  return API_scheduleSchema.parse(json);
 }
 
 const timeStringToDate = (timeStr: string): Date => {

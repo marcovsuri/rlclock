@@ -5,7 +5,7 @@
 // Setup type definitions for built-in Supabase Runtime APIs
 // import "jsr:@supabase/functions-js/edge-runtime.d.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.46.1";
-import { z } from "zod";
+import { z } from "https://esm.sh/zod@4.3.6";
 
 const classEnum = z.enum(["I", "II", "III", "IV", "V", "VI"]);
 
