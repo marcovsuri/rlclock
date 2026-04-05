@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Link, useLocation } from 'react-router';
+import AuthButton from './AuthButton';
 import useTheme, { type ThemePreference } from '~/hooks/useTheme';
 
 const NAV_LINKS = [
@@ -280,6 +281,8 @@ const Nav: React.FC<Props> = ({ isMobile, isDark, isOpen, onClose }) => {
                 );
               })}
             </div>
+
+            <AuthButton isDark={isDark} />
 
             <div style={styles.controls}>
               <div style={styles.themeLabel}>Theme</div>

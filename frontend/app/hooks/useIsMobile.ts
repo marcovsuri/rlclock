@@ -1,14 +1,20 @@
-import { useEffect, useState } from 'react';
+import { useState, useEffect } from 'react';
 
 const useIsMobile = (breakpoint = 1024) => {
-  const [isMobile, setIsMobile] = useState(
-    () => window.innerWidth <= breakpoint,
-  );
+  // Initialize with false to be safe during SSR
+  const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
-    const handleResize = () => setIsMobile(window.innerWidth <= breakpoint);
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
+    if (typeof window === 'undefined') return; // SSR safeguard
+
+    const checkMobile = () => setIsMobile(window.innerWidth <= breakpoint);
+
+    // Initial check
+    checkMobile();
+
+    // Listen for resize
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
   }, [breakpoint]);
 
   return isMobile;

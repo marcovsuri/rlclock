@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import type { Schedule } from '~/types/clock';
 import ScheduleComponent from './ScheduleComponent';
 import { getClockStampInfo, getClockStatusInfo } from '~/utils/clock/utils';
+import { getUserData } from '~/core/AuthHandler';
 
 interface Props {
   schedule: Schedule | null;
@@ -118,10 +119,18 @@ const createStyles = (isMobile: boolean, isDark: boolean) => {
 const Clock: React.FC<Props> = ({ schedule, isMobile, isDark }) => {
   const styles = createStyles(isMobile, isDark);
   const [now, setNow] = useState(new Date(Date.now()));
+  const [userFirstName, setUserFirstName] = useState<string | null>(null);
 
   useEffect(() => {
     const interval = setInterval(() => setNow(new Date(Date.now())), 1000);
     return () => clearInterval(interval);
+  }, []);
+
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    const user = getUserData();
+    console.log('Fetched user data:', user);
+    setUserFirstName(user?.first_name ?? null);
   }, []);
 
   const { dateLabel, hour, minute, dayPeriod, blinkOpacity } =
@@ -141,7 +150,9 @@ const Clock: React.FC<Props> = ({ schedule, isMobile, isDark }) => {
         <span style={{ opacity: blinkOpacity }}>:</span>
         {minute} {dayPeriod}
       </div>
-      <h2 style={styles.title}>RL Clock</h2>
+      <h2 style={styles.title}>
+        {userFirstName ? `${userFirstName}'s ` : ''}RL Clock
+      </h2>
       <div style={styles.accentBar} />
 
       <div style={styles.statusCard}>

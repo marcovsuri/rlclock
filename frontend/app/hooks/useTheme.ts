@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState, useEffect } from 'react';
 
 type ThemePreference = 'system' | 'light' | 'dark';
 const THEME_PREFERENCE_KEY = 'themePreference';
@@ -10,29 +10,34 @@ const isThemePreference = (value: string | null): value is ThemePreference =>
 const resolveIsDark = (pref: ThemePreference): boolean => {
   if (pref === 'light') return false;
   if (pref === 'dark') return true;
-  return window.matchMedia('(prefers-color-scheme: dark)').matches; // pref === "system"
+  if (typeof window !== 'undefined') {
+    return window.matchMedia('(prefers-color-scheme: dark)').matches;
+  }
+  return false; // fallback for SSR
 };
-
-const getStoredPreference = (): ThemePreference =>
-  isThemePreference(localStorage.getItem(THEME_PREFERENCE_KEY))
-    ? (localStorage.getItem(THEME_PREFERENCE_KEY) as ThemePreference)
-    : 'system';
 
 const applyThemePreference = (pref: ThemePreference) => {
   const dark = resolveIsDark(pref);
-  document.documentElement.classList.toggle('dark-mode', dark);
+  if (typeof document !== 'undefined') {
+    document.documentElement.classList.toggle('dark-mode', dark);
+  }
   return dark;
 };
 
 const useTheme = () => {
-  const [preference, setPreference] =
-    useState<ThemePreference>(getStoredPreference);
-  const [isDark, setIsDark] = useState(() => {
-    return applyThemePreference(getStoredPreference());
-  });
+  const [preference, setPreference] = useState<ThemePreference>('system');
+  const [isDark, setIsDark] = useState(false);
 
-  // Remove no-transition class after first paint
+  // Initialize on client only
   useEffect(() => {
+    if (typeof window === 'undefined') return;
+
+    const stored = window.localStorage.getItem(THEME_PREFERENCE_KEY);
+    const pref = isThemePreference(stored) ? stored : 'system';
+    setPreference(pref);
+    setIsDark(applyThemePreference(pref));
+
+    // Remove no-transition class after first paint
     requestAnimationFrame(() => {
       requestAnimationFrame(() => {
         document.documentElement.classList.remove('no-transition');
@@ -40,19 +45,24 @@ const useTheme = () => {
     });
   }, []);
 
-  // Listen for system preference changes, but only when preference is 'system'
+  // Listen for system preference changes when preference is 'system'
   useEffect(() => {
+    if (typeof window === 'undefined' || preference !== 'system') return;
+
     const mq = window.matchMedia('(prefers-color-scheme: dark)');
     const handleChange = (e: MediaQueryListEvent) => {
-      if (preference !== 'system') return;
       document.documentElement.classList.toggle('dark-mode', e.matches);
       setIsDark(e.matches);
     };
+
     mq.addEventListener('change', handleChange);
     return () => mq.removeEventListener('change', handleChange);
   }, [preference]);
 
+  // Listen for storage and custom theme events
   useEffect(() => {
+    if (typeof window === 'undefined') return;
+
     const syncPreference = (pref: ThemePreference) => {
       setPreference(pref);
       setIsDark(applyThemePreference(pref));
@@ -60,7 +70,9 @@ const useTheme = () => {
 
     const handleStorage = (event: StorageEvent) => {
       if (event.key !== THEME_PREFERENCE_KEY) return;
-      syncPreference(isThemePreference(event.newValue) ? event.newValue : 'system');
+      syncPreference(
+        isThemePreference(event.newValue) ? event.newValue : 'system',
+      );
     };
 
     const handleThemeChange = (event: Event) => {
@@ -79,12 +91,14 @@ const useTheme = () => {
   }, []);
 
   const setThemePreference = (pref: ThemePreference) => {
-    localStorage.setItem(THEME_PREFERENCE_KEY, pref);
+    if (typeof window !== 'undefined') {
+      window.localStorage.setItem(THEME_PREFERENCE_KEY, pref);
+      window.dispatchEvent(
+        new CustomEvent<ThemePreference>(THEME_CHANGE_EVENT, { detail: pref }),
+      );
+    }
     setPreference(pref);
     setIsDark(applyThemePreference(pref));
-    window.dispatchEvent(
-      new CustomEvent<ThemePreference>(THEME_CHANGE_EVENT, { detail: pref }),
-    );
   };
 
   return { isDark, preference, setThemePreference };

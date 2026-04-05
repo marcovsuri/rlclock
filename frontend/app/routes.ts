@@ -5,4 +5,5 @@ export default [
   route('lunch', 'routes/lunch.tsx'),
   route('sports', 'routes/sports.tsx'),
   route('*', 'routes/catchall.tsx'),
+  route('callback', 'routes/callback.tsx'),
 ] satisfies RouteConfig;

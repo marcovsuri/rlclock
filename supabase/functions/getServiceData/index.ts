@@ -1,11 +1,11 @@
-import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm";
+import { createClient } from "https://esm.sh/@supabase/supabase-js@2.46.1";
 import { z } from "https://esm.sh/zod@4.3.6";
 
 export const serviceDataSchema = z.object({
   id: z.string().uuid(),
   last_updated: z.string(),
   numDonations: z.number().int(),
-  donationGoal: z.number().int()
+  donationGoal: z.number().int(),
 });
 
 // Centralized CORS headers
@@ -29,7 +29,9 @@ Deno.serve(async (req) => {
     const supabaseAnonKey = Deno.env.get("SUPABASE_ANON_KEY");
 
     if (!supabaseUrl || !supabaseAnonKey) {
-      throw new Error("Missing SUPABASE_URL or SUPABASE_ANON_KEY environment variables");
+      throw new Error(
+        "Missing SUPABASE_URL or SUPABASE_ANON_KEY environment variables",
+      );
     }
 
     const supabase = createClient(supabaseUrl, supabaseAnonKey, {});
@@ -61,16 +63,25 @@ Deno.serve(async (req) => {
         "Connection": "keep-alive",
       },
     });
-  } catch (err) {
+  } catch (err: unknown) {
     console.error("Error fetching or parsing data in serviceData:", err);
 
-    return new Response(JSON.stringify({ error: err.message || "Error fetching or parsing data" }), {
-      status: 500,
-      headers: {
-        ...CORS_HEADERS,
-        "Content-Type": "application/json",
-        "Connection": "keep-alive",
+    const message = err instanceof Error
+      ? err.message
+      : "Error fetching or parsing data";
+
+    return new Response(
+      JSON.stringify({
+        error: message,
+      }),
+      {
+        status: 500,
+        headers: {
+          ...CORS_HEADERS,
+          "Content-Type": "application/json",
+          "Connection": "keep-alive",
+        },
       },
-    });
+    );
   }
 });
