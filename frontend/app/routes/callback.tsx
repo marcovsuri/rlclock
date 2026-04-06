@@ -12,7 +12,7 @@ export default function Callback() {
     async function processCode() {
       try {
         await handleOAuthCallback();
-        window.location.href = '/';
+        // window.location.href = '/';
       } catch (err) {
         console.error('OAuth callback failed:', err);
         window.location.href = '/';

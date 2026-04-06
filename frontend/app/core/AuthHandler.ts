@@ -2,6 +2,7 @@
 const BLACKBAUD_CLIENT_ID = import.meta.env.VITE_BLACKBAUD_CLIENT_ID;
 const REDIRECT_URI = import.meta.env.VITE_BLACKBAUD_REDIRECT_URI;
 const SIGNIN_URL = import.meta.env.VITE_SIGNIN_URL;
+const USERDATA_URL = import.meta.env.VITE_USERDATA_URL;
 
 /**
  * Redirects the user to the Blackbaud OAuth authorization page
@@ -43,10 +44,10 @@ const handleOAuthCallback = async () => {
     }
 
     const data = await res.json();
-    console.log('Received data from SIGNIN_URL:', data);
+    // console.log('Received data from SIGNIN_URL:', data);
 
     if (data.success === true) {
-      console.log('SUCCESS: ', data.data);
+      // console.log('SUCCESS: ', data.data);
       localStorage.setItem('isSignedIn', 'true');
       localStorage.setItem('userData', JSON.stringify(data.data));
     } else {
@@ -55,6 +56,25 @@ const handleOAuthCallback = async () => {
         'OAuth exchange failed: ' + (data.error || 'Unknown error'),
       );
     }
+
+    console.log('Exchanging code for user data with USERDATA_URL');
+
+    const userDataRes = await fetch(USERDATA_URL, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${import.meta.env.VITE_SUPABASE_ANON_KEY}`,
+      },
+      body: JSON.stringify({ blackbaud_id: data.data.blackbaud_id }),
+    });
+
+    if (!userDataRes.ok) {
+      console.error('getUserData failed with status:', res.status);
+      throw new Error('getUserData failed');
+    }
+
+    const userData = await userDataRes.json();
+    console.log('Received user data from USERDATA_URL:', userData);
   } catch (err) {
     console.error('Error handling OAuth callback:', err);
   }
