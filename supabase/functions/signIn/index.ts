@@ -99,6 +99,10 @@ Deno.serve(async (req) => {
       email: userData.email,
       first_name: userData.given_name,
       last_name: userData.family_name,
+      access_token: userData.access_token,
+      refresh_token: userData.refresh_token,
+      access_token_expiration: new Date(Date.now() + userData.expires_in * 1000)
+        .toISOString(),
     }, { onConflict: "blackbaud_id", ignoreDuplicates: true });
 
   if (error) {
@@ -115,6 +119,7 @@ Deno.serve(async (req) => {
         first_name: userData.given_name,
         last_name: userData.family_name,
         email: userData.email,
+        blackbaud_id: userData.user_id,
       },
     }),
     { headers: { ...corsHeaders, "Content-Type": "application/json" } },
