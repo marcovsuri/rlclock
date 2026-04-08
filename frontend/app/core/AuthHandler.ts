@@ -69,7 +69,7 @@ const handleOAuthCallback = async () => {
     });
 
     if (!userDataRes.ok) {
-      console.error('getUserData failed with status:', res.status);
+      console.error('getUserData failed with status:', userDataRes.status);
       throw new Error('getUserData failed');
     }
 

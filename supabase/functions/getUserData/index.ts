@@ -149,6 +149,7 @@ Deno.serve(async (req) => {
     let userData;
     console.log("about to make api call");
     try {
+      console.log("trying");
       const apiRes = await fetch(
         `https://api.sky.blackbaud.com/school/v1/users/${blackbaud_id}`,
         {
@@ -160,6 +161,8 @@ Deno.serve(async (req) => {
         },
       );
 
+      console.log("fetched");
+      console.log(apiRes);
       if (!apiRes.ok) {
         const text = await apiRes.text();
         console.error("Blackbaud API error:", apiRes.status, text);
@@ -175,6 +178,8 @@ Deno.serve(async (req) => {
           },
         );
       }
+
+      console.log("trying continued");
 
       userData = await apiRes.json();
       console.log("Fetched user data from Blackbaud:", userData);
