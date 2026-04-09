@@ -1,5 +1,16 @@
-import { createServerClient, serializeCookieHeader } from '@supabase/ssr';
+import {
+  createBrowserClient,
+  createServerClient,
+  serializeCookieHeader,
+} from '@supabase/ssr';
 import type { Database } from '~/types/database.types';
+
+export function createBrowserSupabaseClient() {
+  return createBrowserClient<Database>(
+    import.meta.env.VITE_SUPABASE_URL,
+    import.meta.env.VITE_SUPABASE_ANON_KEY,
+  );
+}
 
 export function createServerSupabaseClient(request: Request) {
   const headers = new Headers();

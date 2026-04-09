@@ -1,7 +1,9 @@
 import type { CSSProperties } from 'react';
+import { useState } from 'react';
 import AdminSectionContainer from '~/components/admin/dashboard/AdminSectionContainer';
 import ScheduleBlockRow from '~/components/admin/dashboard/schedule/ScheduleBlockRow';
 import { useScheduleEditor } from '~/hooks/admin/dashboard/schedule/useScheduleEditor';
+import { createBrowserSupabaseClient } from '~/lib/supabase';
 
 type Props = {
   isDark: boolean;
@@ -19,13 +21,50 @@ const makeButton = (accent: string): CSSProperties => ({
   cursor: 'pointer',
 });
 
+const createStyles = (isDark: boolean) => {
+  const border = isDark
+    ? '1px solid rgba(240, 169, 181, 0.18)'
+    : '1px solid rgba(154, 31, 54, 0.16)';
+  const text = isDark ? '#E8EAED' : '#202124';
+  const accent = isDark ? '#D85872' : '#B0263E';
+
+  return {
+    fieldGroup: {
+      display: 'grid',
+      gap: '0.35rem',
+    } satisfies CSSProperties,
+    fieldLabel: {
+      margin: 0,
+      color: accent,
+      fontSize: '0.75rem',
+      fontWeight: 700,
+      letterSpacing: '0.08em',
+      textTransform: 'uppercase',
+    } satisfies CSSProperties,
+    input: {
+      width: '100%',
+      minHeight: '2.9rem',
+      padding: '0.8rem 0.9rem',
+      borderRadius: '16px',
+      border,
+      backgroundColor: isDark ? 'rgba(31, 33, 36, 0.92)' : '#FFFFFF',
+      color: text,
+      font: 'inherit',
+      boxSizing: 'border-box',
+    } satisfies CSSProperties,
+  };
+};
+
 export default function ScheduleEditSection({ isDark }: Props) {
   const accent = isDark ? '#D85872' : '#B0263E';
   const button = makeButton(accent);
+  const styles = createStyles(isDark);
+  const [supabase] = useState(() => createBrowserSupabaseClient());
 
   const {
     schedule,
     editingIndex,
+    updateScheduleName,
     updatePeriod,
     movePeriod,
     toggleEdit,
@@ -33,7 +72,7 @@ export default function ScheduleEditSection({ isDark }: Props) {
     addBlock,
     removeBlock,
     sendSchedule,
-  } = useScheduleEditor();
+  } = useScheduleEditor(supabase);
 
   return (
     <AdminSectionContainer
@@ -49,6 +88,17 @@ export default function ScheduleEditSection({ isDark }: Props) {
       isDark={isDark}
     >
       <div style={{ display: 'grid', gap: '0.9rem' }}>
+        <label style={styles.fieldGroup}>
+          <span style={styles.fieldLabel}>Schedule Name</span>
+          <input
+            type="text"
+            value={schedule.name}
+            onChange={(event) => updateScheduleName(event.target.value)}
+            placeholder="Enter a schedule name"
+            style={styles.input}
+          />
+        </label>
+
         {schedule.periods.length === 0 ? (
           <p
             style={{

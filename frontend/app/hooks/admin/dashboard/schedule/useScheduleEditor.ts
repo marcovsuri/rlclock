@@ -1,14 +1,62 @@
-import { useState } from 'react';
-import type { Period, Schedule } from '~/types/clock';
+import type { SupabaseClient } from '@supabase/supabase-js';
+import { useEffect, useState } from 'react';
+import { z } from 'zod';
+import type { Database, Json } from '~/types/database.types';
+import { scheduleSchema, type Period, type Schedule } from '~/types/clock';
 import { ETTimeToDate } from '~/utils/global/time';
+import { fetchSchedule as fetchApiSchedule } from '~/utils/admin/dashboard/utils';
 
 const DEFAULT_BLOCK_DURATION_MINUTES = 45;
 const DEFAULT_BLOCK_GAP_MINUTES = 5;
+const EMPTY_SCHEDULE: Schedule = { name: '', periods: [] };
+
+const scheduleQuerySchema = z.array(
+  z.object({
+    id: z.number(),
+    created_at: z.string(),
+    day: z.string(),
+    schedule: scheduleSchema,
+  }),
+);
 
 const normalizeSchedule = (schedule: Schedule): Schedule => ({
   ...schedule,
   periods: schedule.periods.map((period, index) => ({ ...period, index })),
 });
+
+const getToday = () =>
+  new Date().toLocaleDateString('en-CA', {
+    timeZone: 'America/New_York',
+  });
+
+const serializeSchedule = (schedule: Schedule): Json => ({
+  name: schedule.name,
+  periods: schedule.periods.map((period) => ({
+    index: period.index,
+    name: period.name,
+    start: period.start.toISOString(),
+    end: period.end.toISOString(),
+  })),
+});
+
+const fetchDatabaseSchedule = async (
+  supabase: SupabaseClient<Database>,
+): Promise<Schedule | null> => {
+  const today = getToday();
+  const { data, error } = await supabase
+    .from('schedules')
+    .select('*')
+    .eq('day', today);
+
+  if (error) throw new Error(`Supabase error: ${error.message}`);
+
+  const rows = scheduleQuerySchema.parse(data);
+  if (rows.length > 0) {
+    return rows[rows.length - 1].schedule;
+  }
+
+  return null;
+};
 
 const createNextPeriod = (schedule: Schedule): Period => {
   const lastPeriod = schedule.periods.at(-1);
@@ -31,44 +79,31 @@ const createNextPeriod = (schedule: Schedule): Period => {
   return { index: nextIndex, name: 'New Block', start, end };
 };
 
-// TODO: REMOVE
-const buildExampleSchedule = (): Schedule => ({
-  name: 'Example Schedule',
-  periods: [
-    {
-      index: 0,
-      name: 'A',
-      start: ETTimeToDate(8, 30),
-      end: ETTimeToDate(9, 15),
-    },
-    {
-      index: 1,
-      name: 'B',
-      start: ETTimeToDate(9, 20),
-      end: ETTimeToDate(10, 5),
-    },
-    {
-      index: 2,
-      name: 'C',
-      start: ETTimeToDate(10, 15),
-      end: ETTimeToDate(11, 0),
-    },
-    {
-      index: 3,
-      name: 'D',
-      start: ETTimeToDate(11, 10),
-      end: ETTimeToDate(11, 55),
-    },
-  ],
-});
-
-export function useScheduleEditor() {
-  // TODO: Make this pull from supabase
-  const [schedule, setSchedule] = useState<Schedule>(() =>
-    buildExampleSchedule(),
-  );
+export function useScheduleEditor(supabase: SupabaseClient<Database>) {
+  const [schedule, setSchedule] = useState<Schedule>(EMPTY_SCHEDULE);
 
   const [editingIndex, setEditingIndex] = useState<number | null>(null);
+
+  useEffect(() => {
+    let cancelled = false;
+
+    const loadSchedule = async () => {
+      try {
+        const storedSchedule = await fetchDatabaseSchedule(supabase);
+        if (!cancelled && storedSchedule) {
+          setSchedule(storedSchedule);
+        }
+      } catch (error) {
+        console.error('Failed to load schedule from Supabase', error);
+      }
+    };
+
+    void loadSchedule();
+
+    return () => {
+      cancelled = true;
+    };
+  }, [supabase]);
 
   const updatePeriod = (
     index: number,
@@ -82,6 +117,10 @@ export function useScheduleEditor() {
         i === index ? updater(period) : period,
       ),
     }));
+  };
+
+  const updateScheduleName = (name: string) => {
+    setSchedule((current) => ({ ...current, name }));
   };
 
   const movePeriod = (fromIndex: number, toIndex: number) => {
@@ -101,9 +140,8 @@ export function useScheduleEditor() {
   const toggleEdit = (index: number) =>
     setEditingIndex((current) => (current === index ? null : index));
 
-  const fetchSchedule = () => {
-    // TODO: Make this fetch from api
-    setSchedule(buildExampleSchedule());
+  const fetchSchedule = async () => {
+    setSchedule(await fetchApiSchedule());
     setEditingIndex(null);
   };
 
@@ -130,14 +168,22 @@ export function useScheduleEditor() {
     });
   };
 
-  const sendSchedule = () => {
-    // TODO: update schedule in supabase
-    console.info('Schedule payload preview', schedule);
+  const sendSchedule = async () => {
+    const today = getToday();
+    const scheduleJson = serializeSchedule(schedule);
+    const { error: insertError } = await supabase
+      .from('schedules')
+      .insert({ day: today, schedule: scheduleJson });
+
+    if (insertError) {
+      console.warn('Failed to cache schedule:', insertError.message);
+    }
   };
 
   return {
     schedule,
     editingIndex,
+    updateScheduleName,
     updatePeriod,
     movePeriod,
     toggleEdit,
