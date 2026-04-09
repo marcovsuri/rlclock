@@ -7,32 +7,42 @@ const THEME_CHANGE_EVENT = 'theme-preference-change';
 const isThemePreference = (value: string | null): value is ThemePreference =>
   value === 'system' || value === 'light' || value === 'dark';
 
+const canUseThemeApis = () =>
+  typeof window !== 'undefined' && typeof document !== 'undefined';
+
 const resolveIsDark = (pref: ThemePreference): boolean => {
   if (pref === 'light') return false;
   if (pref === 'dark') return true;
+  if (!canUseThemeApis()) return false;
   return window.matchMedia('(prefers-color-scheme: dark)').matches; // pref === "system"
 };
 
-const getStoredPreference = (): ThemePreference =>
-  isThemePreference(localStorage.getItem(THEME_PREFERENCE_KEY))
-    ? (localStorage.getItem(THEME_PREFERENCE_KEY) as ThemePreference)
-    : 'system';
+const getStoredPreference = (): ThemePreference => {
+  if (!canUseThemeApis()) return 'system';
+
+  const storedPreference = window.localStorage.getItem(THEME_PREFERENCE_KEY);
+  return isThemePreference(storedPreference) ? storedPreference : 'system';
+};
 
 const applyThemePreference = (pref: ThemePreference) => {
   const dark = resolveIsDark(pref);
+  if (!canUseThemeApis()) return dark;
   document.documentElement.classList.toggle('dark-mode', dark);
   return dark;
 };
 
 const useTheme = () => {
-  const [preference, setPreference] =
-    useState<ThemePreference>(getStoredPreference);
-  const [isDark, setIsDark] = useState(() => {
-    return applyThemePreference(getStoredPreference());
-  });
+  const [preference, setPreference] = useState<ThemePreference>('system');
+  const [isDark, setIsDark] = useState(false);
 
   // Remove no-transition class after first paint
   useEffect(() => {
+    if (!canUseThemeApis()) return;
+
+    const storedPreference = getStoredPreference();
+    setPreference(storedPreference);
+    setIsDark(applyThemePreference(storedPreference));
+
     requestAnimationFrame(() => {
       requestAnimationFrame(() => {
         document.documentElement.classList.remove('no-transition');
@@ -42,6 +52,8 @@ const useTheme = () => {
 
   // Listen for system preference changes, but only when preference is 'system'
   useEffect(() => {
+    if (!canUseThemeApis()) return;
+
     const mq = window.matchMedia('(prefers-color-scheme: dark)');
     const handleChange = (e: MediaQueryListEvent) => {
       if (preference !== 'system') return;
@@ -53,6 +65,8 @@ const useTheme = () => {
   }, [preference]);
 
   useEffect(() => {
+    if (!canUseThemeApis()) return;
+
     const syncPreference = (pref: ThemePreference) => {
       setPreference(pref);
       setIsDark(applyThemePreference(pref));
@@ -79,12 +93,16 @@ const useTheme = () => {
   }, []);
 
   const setThemePreference = (pref: ThemePreference) => {
-    localStorage.setItem(THEME_PREFERENCE_KEY, pref);
+    if (canUseThemeApis()) {
+      window.localStorage.setItem(THEME_PREFERENCE_KEY, pref);
+    }
     setPreference(pref);
     setIsDark(applyThemePreference(pref));
-    window.dispatchEvent(
-      new CustomEvent<ThemePreference>(THEME_CHANGE_EVENT, { detail: pref }),
-    );
+    if (typeof window !== 'undefined') {
+      window.dispatchEvent(
+        new CustomEvent<ThemePreference>(THEME_CHANGE_EVENT, { detail: pref }),
+      );
+    }
   };
 
   return { isDark, preference, setThemePreference };
