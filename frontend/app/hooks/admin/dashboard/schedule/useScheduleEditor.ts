@@ -140,8 +140,15 @@ export function useScheduleEditor(supabase: SupabaseClient<Database>) {
   const toggleEdit = (index: number) =>
     setEditingIndex((current) => (current === index ? null : index));
 
-  const fetchSchedule = async () => {
+  const fetchScheduleFromAPI = async () => {
     setSchedule(await fetchApiSchedule());
+    setEditingIndex(null);
+  };
+
+  const fetchScheduleFromSupabase = async () => {
+    const s = await fetchDatabaseSchedule(supabase);
+    if (!s) return alert('Unable to fetch from supabase');
+    setSchedule(s);
     setEditingIndex(null);
   };
 
@@ -187,7 +194,8 @@ export function useScheduleEditor(supabase: SupabaseClient<Database>) {
     updatePeriod,
     movePeriod,
     toggleEdit,
-    fetchSchedule,
+    fetchScheduleFromAPI,
+    fetchScheduleFromSupabase,
     addBlock,
     removeBlock,
     sendSchedule,

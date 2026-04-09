@@ -52,6 +52,10 @@ const createStyles = (isDark: boolean) => {
       font: 'inherit',
       boxSizing: 'border-box',
     } satisfies CSSProperties,
+    headerActionContainer: {
+      display: 'flex',
+      gap: '1rem',
+    } satisfies CSSProperties,
   };
 };
 
@@ -68,7 +72,8 @@ export default function ScheduleEditSection({ isDark }: Props) {
     updatePeriod,
     movePeriod,
     toggleEdit,
-    fetchSchedule,
+    fetchScheduleFromAPI,
+    fetchScheduleFromSupabase,
     addBlock,
     removeBlock,
     sendSchedule,
@@ -81,9 +86,20 @@ export default function ScheduleEditSection({ isDark }: Props) {
       title="Edit Schedule"
       description="Edit and reorder blocks for the schedule. Fetch the schedule from the RL Clock API. Send the schedule to the supabase server."
       headerAction={
-        <button type="button" style={button} onClick={fetchSchedule}>
-          Fetch from API
-        </button>
+        <>
+          <div style={styles.headerActionContainer}>
+            <button
+              type="button"
+              style={button}
+              onClick={fetchScheduleFromSupabase}
+            >
+              Fetch from Database
+            </button>
+            <button type="button" style={button} onClick={fetchScheduleFromAPI}>
+              Fetch from API
+            </button>
+          </div>
+        </>
       }
       isDark={isDark}
     >
