@@ -2,15 +2,14 @@ import { getToday } from "../_shared/global.ts";
 import { SupabaseClient } from "https://esm.sh/@supabase/supabase-js@2.46.1";
 import { Menu, menuQuerySchema, menuSchema } from "./types.ts";
 
-const SAGE_MENU_ID = "135739"; // Todo: make this dynamic
 const SAGE_BASE_URL = "https://www.sagedining.com/microsites/getMenuItems";
 
 /** Builds the Sage Dining API URL for today's lunch menu */
-const buildMenuUrl = (): string => {
+const buildMenuUrl = (menuId: number): string => {
   const now = new Date();
   const date = `${now.getMonth() + 1}/${now.getDate()}/${now.getFullYear()}`;
   const params = new URLSearchParams({
-    menuId: SAGE_MENU_ID,
+    menuId: menuId.toString(),
     date,
     meal: "Lunch",
     mode: "",
@@ -18,8 +17,8 @@ const buildMenuUrl = (): string => {
   return `${SAGE_BASE_URL}?${params}`;
 };
 
-const fetchApiMenu = async (): Promise<Menu> => {
-  const url = buildMenuUrl();
+const fetchApiMenu = async (menuId: number): Promise<Menu> => {
+  const url = buildMenuUrl(menuId);
   console.log("Fetching menu from:", url);
 
   const response = await fetch(url);
@@ -37,21 +36,35 @@ async function getMenu(supabase: SupabaseClient): Promise<Menu> {
 
   const today = getToday();
 
-  const { data, error } = await supabase
+  const { data: menus, error: menusError } = await supabase
     .from("menus")
     .select("*")
     .eq("day", today);
 
-  if (error) throw new Error(`Supabase error: ${error.message}`);
+  if (menusError) throw new Error(`Supabase error: ${menusError.message}`);
 
-  const rows = menuQuerySchema.parse(data);
+  const rows = menuQuerySchema.parse(menus);
 
   if (rows.length > 0) {
     return rows[rows.length - 1].menu;
   }
 
   // Nothing cached for today - fetch, store, and return
-  const menu = await fetchApiMenu();
+
+  const { data: menuIdRes, error: menuIdError } = await supabase
+    .from("menuids")
+    .select("menuid")
+    .order("created_at", { ascending: false })
+    .limit(1)
+    .single();
+
+  if (menuIdError) throw new Error(`Supabase error: ${menuIdError.message}`);
+
+  const menuId = menuIdRes.menuid;
+
+  console.log(`Using menu id: ${menuId}`);
+
+  const menu = await fetchApiMenu(menuId);
 
   const { error: insertError } = await supabase
     .from("menus")
