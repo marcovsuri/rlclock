@@ -111,6 +111,8 @@ export default function Home({ loaderData }: Route.ComponentProps) {
     ? menu['Entrées'].slice(0, 5).map((i) => i.name)
     : null;
 
+  // console.log(schedule);
+
   return (
     <motion.div
       initial={{ opacity: 0 }}
