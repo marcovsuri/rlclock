@@ -92,14 +92,23 @@ export function transformSchedule(schedule: NewAPI_Schedule): Schedule {
     return !appearsLater;
   });
 
-  // Step 3: Merge consecutive entries of the same block_id (double-blocks)
+  // Step 3: Merge consecutive entries of the same block_id (double-blocks),
+  // but only if no other block occupies the second slot.
   const mergedBlocks = finalBlocks.reduce((acc, b) => {
     const prev = acc[acc.length - 1];
     if (prev && prev.block_id === b.block_id) {
-      acc[acc.length - 1] = { ...prev, end_time: b.end_time };
-    } else {
-      acc.push(b);
+      // Only merge if nothing else shares this start_time
+      const conflict = finalBlocks.some(
+        (x) => x.start_time === b.start_time && x.block_id !== b.block_id,
+      );
+      if (!conflict) {
+        acc[acc.length - 1] = { ...prev, end_time: b.end_time };
+        return acc;
+      }
+      // If there's a conflict, drop this duplicate entry (the other block wins)
+      return acc;
     }
+    acc.push(b);
     return acc;
   }, [] as typeof finalBlocks);
 
@@ -167,6 +176,8 @@ export function transformSchedule(schedule: NewAPI_Schedule): Schedule {
 
   // Step 7: Re-index
   expandedPeriods.forEach((p, i) => p.index = i);
+
+  console.log(expandedPeriods);
 
   return {
     name: day.schedule_sets.find((s) => s.holiday_label)?.holiday_label ??
