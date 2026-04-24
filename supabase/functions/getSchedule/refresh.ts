@@ -33,10 +33,10 @@ export async function fetchApiSchedule(): Promise<NewAPI_Schedule> {
   // const today = "4/14/2026";
   const url =
     `https://rl-mod-clock-api.azurewebsites.net/sky/masterSchedule?start_date=${today}&end_date=${today}`;
-  console.log(url);
+  // console.log(url);
   const response = await fetch(url);
   const parsed = NewAPI_scheduleSchema.parse(await response.json());
-  console.log(parsed);
+  // console.log(parsed);
   return parsed;
   // return DUMMY_SCHEDULE;
 }
@@ -177,7 +177,7 @@ export function transformSchedule(schedule: NewAPI_Schedule): Schedule {
   // Step 7: Re-index
   expandedPeriods.forEach((p, i) => p.index = i);
 
-  console.log(expandedPeriods);
+  // console.log(expandedPeriods);
 
   return {
     name: day.schedule_sets.find((s) => s.holiday_label)?.holiday_label ??

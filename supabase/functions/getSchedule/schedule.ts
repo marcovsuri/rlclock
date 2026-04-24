@@ -20,10 +20,12 @@ async function getSchedule(
   const rows = newScheduleQuerySchema.parse(data);
 
   if (rows.length > 0) {
+    console.log("USING STORED SCHEDULE");
     return rows[rows.length - 1].schedule;
   }
 
   // Nothing cached for today — fetch, store, and return
+  console.log("FETCHING NEW SCHEDULE");
   const schedule = transformSchedule(await fetchApiSchedule());
 
   const { error: insertError } = await supabase
