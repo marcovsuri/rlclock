@@ -77,6 +77,21 @@ export type Database = {
         }
         Relationships: []
       }
+      menuids: {
+        Row: {
+          created_at: string
+          menuid: number
+        }
+        Insert: {
+          created_at?: string
+          menuid?: number
+        }
+        Update: {
+          created_at?: string
+          menuid?: number
+        }
+        Relationships: []
+      }
       menus: {
         Row: {
           created_at: string
@@ -116,6 +131,24 @@ export type Database = {
           day?: string
           id?: number
           schedule?: Json
+        }
+        Relationships: []
+      }
+      sportsdates: {
+        Row: {
+          created_at: string
+          id: number
+          start_date: string
+        }
+        Insert: {
+          created_at?: string
+          id?: number
+          start_date?: string
+        }
+        Update: {
+          created_at?: string
+          id?: number
+          start_date?: string
         }
         Relationships: []
       }

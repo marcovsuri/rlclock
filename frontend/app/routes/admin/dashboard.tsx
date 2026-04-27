@@ -4,6 +4,7 @@ import AdminDashboardHeader from '~/components/admin/dashboard/AdminDashboardHea
 import AdminSidebar from '~/components/admin/dashboard/AdminSidebar';
 import MenuEditSection from '~/components/admin/dashboard/menu/MenuEditSection';
 import ScheduleEditSection from '~/components/admin/dashboard/schedule/ScheduleEditSection';
+import SportsSeasonEditSection from '~/components/admin/dashboard/sports/SportsSeasonEditSection';
 import useTheme from '~/hooks/useTheme';
 import type { Route } from './+types/dashboard';
 import type { AdminUser } from './layout';
@@ -28,6 +29,12 @@ const dashboardSections: {
     label: 'Schedule',
     title: 'Edit Schedule',
     description: 'Manage the schedule blocks that appear in RL Clock.',
+  },
+  {
+    id: 'sports-season-editor',
+    label: 'Sports',
+    title: 'Edit Sports Season Start',
+    description: 'Manage the season boundary used by the sports endpoints.',
   },
   {
     id: 'menu-editor',
@@ -100,6 +107,7 @@ export default function AdminDashboard() {
 
           <div style={styles.main}>
             <ScheduleEditSection isDark={isDark} />
+            <SportsSeasonEditSection isDark={isDark} />
             <MenuEditSection isDark={isDark} />
           </div>
         </div>

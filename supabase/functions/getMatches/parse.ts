@@ -109,15 +109,15 @@ function parseMatches(html: string): Match[] {
   return matches;
 }
 
-/** The start date of the current season — update each season */
-const SEASON_START = new Date("3/9/2026"); // Todo: turn this dynamic
+/** Default season start used until an admin-saved value is available. */
+const DEFAULT_SEASON_START = new Date(2026, 2, 9);
 
 /**
  * Filters matches to only include those from the current season.
  * Dates in the source data are "M/D" with no year, so we infer the year
  * by walking backwards — if a month is greater than the previous, the year rolled over.
  */
-function filterMatchesBySeason(matches: Match[]): Match[] {
+function filterMatchesBySeason(matches: Match[], seasonStart: Date): Match[] {
   let effectiveYear = new Date().getFullYear();
   let prevMonth = new Date().getMonth() + 1;
 
@@ -128,8 +128,13 @@ function filterMatchesBySeason(matches: Match[]): Match[] {
     if (month > prevMonth) effectiveYear--;
     prevMonth = month;
 
-    return new Date(effectiveYear, month - 1, day) >= SEASON_START;
+    return new Date(effectiveYear, month - 1, day) >= seasonStart;
   });
 }
 
-export { fetchAthleticsHTML, filterMatchesBySeason, parseMatches };
+export {
+  DEFAULT_SEASON_START,
+  fetchAthleticsHTML,
+  filterMatchesBySeason,
+  parseMatches,
+};

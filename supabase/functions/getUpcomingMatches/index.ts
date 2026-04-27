@@ -4,8 +4,11 @@
 
 // Setup type definitions for built-in Supabase Runtime APIs
 // import "jsr:@supabase/functions-js/edge-runtime.d.ts"
+import { getAdminClient } from "../_shared/client.ts";
 import { jsonResponse, optionsResponse } from "../_shared/cors.ts";
+import { getSeasonStartDate } from "../_shared/sportsSeason.ts";
 import {
+  DEFAULT_SEASON_START,
   fetchCalendarHTML,
   filterUpcomingMatchesBySeason,
   parseUpcomingMatches,
@@ -15,9 +18,14 @@ Deno.serve(async (req) => {
   if (req.method === "OPTIONS") return optionsResponse();
 
   try {
+    const supabase = getAdminClient();
+    const seasonStart = await getSeasonStartDate(
+      supabase,
+      DEFAULT_SEASON_START,
+    );
     const html = await fetchCalendarHTML();
     const matches = parseUpcomingMatches(html);
-    const seasonMatches = filterUpcomingMatchesBySeason(matches);
+    const seasonMatches = filterUpcomingMatchesBySeason(matches, seasonStart);
 
     return jsonResponse(seasonMatches);
   } catch (error) {

@@ -69,8 +69,8 @@ function parseUpcomingMatches(html: string): UpcomingMatch[] {
   return matches;
 }
 
-/** The start date of the current season — update each season */
-const SEASON_START = new Date("3/14/2026"); // Todo: turn this dynamic
+/** Default season start used until an admin-saved value is available. */
+const DEFAULT_SEASON_START = new Date(2026, 2, 14);
 
 /**
  * Filters upcoming matches to only include those from the current season.
@@ -79,14 +79,16 @@ const SEASON_START = new Date("3/14/2026"); // Todo: turn this dynamic
  */
 function filterUpcomingMatchesBySeason(
   matches: UpcomingMatch[],
+  seasonStart: Date,
 ): UpcomingMatch[] {
   return matches.filter((match) => {
     const date = new Date(match.date);
-    return date.getTime() && date >= SEASON_START;
+    return date.getTime() && date >= seasonStart;
   });
 }
 
 export {
+  DEFAULT_SEASON_START,
   fetchCalendarHTML,
   filterUpcomingMatchesBySeason,
   parseUpcomingMatches,
