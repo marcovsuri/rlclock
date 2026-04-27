@@ -31,22 +31,26 @@ const fetchApiMenu = async (menuId: number): Promise<Menu> => {
 };
 
 /** Fetches and parses today's lunch menu from Sage Dining/DB */
-async function getMenu(supabase: SupabaseClient): Promise<Menu> {
-  // Todo: manual reset check
-
+async function getMenu(
+  supabase: SupabaseClient,
+  save: boolean,
+  reset: boolean,
+): Promise<Menu> {
   const today = getToday();
 
-  const { data: menus, error: menusError } = await supabase
-    .from("menus")
-    .select("*")
-    .eq("day", today);
+  if (!reset) {
+    const { data: menus, error: menusError } = await supabase
+      .from("menus")
+      .select("*")
+      .eq("day", today);
 
-  if (menusError) throw new Error(`Supabase error: ${menusError.message}`);
+    if (menusError) throw new Error(`Supabase error: ${menusError.message}`);
 
-  const rows = menuQuerySchema.parse(menus);
+    const rows = menuQuerySchema.parse(menus);
 
-  if (rows.length > 0) {
-    return rows[rows.length - 1].menu;
+    if (rows.length > 0) {
+      return rows[rows.length - 1].menu;
+    }
   }
 
   // Nothing cached for today - fetch, store, and return
@@ -66,12 +70,14 @@ async function getMenu(supabase: SupabaseClient): Promise<Menu> {
 
   const menu = await fetchApiMenu(menuId);
 
-  const { error: insertError } = await supabase
-    .from("menus")
-    .insert({ day: today, menu });
+  if (save) {
+    const { error: insertError } = await supabase
+      .from("menus")
+      .insert({ day: today, menu });
 
-  if (insertError) {
-    console.warn("Failed to cache menu:", insertError.message);
+    if (insertError) {
+      console.warn("Failed to cache menu:", insertError.message);
+    }
   }
 
   return menu;

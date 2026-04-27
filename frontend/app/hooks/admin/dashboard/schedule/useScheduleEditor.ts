@@ -4,7 +4,6 @@ import { z } from 'zod';
 import type { Database, Json } from '~/types/database.types';
 import { scheduleSchema, type Period, type Schedule } from '~/types/clock';
 import { ETTimeToDate } from '~/utils/global/time';
-import { fetchSchedule as fetchApiSchedule } from '~/utils/admin/dashboard/utils';
 
 const DEFAULT_BLOCK_DURATION_MINUTES = 45;
 const DEFAULT_BLOCK_GAP_MINUTES = 5;
@@ -141,8 +140,24 @@ export function useScheduleEditor(supabase: SupabaseClient<Database>) {
     setEditingIndex((current) => (current === index ? null : index));
 
   const fetchScheduleFromAPI = async () => {
-    setSchedule(await fetchApiSchedule());
-    setEditingIndex(null);
+    const response = await fetch(import.meta.env.VITE_SCHEDULE_URL, {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${import.meta.env.VITE_SUPABASE_ANON_KEY}`,
+      },
+      body: JSON.stringify({
+        save: false,
+        reset: true,
+      }),
+    });
+
+    const raw = await response.json();
+    const res = scheduleSchema.safeParse(raw);
+
+    if (res.success) {
+      setSchedule(res.data);
+      setEditingIndex(null);
+    }
   };
 
   const fetchScheduleFromSupabase = async () => {

@@ -1,5 +1,16 @@
 import { z } from 'zod';
 
+const MENU_SECTION_CONFIG = [
+  // { key: "Today's Menu Features", title: "Today's Menu Features" },
+  // { key: 'Specials', title: 'Specials' },
+  { key: 'Soups', title: 'Soups' },
+  // { key: 'Salads', title: 'Salads' },
+  // { key: 'Deli', title: 'Deli' },
+  { key: 'Entrées', title: 'Entrées' },
+  { key: 'Sides and Vegetables', title: 'Sides and Vegetables' },
+  // { key: 'Desserts', title: 'Desserts' },
+] as const;
+
 const stationSchema = z.object({
   id: z.string(),
   name: z.string(),
@@ -58,6 +69,7 @@ type Station = z.infer<typeof stationSchema>;
 type Allergens = z.infer<typeof allergensSchema>;
 type MenuItem = z.infer<typeof menuItemSchema>;
 type Menu = z.infer<typeof menuSchema>;
+type MenuSectionKey = (typeof MENU_SECTION_CONFIG)[number]['key'];
 
-export type { MenuItem, Menu, Station, Allergens };
-export { menuSchema };
+export type { MenuItem, Menu, Station, Allergens, MenuSectionKey };
+export { menuSchema, MENU_SECTION_CONFIG };

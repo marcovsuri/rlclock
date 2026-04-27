@@ -2,6 +2,7 @@ import type { CSSProperties } from 'react';
 import { useNavigation, useOutletContext } from 'react-router';
 import AdminDashboardHeader from '~/components/admin/dashboard/AdminDashboardHeader';
 import AdminSidebar from '~/components/admin/dashboard/AdminSidebar';
+import MenuEditSection from '~/components/admin/dashboard/menu/MenuEditSection';
 import ScheduleEditSection from '~/components/admin/dashboard/schedule/ScheduleEditSection';
 import useTheme from '~/hooks/useTheme';
 import type { Route } from './+types/dashboard';
@@ -27,6 +28,12 @@ const dashboardSections: {
     label: 'Schedule',
     title: 'Edit Schedule',
     description: 'Manage the schedule blocks that appear in RL Clock.',
+  },
+  {
+    id: 'menu-editor',
+    label: 'Menu',
+    title: 'Edit Menu',
+    description: 'Manage the menu sections and items that appear in RL Clock.',
   },
 ];
 
@@ -93,6 +100,7 @@ export default function AdminDashboard() {
 
           <div style={styles.main}>
             <ScheduleEditSection isDark={isDark} />
+            <MenuEditSection isDark={isDark} />
           </div>
         </div>
       </div>
