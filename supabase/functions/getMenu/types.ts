@@ -20,7 +20,7 @@ const allergensSchema = z.object({
   lifestyleNames: z.array(z.string()),
   lmLifestyleCodes: z.array(z.string()),
   lmLifestyleNames: z.array(z.string()),
-  performanceSpotlight: z.string(),
+  performanceSpotlight: z.string().or(z.object()),
 });
 
 const menuItemSchema = z.object({

@@ -5,7 +5,7 @@ import { handleError } from '~/shared/error';
 
 class ScheduleFetcher extends TimedCacheFetcher<Schedule> {
   protected readonly storageKey = 'schedule';
-  protected readonly ttl = 5 * 60 * 1000;
+  protected readonly ttl = 1000 * 5;
 
   protected readonly fetchUrl: string;
   protected readonly fetchOptions?: RequestInit;

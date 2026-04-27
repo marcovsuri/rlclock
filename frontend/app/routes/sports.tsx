@@ -84,10 +84,10 @@ export default function Sports({ loaderData }: Route.ComponentProps) {
 
   const todayMatches = sortTodayMatches(getTodayMatches(upcomingMatches ?? []));
 
-  console.log(matches);
-  console.log(records);
-  console.log(upcomingMatches);
-  console.log(todayMatches);
+  // console.log(matches);
+  // console.log(records);
+  // console.log(upcomingMatches);
+  // console.log(todayMatches);
 
   return (
     <motion.div

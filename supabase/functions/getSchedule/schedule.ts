@@ -1,6 +1,6 @@
 import { getToday } from "../_shared/global.ts";
 import { SupabaseClient } from "https://esm.sh/@supabase/supabase-js@2.46.1";
-import { Schedule, scheduleQuerySchema } from "./types.ts";
+import { newScheduleQuerySchema, Schedule } from "./types.ts";
 import { fetchApiSchedule, transformSchedule } from "./refresh.ts";
 
 async function getSchedule(
@@ -18,15 +18,16 @@ async function getSchedule(
 
     if (error) throw new Error(`Supabase error: ${error.message}`);
 
-    const rows = scheduleQuerySchema.parse(data);
+    const rows = newScheduleQuerySchema.parse(data);
 
     if (rows.length > 0) {
+      console.log("USING STORED SCHEDULE");
       return rows[rows.length - 1].schedule;
     }
   }
 
   // Nothing cached for today — fetch, store, and return
-
+  console.log("FETCHING NEW SCHEDULE");
   const schedule = transformSchedule(await fetchApiSchedule());
 
   if (save) {
