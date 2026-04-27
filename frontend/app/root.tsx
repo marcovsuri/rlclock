@@ -41,9 +41,13 @@ export function Layout({ children }: { children: React.ReactNode }) {
           dangerouslySetInnerHTML={{
             __html: `
           document.documentElement.classList.add('no-transition');
-          if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
-            document.documentElement.classList.add('dark-mode');
-          }
+          (function() {
+            var pref = localStorage.getItem('themePreference');
+            var isDark =
+              pref === 'dark' ||
+              (pref !== 'light' && window.matchMedia('(prefers-color-scheme: dark)').matches);
+            if (isDark) document.documentElement.classList.add('dark-mode');
+          })();
         `,
           }}
         />

@@ -1,3 +1,11 @@
+# Generating Supabase Types
+
+Use this command to generate types on frontend for supabase.
+
+```bash
+npx supabase gen types typescript --project-id your-project-id > app/types/database.types.ts
+```
+
 # Welcome to React Router!
 
 A modern, production-ready template for building full-stack React applications using React Router.

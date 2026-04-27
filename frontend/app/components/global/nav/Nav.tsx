@@ -7,6 +7,7 @@ const NAV_LINKS = [
   { label: 'Home', href: '/' },
   { label: 'Lunch', href: '/lunch' },
   { label: 'Sports', href: '/sports' },
+  { label: 'Admin Dashboard', href: '/admin' },
 ];
 
 const THEME_OPTIONS: { label: string; value: ThemePreference }[] = [

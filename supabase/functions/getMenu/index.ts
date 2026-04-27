@@ -12,8 +12,12 @@ Deno.serve(async (req) => {
   if (req.method === "OPTIONS") return optionsResponse();
 
   try {
+    const { save: s, reset: r } = await req.json().catch(() => ({}));
+    const save = s === false ? false : true;
+    const reset = r === true ? true : false;
+
     const supabase = getAdminClient();
-    const menu = await getMenu(supabase);
+    const menu = await getMenu(supabase, save, reset);
 
     return jsonResponse(menu);
   } catch (error) {

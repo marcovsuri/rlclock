@@ -13,8 +13,12 @@ Deno.serve(async (req) => {
   if (req.method === "OPTIONS") return optionsResponse();
 
   try {
+    const { save: s, reset: r } = await req.json().catch(() => ({}));
+    const save = s === false ? false : true;
+    const reset = r === true ? true : false;
+
     const supabase = getAdminClient();
-    const schedule = await getSchedule(supabase);
+    const schedule = await getSchedule(supabase, save, reset);
 
     return jsonResponse(schedule);
   } catch (error) {
