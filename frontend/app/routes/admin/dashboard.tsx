@@ -4,6 +4,7 @@ import AdminDashboardHeader from '~/components/admin/dashboard/AdminDashboardHea
 import AdminSidebar from '~/components/admin/dashboard/AdminSidebar';
 import MenuEditSection from '~/components/admin/dashboard/menu/MenuEditSection';
 import ScheduleEditSection from '~/components/admin/dashboard/schedule/ScheduleEditSection';
+import PasswordChangeSection from '~/components/admin/dashboard/security/PasswordChangeSection';
 import SportsSeasonEditSection from '~/components/admin/dashboard/sports/SportsSeasonEditSection';
 import useTheme from '~/hooks/useTheme';
 import type { Route } from './+types/dashboard';
@@ -41,6 +42,12 @@ const dashboardSections: {
     label: 'Menu',
     title: 'Edit Menu',
     description: 'Manage the menu sections and items that appear in RL Clock.',
+  },
+  {
+    id: 'password-change',
+    label: 'Security',
+    title: 'Change Admin Password',
+    description: 'Update the password for the signed-in admin account.',
   },
 ];
 
@@ -109,6 +116,7 @@ export default function AdminDashboard() {
             <ScheduleEditSection isDark={isDark} />
             <SportsSeasonEditSection isDark={isDark} />
             <MenuEditSection isDark={isDark} />
+            <PasswordChangeSection isDark={isDark} />
           </div>
         </div>
       </div>

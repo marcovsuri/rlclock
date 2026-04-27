@@ -10,6 +10,7 @@ export default [
   route('admin', 'routes/admin/layout.tsx', [
     index('routes/admin/index.tsx'),
     route('dashboard', 'routes/admin/dashboard.tsx'),
+    route('change-password', 'routes/admin/change-password.ts'),
     route('signout', 'routes/admin/signout.ts'),
   ]),
 
